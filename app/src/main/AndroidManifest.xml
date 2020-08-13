@@ -4,7 +4,7 @@
 
     <meta-data
         android:name="com.google.android.gms.version"
-        android:value="AIzaSyDQ3nFU6JkxQOEA1ZFW8E5oEwV8l-OX6WQ"/>
+        android:value="AIzaSyBtxr35hvhSTrxOSvAf-ixKDw5u-6T4saM"/>
 
     <application
         android:allowBackup="true"
