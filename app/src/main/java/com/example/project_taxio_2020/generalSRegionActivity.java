@@ -1,4 +1,5 @@
 package com.example.project_taxio_2020;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -32,7 +32,7 @@ public class generalSRegionActivity extends AppCompatActivity {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
                 builder.setTitle("지역 확인");
                 builder.setMessage("선택하신 지역이 제주도가 맞습니까?");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {

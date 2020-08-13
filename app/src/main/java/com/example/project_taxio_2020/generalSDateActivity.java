@@ -53,7 +53,7 @@ public class generalSDateActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                 dlg.setTitle("일정 확인");
                 dlg.setMessage(date+"이 선택한 일정이 맞습니까?");
                 dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {

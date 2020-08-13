@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
@@ -30,6 +32,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements Timeli
     TextView title_text;
     TimelineFragment mFragment = new TimelineFragment();
     String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
+    Fragment map;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
