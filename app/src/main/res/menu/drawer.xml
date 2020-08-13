@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_schTrip"
+            android:title="여행 일정" />
+
+        <item
+            android:id="@+id/drawer_myInfo"
+            android:title="후기 관리" />
+
+        <item
+            android:id="@+id/drawer_setting"
+            android:title="설정" />
+    </group>
+
+
+</menu>

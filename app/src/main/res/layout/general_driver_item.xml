@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 기사 목록 by가희 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/driverImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/taxi" />
+
+        <TextView
+            android:id="@+id/driverName"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/driverImg" />
+
+        <TextView
+            android:id="@+id/infoDriver"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/driverName"
+            android:layout_marginTop="-5dp"
+            android:layout_toRightOf="@id/driverImg"
+            android:text="성별 : 여\n트렁크 : 유\n4인승"
+            android:textColor="#8E8C93" />
+
+        <ImageView
+            android:id="@+id/plusBtn"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/plusbtn" />
+
+        <TextView
+            android:id="@+id/recruit"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoPrice"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="-1dp"
+            android:layout_toRightOf="@+id/infoDriver"
+            android:clickable="true"
+            android:text="요청"
+            android:textColor="@color/mainText" />
+
+        <TextView
+            android:id="@+id/sendMsg"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoPrice"
+            android:layout_marginTop="-1dp"
+            android:layout_toRightOf="@+id/recruit"
+            android:clickable="true"
+            android:text="Send Message"
+            android:textColor="@color/mainText" />
+
+        <TextView
+            android:id="@+id/infoPrice"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="40dp"
+            android:layout_toRightOf="@+id/infoDriver"
+            android:text="가격 : 60000원"
+            android:textStyle="bold" />
+    </RelativeLayout> <!--Expandable Recycler용-->
+
+
+</RelativeLayout>

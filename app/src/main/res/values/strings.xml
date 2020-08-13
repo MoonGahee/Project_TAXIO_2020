@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Project_TAXIO_2020</string>
+    <string name="title_name">TAXIO</string>
+    <string name="line">..........................</string>
+    <string name="trip_ex1">
+        1. 4월 24일 : 제주공항 - 상창농장(시작) - 용담해변
+        \n대여시간 : 8시간 (13시 시작)
+        \n배정 기사님 : 홍길동 기사님
+        \n연락처 : 010 - 1234 - 5678
+        \n차량 번호 : 10바 7777
+        \n트렁크 유무 : 유
+        \n탑승 인원 : 4명
+        \n
+        \n2. 4월 25일 : 용담스타벅스(시작) - 제주공항
+        \n대여시간 : 4시간 (11시 시작)
+        \n배정 기사님 : 김첨지 기사님
+        \n연락처 : 010-0000-0000
+        \n차량 번호 : 25아 5565
+        \n트렁크 유무 : 유
+        \n탑승 인원 : 4명
+    </string>
+</resources>

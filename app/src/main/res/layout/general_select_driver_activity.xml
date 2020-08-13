@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 기사 선택 by 가희 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include layout="@layout/app_bar"
+        android:id="@+id/bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/> <!-- 툴바 -->
+
+    <TextView
+        android:id="@+id/recruitDriver1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기사 정보 선택"
+        style="@style/title1"
+        />
+
+    <TextView
+        android:id="@+id/recruitDriver2"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        style="@style/title2"
+        android:text="원하는 조건을 선택해주세요."
+        />
+
+    <TextView
+        android:id="@+id/infoDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="20dp"
+        style="@style/basic"
+        android:text="날짜"
+        />
+
+    <TextView
+        android:id="@+id/infoPeople"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="250dp"
+        style="@style/basic"
+        android:text="인원"
+        />
+
+    <TextView
+        android:id="@+id/infoGender"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/infoDate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"
+        style="@style/basic"
+        android:text="성별"
+        />
+
+    <TextView
+        android:id="@+id/infoTrunk"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/infoGender"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="21dp"
+        style="@style/basic"
+        android:text="트렁크"
+        />
+
+    <TextView
+        android:id="@+id/infoPerson"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/infoTrunk"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="24dp"
+        style="@style/basic"
+        android:text="인승"
+        />
+
+    <TextView
+        android:id="@+id/tripdate"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+        app:layout_constraintLeft_toLeftOf="@id/infoDate"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+
+        android:textStyle="bold"
+
+        android:text="2020년 8월 28일"
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/tripPerson"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+        app:layout_constraintLeft_toLeftOf="@id/infoDate"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="20dp"
+
+        android:textStyle="bold"
+
+        android:text="4명" />
+
+
+    <RadioGroup
+        android:id="@+id/rg1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="@+id/infoGender"
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+        android:layout_marginTop="27dp"> <!--원래는 vertical 기본인가?-->
+        <RadioButton
+            android:id="@+id/noGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="무관"
+            style="@style/basic"
+            />
+
+        <RadioButton
+            android:id="@+id/manDriver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="남성"
+            style="@style/basic"/>
+
+        <RadioButton
+            android:id="@+id/womanDriver"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="25dp"
+            android:text="여성" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="@+id/infoTrunk"
+        app:layout_constraintTop_toBottomOf="@+id/rg1"> <!--원래는 vertical 기본인가?-->
+        <RadioButton
+            android:id="@+id/allTrunk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:text="전체"
+            style="@style/basic"/>
+
+        <RadioButton
+            android:id="@+id/yesTrunk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:text="유"
+            style="@style/basic"/>
+
+        <RadioButton
+            android:id="@+id/noTrunk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:text="무"
+            style="@style/basic"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg3"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="@+id/infoPerson"
+        app:layout_constraintTop_toBottomOf="@+id/rg2"> <!--원래는 vertical 기본인가?-->
+        <RadioButton
+            android:id="@+id/under4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:text="4인 이하"
+            style="@style/basic"/>
+
+        <RadioButton
+            android:id="@+id/under6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="6인 이하"
+            style="@style/basic"/>
+
+        <RadioButton
+            android:id="@+id/over6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:text="6인 초과"
+            style="@style/basic"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_long"
+        android:text="조회"
+        style="@style/button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infoPerson" />
+
+    <TextView
+        android:id="@+id/search_result"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="총 1분의 기사님이 기다리고 계십니다."
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_btn"
+        android:visibility="invisible"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_driver"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_result"
+        android:layout_marginBottom="20dp"
+        android:background="@color/back"
+        android:visibility="invisible"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

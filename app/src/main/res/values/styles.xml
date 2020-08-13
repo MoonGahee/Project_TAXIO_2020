@@ -1,0 +1,79 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>  <!-- 액션바미출력 -->
+        <item name="windowNoTitle">true</item>  <!-- 타이틀미출력 -->
+
+    </style>
+
+    <style name="bar"> <!-- 앱바 -->
+        <item name="android:background">@color/bar</item>
+    </style>
+
+    <style name="back"> <!-- 배경 -->
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <style name="title"> <!-- 앱 타이틀 -->
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:text">@string/title_name</item>
+        <item name="android:fontFamily">@font/nanumsquareoundeb</item>
+    </style>
+
+    <style name="title1"> <!-- 상단 타이틀 -->
+        <item name="android:textSize">26sp</item>
+        <item name="android:layout_margin">10sp</item>
+        <item name="android:textColor">@color/mainText</item>
+        <item name="android:fontFamily">@font/nanumsquareroundb</item>
+    </style>
+
+    <style name="title2">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">10sp</item>
+        <item name="android:layout_marginTop">5sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+    </style>
+
+    <style name="attention"> <!-- 안내문 스타일 -->
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">10sp</item>
+        <item name="android:layout_marginTop">5sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+    </style>
+
+    <style name="basic"> <!-- 기본 문구 스타일 -->
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">10sp</item>
+        <item name="android:layout_marginTop">5sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+    </style>
+
+    <style name="button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">10sp</item>
+        <item name="android:layout_marginTop">5sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+    </style>
+
+</resources>

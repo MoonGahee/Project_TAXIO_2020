@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 일정 추가 by 하은 -->
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:map="http://schemas.android.com/apk/res-auto">
+
+        <include layout="@layout/app_bar"
+            android:id="@+id/bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
+
+        <TextView
+            android:id="@+id/intro2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="일정 정하기"
+            style="@style/title1"/> <!-- 안내 -->
+
+        <TextView
+            android:id="@+id/date2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/intro2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="2020.08.28~08.31"
+            style="@style/title2"/> <!-- 날짜 -->
+
+        <TextView
+            android:id="@+id/people2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/intro2"
+            app:layout_constraintLeft_toRightOf="@+id/date2"
+            android:text="3명"
+            style="@style/title2"/> <!-- 인원 수 -->
+
+        <AutoCompleteTextView
+            android:id="@+id/search2"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/date2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:completionHint="장소를 입력해주세요."
+            android:completionThreshold="1"
+            android:background="@drawable/search_blank"/> <!-- 검색 창 -->
+
+        <Button
+            android:id="@+id/search_button2"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/date2"
+            app:layout_constraintLeft_toRightOf="@+id/search2"
+            android:text="검색"
+            style="@style/button"
+            android:background="@drawable/button_short"/> <!-- 검색 버튼 -->
+
+        <fragment
+            android:id="@+id/map2"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            class="com.google.android.gms.maps.MapFragment"
+            map:cameraTargetLat="33.49"
+            map:cameraTargetLng="126.5"
+            map:cameraZoom="15"
+            android:layout_margin="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_button2"
+            tools:ignore="MissingConstraints" /> <!-- 지도 -->
+
+        <!--  <Button
+             android:id="@+id/previous2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             app:layout_constraintTop_toBottomOf="@+id/map2"
+             app:layout_constraintLeft_toLeftOf="parent"
+             android:text=" 전 날"
+             android:background="@drawable/button_short"
+             android:layout_margin="10dp" /> 전 날 이동 버튼 -->
+
+        <TextView
+            android:id="@+id/day2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/map2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="2일차"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            style="@style/title2"/> <!-- 몇 일차 -->
+
+        <!-- <Button
+            android:id="@+id/next2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/map2"
+            app:layout_constraintLeft_toRightOf="@+id/day2"
+            android:layout_margin="10dp"
+            android:text="다음 날 >"
+            android:background="@drawable/button_short"/> 다음 날 이동 버튼 -->
+
+        <FrameLayout
+            android:id="@+id/trip2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/day2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_margin="20dp"/> <!-- 여행 일정 -->
+
+        <Button
+            android:id="@+id/update_finish2"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/trip2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="변경완료"
+            style="@style/button"
+            android:background="@drawable/button_short"
+            android:layout_margin="10dp"/> <!-- 완료 버튼 -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
