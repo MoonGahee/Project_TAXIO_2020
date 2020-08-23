@@ -10,7 +10,7 @@
     android:background="#ffffff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:openDrawer="start"
+    tools:openDrawer="end"
     tools:context=".generalReservationCompleteActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
