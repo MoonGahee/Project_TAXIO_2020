@@ -71,15 +71,24 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="출발일과 도착일을 선택해주세요"
         style="@style/title2"/>
-    <CalendarView
+    <com.applikeysolutions.cosmocalendar.view.CalendarView
         android:id="@+id/cal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/select"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:dateTextAppearance="@style/basic"
-        android:background="@color/back"
+        app:connectedDayIconPosition="top"
+        app:currentDayTextColor="@color/mainText"
+        app:firstDayOfTheWeek="sunday"
+        app:orientation="horizontal"
+        app:selectedDayBackgroundColor="@color/back"
+        app:selectedDayBackgroundEndColor="@color/bar"
+        app:selectedDayBackgroundStartColor="@color/background"
+        app:selectedDayTextColor="@color/colorAccent"
+        app:selectionType="range"
+        app:disabledDayTextColor="@color/colorPrimary"
+        app:weekendDayTextColor="@color/colorPrimaryDark"
         android:layout_marginTop="10dp"
         />//년월 색깔 바꾸기
     <Button

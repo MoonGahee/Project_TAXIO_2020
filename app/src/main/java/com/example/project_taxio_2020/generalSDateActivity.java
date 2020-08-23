@@ -15,14 +15,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteria;
+import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteriaType;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 // 날짜 선택 by 하은
 
 public class generalSDateActivity extends AppCompatActivity {
     Button ok;
-    CalendarView cal;
-    Calendar myCal;
+    com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     String date;
     TextView title_text;
 
@@ -32,10 +39,8 @@ public class generalSDateActivity extends AppCompatActivity {
         setToolbar();
 
         ok = findViewById(R.id.ok);
-        cal = findViewById(R.id.cal);
-        myCal = Calendar.getInstance();
         title_text = findViewById(R.id.title_text);
-
+        cal = findViewById(R.id.cal);
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
 
@@ -71,12 +76,11 @@ public class generalSDateActivity extends AppCompatActivity {
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
-        cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = year + "년 " + (month + 1) + "월 " + dayOfMonth + "일";
-            }
-        });//달력 날짜 선택
+        Date current = Calendar.getInstance().getTime();
+        SimpleDateFormat day = new SimpleDateFormat("dd", Locale.KOREA);
+        int today = Integer.parseInt(day.format(current));
+        cal.setDisabledDaysCriteria(new DisabledDaysCriteria(1, today, DisabledDaysCriteriaType.DAYS_OF_MONTH));
+        //오늘 날짜까지 선택 불가
 
     }
 

@@ -33,7 +33,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.android.support:design:29.0.0' //NavigationDrawer 사용위해서 필요
     implementation 'com.android.support:recyclerview-v7:29.0.0' //RecyclerView 사용위해서 필요
-    compile 'com.akshaykale.android:android-timeline-view:2.1'
+    implementation 'com.akshaykale.android:android-timeline-view:2.1'
     implementation'com.google.android.gms:play-services-location:17.0.0'
     implementation'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
 }
