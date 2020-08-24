@@ -64,7 +64,7 @@
             style="@style/button"
             android:background="@drawable/button_short"/> <!-- 검색 버튼 -->
 
-        <fragment
+        <!--<fragment
             android:id="@+id/map2"
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -75,9 +75,9 @@
             android:layout_margin="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_button2"
-            tools:ignore="MissingConstraints" /> <!-- 지도 -->
+            tools:ignore="MissingConstraints" />
 
-        <!--  <Button
+        <Button
              android:id="@+id/previous2"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -85,13 +85,13 @@
              app:layout_constraintLeft_toLeftOf="parent"
              android:text=" 전 날"
              android:background="@drawable/button_short"
-             android:layout_margin="10dp" /> 전 날 이동 버튼 -->
+             android:layout_margin="10dp" /> -->
 
         <TextView
             android:id="@+id/day2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/map2"
+            app:layout_constraintTop_toBottomOf="@+id/search_button2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:text="2일차"
