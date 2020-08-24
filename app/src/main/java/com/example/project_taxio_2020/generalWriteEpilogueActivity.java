@@ -69,13 +69,13 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         registration_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalWriteEpilogueActivity.this);
                 builder.setTitle("후기 작성");
                 builder.setMessage("후기 작성을 마무리 하시겠습니까?");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                         startActivity(intent);
                     }
                 });

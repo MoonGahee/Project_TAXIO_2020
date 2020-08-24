@@ -23,7 +23,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.);
+        setContentView(R.layout.general_reservation_complete_activity);
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
