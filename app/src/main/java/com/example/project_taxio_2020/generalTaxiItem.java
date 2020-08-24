@@ -10,4 +10,5 @@ public class generalTaxiItem {
     public void setTripDate(String tripDate) {
         this.tripDate = tripDate;
     }
+
 }
