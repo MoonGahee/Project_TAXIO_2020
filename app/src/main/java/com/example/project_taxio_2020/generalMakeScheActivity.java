@@ -1,6 +1,5 @@
 package com.example.project_taxio_2020;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,14 +7,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
@@ -32,7 +30,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements Timeli
     TextView title_text;
     TimelineFragment mFragment = new TimelineFragment();
     String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
-    Fragment map;
+    /*ListView listView;
+    generalTimelineAdapter generalTimelineAdapter;
+    ArrayList<generalTimelineItem> list_itemArrayList;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +53,13 @@ public class generalMakeScheActivity extends AppCompatActivity implements Timeli
         transaction.add(R.id.trip1, mFragment);
         transaction.replace(R.id.trip1, mFragment);
         transaction.commit();
+
+        /*
+        * listView = findViewById(R.id.trip1);
+        * list_itemArrayList = new ArrayList<generalTimelineItem>();
+        * generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+        * listView.setAdapter(myListAdapter);
+        * */
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
