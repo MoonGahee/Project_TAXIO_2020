@@ -53,7 +53,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.goMain).setOnClickListener(new View.OnClickListener() {
+        goMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
