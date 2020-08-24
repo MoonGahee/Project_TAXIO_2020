@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include layout="@layout/app_bar"
+        android:id="@+id/bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        android:text="회원가입"
+        android:textSize="40sp"
+        android:textColor="#000000"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginTop="30dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="60"/>
+
+    <TextView
+        android:id="@+id/intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        android:layout_marginTop="40dp"
+        android:text="조건 동의"
+        android:textSize="30sp"
+        android:textColor="#000000"/>
+
+    <CheckBox
+        android:id="@+id/all_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/intro"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
+        android:textSize="20sp"/>
+
+    <fragment
+        android:id="@+id/show_clause1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/all_check"/>
+
+    <CheckBox
+        android:id="@+id/clause1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/show_clause1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="TAXIO 이용약관에 동의"
+        android:textSize="20sp"/>
+
+    <fragment
+        android:id="@+id/show_clause2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clause1"/>
+
+    <CheckBox
+        android:id="@+id/clause2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/show_clause2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="개인정보 수집 및 이용에 대한 안내"
+        android:textSize="20sp"/>
+
+    <fragment
+        android:id="@+id/show_clause3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clause2"/>
+
+    <CheckBox
+        android:id="@+id/clause3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/show_clause3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="20dp"
+        android:text="위치정보 이용 약관 동의 (선택)"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clause3"
+        android:layout_marginTop="30dp"
+        android:text="< 이전"
+        android:textSize="20sp"
+        style="@style/button"
+        android:background="@drawable/button_short"/>
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clause3"
+        android:layout_marginTop="30dp"
+        android:text="다음 >"
+        android:textSize="20sp"
+        style="@style/button"
+        android:background="@drawable/button_short"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

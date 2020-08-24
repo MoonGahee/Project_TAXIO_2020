@@ -47,7 +47,7 @@ public class generalMainActivity extends AppCompatActivity {
                 }
 
                 else if(id == R.id.drawer_myInfo){
-                    Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
                 }
                 return true;

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,6 +16,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.applikeysolutions.cosmocalendar.dialog.CalendarDialog;
+import com.applikeysolutions.cosmocalendar.dialog.OnDaysSelectionListener;
+import com.applikeysolutions.cosmocalendar.listeners.OnMonthChangeListener;
+import com.applikeysolutions.cosmocalendar.model.Day;
+import com.applikeysolutions.cosmocalendar.model.Month;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteria;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteriaType;
 
@@ -22,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -30,9 +37,9 @@ import java.util.Set;
 public class generalSDateActivity extends AppCompatActivity {
     Button ok;
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
-    String date;
     TextView title_text;
-
+    int tripMonth, tripDay, tripDays=0;
+    String date="";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_date_activity);
@@ -53,34 +60,127 @@ public class generalSDateActivity extends AppCompatActivity {
             }
         });
 
+        //cal.setDisabledDaysCriteria(new DisabledDaysCriteria(1, today, DisabledDaysCriteriaType.DAYS_OF_MONTH));
+        //오늘 날짜까지 선택 불가
 
-        //cal.setMinDate(myCal.getTimeInMillis());//최소선택날은 오늘
-        ok.setOnClickListener(new View.OnClickListener() {
+
+        //선택한 날짜
+
+
+
+           ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
-                dlg.setTitle("일정 확인");
-                dlg.setMessage(date+"이 선택한 일정이 맞습니까?");
-                dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                        i.putExtra("date", date);
-                        startActivity(i);
-                        finish();
-                    }
-                });
-                dlg.setNegativeButton("아니오", null);
-                dlg.show();
+                Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+                SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
 
+                String nowm = monthFormat.format(currentTime);
+                String nowd = dayFormat.format(currentTime);
+                final int nowmonth = Integer.parseInt(nowm);
+                final int nowday = Integer.parseInt(nowd);
+
+                final List<Calendar> days = cal.getSelectedDates();
+                for (int i = 0; i < days.size(); i++) {
+                    Calendar calendar = days.get(i);
+                    final int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    final int month = calendar.get(Calendar.MONTH);
+                    final int year = calendar.get(Calendar.YEAR);
+                    String day_full = year + "년 " + (month + 1) + "월 " + day + "일";
+                    if (i==0) {
+                                date += (day_full + "~");
+                                tripMonth = month;
+                                tripDay = day;
+                            }
+                    else if (i == days.size() - 1)
+                        date += day_full;
+                    tripDays+=1;
+                }
+                if (tripDays == 0) {
+                    cal.clearSelections();
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                    dlg.setTitle("알림");
+                    dlg.setMessage(nowday+nowmonth+"원하는 일정을 선택해주세요");
+                    dlg.setNegativeButton("확인", null);
+                    dlg.show();
+                } else {
+                    if (nowmonth > tripMonth) {
+                        cal.clearSelections();
+                        date=""; tripDays=0;
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                        dlg.setTitle("알림");
+                        dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
+                        dlg.setNegativeButton("확인", null);
+                        dlg.show();
+                    } else if (nowmonth == tripMonth){
+                        if (nowday < tripDay) {
+                            cal.clearSelections();
+                            date=""; tripDays=0;
+                            cal.clearSelections();
+                            AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                            dlg.setTitle("알림");
+                            dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
+                            dlg.setNegativeButton("확인", null);
+                            dlg.show();
+                        }
+                        else{
+                            AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                            dlg.setTitle("일정 확인");
+                            dlg.setMessage(date + ", "+ (tripDays-1)+"박"+tripDays+"일이 선택한 일정이 맞습니까?");
+                            dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    date=""; tripDays=0;
+                                    Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                                    i.putExtra("days", tripDays);
+                                    i.putExtra("startMonth", tripMonth);
+                                    i.putExtra("startDay", tripDay);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            });
+                            dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    date=""; tripDays=0;
+                                    cal.clearSelections();
+                                }
+                            });
+                            dlg.show();
+                        }
+                    }
+                    else{
+                        AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                        dlg.setTitle("일정 확인");
+                        dlg.setMessage(date + ", "+ (tripDays-1)+"박"+tripDays+"일이 선택한 일정이 맞습니까?");
+                        dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                date=""; tripDays=0;
+                                Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                                i.putExtra("days", tripDays);
+                                i.putExtra("startMonth", tripMonth);
+                                i.putExtra("startDay", tripDay);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+                        dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                date=""; tripDays=0;
+                                cal.clearSelections();
+                            }
+                        });
+                        dlg.show();
+                    }
+
+                }
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
-        Date current = Calendar.getInstance().getTime();
-        SimpleDateFormat day = new SimpleDateFormat("dd", Locale.KOREA);
-        int today = Integer.parseInt(day.format(current));
-        cal.setDisabledDaysCriteria(new DisabledDaysCriteria(1, today, DisabledDaysCriteriaType.DAYS_OF_MONTH));
-        //오늘 날짜까지 선택 불가
+
+
 
     }
 
