@@ -5,7 +5,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_schTrip"
-            android:icon="@drawable/schedule"
+            android:icon="@drawable/koreamap"
             android:title="여행 일정" />
 
         <item
@@ -14,7 +14,7 @@
 
         <item
             android:id="@+id/drawer_setting"
-            android:icon="@drawable/setting"
+            android:icon="@drawable/koreamap"
             android:title="설정" />
     </group>
 

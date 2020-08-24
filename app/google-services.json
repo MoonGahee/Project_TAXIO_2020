@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "160638022803",
+    "firebase_url": "https://taxio-b186e.firebaseio.com",
+    "project_id": "taxio-b186e",
+    "storage_bucket": "taxio-b186e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160638022803:android:ba865271bab48b2e9d4966",
+        "android_client_info": {
+          "package_name": "com.example.project_taxio_2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160638022803-1k9gnuq84aoeubbiu54mtiaucdo8nsuk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD7upJ4LWrTp9je7I_if0r49MLeBYFak0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160638022803-1k9gnuq84aoeubbiu54mtiaucdo8nsuk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
