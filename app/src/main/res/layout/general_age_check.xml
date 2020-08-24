@@ -75,7 +75,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/under14"
         android:layout_marginTop="50dp"
-        android:text="< 이전"
+        android:text="이전"
         android:textSize="20sp"
         style="@style/button"
         android:background="@drawable/button_short"/>
