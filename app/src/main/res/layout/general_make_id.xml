@@ -55,7 +55,6 @@
             app:layout_constraintLeft_toRightOf="@id/makeMember"
             app:layout_constraintTop_toBottomOf="@id/bar"/>
 
-
         <ScrollView
             android:id="@+id/scl"
             android:layout_width="match_parent"
