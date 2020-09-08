@@ -80,6 +80,7 @@ public class generalSDateActivity extends AppCompatActivity {
                 final int nowmonth = Integer.parseInt(nowm);
                 final int nowday = Integer.parseInt(nowd);
 
+
                 final List<Calendar> days = cal.getSelectedDates();
                 for (int i = 0; i < days.size(); i++) {
                     Calendar calendar = days.get(i);
@@ -89,12 +90,12 @@ public class generalSDateActivity extends AppCompatActivity {
                     String day_full = year + "년 " + (month + 1) + "월 " + day + "일";
                     if (i==0) {
                                 date += (day_full + "~");
-                                tripMonth = month;
+                                tripMonth = month+1;
                                 tripDay = day;
                             }
                     else if (i == days.size() - 1)
                         date += day_full;
-                    tripDays+=1;
+                    tripDays=days.size();
                 }
                 if (tripDays == 0) {
                     cal.clearSelections();
@@ -113,13 +114,23 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setNegativeButton("확인", null);
                         dlg.show();
                     } else if (nowmonth == tripMonth){
-                        if (nowday < tripDay) {
+                        if (nowday > tripDay) {
                             cal.clearSelections();
-                            date=""; tripDays=0;
+                            date="";
                             cal.clearSelections();
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("알림");
                             dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
+                            dlg.setNegativeButton("확인", null);
+                            dlg.show();
+                        }
+                        else if(nowday==tripDay){
+                            cal.clearSelections();
+                            date="";
+                            cal.clearSelections();
+                            AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
+                            dlg.setTitle("알림");
+                            dlg.setMessage("오늘 날짜는 선택할 수 없습니다");
                             dlg.setNegativeButton("확인", null);
                             dlg.show();
                         }
@@ -130,9 +141,7 @@ public class generalSDateActivity extends AppCompatActivity {
                             dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    date=""; tripDays=0;
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                    i.putExtra("days", tripDays);
                                     i.putExtra("startMonth", tripMonth);
                                     i.putExtra("startDay", tripDay);
                                     startActivity(i);
@@ -142,7 +151,7 @@ public class generalSDateActivity extends AppCompatActivity {
                             dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    date=""; tripDays=0;
+                                    date="";
                                     cal.clearSelections();
                                 }
                             });
@@ -156,7 +165,6 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                date=""; tripDays=0;
                                 Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
                                 i.putExtra("days", tripDays);
                                 i.putExtra("startMonth", tripMonth);
@@ -168,7 +176,7 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                date=""; tripDays=0;
+                                date="";
                                 cal.clearSelections();
                             }
                         });

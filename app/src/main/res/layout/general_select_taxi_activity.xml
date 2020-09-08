@@ -71,7 +71,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rent"
         android:background="@color/back"
-        android:visibility="invisible"/>
+        />
 
     <Button
         android:id="@+id/ok"
