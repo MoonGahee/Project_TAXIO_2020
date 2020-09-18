@@ -13,14 +13,23 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 //택시 선택 by 하은
 
 public class generalSTaxiActivity extends AppCompatActivity {
+    private generalTaxiAdapter adapter;
     Button start_btn, ok;
     Spinner rent_spin;
     TextView taxi_day, title_text;
-    String time, startTime;
+    RecyclerView recyclerView_taxi;
+    Integer tripDays, tripMonth, tripDay;
+    String dates[];
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +40,16 @@ public class generalSTaxiActivity extends AppCompatActivity {
         ok = findViewById(R.id.ok);
         rent_spin = findViewById(R.id.rent_spin);
         taxi_day = findViewById(R.id.taxi_day);
-        Intent intent = new Intent();
-        String date = intent.getStringExtra("date");
+        recyclerView_taxi = findViewById(R.id.recyclerView_taxi);
+        Intent i = new Intent();
+        tripDays= i.getIntExtra("days", 0);
+        tripMonth=i.getIntExtra("startMonth", 0);
+        tripDay=i.getIntExtra("startDay", 0);
+        dates=new String[tripDays];
+        for(int j = 0; j <tripDays ; j++){
+            dates[j]=(tripMonth + "월 " + (tripDay + j) + "일");
+        }
+
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -46,44 +63,21 @@ public class generalSTaxiActivity extends AppCompatActivity {
             }
         });
 
+        RecyclerView recyclerView_taxi = findViewById(R.id.recyclerView_taxi);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView_taxi.setLayoutManager(linearLayoutManager);
 
-        rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                time = String.valueOf(rent_spin.getItemAtPosition(position));
-            }
+        adapter = new generalTaxiAdapter();
+        recyclerView_taxi.setAdapter(adapter);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        start_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timePick(v);
-            }
-        });
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        for(int j = 0; j <tripDays ; j++){
+            generalTaxiItem data = new generalTaxiItem();
+            data.setTripDate(dates[j]);
+            adapter.addData(data);
+        }
+        adapter.notifyDataSetChanged();
     }
 
-    public void timePick(View v){
-        TimePickerDialog d= new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                startTime = hourOfDay+"시 "+minute+"분";
-            }
-        }, 0,0,false);
-        d.setMessage("출발 시간");
-        d.show();
-
-    }
 
 
 
