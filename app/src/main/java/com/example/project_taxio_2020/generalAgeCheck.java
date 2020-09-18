@@ -29,14 +29,16 @@ public class generalAgeCheck extends AppCompatActivity {
         over14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getApplicationContext(), generalClause.class);
+                startActivity(i);
             }
         });
 
         under14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(getApplicationContext(), generalClause.class);
+                startActivity(i);
             }
         });
     }
