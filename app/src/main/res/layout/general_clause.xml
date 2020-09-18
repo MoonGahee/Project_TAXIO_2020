@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include layout="@layout/app_bar"
         android:id="@+id/bar"
@@ -55,13 +58,19 @@
         android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
         android:textSize="20sp"/>
 
-    <fragment
+    <ScrollView
         android:id="@+id/show_clause1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_check"/>
+        app:layout_constraintTop_toBottomOf="@+id/all_check">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이용약관"/>
+    </ScrollView>
 
     <CheckBox
         android:id="@+id/clause1"
@@ -73,13 +82,19 @@
         android:text="TAXIO 이용약관에 동의"
         android:textSize="20sp"/>
 
-    <fragment
+    <ScrollView
         android:id="@+id/show_clause2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clause1"/>
+        app:layout_constraintTop_toBottomOf="@+id/clause1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="개인정보 수집 및 이용에 대한 안내"/>
+    </ScrollView>
 
     <CheckBox
         android:id="@+id/clause2"
@@ -91,13 +106,19 @@
         android:text="개인정보 수집 및 이용에 대한 안내"
         android:textSize="20sp"/>
 
-    <fragment
+    <ScrollView
         android:id="@+id/show_clause3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clause2"/>
+        app:layout_constraintTop_toBottomOf="@+id/clause2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위치정보 이용 약관 동의"/>
+    </ScrollView>
 
     <CheckBox
         android:id="@+id/clause3"
@@ -108,18 +129,6 @@
         android:layout_marginBottom="20dp"
         android:text="위치정보 이용 약관 동의 (선택)"
         android:textSize="20sp"/>
-
-    <Button
-        android:id="@+id/previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clause3"
-        android:layout_marginTop="30dp"
-        android:text="< 이전"
-        android:textSize="20sp"
-        style="@style/button"
-        android:background="@drawable/button_short"/>
 
     <Button
         android:id="@+id/next"
@@ -134,3 +143,4 @@
         android:background="@drawable/button_short"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

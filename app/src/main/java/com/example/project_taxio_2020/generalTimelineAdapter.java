@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class generalTimelineAdapter extends BaseAdapter {
     Context context;
     ArrayList<generalTimelineItem> list_itemArrayList;
     TextView place_textView, number_textView, requied_time_textView;
+    ImageView line_imageView, taxi_imageView;
 
     public generalTimelineAdapter(Context context, ArrayList<generalTimelineItem> list_itemArrayList) {
         this.context = context;
@@ -42,12 +44,16 @@ public class generalTimelineAdapter extends BaseAdapter {
             place_textView =(TextView)convertView.findViewById(R.id.place);
             number_textView = (TextView)convertView.findViewById(R.id.number);
             requied_time_textView = (TextView)convertView.findViewById(R.id.required_time);
+            line_imageView = (ImageView)convertView.findViewById(R.id.line);
+            taxi_imageView = (ImageView)convertView.findViewById(R.id.taxi);
         }
 
         place_textView.setText(list_itemArrayList.get(position).getPlace());
         number_textView.setText(list_itemArrayList.get(position).getNumber());
         requied_time_textView.setText(list_itemArrayList.get(position).getRequied_time());
+        line_imageView.setImageResource(list_itemArrayList.get(position).getLine());
+        taxi_imageView.setImageResource(list_itemArrayList.get(position).getTaxi());
 
-        return null;
+        return convertView;
     }
 }
