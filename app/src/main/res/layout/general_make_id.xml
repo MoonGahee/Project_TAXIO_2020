@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 탑승자 메인 by 주혜 -->
 
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawerLayout"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    tools:openDrawer="start"
-    tools:context=".MainActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    android:background="@color/background">
 
         <include layout="@layout/app_bar"
             android:id="@+id/bar"
@@ -210,7 +200,7 @@
                     app:layout_constraintTop_toBottomOf="@id/id" />
 
                 <Button
-                    android:id="@+id/btnid"
+                    android:id="@+id/checkId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="중복확인"
@@ -381,7 +371,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="첨부"
-
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail"/>
 
@@ -413,6 +402,3 @@
         </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.drawerlayout.widget.DrawerLayout>
