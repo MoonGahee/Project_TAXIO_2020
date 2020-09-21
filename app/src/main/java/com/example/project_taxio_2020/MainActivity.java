@@ -15,29 +15,29 @@ import androidx.core.view.GravityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button over14, under14, previous;
+    Button main, member;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_age_check);
+        setContentView(R.layout.activity_main);
         setToolbar();
 
-        over14 = findViewById(R.id.over14);
-        under14 = findViewById(R.id.under14);
+        main = findViewById(R.id.main);
+        member = findViewById(R.id.member);
 
-        over14.setOnClickListener(new View.OnClickListener() {
+        main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalClause.class);
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(i);
             }
         });
 
-        under14.setOnClickListener(new View.OnClickListener() {
+        member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalClause.class);
+                Intent i = new Intent(getApplicationContext(), generalMemberSort.class);
                 startActivity(i);
             }
         });

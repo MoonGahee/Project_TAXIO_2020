@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="년">
+    <string-array name="year">
         <item>2000</item>
         <item>1999</item>
         <item>1998</item>

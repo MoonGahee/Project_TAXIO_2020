@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,26 @@ public class generalMakeId extends AppCompatActivity {
         birthM = findViewById(R.id.birthM);
         birthD = findViewById(R.id.birthD);
         spinnerNum = findViewById(R.id.spinnerNum);
+
+        ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spGenderM.setAdapter(genderAdapter);
+
+        ArrayAdapter yearAdapter = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_item);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        birthY.setAdapter(yearAdapter);
+
+        ArrayAdapter monthAdapter = ArrayAdapter.createFromResource(this, R.array.month, android.R.layout.simple_spinner_item);
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        birthM.setAdapter(monthAdapter);
+
+        ArrayAdapter dayAdapter = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_item);
+        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        birthD.setAdapter(dayAdapter);
+
+        ArrayAdapter phoneAdapter = ArrayAdapter.createFromResource(this, R.array.phone, android.R.layout.simple_spinner_item);
+        phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerNum.setAdapter(phoneAdapter);
 
         checkId = findViewById(R.id.checkId);
         btnEmail = findViewById(R.id.btnEmail);
