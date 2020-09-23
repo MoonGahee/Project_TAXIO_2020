@@ -15,7 +15,7 @@ import androidx.core.view.GravityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button main, member;
+    Button main, member, map;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         main = findViewById(R.id.main);
         member = findViewById(R.id.member);
+        map = findViewById(R.id.taxiomap);
 
         main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMemberSort.class);
+                startActivity(i);
+            }
+        });
+
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
                 startActivity(i);
             }
         });
@@ -57,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
+        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 }
