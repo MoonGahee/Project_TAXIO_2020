@@ -95,8 +95,8 @@ public class generalMakeScheActivity extends AppCompatActivity {
         taxi_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                startActivity(i);
+                //Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                //startActivity(i);
             }
         });
 
