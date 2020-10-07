@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,9 +28,8 @@ public class generalTaxiAdapter extends RecyclerView.Adapter<generalTaxiAdapter.
     Context context;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{ //
-        TextView taxiDate;
-        Button timeSelect;
-        Spinner timeT;
+        TextView taxiDate, timeSelect, timeT;
+
         ItemViewHolder(View itemView){ //
             super(itemView);
 
@@ -41,41 +41,35 @@ public class generalTaxiAdapter extends RecyclerView.Adapter<generalTaxiAdapter.
 
         //값을 하나하나 보여주는 함수
         void onBind(generalTaxiItem data){taxiDate.setText(data.getTripDate());
+            taxiDate.setText(data.getTripDate());
         }
 
     }
 
     @NonNull
     @Override //view를 인플레이터함
-    public generalTaxiAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.general_taxi_item, parent, false);
         context = parent.getContext();
-        return new generalTaxiAdapter.ItemViewHolder(view);
+        return new ItemViewHolder(view);
     }
 
     @Override // position에 맞추어 각 항목을 구성하기 위해서 호출함
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
         holder.onBind(Tdata.get(position));
 
-        holder.timeT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        holder.timeT.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String timeLong = String.valueOf(holder.timeT.getItemAtPosition(position));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                Toast.makeText(context, "click", Toast.LENGTH_LONG).show();
             }
         });
 
         holder.timeSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder d = new AlertDialog.Builder(context);
-                d.setTitle("시작시간 선택");
-                d.setMessage("택시투어를 시작할 시간을 선택하세요");
-                d.show();
+                    Toast.makeText(context, "2click", Toast.LENGTH_LONG).show();
+
             }
         });
     }

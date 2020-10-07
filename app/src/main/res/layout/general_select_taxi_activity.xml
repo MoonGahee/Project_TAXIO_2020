@@ -64,8 +64,8 @@
         style="@style/basic"
         android:text="출발시간"
         />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_taxi"
+    <ListView
+        android:id="@+id/ListView_taxi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
