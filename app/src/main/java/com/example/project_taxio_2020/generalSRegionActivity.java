@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class generalSRegionActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView title_text;
     ImageView map;
+    ImageButton btnJeju;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,8 +30,9 @@ public class generalSRegionActivity extends AppCompatActivity {
         setToolbar();
 
         map = findViewById(R.id.imageKorea);
+        btnJeju = findViewById(R.id.btnJeju);
 
-        map.setOnClickListener(new View.OnClickListener() {
+        btnJeju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
