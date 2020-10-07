@@ -142,6 +142,7 @@ public class generalSDateActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                                    i.putExtra("days", tripDays);
                                     i.putExtra("startMonth", tripMonth);
                                     i.putExtra("startDay", tripDay);
                                     startActivity(i);

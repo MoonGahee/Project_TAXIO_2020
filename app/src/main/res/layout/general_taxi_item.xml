@@ -14,21 +14,29 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"
     />
+    <TextView
+        android:id="@+id/choice"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="선택"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/taxi_day"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/button_long"/>
 
-    <Spinner
-        android:id="@+id/rent_spin"
+    <TextView
+        android:id="@+id/rent_time"
         style="@style/attention"
         android:layout_width="60dp"
         android:layout_height="36dp"
         android:layout_marginLeft="60dp"
         android:background="@color/button"
-        android:entries="@array/rent"
         app:layout_constraintLeft_toRightOf="@+id/taxi_day"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <Button
-        android:id="@+id/start_btn"
+        android:id="@+id/start_time"
         style="@style/button"
         android:layout_width="80dp"
         android:layout_height="30dp"
