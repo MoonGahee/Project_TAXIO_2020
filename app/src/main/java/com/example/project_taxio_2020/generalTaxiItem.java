@@ -11,6 +11,7 @@ public class generalTaxiItem {
 
     public generalTaxiItem(){}
 
+
     public String getTripDate() { //기사 이름
         return tripDate;
     }

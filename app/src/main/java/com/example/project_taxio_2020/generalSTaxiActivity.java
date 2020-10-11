@@ -1,10 +1,11 @@
 package com.example.project_taxio_2020;
 
-import android.app.TimePickerDialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,161 +14,170 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-//택시 선택 by 하은
 
 public class generalSTaxiActivity extends AppCompatActivity {
 
+    String tripMonth, tripDay, tripDate;
     Button ok;
-    TextView title_text;
     ListView ListView_taxi;
-    Integer tripDays, tripMonth, tripDay;
-    String sDate,sTime, rTime;
+    String rentTime = "0", startTime="-";
+    int tripDays;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_taxi_activity);
-        setToolbar();
-
         ok = findViewById(R.id.ok);
-
-        Intent i = new Intent();
-        tripDays= i.getIntExtra("days", 0);
-        tripMonth=i.getIntExtra("startMonth", 0);
-        tripDay=i.getIntExtra("startDay", 0);
-
         ListView_taxi = findViewById(R.id.ListView_taxi);
-
-        myAdapter adapter = new myAdapter();
+        generalTaxiAdapter adapter = new generalTaxiAdapter();
         ListView_taxi.setAdapter(adapter);
         setList(adapter);
+        Intent i = getIntent();
+        tripDays = i.getIntExtra("Days", 0);
+        /*tripMonth = i.getStringExtra("startMonth");
+        tripDay = i.getStringExtra("startDay");*/
 
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                i.putExtra("days", tripDays);
-                i.putExtra("startMonth", tripMonth);
-                i.putExtra("startDay", tripDay);
+                i.putExtra("tripDays", tripDays);
+                /*i.putExtra("tripMonth", tripMonth);
+                i.putExtra("tripDay", tripDay);*/
                 startActivity(i);
                 finish();
             }
         });
     }
 
-    private void setList(myAdapter adapter) {
-        for(int i =0; i<tripDays;i++){
-            adapter.addItem(tripMonth+"월"+(tripDay+i)+"일");
+    public void setList(generalTaxiAdapter adapter){
+        for(int i = 0; i< 3; i++){
+            //tripDate = tripMonth+"월 "+(tripDay+i)+"일";
+            Toast.makeText(getApplicationContext(), String.valueOf(tripDays), Toast.LENGTH_SHORT).show();
+            adapter.addItem();
         }
     }
+    public class generalTaxiAdapter extends BaseAdapter {
 
-    public class myAdapter extends BaseAdapter {
+        public ArrayList<generalTaxiItem> listViewItemList = new ArrayList<generalTaxiItem>();
 
-        public ArrayList<generalTaxiItem> list = new ArrayList<generalTaxiItem>();
-
-        //초기화
-        public myAdapter() {}
-
-        //리스트 뷰 아이템 개수 알려줌
+        public generalTaxiAdapter(){}
+        @Override
         public int getCount() {
-            return list.size();
+            return listViewItemList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return listViewItemList.get(position) ;
         }
 
         @Override
         public long getItemId(int position) {
-            return position;
+            return position ;
         }
 
-        //현재 아이템 알려줌
         @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            final int pos = position;
+            final Context context = parent.getContext();
 
-        //리스트뷰에서 아이템과 xml을 연결하여 화면에 출력
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-
-            final Context c = parent.getContext();
-            if (view == null) {//xml로 된 layout파일을 view 객체로 변환
-                LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.general_taxi_item, parent, false);
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.general_taxi_item, parent, false);
             }
 
-            TextView  taxi_day = findViewById(R.id.taxi_day);
-            Spinner rent_spin = findViewById(R.id.rent_spin);
-            final Button start_btn = findViewById(R.id.start_btn);
+            TextView taxi_day = (TextView) convertView.findViewById(R.id.taxi_day);
+            Button choice = convertView.findViewById(R.id.choice);
+            TextView rent_time = convertView.findViewById(R.id.rent_time);
+            TextView start_time = convertView.findViewById(R.id.start_time);
+            generalTaxiItem listViewItem = listViewItemList.get(position);
+            taxi_day.setText(listViewItem.getTripDate());
+            rent_time.setText(listViewItem.getRentTime());
+            start_time.setText(listViewItem.getStartTime());
 
-            final generalTaxiItem myList = list.get(position);
-            taxi_day.setText(myList.getTripDate());
-            rent_spin.setSelection(Integer.parseInt(myList.getRentTime()));
-            rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String rent_time = String.valueOf(parent.getItemAtPosition(position));
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-            start_btn.setOnClickListener(new View.OnClickListener() {
+            choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TimePickerDialog d = new TimePickerDialog(c, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            ;
-                        }
-                    }, 0, 0, true);
 
-                    d.setMessage("출발 시간");
-                    d.show();
+                    AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
+                    final View taxi_plus = View.inflate(getApplicationContext(), R.layout.general_choice_taxi,null);
+                    dlg.setTitle("택시 선택");
+                    dlg.setView(taxi_plus);
+                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            RadioGroup use;
+                            TextView taxiTime_tv, startTime_tv;
+                            Spinner rent_spin;
+                            TimePicker start_pick;
+                            use = taxi_plus.findViewById(R.id.use);
+                            taxiTime_tv = taxi_plus.findViewById(R.id.taxiTime_tv);
+                            startTime_tv = taxi_plus.findViewById(R.id.startTime_tv);
+                            rent_spin = taxi_plus.findViewById(R.id.rent_spin);
+                            start_pick = taxi_plus.findViewById(R.id.start_pick);
+                            switch (use.getCheckedRadioButtonId()){
+                                case R.id.yes:
+                                    taxiTime_tv.setVisibility(View.VISIBLE);
+                                    startTime_tv.setVisibility(View.VISIBLE);
+                                    rent_spin.setVisibility(View.VISIBLE);
+                                    start_pick.setVisibility(View.VISIBLE);
+                                    break;
+                                case R.id.no:
+                                    break;
+                            }
+
+                            rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    rentTime= String.valueOf(parent.getItemAtPosition(position));
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+                            startTime=start_pick.getHour()+"시"+start_pick.getMinute()+"분";
+
+                        }
+                    });
                 }
             });
 
-            return view;
+            return convertView;
         }
 
-        //HosListItem 클래스에 정의한 set 메소드에 데이터를 담아서 리턴함
-        public void addItem(String date) {
-           generalTaxiItem item = new generalTaxiItem();
+        public void addItem() {
+            generalTaxiItem item = new generalTaxiItem();
 
-            item.setTripDate(date);
+            item.setRentTime(rentTime);
+            item.setStartTime(startTime);
+            item.setTripDate(tripDate);
 
-            list.add(item);
+            listViewItemList.add(item);
+        }
+
+        public void clearItem(){
+            listViewItemList.clear();
         }
     }
+
 
 
     public void setToolbar(){
@@ -176,6 +186,5 @@ public class generalSTaxiActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
-
     }
 }

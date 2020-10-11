@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -143,8 +144,8 @@ public class generalSDateActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
                                     i.putExtra("days", tripDays);
-                                    i.putExtra("startMonth", tripMonth);
-                                    i.putExtra("startDay", tripDay);
+                                    /*i.putExtra("startMonth", String.valueOf(tripMonth));
+                                    i.putExtra("startDay",String.valueOf(tripDay));*/
                                     startActivity(i);
                                     finish();
                                 }
@@ -167,9 +168,9 @@ public class generalSDateActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                i.putExtra("days", tripDays);
-                                i.putExtra("startMonth", tripMonth);
-                                i.putExtra("startDay", tripDay);
+                                i.putExtra("Days", tripDays);
+                                /*i.putExtra("startMonth", String.valueOf(tripMonth));
+                                i.putExtra("startDay", String.valueOf(tripDay));*/
                                 startActivity(i);
                                 finish();
                             }
@@ -187,13 +188,7 @@ public class generalSDateActivity extends AppCompatActivity {
                 }
             }
         });//확인 버튼 눌렀을 때 다이얼로그
-
-
-
-
     }
-
-
 
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정
