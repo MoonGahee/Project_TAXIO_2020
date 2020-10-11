@@ -1,4 +1,4 @@
-package com.example.project_taxio_2020;
+/*package com.example.project_taxio_2020;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -122,7 +122,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.general_taxi_item, parent, false);
             }
 
-            TextView  taxi_day = findViewById(R.id.taxi_day);
+            /*TextView  taxi_day = findViewById(R.id.taxi_day);
             Spinner rent_spin = findViewById(R.id.rent_spin);
             final Button start_btn = findViewById(R.id.start_btn);
 
@@ -179,3 +179,4 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
     }
 }
+*/
