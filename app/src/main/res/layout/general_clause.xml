@@ -31,6 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="회원가입"
+        android:textStyle="bold"
+        android:textSize="30sp"
         app:layout_constraintLeft_toRightOf="@+id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar"
         />
@@ -42,7 +44,7 @@
         android:layout_height="17dp"
         android:layout_marginTop="12dp"
         android:max="100"
-        android:progress="60"
+        android:progress="40"
         app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,6 +59,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
         style="@style/title1"
+        android:textStyle="bold"
         android:text="조건 동의" />
 
     <CheckBox
@@ -363,9 +366,9 @@
         app:layout_constraintTop_toBottomOf="@id/clause3"
         android:layout_marginTop="30dp"
         android:text="이전"
+        android:textColor="#fffffff"
         android:textSize="20sp"
-        style="@style/button"
-        android:background="@drawable/button_short"/>
+        android:background="@color/button"/>
 
     <Button
         android:id="@+id/next"
@@ -376,8 +379,8 @@
         android:layout_marginTop="30dp"
         android:text="다음"
         android:textSize="20sp"
-        style="@style/button"
-        android:background="@drawable/button_short"/>
+        android:textColor="#fffffff"
+        android:background="@color/button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

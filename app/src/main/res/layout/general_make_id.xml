@@ -55,6 +55,19 @@
             app:layout_constraintLeft_toRightOf="@id/makeMember"
             app:layout_constraintTop_toBottomOf="@id/bar"/>
 
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="386dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="12dp"
+            android:max="100"
+            android:progress="40"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeMember" />
+
 
         <ScrollView
             android:id="@+id/scl"
@@ -214,7 +227,10 @@
                     android:id="@+id/btnid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="중복확인"
+                    android:text="중복 확인"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:background="@color/button"
                     android:layout_marginLeft="10dp"
                     app:layout_constraintLeft_toRightOf="@id/edtId"
                     app:layout_constraintTop_toBottomOf="@+id/id"/>
@@ -349,7 +365,10 @@
                     android:id="@+id/btnEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="인증"
+                    android:text="인 증"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:background="@color/button"
                     android:layout_marginLeft="20dp"
                     app:layout_constraintTop_toBottomOf="@id/email"
                     app:layout_constraintLeft_toRightOf="@id/edtEmail"/>
@@ -381,8 +400,10 @@
                     android:id="@+id/btnImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="첨부"
-
+                    android:text="첨 부"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"
+                    android:background="@color/button"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail"/>
 
@@ -401,7 +422,8 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:text="입력완료"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
+                    android:background="@color/button"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     android:layout_marginTop="15dp"

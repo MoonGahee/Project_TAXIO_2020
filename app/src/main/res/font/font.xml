@@ -4,18 +4,18 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/nanumsquareroundr"
+        android:font="@font/cafe24oneprettynight"
         />
 
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/nanumsquareoundeb"
+        android:font="@font/cafe24oneprettynight"
         />
 
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/nanumsquareroundb"
+        android:font="@font/cafe24oneprettynight"
         />
 </font-family>

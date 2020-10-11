@@ -42,34 +42,65 @@
             android:text="떠나고 싶은 여행지를 선택해 주세요."
             />
 
+        <!--class="com.google.android.gms.maps.MapFragment"-->
+
         <ImageView
             android:id="@+id/imageKorea"
             android:layout_width="match_parent"
             android:layout_height="600dp"
-            app:layout_constraintTop_toBottomOf="@id/selectTrip2"
+            android:src="@drawable/map"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:src="@drawable/koreamap"/>
-        <!--class="com.google.android.gms.maps.MapFragment"-->
+            app:layout_constraintTop_toBottomOf="@id/selectTrip2" />
 
         <ImageButton
             android:id="@+id/btnSeoul"
-            android:layout_width="57dp"
-            android:layout_height="50dp"
-            android:scaleType="fitXY"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:background="@android:color/transparent"
+            android:scaleType="fitXY"
             android:src="@drawable/seoul"
-            tools:layout_editor_absoluteX="119dp"
-            tools:layout_editor_absoluteY="259dp" />
+            tools:layout_editor_absoluteX="103dp"
+            tools:layout_editor_absoluteY="197dp" />
 
         <ImageButton
             android:id="@+id/btnJeju"
-            android:layout_width="50dp"
-            android:layout_height="48dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/jeju"
-            tools:layout_editor_absoluteX="127dp"
-            tools:layout_editor_absoluteY="618dp" />
+            tools:layout_editor_absoluteX="56dp"
+            tools:layout_editor_absoluteY="579dp" />
+
+        <ImageButton
+            android:id="@+id/btnBusan"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/busan"
+            tools:layout_editor_absoluteX="274dp"
+            tools:layout_editor_absoluteY="446dp" />
+
+        <ImageButton
+            android:id="@+id/btnGangwon"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/gangwon"
+            tools:layout_editor_absoluteX="209dp"
+            tools:layout_editor_absoluteY="188dp" />
+
+        <ImageButton
+            android:id="@+id/btnGyungju"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/gyungju"
+            tools:layout_editor_absoluteX="225dp"
+            tools:layout_editor_absoluteY="383dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
