@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".generalMainActivity" />
+        <activity android:name=".generalMainActivity" /> <!--승객 메인-->
         <activity android:name=".generalReservationCompleteActivity"/>
         <activity android:name=".generalCheckEpilogueActivity"/>
         <activity android:name=".generalMakeScheActivity"/>
@@ -46,5 +46,7 @@
         <activity android:name=".generalMemberSort"/>
         <activity android:name=".generalAgeCheck"/>
         <activity android:name=".generalMakeId"/>
+        <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
+        <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
     </application>
 </manifest>
