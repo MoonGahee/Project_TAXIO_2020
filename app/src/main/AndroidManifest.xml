@@ -8,6 +8,7 @@
     <permission
         android:name="com.example.project_taxio_2020.permission.MAPS_RECEIVE"
         android:label="signiture"/>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -16,7 +17,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <meta-data
         android:name="com.google.android.gms.version"
-        android:value="AIzaSyDETju6T25LpjED-h-ZMOu0Ine3DPnb39U"/>
+        android:value="@integer/google_play_services_version"/>
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA0wCW7QyiTMpR_k8HRAshUs163WXrj9oo"/>
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,6 +45,7 @@
         <activity android:name=".generalReservationCompleteActivity"/>
         <activity android:name=".generalCheckEpilogueActivity"/>
         <activity android:name=".generalMakeScheActivity"/>
+        <activity android:name=".generalUpdateScheActivity"/>
         <activity android:name=".generalSDateActivity"/>
         <activity android:name=".generalSDriverActivity"/>
         <activity android:name=".generalSRegionActivity"/>

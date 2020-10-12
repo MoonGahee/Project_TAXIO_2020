@@ -1,40 +1,58 @@
 package com.example.project_taxio_2020;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
 import com.akshaykale.swipetimeline.TimelineGroupType;
 import com.akshaykale.swipetimeline.TimelineObject;
 import com.akshaykale.swipetimeline.TimelineObjectClickListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class generalMakeScheActivity extends AppCompatActivity {
+public class generalMakeScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Button edit_btn, taxi_btn, trip_fin;
     Toolbar toolbar;
     TextView title_text;
-    //TimelineFragment mFragment = new TimelineFragment();
     String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
     ListView listView;
+    ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
+
+    MapFragment mapFrag;
+    GoogleMap gMap;
+
+    int size;
+    int[] count;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,15 +64,12 @@ public class generalMakeScheActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
         search.setAdapter(adapter);
 
-        /*mFragment.setData(loadData(), TimelineGroupType.DAY);
-        mFragment.addOnClickListener(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
-        mFragment.setTimelineHeaderSize(0);
+        mapFrag = (MapFragment)getFragmentManager().findFragmentById(R.id.map1);
+        mapFrag.getMapAsync(this);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.trip1, mFragment);
-        transaction.replace(R.id.trip1, mFragment);
-        transaction.commit();*/
+        scroll1 = findViewById(R.id.scroll1);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -84,6 +99,9 @@ public class generalMakeScheActivity extends AppCompatActivity {
         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
         listView.setAdapter(generalTimelineAdapter);
 
+        size = generalTimelineAdapter.getCount();
+        count = new int[size];
+
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,63 +125,67 @@ public class generalMakeScheActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scroll1.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = 0;
-                int size = generalTimelineAdapter.getCount();
-
-                int[] count = new int[size];
 
                 list_itemArrayList.clear();
 
                 while (true) {
-                    if(size == i) break;
-
-                    if (i == position) {
-                        if (count[i] != 1) {
-                            list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(i + 1), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                            count[i] = 1;
+                    if (position == i) {
+                        if ((size-1) == i){
+                            if (count[i] != 1){
+                                list_itemArrayList.add(new generalTimelineItem("성산일출봉", Integer.toString(i + 1), "30분", 0, R.drawable.ic_local_taxi_black_24dp));
+                                count[i] = 1;
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem("성산일출봉", Integer.toString(i + 1), "30분", 0, 0));
+                                count[i] = 0;
+                            }
+                            break;
                         }
-                        else {
-                            list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(i + 1), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                        if (count[i] != 1) {
+                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            count[i] = 1;
+                        } else {
+                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
                             count[i] = 0;
                         }
+                    } else {
+                        if ((size-1) == i){
+                            if (count[i] == 1){
+                                list_itemArrayList.add(new generalTimelineItem("성산일출봉", Integer.toString(i + 1), "30분", 0, R.drawable.ic_local_taxi_black_24dp));
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem("성산일출봉", Integer.toString(i + 1), "30분", 0, 0));
+                            }
+                            break;
+                        }
+                        if (count[i] == 1)
+                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                        else
+                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
                     }
 
-                    list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i+1), "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
                     i++;
                 }
 
-                list_itemArrayList.add(new generalTimelineItem("성산일출봉", Integer.toString(i+1), "30분", 0, 0));
-
                 generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                 listView.setAdapter(generalTimelineAdapter);
+
             }
         });
     }
-
-    /*private ArrayList<TimelineObject> loadData() {
-        ArrayList<TimelineObject> obj = new ArrayList<>();
-
-        obj.add(new generalTimeline(Long.parseLong("1483196400000"), "제주공항", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1484146800000"), "용두암", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1485961200000"), "성산일출봉", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1487084400000"), "동문시장", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1489244400000"), "하얏트호텔", "url"));
-
-        return obj;
-    }
-
-    @Override
-    public void onTimelineObjectClicked(TimelineObject timelineObject) {
-
-    }
-
-    @Override
-    public void onTimelineObjectLongClicked(TimelineObject timelineObject) {
-
-    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
         switch (item.getItemId()){
@@ -182,5 +204,14 @@ public class generalMakeScheActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gMap = googleMap;
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        LatLng location = new LatLng(37.568256, 126.897240);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        gMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }

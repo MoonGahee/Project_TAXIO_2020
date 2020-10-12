@@ -1,16 +1,19 @@
 package com.example.project_taxio_2020;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -18,27 +21,36 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
 import com.akshaykale.swipetimeline.TimelineGroupType;
 import com.akshaykale.swipetimeline.TimelineObject;
 import com.akshaykale.swipetimeline.TimelineObjectClickListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-public class generalUpdateScheActivity extends AppCompatActivity {
+public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Button finish_btn;
     Toolbar toolbar;
     TextView title_text;
-    //TimelineFragment mFragment = new TimelineFragment();
     String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
     ListView listView;
+    ScrollView scroll2;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
     int firstPos, secondPos;
     int count = 1;
+
+    MapFragment mapFrag;
+    GoogleMap gMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,15 +62,12 @@ public class generalUpdateScheActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
         search.setAdapter(adapter);
 
-        /*mFragment.setData(loadData(), TimelineGroupType.DAY);
-        mFragment.addOnClickListener(this);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
-        mFragment.setTimelineHeaderSize(0);
+        mapFrag = (MapFragment)getFragmentManager().findFragmentById(R.id.map2);
+        mapFrag.getMapAsync(this);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.trip2, mFragment);
-        transaction.replace(R.id.trip2, mFragment);
-        transaction.commit();*/
+        scroll2 = findViewById(R.id.scroll2);
 
         finish_btn = findViewById(R.id.update_finish2);
 
@@ -109,6 +118,14 @@ public class generalUpdateScheActivity extends AppCompatActivity {
             }
         });
 
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scroll2.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,7 +144,10 @@ public class generalUpdateScheActivity extends AppCompatActivity {
                     list_itemArrayList.clear();
 
                     while (true) {
-                        if (size == i) break;
+                        if (size == i) {
+                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i), "1시간", 0, 0));
+                            break;
+                        }
 
                         if (firstPos == i)
                             list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(secondPos), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
@@ -138,8 +158,6 @@ public class generalUpdateScheActivity extends AppCompatActivity {
 
                         i++;
                     }
-
-                    list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i), "1시간", 0, 0));
 
                     generalTimelineAdapter = new generalTimelineAdapter(generalUpdateScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
@@ -158,34 +176,19 @@ public class generalUpdateScheActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*private ArrayList<TimelineObject> loadData() {
-        ArrayList<TimelineObject> obj = new ArrayList<>();
-
-        obj.add(new generalTimeline(Long.parseLong("1483196400000"), "제주공항", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1484146800000"), "용두암", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1485961200000"), "성산일출봉", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1487084400000"), "동문시장", "url"));
-        obj.add(new generalTimeline(Long.parseLong("1489244400000"), "하얏트호텔", "url"));
-
-
-        return obj;
-    }
-
-    @Override
-    public void onTimelineObjectClicked(TimelineObject timelineObject) {
-
-    }
-
-    @Override
-    public void onTimelineObjectLongClicked(TimelineObject timelineObject) {
-
-    }*/
-
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gMap = googleMap;
+        gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.49, 126.5), 15));
+        gMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }
