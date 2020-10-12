@@ -25,12 +25,23 @@ public class generalAgeCheck extends AppCompatActivity {
 
         over14 = findViewById(R.id.over14);
         under14 = findViewById(R.id.under14);
+        previous = findViewById(R.id.previous);
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMemberSort.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         over14.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -39,6 +50,7 @@ public class generalAgeCheck extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
                 startActivity(i);
+                finish();
             }
         });
     }
