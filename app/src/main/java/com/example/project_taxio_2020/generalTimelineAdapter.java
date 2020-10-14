@@ -39,14 +39,13 @@ public class generalTimelineAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.general_timeline_item, null);
-            place_textView =(TextView)convertView.findViewById(R.id.place);
-            number_textView = (TextView)convertView.findViewById(R.id.number);
-            requied_time_textView = (TextView)convertView.findViewById(R.id.required_time);
-            line_imageView = (ImageView)convertView.findViewById(R.id.line);
-            taxi_imageView = (ImageView)convertView.findViewById(R.id.taxi);
-        }
+
+        convertView = LayoutInflater.from(context).inflate(R.layout.general_timeline_item, null);
+        place_textView =(TextView)convertView.findViewById(R.id.place);
+        number_textView = (TextView)convertView.findViewById(R.id.number);
+        requied_time_textView = (TextView)convertView.findViewById(R.id.required_time);
+        line_imageView = (ImageView)convertView.findViewById(R.id.line);
+        taxi_imageView = (ImageView)convertView.findViewById(R.id.taxi);
 
         place_textView.setText(list_itemArrayList.get(position).getPlace());
         number_textView.setText(list_itemArrayList.get(position).getNumber());

@@ -42,13 +42,22 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalReservationCompleteActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 return true;
             }

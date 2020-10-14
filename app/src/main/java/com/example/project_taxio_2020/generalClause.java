@@ -3,9 +3,11 @@ package com.example.project_taxio_2020;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ScrollView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -15,7 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 public class generalClause extends AppCompatActivity {
 
     CheckBox all_check, clause1, clause2, clause3;
-    Button next;
+    Button previous, next;
+    ScrollView all_scroll, show_clause1, show_clause2, show_clause3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +32,12 @@ public class generalClause extends AppCompatActivity {
         clause2 = findViewById(R.id.clause2);
         clause3 = findViewById(R.id.clause3);
 
+        all_scroll = findViewById(R.id.all_scroll);
+        show_clause1 = findViewById(R.id.show_clause1);
+        show_clause2 = findViewById(R.id.show_clause2);
+        show_clause3 = findViewById(R.id.show_clause3);
+
+        previous = findViewById(R.id.previous);
         next = findViewById(R.id.next);
 
         all_check.setOnClickListener(new View.OnClickListener() {
@@ -47,17 +56,49 @@ public class generalClause extends AppCompatActivity {
             }
         });
 
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalAgeCheck.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(clause1.isChecked() && clause2.isChecked()) {
                     Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
 
+        show_clause1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                all_scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
+        show_clause2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                all_scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        show_clause3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                all_scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
