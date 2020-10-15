@@ -188,10 +188,9 @@ public class generalSDateActivity extends AppCompatActivity {
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
-
-
-
     }
+
+
 
 
 
