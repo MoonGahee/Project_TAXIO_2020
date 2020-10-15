@@ -29,6 +29,7 @@ public class generalMemberSort extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalAgeCheck.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -37,6 +38,7 @@ public class generalMemberSort extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalClause.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

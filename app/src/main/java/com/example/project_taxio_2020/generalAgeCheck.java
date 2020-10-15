@@ -40,6 +40,7 @@ public class generalAgeCheck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
+                i.putExtra("age", 13);
                 startActivity(i);
                 finish();
             }
@@ -49,6 +50,7 @@ public class generalAgeCheck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
+                i.putExtra("age", 14);
                 startActivity(i);
                 finish();
             }

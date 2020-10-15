@@ -57,5 +57,6 @@
         <activity android:name=".generalMakeId"/>
         <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
+        <activity android:name=".generalMakeIdChild"/>
     </application>
 </manifest>

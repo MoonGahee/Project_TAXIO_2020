@@ -19,12 +19,16 @@ public class generalClause extends AppCompatActivity {
     CheckBox all_check, clause1, clause2, clause3;
     Button previous, next;
     ScrollView all_scroll, show_clause1, show_clause2, show_clause3;
+    int age;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_clause);
         setToolbar();
+
+        Intent i = getIntent();
+        age = i.getExtras().getInt("age");
 
         all_check = findViewById(R.id.all_check);
 
@@ -69,9 +73,16 @@ public class generalClause extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(clause1.isChecked() && clause2.isChecked()) {
-                    Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
-                    startActivity(intent);
-                    finish();
+                    if(age == 14){
+                        Intent intent = new Intent(getApplicationContext(), generalMakeIdChild.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
