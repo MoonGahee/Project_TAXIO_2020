@@ -19,6 +19,7 @@ public class generalMemberSort extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_member_sort);
+        setToolbar();
 
         choose_driver = findViewById(R.id.choose_driver);
         choose_general = findViewById(R.id.choose_general);

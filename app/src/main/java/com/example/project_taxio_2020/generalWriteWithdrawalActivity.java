@@ -72,6 +72,10 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // DB에 데이터 삭제 시작
+
+
+                        // DB에 데이터 삭제 완료
                         Intent intent = new Intent(getApplicationContext(), generalWithdrawalCompleteActivity.class);
                         startActivity(intent);
                     }
