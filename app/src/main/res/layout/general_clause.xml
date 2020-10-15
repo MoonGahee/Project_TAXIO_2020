@@ -151,7 +151,7 @@
         app:layout_constraintTop_toBottomOf="@id/clause3"
         android:layout_marginTop="30dp"
         android:text="이전"
-        android:textColor="#fffffff"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         android:background="@color/button"/>
 
@@ -164,7 +164,7 @@
         android:layout_marginTop="30dp"
         android:text="다음"
         android:textSize="20sp"
-        android:textColor="#fffffff"
+        android:textColor="#ffffff"
         android:background="@color/button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

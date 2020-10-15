@@ -72,7 +72,7 @@ public class generalMakeId extends AppCompatActivity {
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
 
-        checkId = findViewById(R.id.checkId);
+        checkId = findViewById(R.id.btnid);
         btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
@@ -113,6 +113,7 @@ public class generalMakeId extends AppCompatActivity {
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }
