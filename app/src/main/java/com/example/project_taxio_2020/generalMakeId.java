@@ -12,22 +12,36 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class generalMakeId extends AppCompatActivity {
     EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button checkId, btnEmail, btnImg, btnComplete;
+    String id, password;
     ImageView photo;
+    FirebaseAuth mAuth;
+    String TAG ="EXCEPTION";
+    public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
+    Matcher m;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +131,37 @@ public class generalMakeId extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    public void join(){
+        id=edtId.getText().toString();
+        password=edtPassword.getText().toString();
+        mAuth.createUserWithEmailAndPassword(id, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            finish();
+
+                            Toast.makeText(getApplicationContext(),"회원가입 완료!",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "이메일을 다시 확인해주세요",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public Boolean checkPass(String password) {
+        boolean check = false;
+        Pattern p = Pattern.compile(pattern);
+        m=p.matcher(password);
+        if(m.find()) {
+            check = true;
+        }
+        return check;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
