@@ -21,58 +21,58 @@
         android:layout_margin="10dp"
         android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <include layout="@layout/app_bar"
-            android:id="@+id/bar"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+            <include layout="@layout/app_bar"
+                android:id="@+id/bar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
 
-        <ImageView
-            android:id="@+id/bell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/minusbtn"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bar" />
+            <ImageView
+                android:id="@+id/bell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/minusbtn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bar" />
 
-        <TextView
-            android:id="@+id/makeMember"
-            style="@style/title1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="회원가입"
-            app:layout_constraintLeft_toRightOf="@+id/bell"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
-            />
+            <TextView
+                android:id="@+id/makeMember"
+                style="@style/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원가입"
+                app:layout_constraintLeft_toRightOf="@+id/bell"
+                app:layout_constraintTop_toBottomOf="@+id/bar"
+                />
 
-        <TextView
-            android:id="@+id/warning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="30dp"
-            android:textColor="#FF0000"
-            android:text="*표시는 필수입력 항목입니다."
-            app:layout_constraintLeft_toRightOf="@id/makeMember"
-            app:layout_constraintTop_toBottomOf="@id/bar"/>
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="#FF0000"
+                android:text="*표시는 필수입력 항목입니다."
+                app:layout_constraintLeft_toRightOf="@id/makeMember"
+                app:layout_constraintTop_toBottomOf="@id/bar"/>
 
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="386dp"
-            android:layout_height="17dp"
-            android:layout_marginTop="12dp"
-            android:max="100"
-            android:progress="40"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/makeMember" />
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="386dp"
+                android:layout_height="17dp"
+                android:layout_marginTop="12dp"
+                android:max="100"
+                android:progress="40"
+                app:layout_constraintHorizontal_bias="0.08"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/makeMember" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -351,7 +351,7 @@
                     android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="*이메일: "
+                    android:text="*보호자 이메일: "
                     android:textColor="#000000"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -432,7 +432,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
