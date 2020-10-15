@@ -35,7 +35,7 @@ public class generalTaxiAdapter extends RecyclerView.Adapter<generalTaxiAdapter.
 
             //객체 생성
             taxiDate = itemView.findViewById(R.id.taxi_day);
-            //timeT = itemView.findViewById(R.id.rent_spin);
+            timeT = itemView.findViewById(R.id.rent_spin);
             //timeSelect = itemView.findViewById(R.id.start_btn);
         }
 

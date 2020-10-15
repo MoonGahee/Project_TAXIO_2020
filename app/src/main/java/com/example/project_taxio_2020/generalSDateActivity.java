@@ -141,11 +141,11 @@ public class generalSDateActivity extends AppCompatActivity {
                             dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    //Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                    //i.putExtra("days", tripDays);
-                                    //i.putExtra("startMonth", tripMonth);
-                                    //i.putExtra("startDay", tripDay);
-                                    //startActivity(i);
+                                    Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                                    i.putExtra("days", tripDays);
+                                    i.putExtra("startMonth", tripMonth);
+                                    i.putExtra("startDay", tripDay);
+                                    startActivity(i);
                                     finish();
                                 }
                             });
@@ -166,11 +166,11 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                //i.putExtra("days", tripDays);
-                                //i.putExtra("startMonth", tripMonth);
-                                //i.putExtra("startDay", tripDay);
-                                //startActivity(i);
+                                Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+                                i.putExtra("days", tripDays);
+                                i.putExtra("startMonth", tripMonth);
+                                i.putExtra("startDay", tripDay);
+                                startActivity(i);
                                 finish();
                             }
                         });
