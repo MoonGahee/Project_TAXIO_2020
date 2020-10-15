@@ -47,9 +47,9 @@
         <activity android:name=".generalMakeScheActivity"/>
         <activity android:name=".generalUpdateScheActivity"/>
         <activity android:name=".generalSDateActivity"/>
+        <activity android:name=".generalSTaxiActivity"/>
         <activity android:name=".generalSDriverActivity"/>
         <activity android:name=".generalSRegionActivity"/>
-        <activity android:name=".generalSTaxiActivity"/>
         <activity android:name=".generalWriteEpilogueActivity"/>
         <activity android:name=".generalClause"/>
         <activity android:name=".generalMemberSort"/>

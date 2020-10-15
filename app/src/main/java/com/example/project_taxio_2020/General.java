@@ -2,6 +2,8 @@ package com.example.project_taxio_2020;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+
 public class General {
     public String general_id;
     public String general_password;
@@ -28,6 +30,23 @@ public class General {
         this.general_route = general_route;
     }
 
+    /*public HashMap<String, String> GetMap()
+    {
+        HashMap inputValue = new HashMap<>();
+        //속성명 : 키, 값
+        inputValue.put("general_id", general_id);
+        inputValue.put("general_password", general_password);
+        inputValue.put("general_name", general_name);
+        inputValue.put("general_sex", general_sex);
+        inputValue.put("general_birth", general_birth);
+        inputValue.put("general_call", general_call);
+        inputValue.put("general_email", general_email);
+        inputValue.put("parent_call", parent_call);
+        inputValue.put("general_route", general_route);
+
+        return inputValue;
+    }*/
+
     public String getGeneral_id() {
         return general_id;
     }
@@ -40,9 +59,7 @@ public class General {
         return general_password;
     }
 
-    public void setGeneral_password(String general_password) {
-        this.general_password = general_password;
-    }
+    public void setGeneral_password(String general_password) { this.general_password = general_password; }
 
     public String getGeneral_name() {
         return general_name;

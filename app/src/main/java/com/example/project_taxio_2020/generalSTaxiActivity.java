@@ -1,4 +1,4 @@
-/*package com.example.project_taxio_2020;
+package com.example.project_taxio_2020;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -122,9 +122,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 view = inflater.inflate(R.layout.general_taxi_item, parent, false);
             }
 
-            /*TextView  taxi_day = findViewById(R.id.taxi_day);
+            TextView  taxi_day = findViewById(R.id.taxi_day);
             Spinner rent_spin = findViewById(R.id.rent_spin);
-            final Button start_btn = findViewById(R.id.start_btn);
+            //final Button start_btn = findViewById(R.id.start_btn);
 
             final generalTaxiItem myList = list.get(position);
             taxi_day.setText(myList.getTripDate());
@@ -141,7 +141,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 }
             });
 
-            start_btn.setOnClickListener(new View.OnClickListener() {
+            /*start_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TimePickerDialog d = new TimePickerDialog(c, new TimePickerDialog.OnTimeSetListener() {
@@ -154,7 +154,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     d.setMessage("출발 시간");
                     d.show();
                 }
-            });
+            });*/
 
             return view;
         }
@@ -179,4 +179,3 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
     }
 }
-*/
