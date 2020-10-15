@@ -26,14 +26,14 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:text">@string/title_name</item>
-        <item name="android:fontFamily">@font/nanumsquareoundeb</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
     <style name="title1"> <!-- 상단 타이틀 -->
         <item name="android:textSize">26sp</item>
         <item name="android:layout_margin">10sp</item>
         <item name="android:textColor">@color/mainText</item>
-        <item name="android:fontFamily">@font/nanumsquareroundb</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
     <style name="title2">
@@ -43,7 +43,7 @@
         <item name="android:layout_marginTop">5sp</item>
         <item name="android:layout_marginBottom">5sp</item>
         <item name="android:textColor">#000000</item>
-        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
     <style name="attention"> <!-- 안내문 스타일 -->
@@ -53,7 +53,7 @@
         <item name="android:layout_marginTop">5sp</item>
         <item name="android:layout_marginBottom">5sp</item>
         <item name="android:textColor">#FF0000</item>
-        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
     <style name="basic"> <!-- 기본 문구 스타일 -->
@@ -63,7 +63,7 @@
         <item name="android:layout_marginTop">5sp</item>
         <item name="android:layout_marginBottom">5sp</item>
         <item name="android:textColor">#000000</item>
-        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
     <style name="button">
@@ -73,7 +73,7 @@
         <item name="android:layout_marginTop">5sp</item>
         <item name="android:layout_marginBottom">5sp</item>
         <item name="android:textColor">#000000</item>
-        <item name="android:fontFamily">@font/nanumsquareroundr</item>
+        <item name="android:fontFamily">@font/cafe24oneprettynight</item>
     </style>
 
 </resources>

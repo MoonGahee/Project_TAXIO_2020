@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 탈퇴하기 by 가희 -->
+<?xml version="1.0" encoding="utf-8"?><!-- 탈퇴하기 by 가희 -->
 
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,71 +13,79 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-        <include layout="@layout/app_bar"
+        <include
             android:id="@+id/bar"
+            layout="@layout/app_bar"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/wd1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
+            style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="탈퇴하기"
-            style="@style/title1"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
         <TextView
             android:id="@+id/wd2"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/wd1"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="30dp"
-            style="@style/title2"
             android:text="탈퇴하시면 승객님의 정보 및 여행기록도 함께 삭제됩니다.\n\n타시오에 불만족 사항이 있다면 말해주세요.
             \n\n어플 개선에 큰 도움이 됩니다.\n감사합니다."
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wd1" />
 
         <EditText
             android:id="@+id/wd_text"
             android:layout_width="400dp"
             android:layout_height="150dp"
-            app:layout_constraintTop_toBottomOf="@+id/wd2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="30dp"
+            android:background="@drawable/search_blank"
             android:hint=" 내용을 입력해주세요"
             android:textColorHint="#33000000"
-            android:background="@drawable/search_blank"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wd2" />
 
 
         <Button
             android:id="@+id/wd_cancel"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="철회하기"
-            style="@style/basic"
-            android:layout_marginBottom="50dp"
             android:layout_marginLeft="30dp"
-            android:background="@drawable/button_short"/>
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_short"
+            android:text="철회하기"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <Button
             android:id="@+id/wd_ok"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="탈퇴하기"
-            style="@style/basic"
-            android:layout_marginBottom="50dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/button_short"/>
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_short"
+            android:text="탈퇴하기"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 </androidx.drawerlayout.widget.DrawerLayout>
