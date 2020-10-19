@@ -32,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -50,6 +51,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
     MapFragment mapFrag;
     GoogleMap gMap;
+    GroundOverlayOptions videoMark;
 
     int size;
     int[] count;
@@ -213,5 +215,20 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         LatLng location = new LatLng(37.568256, 126.897240);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
+
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(latLng, 100f, 100f);
+                gMap.addGroundOverlay(videoMark);
+            }
+        });
+
+        gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                scroll1.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 }
