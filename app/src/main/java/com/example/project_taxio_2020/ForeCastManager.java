@@ -22,7 +22,7 @@ public class ForeCastManager extends Thread {
         return mWeather;
     }
 
-    public ForeCastManager(String lon, String lat,MainActivity mContext)
+    public ForeCastManager(String lon, String lat, MainActivity mContext)
     {
         this.lon = lon ; this.lat = lat;
         this.mContext = mContext;
@@ -40,7 +40,7 @@ public class ForeCastManager extends Thread {
                     "&lon="+lon+
                     "&mode=xml" +
                     "&units=metric"+
-                    "&cnt=" + 15 );
+                    "&cnt=" + 6 );
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             // 위에서 생성된 URL을 통하여 서버에 요청하면 결과가 XML Resource로 전달됨
@@ -56,34 +56,23 @@ public class ForeCastManager extends Thread {
                     ContentValues mContent = new ContentValues();
 
                     for( ; ; ) {
-                        if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("time")) {
-                            mContent.put("day", parser.getAttributeValue(null, "day"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("symbol")) {
-                            mContent.put("weather_Name", parser.getAttributeValue(null, "name"));
-                            mContent.put("weather_Number", parser.getAttributeValue(null, "number"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  &&
-                                parser.getName().equals("precipitation")) {
-                            mContent.put("weather_Much", parser.getAttributeValue(null, "value"));
-                            mContent.put("weather_Type", parser.getAttributeValue(null, "type"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  &&
-                                parser.getName().equals("windDirection")) {
+                       if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("direction")) {
                             mContent.put("wind_Direction", parser.getAttributeValue(null, "name"));
                             mContent.put("wind_SortNumber", parser.getAttributeValue(null, "deg"));
                             mContent.put("wind_SortCode", parser.getAttributeValue(null, "code"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("windSpeed")) {
-                            mContent.put("wind_Speed", parser.getAttributeValue(null, "mps"));
+                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("speed")) {
+                            mContent.put("wind_Speed", parser.getAttributeValue(null, "value"));
                             mContent.put("wind_Name", parser.getAttributeValue(null, "name"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  &&
-                                parser.getName().equals("temperature")) {
+                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("temperature")) {
                             mContent.put("temp_Min", parser.getAttributeValue(null, "min"));
                             mContent.put("temp_Max", parser.getAttributeValue(null, "max"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("humidity")) {
+                            mContent.put("temp_value", parser.getAttributeValue(null, "value"));
+                        }else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("humidity")) {
                             mContent.put("humidity", parser.getAttributeValue(null, "value"));
                             mContent.put("humidity_unit", parser.getAttributeValue(null, "unit"));
                         } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("clouds")) {
-                            mContent.put("Clouds_Sort", parser.getAttributeValue(null, "value"));
-                            mContent.put("Clouds_Value", parser.getAttributeValue(null, "all"));
-                            mContent.put("Clouds_Per", parser.getAttributeValue(null, "unit"));
+                            mContent.put("Clouds_Sort", parser.getAttributeValue(null, "name"));
+                            mContent.put("Clouds_Value", parser.getAttributeValue(null, "value"));
                             mTotalValue.add(mContent);
                             break;
                         }
