@@ -4,13 +4,13 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/cafe24oneprettynight"
+        android:font="@font/hufont"
         />
 
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/cafe24oneprettynight"
+        android:font="@font/hufontbig"
         />
 
     <font
