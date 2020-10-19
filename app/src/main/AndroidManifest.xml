@@ -30,7 +30,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA0wCW7QyiTMpR_k8HRAshUs163WXrj9oo"/>
+            android:value="@string/API_KEY"/>
 
 
         <activity android:name=".MainActivity">
@@ -40,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        key=API_KEY
 
         <activity android:name=".generalMainActivity" /> <!--승객 메인-->
         <activity android:name=".generalReservationCompleteActivity"/>
@@ -57,5 +58,6 @@
         <activity android:name=".generalMakeId"/>
         <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
+        <activity android:name=".generalMakeIdChild"/>
     </application>
 </manifest>

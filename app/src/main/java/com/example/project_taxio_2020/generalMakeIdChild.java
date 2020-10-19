@@ -9,32 +9,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class generalMakeId extends AppCompatActivity {
+public class generalMakeIdChild extends AppCompatActivity {
     EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button checkId, btnEmail, btnImg, btnComplete;
-    String id, password;
     ImageView photo;
-    String TAG ="EXCEPTION";
-    public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
-    Matcher m;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_make_id);
+        setContentView(R.layout.general_make_id_child);
 
         setToolbar();
         final DatabaseReference mDatabase;
@@ -119,17 +114,6 @@ public class generalMakeId extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-
-    public Boolean checkPass(String password) {
-        boolean check = false;
-        Pattern p = Pattern.compile(pattern);
-        m=p.matcher(password);
-        if(m.find()) {
-            check = true;
-        }
-        return check;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
