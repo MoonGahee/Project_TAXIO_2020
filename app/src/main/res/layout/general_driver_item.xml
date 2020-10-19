@@ -2,10 +2,11 @@
 <!-- 기사 목록 by가희 -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
+    android:layout_width="390dp"
     android:layout_height="110dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFF"
+    android:layout_margin = "10dp"
+    android:background="@color/back"
     android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

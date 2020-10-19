@@ -38,7 +38,7 @@ public class generalMakeId extends AppCompatActivity {
 
         setToolbar();
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
         edtNameM = findViewById(R.id.edtNameM);
         edtId = findViewById(R.id.edtId);
@@ -103,16 +103,7 @@ public class generalMakeId extends AppCompatActivity {
                 result.put("general_call", getGeneral_call);
                 result.put("general_email", getGeneral_email);
 
-                General general = new General(getGeneral_id,getGeneral_password,getGeneral_name,getGeneral_sex,getGeneral_birth,getGeneral_call,getGeneral_email,"","");
-
-                //mDatabase.child("users").child(userId).setValue(user)
-                mDatabase.child("General").child(getGeneral_id).setValue(general);
-                /*.addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("DB","성공");
-                    }
-                });*/
+                mDatabase.child(getGeneral_id).setValue(result);
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
