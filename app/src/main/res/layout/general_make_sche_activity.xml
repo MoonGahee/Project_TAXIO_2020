@@ -47,7 +47,7 @@
             android:text="3명"
             style="@style/title2"/>
 
-        <AutoCompleteTextView
+        <fragment
             android:id="@+id/search1"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -55,8 +55,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:completionHint="장소를 입력해주세요."
             android:completionThreshold="1"
-            android:background="@drawable/search_blank"/>
-
+            android:background="@drawable/search_blank"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:value="@string/API_KEY"
+            />
         <Button
             android:id="@+id/search_button"
             android:layout_width="80dp"
