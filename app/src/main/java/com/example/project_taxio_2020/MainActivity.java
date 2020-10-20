@@ -8,6 +8,7 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,18 +17,22 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int THREAD_HANDLER_SUCCESS_INFO = 1;
-    TextView weather_test;
+    RecyclerView weather_test;
+    generalWeatherAdapter generalWeatherAdapter;
+    ArrayList<generalWeatherItem> list;
 
     ForeCastManager mForeCast;
 
-    String lon = "128.3910799"; // 좌표 설정
-    String lat = "36.1444292";  // 좌표 설정
+    String lon = "126.897240"; // 좌표 설정
+    String lat = "37.568256";  // 좌표 설정
     MainActivity mThis;
     ArrayList<ContentValues> mWeatherData;
     ArrayList<WeatherInfo> mWeatherInfomation;
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void Initialize() {
         weather_test = findViewById(R.id.weather_test);
+        list = new ArrayList<generalWeatherItem>();
         mWeatherInfomation = new ArrayList<>();
         mThis = this;
         mForeCast = new ForeCastManager(lon, lat, mThis);
@@ -85,18 +91,11 @@ public class MainActivity extends AppCompatActivity {
     public String PrintValue() {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
-            mData = mData + mWeatherInfomation.get(i).getWeather_Day() + "\r\n"
-                    +  mWeatherInfomation.get(i).getWeather_Name() + "\r\n"
-                    +  mWeatherInfomation.get(i).getClouds_Sort()
-                    +  " /Cloud amount: " + mWeatherInfomation.get(i).getClouds_Value()
-                    +  mWeatherInfomation.get(i).getClouds_Per() +"\r\n"
-                    +  mWeatherInfomation.get(i).getWind_Name()
-                    +  " /WindSpeed: " + mWeatherInfomation.get(i).getWind_Speed() + " mps" + "\r\n"
+            mData = mData + "\r\n" + mWeatherInfomation.get(i).getClouds_Sort() +"\r\n"
+                    +  "WindSpeed: " + mWeatherInfomation.get(i).getWind_Speed() + " mps" + "\r\n"
                     +  "Max: " + mWeatherInfomation.get(i).getTemp_Max() + "℃"
                     +  " /Min: " + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\r\n"
                     +  "Humidity: " + mWeatherInfomation.get(i).getHumidity() + "%";
-
-            mData = mData + "\r\n" + "----------------------------------------------" + "\r\n";
         }
 
         return mData;
@@ -135,16 +134,19 @@ public class MainActivity extends AppCompatActivity {
                     mForeCast.getmWeather();
                     mWeatherData = mForeCast.getmWeather();
                     if(mWeatherData.size() ==0)
-                        weather_test.setText("데이터가 없습니다");
+                        list.add(new generalWeatherItem(null, 0, "데이터가 없습니다."));
 
                     DataToInformation(); // 자료 클래스로 저장,
 
                     String data = "";
-                    data = PrintValue();
                     DataChangedToHangeul();
                     data = data + PrintValue();
 
-                    weather_test.setText(data);
+                    list.add(new generalWeatherItem("5월 23일", R.drawable.sunn, data));
+                    list.add(new generalWeatherItem("5월 24일", R.drawable.sunn, data));
+
+                    generalWeatherAdapter = new generalWeatherAdapter(MainActivity.this, list);
+                    //weather_test.setAdapter(generalWeatherAdapter);
                     break;
                 default:
                     break;

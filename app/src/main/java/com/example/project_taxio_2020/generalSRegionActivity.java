@@ -15,6 +15,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 // 장소 선택 by 주혜
 public class generalSRegionActivity extends AppCompatActivity {
 
@@ -29,6 +34,10 @@ public class generalSRegionActivity extends AppCompatActivity {
         setContentView(R.layout.general_select_region_activity);
         setToolbar();
 
+        //DataBase
+        final DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+
         map = findViewById(R.id.imageKorea);
         btnJeju = findViewById(R.id.btnJeju);
 
@@ -41,6 +50,16 @@ public class generalSRegionActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        //DataBase 시작
+                        String region = "제주";
+                        HashMap result = new HashMap<>();
+                        result.put("region", region);
+                        // id 값을 가져올 것
+
+                        mDatabase.child("Schedule").setValue(result);
+                        //DataBase 종료
+
                         Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
                         startActivity(intent);
                     }

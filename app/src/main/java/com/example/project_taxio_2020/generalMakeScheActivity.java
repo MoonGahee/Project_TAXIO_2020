@@ -69,8 +69,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
     MapFragment mapFrag;
     GoogleMap gMap;
+    GroundOverlayOptions videoMark;
     String TAG="what?";
-
     int size;
     int[] count;
     @Override
@@ -108,7 +108,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
 
+        AutoCompleteTextView search = findViewById(R.id.search1);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
+        search.setAdapter(adapter);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
@@ -256,8 +258,23 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng location = new LatLng(33.356563, 126.710084);
+        LatLng location = new LatLng(37.568256, 126.897240);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
+
+        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(latLng, 100f, 100f);
+                gMap.addGroundOverlay(videoMark);
+            }
+        });
+
+        gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                scroll1.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 }

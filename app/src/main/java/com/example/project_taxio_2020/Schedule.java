@@ -1,5 +1,5 @@
 package com.example.project_taxio_2020;
-
+// 여행 일정 DB
 public class Schedule {
     public String general_id; //회원 id
     public String times; // 며칠 여행

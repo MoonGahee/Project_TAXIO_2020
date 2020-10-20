@@ -22,7 +22,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_logo_background"
+        android:icon="@mipmap/ic_launcher_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -58,7 +58,6 @@
         <activity android:name=".generalClause"/>
         <activity android:name=".generalMemberSort"/>
         <activity android:name=".generalAgeCheck"/>
-        <activity android:name=".generalMakeId"/>
         <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
         <activity android:name=".generalMakeIdChild"/>

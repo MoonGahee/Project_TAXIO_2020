@@ -41,16 +41,14 @@ public class generalEpilogueAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.general_epilogue_item, null);
 
-            image_imageView = (ImageView)convertView.findViewById(R.id.image);
-            driver_textView = (TextView)convertView.findViewById(R.id.driver);
-            rating_ratingBar = (RatingBar)convertView.findViewById(R.id.rating);
-            distinction_textView = (TextView)convertView.findViewById(R.id.distinction);
-            reviews_textView = (TextView)convertView.findViewById(R.id.reivews);
+        convertView = LayoutInflater.from(context).inflate(R.layout.general_epilogue_item, null);
+        image_imageView = (ImageView)convertView.findViewById(R.id.image);
+        driver_textView = (TextView)convertView.findViewById(R.id.driver);
+        rating_ratingBar = (RatingBar)convertView.findViewById(R.id.rating);
+        distinction_textView = (TextView)convertView.findViewById(R.id.distinction);
+        reviews_textView = (TextView)convertView.findViewById(R.id.reivews);
 
-        }
 
         image_imageView.setImageResource(list_itemArrayList.get(position).getImage());
         driver_textView.setText(list_itemArrayList.get(position).getDriver());
