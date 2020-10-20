@@ -80,8 +80,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setToolbar();
 
 
-        AutocompleteSupportFragment search = (AutocompleteSupportFragment)
+        final AutocompleteSupportFragment search = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.search1);
+        Places.initialize(getApplicationContext(), "@string/API_KEY");
+
+        // Create a new PlacesClient instance
+        PlacesClient placesClient = Places.createClient(this);
 
         search.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
@@ -89,6 +93,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onPlaceSelected(@NotNull Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                search.setText(String.format("Selected places : %s  - %s" , place.getName(), place.getAddress()));
+
             }
 
 
@@ -250,7 +256,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng location = new LatLng(37.568256, 126.897240);
+        LatLng location = new LatLng(33.356563, 126.710084);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
     }

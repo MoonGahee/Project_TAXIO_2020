@@ -57,8 +57,8 @@
             android:completionThreshold="1"
             android:background="@drawable/search_blank"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:value="@string/API_KEY"
             />
+
         <Button
             android:id="@+id/search_button"
             android:layout_width="80dp"

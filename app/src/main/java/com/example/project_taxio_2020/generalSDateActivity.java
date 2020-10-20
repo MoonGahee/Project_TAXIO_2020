@@ -142,9 +142,9 @@ public class generalSDateActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                    i.putExtra("days", tripDays);
-                                    i.putExtra("startMonth", tripMonth);
-                                    i.putExtra("startDay", tripDay);
+                                    i.putExtra("days", String.valueOf(tripDays));
+                                    i.putExtra("startMonth", String.valueOf(tripMonth));
+                                    i.putExtra("startDay", String.valueOf(tripDay));
                                     startActivity(i);
                                     finish();
                                 }
@@ -166,10 +166,11 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), tripDays+","+tripMonth+","+tripDay, Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                                i.putExtra("days", tripDays);
-                                i.putExtra("startMonth", tripMonth);
-                                i.putExtra("startDay", tripDay);
+                                i.putExtra("tripDays", tripDays);
+                                i.putExtra("tripMonth", String.valueOf(tripMonth));
+                                i.putExtra("tripDay", String.valueOf(tripDay));
                                 startActivity(i);
                                 finish();
                             }
@@ -177,6 +178,7 @@ public class generalSDateActivity extends AppCompatActivity {
                         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 date="";
                                 cal.clearSelections();
                             }

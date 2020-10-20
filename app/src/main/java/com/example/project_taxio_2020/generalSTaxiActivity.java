@@ -30,11 +30,11 @@ import java.util.ArrayList;
 
 public class generalSTaxiActivity extends AppCompatActivity {
 
-    String tripMonth, tripDay, tripDate;
+    String tripMonth, tripDay, tripDate, rentTime , startTime;
+    Integer tripDays;
     Button ok;
     ListView ListView_taxi;
-    String rentTime = "0", startTime="-";
-    int tripDays;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +46,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
         ListView_taxi.setAdapter(adapter);
         setList(adapter);
         Intent i = getIntent();
-        tripDays = i.getIntExtra("Days", 0);
-        /*tripMonth = i.getStringExtra("startMonth");
-        tripDay = i.getStringExtra("startDay");*/
+        tripDays = i.getIntExtra("tripDays", 0);
+        tripMonth = i.getStringExtra("tripMonth");
+        tripDay = i.getStringExtra("tripDay");
 
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +56,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
                 i.putExtra("tripDays", tripDays);
-                /*i.putExtra("tripMonth", tripMonth);
-                i.putExtra("tripDay", tripDay);*/
+                i.putExtra("tripMonth", tripMonth);
+                i.putExtra("tripDay", tripDay);
                 startActivity(i);
                 finish();
             }
@@ -66,8 +66,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
     public void setList(generalTaxiAdapter adapter){
         for(int i = 0; i< 3; i++){
-            //tripDate = tripMonth+"월 "+(tripDay+i)+"일";
-            Toast.makeText(getApplicationContext(), String.valueOf(tripDays), Toast.LENGTH_SHORT).show();
+           // tripDate = tripMonth+"월 "+(Integer.parseInt(tripDay)+i)+"일";
+            Toast.makeText(getApplicationContext(), tripDays, Toast.LENGTH_SHORT).show();
             adapter.addItem();
         }
     }
