@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
                     DataChangedToHangeul();
                     data = data + PrintValue();
 
-                    list.add(new generalWeatherItem("5월 23일", R.drawable.sunn, data));
-                    list.add(new generalWeatherItem("5월 24일", R.drawable.sunn, data));
+                    //list.add(new generalWeatherItem("5월 23일", R.drawable.sunn, data));
+                    //list.add(new generalWeatherItem("5월 24일", R.drawable.sunn, data));
 
                     generalWeatherAdapter = new generalWeatherAdapter(MainActivity.this, list);
                     //weather_test.setAdapter(generalWeatherAdapter);

@@ -35,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
@@ -108,9 +109,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
 
-        AutoCompleteTextView search = findViewById(R.id.search1);
+        //AutoCompleteTextView search = findViewById(R.id.search1);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
-        search.setAdapter(adapter);
+        //search.setAdapter(adapter);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
