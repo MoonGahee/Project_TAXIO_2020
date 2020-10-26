@@ -71,7 +71,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="30dp"
-                android:src="@drawable/sunny"
+                android:src="@drawable/sun"
                 app:layout_constraintBottom_toBottomOf="@+id/weather"
                 app:layout_constraintLeft_toLeftOf="@id/weather" />
 

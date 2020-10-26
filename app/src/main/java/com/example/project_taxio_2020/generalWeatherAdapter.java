@@ -8,47 +8,50 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
-public class generalWeatherAdapter extends BaseAdapter {
+public class generalWeatherAdapter extends RecyclerView.Adapter<generalWeatherAdapter.ViewHolder> {
     Context context;
-    ArrayList<generalWeatherItem> list;
+    private ArrayList<generalWeatherItem> list;
 
-    ImageView weather_icon;
-    TextView weather_name, weather_day;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView weather_icon;
+        public TextView weather_name, weather_day;
+
+        public ViewHolder(View view) {
+            super(view);
+
+            weather_day = view.findViewById(R.id.weather_day);
+            weather_icon = view.findViewById(R.id.weather_icon);
+            weather_name = view.findViewById(R.id.weather_name);
+        }
+    }
 
     public generalWeatherAdapter(Context context, ArrayList<generalWeatherItem> list) {
         this.context = context;
         this.list = list;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return this.list.size();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.weather, parent, false);
+
+        return new ViewHolder(view);
     }
 
     @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.weather_name.setText(list.get(position).getWeather_name());
+        holder.weather_day.setText(list.get(position).getWeather_day());
+        holder.weather_icon.setImageResource(list.get(position).getWeather_image());
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        convertView = LayoutInflater.from(context).inflate(R.layout.weather, null);
-        weather_day = (TextView)convertView.findViewById(R.id.weather_day);
-        weather_icon = (ImageView)convertView.findViewById(R.id.weather_icon);
-        weather_name = (TextView)convertView.findViewById(R.id.weather_name);
-
-        weather_day.setText(list.get(position).getWeather_day());
-        weather_icon.setImageResource(list.get(position).getWeather_image());
-        weather_name.setText(list.get(position).getWeather_name());
-
-        return convertView;
+    public int getItemCount() {
+        return list.size();
     }
 }

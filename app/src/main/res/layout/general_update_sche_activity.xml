@@ -13,40 +13,61 @@
         android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:map="http://schemas.android.com/apk/res-auto">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/app_bar"
             android:id="@+id/bar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
 
-        <TextView
-            android:id="@+id/intro2"
+        <ImageView
+            android:id="@+id/bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/cal"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
+
+        <!-- 안내 -->
+
+        <!-- 날짜 -->
+
+        <TextView
+            android:id="@+id/intro2"
+            style="@style/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="24dp"
             android:text="일정 정하기"
-            style="@style/title1"/> <!-- 안내 -->
+            app:layout_constraintLeft_toRightOf="@id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
         <TextView
             android:id="@+id/date2"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/intro2"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
             android:text="2020.08.28~08.31"
-            style="@style/title2"/> <!-- 날짜 -->
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/intro2" />
+
+        <!-- 인원 수 -->
 
         <TextView
             android:id="@+id/people2"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/intro2"
-            app:layout_constraintLeft_toRightOf="@+id/date2"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="16dp"
             android:text="3명"
-            style="@style/title2"/> <!-- 인원 수 -->
+            app:layout_constraintLeft_toRightOf="@+id/date2"
+            app:layout_constraintTop_toBottomOf="@+id/intro2" />
 
         <AutoCompleteTextView
             android:id="@+id/search2"
@@ -73,9 +94,9 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             class="com.google.android.gms.maps.MapFragment"
-            map:cameraTargetLat="33.49"
-            map:cameraTargetLng="126.5"
-            map:cameraZoom="15"
+            app:cameraTargetLat="33.49"
+            app:cameraTargetLng="126.5"
+            app:cameraZoom="15"
             android:layout_margin="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_button2"

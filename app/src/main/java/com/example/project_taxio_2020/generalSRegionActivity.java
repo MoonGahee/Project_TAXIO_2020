@@ -36,7 +36,7 @@ public class generalSRegionActivity extends AppCompatActivity {
 
         //DataBase
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //path자체를 그 회원의id로 넣어도 될 것
 
         map = findViewById(R.id.imageKorea);
         btnJeju = findViewById(R.id.btnJeju);
@@ -55,9 +55,7 @@ public class generalSRegionActivity extends AppCompatActivity {
                         String region = "제주";
                         HashMap result = new HashMap<>();
                         result.put("region", region);
-                        // id 값을 가져올 것
-
-                        mDatabase.child("Schedule").setValue(result);
+                        mDatabase.child("moon2").child("Schedule").setValue(result); // moon2 대신 현재 나의 id
                         //DataBase 종료
 
                         Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
@@ -67,7 +65,6 @@ public class generalSRegionActivity extends AppCompatActivity {
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
                 builder.show();

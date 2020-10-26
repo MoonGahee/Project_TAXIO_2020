@@ -21,9 +21,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+//import com.google.firebase.auth.AuthResult;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,7 +37,7 @@ public class generalMakeId extends AppCompatActivity {
     Button checkId, btnEmail, btnImg, btnComplete;
     String id, password;
     ImageView photo;
-    FirebaseAuth mAuth;
+    //FirebaseAuth mAuth;
     String TAG ="EXCEPTION";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
@@ -123,10 +123,10 @@ public class generalMakeId extends AppCompatActivity {
             }
         });
     }
-    public void join(){
+    /*public void join(){
         id=edtId.getText().toString();
         password=edtPassword.getText().toString();
-        mAuth.createUserWithEmailAndPassword(id, password)
+        /*mAuth.createUserWithEmailAndPassword(id, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -153,7 +153,7 @@ public class generalMakeId extends AppCompatActivity {
             check = true;
         }
         return check;
-    }
+    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
         switch (item.getItemId()){
