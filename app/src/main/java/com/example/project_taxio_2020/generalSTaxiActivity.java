@@ -159,6 +159,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             rentTime= String.valueOf(parent.getItemAtPosition(position));
+
                             if(!rentTime.equals("0")){
                                 startTime_tv.setVisibility(View.VISIBLE);
                                 start_pick.setVisibility(View.VISIBLE);
@@ -175,23 +176,38 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         }
                     });
 
-                    startTime= start_pick.getHour()+"시"+start_pick.getMinute()+"분";
+                    start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                        @Override
+                        public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                            startTime= hourOfDay+"시"+minute+"분";
+                        }
+                    });
+
 
                     dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            choice.setVisibility(View.GONE);
-                            rent_time.setVisibility(View.VISIBLE);
-                            start_time.setVisibility(View.VISIBLE);
-                            start_time.setText(startTime);
+                            if (yes.isChecked()) {
+                                choice.setVisibility(View.GONE);
+                                rent_time.setVisibility(View.VISIBLE);
+                                rent_time.setText(rentTime);
+                                if (rentTime.equals("0")) {
+                                    startTime = "-";
+
+                                }
+                                start_time.setVisibility(View.VISIBLE);
+                                start_time.setText(startTime);
+                                Log.d("TIME", startTime);
                             }
+                        }
+
 
                     });
+                    dlg.setNegativeButton("취소", null);
                     dlg.show();
                 }
             });
             taxi_day.setText(listViewItem.getTripDate());
-            rent_time.setText(listViewItem.getRentTime());
 
             return convertView;
         }
