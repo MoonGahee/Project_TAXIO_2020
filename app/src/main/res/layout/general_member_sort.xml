@@ -12,27 +12,38 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
 
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/notice"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar"
+        style="@style/title1"
         android:text="회원가입"
-        android:textSize="40sp"
-        android:textColor="#000000"/>
+        android:textSize="40sp" />
 
     <ProgressBar
         android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        android:progress="20"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:layout_marginTop="30dp"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:max="100"
-        android:progress="20"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/intro"
@@ -43,6 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/progress"
         android:layout_marginTop="50dp"
         android:text="탑승객이신가요?\n기사님이신가요?"
+        style="@style/title2"
         android:textSize="30sp"
         android:textColor="#000000"/>
 
@@ -55,6 +67,9 @@
         app:layout_constraintTop_toBottomOf="@id/intro"
         android:layout_marginTop="40dp"
         android:text="탑승객입니다."
+        android:textColor="#ffffff"
+        android:background="@color/button"
+        style="@style/button"
         android:textSize="30sp"/>
 
     <Button
@@ -66,6 +81,9 @@
         app:layout_constraintTop_toBottomOf="@+id/choose_general"
         android:layout_marginTop="30dp"
         android:text="기사입니다."
+        android:textColor="#ffffff"
+        android:background="@color/button"
+        style="@style/button"
         android:textSize="30sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

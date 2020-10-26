@@ -12,23 +12,35 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
 
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/bag"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
+
     <TextView
         android:id="@+id/intro3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/bar"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bell"
         android:text="후기 작성"
         style="@style/title1"/>
 
     <TextView
         android:id="@+id/guide3"
+        style="@style/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/intro3"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="기사님과 함께한 여행 후기를 들려주세요"
-        style="@style/title2"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro3" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/trip_guide"
@@ -106,62 +118,75 @@
 
     <TextView
         android:id="@+id/satisfaction_intro"
+        style="@style/basic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/trip_guide"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="20dp"
         android:text="기사님과의 여행은 만족하셨나요?"
-        style="@style/basic"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trip_guide" />
 
     <RatingBar
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/satisfaction_intro"
+        android:layout_marginTop="8dp"
+        android:rating="5"
+        app:layout_constraintHorizontal_bias="0.187"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:rating="5"/>
+        app:layout_constraintTop_toBottomOf="@+id/satisfaction_intro" />
 
     <TextView
         android:id="@+id/trip_review"
+        style="@style/basic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/rating"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
         android:text="여행 후기를 들려주세요"
-        style="@style/basic"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rating" />
 
     <EditText
         android:id="@+id/review_text"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/trip_review"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/search_blank"
         android:hint=" 내용을 입력해주세요"
         android:textColorHint="#33000000"
-        android:background="@drawable/search_blank"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trip_review" />
 
     <Button
         android:id="@+id/cancel_btn"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/review_text"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="취소"
-        style="@style/basic"
         android:layout_margin="20dp"
-        android:background="@drawable/button_short"/>
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/button_short"
+        android:textColor="#ffffff"
+        android:text="취소"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_text" />
 
     <Button
         android:id="@+id/registration_btn"
+        style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/review_text"
-        app:layout_constraintLeft_toRightOf="@+id/cancel_btn"
-        android:text="후기 등록"
-        style="@style/basic"
         android:layout_margin="20dp"
-        android:background="@drawable/button_short"/>
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="28dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_short"
+        android:text="후기 등록"
+        app:layout_constraintLeft_toRightOf="@+id/cancel_btn"
+        app:layout_constraintTop_toBottomOf="@+id/review_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

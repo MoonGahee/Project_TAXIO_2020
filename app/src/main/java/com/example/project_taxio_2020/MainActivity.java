@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void Initialize() {
         weather_test = findViewById(R.id.weather_test);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        weather_test.setLayoutManager(layoutManager);
         list = new ArrayList<generalWeatherItem>();
         mWeatherInfomation = new ArrayList<>();
         mThis = this;
@@ -142,11 +145,11 @@ public class MainActivity extends AppCompatActivity {
                     DataChangedToHangeul();
                     data = data + PrintValue();
 
-                    //list.add(new generalWeatherItem("5월 23일", R.drawable.sunn, data));
-                    //list.add(new generalWeatherItem("5월 24일", R.drawable.sunn, data));
+                    list.add(new generalWeatherItem("5월 23일", R.drawable.sun, data));
+                    list.add(new generalWeatherItem("5월 24일", R.drawable.sun, data));
 
                     generalWeatherAdapter = new generalWeatherAdapter(MainActivity.this, list);
-                    //weather_test.setAdapter(generalWeatherAdapter);
+                    weather_test.setAdapter(generalWeatherAdapter);
                     break;
                 default:
                     break;
