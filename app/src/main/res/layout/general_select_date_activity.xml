@@ -12,22 +12,35 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
 
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/cal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
+
     <TextView
         android:id="@+id/Name"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="일정 선택"
         style="@style/title1"/>
+
     <TextView
         android:id="@+id/warn"
+        style="@style/attention"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/Name"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="한 번 만들어진 일정은 기간 변경이 불가능합니다."
-        style="@style/attention"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name" />
 
     <LinearLayout
         android:id="@+id/weather"

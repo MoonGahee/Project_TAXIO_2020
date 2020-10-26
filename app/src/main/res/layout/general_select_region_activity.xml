@@ -28,9 +28,21 @@
             android:id="@+id/bar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+
+            <ImageView
+                android:id="@+id/bell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/coordinates"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bar" />
+
         <TextView
             android:id="@+id/selectTrip1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,19 +50,19 @@
             style="@style/title1"
             />
 
-        <TextView
-            android:id="@+id/selectTrip2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/selectTrip1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            style="@style/title2"
-            android:text="떠나고 싶은 여행지를 선택해 주세요."
-            />
+            <!--class="com.google.android.gms.maps.MapFragment"-->
 
-        <!--class="com.google.android.gms.maps.MapFragment"-->
+            <TextView
+                android:id="@+id/selectTrip2"
+                style="@style/title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="떠나고 싶은 여행지를 선택해 주세요."
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectTrip1" />
 
-        <ImageView
+            <ImageView
             android:id="@+id/imageKorea"
             android:layout_width="match_parent"
             android:layout_height="600dp"

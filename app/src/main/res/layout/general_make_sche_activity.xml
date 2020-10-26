@@ -20,23 +20,35 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
 
+        <ImageView
+            android:id="@+id/bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/cal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
+
         <TextView
             android:id="@+id/intro1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/bar"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/bell"
             android:text="일정 정하기"
             style="@style/title1"/>
 
         <TextView
             android:id="@+id/date1"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/intro1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:text="2020.08.28~08.31"
-            style="@style/title2"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/intro1" />
 
         <TextView
             android:id="@+id/people1"
@@ -49,15 +61,14 @@
 
         <fragment
             android:id="@+id/search1"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/date1"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:background="@drawable/search_blank"
             android:completionHint="장소를 입력해주세요."
             android:completionThreshold="1"
-            android:background="@drawable/search_blank"
-            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date1" />
 
         <Button
             android:id="@+id/search_button"
