@@ -18,13 +18,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.project_taxio_2020.databinding.ActivityLoginBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 
 public class generalModifyId extends AppCompatActivity {
@@ -32,6 +32,8 @@ public class generalModifyId extends AppCompatActivity {
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button checkId, btnEmail, btnImg, btnComplete;
     ImageView photo;
+    private ActivityLoginBinding binding;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class generalModifyId extends AppCompatActivity {
         setToolbar();
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
+
+        binding = ActivityLoginBinding.inflate(getLayoutInflater()); //
+        setContentView(binding.getRoot()); //
 
         edtNameM = findViewById(R.id.edtNameMod);
         edtId = findViewById(R.id.edtIdMod);
@@ -87,6 +92,7 @@ public class generalModifyId extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 General general = snapshot.getValue(General.class);
+                binding.edtId.setText(general.general_id); //?
                 //읽어오는 거 해야징
             }
 
