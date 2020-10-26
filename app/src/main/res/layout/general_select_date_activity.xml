@@ -59,9 +59,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/sunny"/>
+            android:src="@drawable/sun"/>
 
-    </LinearLayout>//날씨
+    </LinearLayout>
     <TextView
         android:id="@+id/select"
         android:layout_width="wrap_content"
