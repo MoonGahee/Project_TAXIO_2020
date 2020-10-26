@@ -16,6 +16,6 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/Cafe24Oneprettynight"
+        android:font="@font/cafe24oneprettynight"
         />
 </font-family>

@@ -42,19 +42,19 @@ public class generalModifyId extends AppCompatActivity {
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
 
-        edtNameM = findViewById(R.id.edtNameMod);
-        edtId = findViewById(R.id.edtIdMod);
-        edtPassword = findViewById(R.id.edtPasswordMod);
-        edtCheckPass = findViewById(R.id.edtCheckPassMod);
-        edtNum1 = findViewById(R.id.edtNum1Mod);
-        edtNum2 = findViewById(R.id.edtNum2Mod);
-        edtEmail = findViewById(R.id.edtEmailMod);
+        edtNameM = findViewById(R.id.edtNameM);
+        edtId = findViewById(R.id.edtId);
+        edtPassword = findViewById(R.id.edtPassword);
+        edtCheckPass = findViewById(R.id.edtCheckPass);
+        edtNum1 = findViewById(R.id.edtNum1);
+        edtNum2 = findViewById(R.id.edtNum2);
+        edtEmail = findViewById(R.id.edtEmail);
 
-        spGenderM = findViewById(R.id.spGenderMod);
-        birthY = findViewById(R.id.birthYMod);
-        birthM = findViewById(R.id.birthMMod);
-        birthD = findViewById(R.id.birthDMod);
-        spinnerNum = findViewById(R.id.spinnerNumMod);
+        spGenderM = findViewById(R.id.spGenderM);
+        birthY = findViewById(R.id.birthY);
+        birthM = findViewById(R.id.birthM);
+        birthD = findViewById(R.id.birthD);
+        spinnerNum = findViewById(R.id.spinnerNum);
 
         ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,12 +76,11 @@ public class generalModifyId extends AppCompatActivity {
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
 
-        checkId = findViewById(R.id.checkIdMod);
-        btnEmail = findViewById(R.id.btnEmailMod);
-        btnImg = findViewById(R.id.btnImgMod);
-        btnComplete = findViewById(R.id.btnCompleteMod);
-
-        photo = findViewById(R.id.photoMod);
+        checkId = findViewById(R.id.btnid);
+        btnEmail = findViewById(R.id.btnEmail);
+        btnImg = findViewById(R.id.btnImg);
+        btnComplete = findViewById(R.id.btnComplete);
+        photo = findViewById(R.id.photo);
 
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
