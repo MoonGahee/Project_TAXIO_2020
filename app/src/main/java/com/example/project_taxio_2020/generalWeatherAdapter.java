@@ -18,7 +18,7 @@ public class generalWeatherAdapter extends RecyclerView.Adapter<generalWeatherAd
     private ArrayList<generalWeatherItem> list;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView weather_icon;
+        public ImageView weather_icon, weather_wear;
         public TextView weather_name, weather_day;
 
         public ViewHolder(View view) {
@@ -27,6 +27,7 @@ public class generalWeatherAdapter extends RecyclerView.Adapter<generalWeatherAd
             weather_day = view.findViewById(R.id.weather_day);
             weather_icon = view.findViewById(R.id.weather_icon);
             weather_name = view.findViewById(R.id.weather_name);
+            weather_wear = view.findViewById(R.id.weather_wear);
         }
     }
 
@@ -48,6 +49,7 @@ public class generalWeatherAdapter extends RecyclerView.Adapter<generalWeatherAd
         holder.weather_name.setText(list.get(position).getWeather_name());
         holder.weather_day.setText(list.get(position).getWeather_day());
         holder.weather_icon.setImageResource(list.get(position).getWeather_image());
+        holder.weather_wear.setImageResource(list.get(position).getWeather_wear());
     }
 
     @Override

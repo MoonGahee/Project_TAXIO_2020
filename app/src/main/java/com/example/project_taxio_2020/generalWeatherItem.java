@@ -4,11 +4,13 @@ public class generalWeatherItem {
     private String weather_day;
     private int weather_image;
     private String weather_name;
+    private int weather_wear;
 
-    public generalWeatherItem(String weather_day, int weather_image, String weather_name) {
+    public generalWeatherItem(String weather_day, int weather_image, String weather_name, int weather_wear) {
         this.weather_day = weather_day;
         this.weather_image = weather_image;
         this.weather_name = weather_name;
+        this.weather_wear = weather_wear;
     }
 
     public String getWeather_day() {
@@ -33,5 +35,13 @@ public class generalWeatherItem {
 
     public void setWeather_name(String weather_name) {
         this.weather_name = weather_name;
+    }
+
+    public int getWeather_wear() {
+        return weather_wear;
+    }
+
+    public void setWeather_wear(int weather_wear) {
+        this.weather_wear = weather_wear;
     }
 }

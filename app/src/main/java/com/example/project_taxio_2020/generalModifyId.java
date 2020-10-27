@@ -18,7 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.project_taxio_2020.databinding.ActivityLoginBinding;
+//import com.example.project_taxio_2020.databinding.ActivityLoginBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +32,7 @@ public class generalModifyId extends AppCompatActivity {
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button checkId, btnEmail, btnImg, btnComplete;
     ImageView photo;
-    private ActivityLoginBinding binding;
+    //private ActivityLoginBinding binding;
 
 
     @Override

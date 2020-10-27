@@ -17,12 +17,14 @@ public class WeatherInfo {
     String clouds_Value;
     String clouds_Sort;
     String clouds_Per;
+    String feel_like_value;
 
     public WeatherInfo(String weather_Name, String weather_Number, String weather_Much,
                        String weather_Type, String wind_Direction, String wind_SortNumber,
                        String wind_SortCode, String wind_Speed, String wind_Name,
                        String temp_Min, String temp_Max, String humidity,
-                       String clouds_Value, String clouds_Sort, String clouds_Per,String weather_Day)
+                       String clouds_Value, String clouds_Sort, String clouds_Per,String weather_Day,
+                       String feel_like_value)
     {
         this.weather_Name = weather_Name;
         this.weather_Number = weather_Number;
@@ -43,6 +45,7 @@ public class WeatherInfo {
         this.clouds_Sort = clouds_Sort;
         this.clouds_Per = clouds_Per;
         this.weather_Day = weather_Day;
+        this.feel_like_value = feel_like_value;
     }
 
     public String getWeather_Name() {
@@ -88,4 +91,8 @@ public class WeatherInfo {
     public void setWind_Name(String wind_Name) { this.wind_Name = wind_Name; }
 
     public void setClouds_Sort(String clouds_Sort) {this.clouds_Sort = clouds_Sort;}
+
+    public String getFeel_like_value() { return feel_like_value; }
+
+    public void setFeel_like_value(String feel_like_value) { this.feel_like_value = feel_like_value; }
 }
