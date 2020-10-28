@@ -61,14 +61,6 @@ public class generalSDateActivity extends AppCompatActivity {
             }
         });
 
-        //cal.setDisabledDaysCriteria(new DisabledDaysCriteria(1, today, DisabledDaysCriteriaType.DAYS_OF_MONTH));
-        //오늘 날짜까지 선택 불가
-
-
-        //선택한 날짜
-
-
-
            ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,12 +134,6 @@ public class generalSDateActivity extends AppCompatActivity {
                             dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    Log.d("HOON_TEST", "========= tripDay : " + tripDay);
-
-                                    //tripDays = 1111;
-                                    //tripMonth = 2222;
-                                    //tripDay = 3333;
                                     
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
                                     i.putExtra("days", String.valueOf(tripDays));

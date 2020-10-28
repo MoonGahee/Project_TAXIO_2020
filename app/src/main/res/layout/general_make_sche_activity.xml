@@ -60,7 +60,7 @@
             style="@style/title2"/>
 
         <fragment
-            android:id="@+id/search1"
+            android:id="@+id/autoSearch"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -75,7 +75,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/date1"
-            app:layout_constraintLeft_toRightOf="@id/search1"
+            app:layout_constraintLeft_toRightOf="@+id/autoSearch"
             android:text="검색"
             style="@style/button"
             android:background="@drawable/button_short"/>
@@ -86,7 +86,7 @@
             android:layout_height="300dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search1"
+            app:layout_constraintTop_toBottomOf="@+id/autoSearch"
             class="com.google.android.gms.maps.MapFragment"
             android:layout_margin="10dp" />
 

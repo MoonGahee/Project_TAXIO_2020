@@ -81,35 +81,27 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setToolbar();
 
 
-        final AutocompleteSupportFragment search = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.search1);
-        Places.initialize(getApplicationContext(), "@string/API_KEY");
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autoSearch);
+        Places.initialize(getApplicationContext(), "AIzaSyBqG5eLPu4MXzGZN4BueA0AEDwriSqCtGU");
 
-        // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(this);
 
-        search.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
 
-        search.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(@NotNull Place place) {
+            public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                search.setText(String.format("Selected places : %s  - %s" , place.getName(), place.getAddress()));
-
             }
 
-
             @Override
-            public void onError(@NotNull Status status) {
-                // TODO: Handle the error.
+            public void onError(Status status) {
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
 
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
 
-        //AutoCompleteTextView search = findViewById(R.id.search1);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
         //search.setAdapter(adapter);
 
