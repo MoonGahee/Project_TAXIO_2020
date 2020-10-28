@@ -215,8 +215,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
         public void addItem() {
             generalTaxiItem item = new generalTaxiItem();
 
-            item.setRentTime(rentTime);
-            item.setStartTime(startTime);
             item.setTripDate(tripDate);
 
             listViewItemList.add(item);
