@@ -91,7 +91,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());//여기서 장소고르면 어케 이벤트 처리할지 코딩하면 될듯
             }
 
             @Override
