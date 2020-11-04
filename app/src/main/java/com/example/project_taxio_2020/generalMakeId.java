@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,8 @@ import java.util.regex.Pattern;
 public class generalMakeId extends AppCompatActivity {
     EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
-    Button checkId, btnEmail, btnImg, btnComplete;
+    Button  btnComplete;
+    TextView checkId, btnEmail, btnImg;
     String id, password;
     ImageView photo;
     //FirebaseAuth mAuth;
