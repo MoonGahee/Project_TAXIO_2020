@@ -15,18 +15,26 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 // Mypage 후기 작성 by 관우
 
 public class generalWriteEpilogueActivity extends AppCompatActivity {
     Button cancel_btn, registration_btn;
     Toolbar toolbar;
     TextView title_text;
+    int i;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_write_epilogue_activity);
         setToolbar();
+        final DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference("Epilogue"); //얘한테 줄거야
 
         cancel_btn = findViewById(R.id.cancel_btn);
         registration_btn = findViewById(R.id.registration_btn);
@@ -75,6 +83,16 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //데이터 입력하기
+                        String epilogue_id = "i"; // firebase가 받던가
+                        String memo = title_text.getText().toString();
+
+                        HashMap result = new HashMap<>();
+
+                        result.put("memo", memo);
+
+                        mDatabase.setValue(result);
+
                         Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                         startActivity(intent);
                     }
