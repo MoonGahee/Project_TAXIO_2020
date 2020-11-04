@@ -19,7 +19,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.project_taxio_2020.databinding.ActivityLoginBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +33,6 @@ public class generalModifyId extends AppCompatActivity {
     Button btnComplete;
     TextView checkId, btnEmail, btnImg;
     ImageView photo;
-    private ActivityLoginBinding binding;
 
 
     @Override
