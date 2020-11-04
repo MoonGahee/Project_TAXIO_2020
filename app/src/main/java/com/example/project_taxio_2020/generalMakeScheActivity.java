@@ -62,7 +62,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     Button edit_btn, taxi_btn, trip_fin;
     Toolbar toolbar;
     TextView title_text;
-    String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
+    String jeju;
+    int k = 1;
     ListView listView;
     ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
@@ -81,37 +82,40 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setToolbar();
 
 
-        final AutocompleteSupportFragment search = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.search1);
-        Places.initialize(getApplicationContext(), "@string/API_KEY");
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autoSearch);
+        Places.initialize(getApplicationContext(), "AIzaSyBqG5eLPu4MXzGZN4BueA0AEDwriSqCtGU");
 
-        // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(this);
 
-        search.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME));
 
-        search.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(@NotNull Place place) {
+            public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                search.setText(String.format("Selected places : %s  - %s" , place.getName(), place.getAddress()));
 
+                LatLng lat = place.getLatLng();
+
+                videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
+                gMap.addGroundOverlay(videoMark);
+
+                jeju = place.getName();
+
+                list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "1시간", 0, 0));
+
+                generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                listView.setAdapter(generalTimelineAdapter);
+
+                k++;
             }
 
-
             @Override
-            public void onError(@NotNull Status status) {
-                // TODO: Handle the error.
+            public void onError(Status status) {
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
 
-        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
-
-        //AutoCompleteTextView search = findViewById(R.id.search1);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
-        //search.setAdapter(adapter);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
@@ -138,18 +142,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         listView = findViewById(R.id.trip1);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
-
-        list_itemArrayList.add(new generalTimelineItem("제주공항", "1", "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("용두암", "2", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("성산일출봉", "3", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("동문시장", "4", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("하얏트", "5", "1시간", 0, 0));
-
-        generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
-        listView.setAdapter(generalTimelineAdapter);
-
-        size = generalTimelineAdapter.getCount();
-        count = new int[size];
 
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +179,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = 0;
+
+                size = generalTimelineAdapter.getCount();
+                count = new int[size];
 
                 list_itemArrayList.clear();
 

@@ -43,81 +43,16 @@
             app:layout_constraintTop_toBottomOf="@+id/bar"
             />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/weather"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="@color/back"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/weather_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/alarm">
+            app:layout_constraintTop_toBottomOf="@+id/alarm"
+            android:background="#ffffff"/>
 
-            <TextView
-                android:id="@+id/day1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="5월 21일"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/weather"
-                app:layout_constraintTop_toTopOf="@id/weather" />
-
-            <ImageView
-                android:id="@+id/weather1"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="30dp"
-                android:src="@drawable/sun"
-                app:layout_constraintBottom_toBottomOf="@+id/weather"
-                app:layout_constraintLeft_toLeftOf="@id/weather" />
-
-            <TextView
-                android:id="@+id/day2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="5월 22일"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/weather1"
-                app:layout_constraintTop_toTopOf="@id/weather" />
-
-            <ImageView
-                android:id="@+id/weather3"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/rain"
-                app:layout_constraintBottom_toBottomOf="@+id/weather"
-                app:layout_constraintLeft_toRightOf="@id/weather2" />
-
-            <TextView
-                android:id="@+id/day3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="5월 23일"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toRightOf="@id/weather2"
-                app:layout_constraintTop_toTopOf="@id/weather" />
-
-            <ImageView
-                android:id="@+id/weather2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/rain"
-                app:layout_constraintBottom_toBottomOf="@+id/weather"
-                app:layout_constraintLeft_toRightOf="@id/weather1" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/comingTrip"
@@ -127,7 +62,7 @@
             android:background="#FFFFFF"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/weather">
+            app:layout_constraintTop_toBottomOf="@+id/weather_test">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trip_data_Recycler"

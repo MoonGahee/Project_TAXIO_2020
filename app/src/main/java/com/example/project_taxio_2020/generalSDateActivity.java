@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -59,14 +60,6 @@ public class generalSDateActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        //cal.setDisabledDaysCriteria(new DisabledDaysCriteria(1, today, DisabledDaysCriteriaType.DAYS_OF_MONTH));
-        //오늘 날짜까지 선택 불가
-
-
-        //선택한 날짜
-
-
 
            ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,13 +127,14 @@ public class generalSDateActivity extends AppCompatActivity {
                             dlg.setNegativeButton("확인", null);
                             dlg.show();
                         }
-                        else{
+                        else{//얘가 안돼
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("일정 확인");
                             dlg.setMessage(date + ", "+ (tripDays-1)+"박"+tripDays+"일이 선택한 일정이 맞습니까?");
                             dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    
                                     Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
                                     i.putExtra("days", String.valueOf(tripDays));
                                     i.putExtra("startMonth", String.valueOf(tripMonth));
@@ -169,8 +163,8 @@ public class generalSDateActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), tripDays+","+tripMonth+","+tripDay, Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
                                 i.putExtra("tripDays", tripDays);
-                                i.putExtra("tripMonth", String.valueOf(tripMonth));
-                                i.putExtra("tripDay", String.valueOf(tripDay));
+                                i.putExtra("tripMonth", tripMonth);
+                                i.putExtra("tripDay", tripDay);
                                 startActivity(i);
                                 finish();
                             }

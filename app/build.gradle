@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //데이터 바인딩
+    viewBinding{
+        enabled = true
+    }
 
 }
 apply plugin: 'com.android.application'
@@ -42,7 +46,9 @@ dependencies {
     implementation 'com.github.applikeysolutions:cosmocalendar:1.0.4'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'//firebase
     implementation 'de.hdodenhof:circleimageview:3.0.0' //circleimageview
-    implementation 'com.google.firebase:firebase-database:19.4.0' //firebase
+    implementation 'com.google.firebase:firebase-database:19.5.0' //firebase
     implementation 'com.google.android.libraries.places:places:2.4.0'//places
+
+
 
 }

@@ -16,13 +16,13 @@ public class ForeCastManager extends Thread {
     String lon,lat;
 
     ArrayList<ContentValues> mWeather;
-    MainActivity mContext;
+    generalMainActivity mContext;
     public ArrayList<ContentValues> getmWeather()
     {
         return mWeather;
     }
 
-    public ForeCastManager(String lon, String lat, MainActivity mContext)
+    public ForeCastManager(String lon, String lat, generalMainActivity mContext)
     {
         this.lon = lon ; this.lat = lat;
         this.mContext = mContext;
@@ -70,9 +70,13 @@ public class ForeCastManager extends Thread {
                         }else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("humidity")) {
                             mContent.put("humidity", parser.getAttributeValue(null, "value"));
                             mContent.put("humidity_unit", parser.getAttributeValue(null, "unit"));
-                        } else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("clouds")) {
-                            mContent.put("Clouds_Sort", parser.getAttributeValue(null, "name"));
-                            mContent.put("Clouds_Value", parser.getAttributeValue(null, "value"));
+                        }else if (checkStartTag == XmlPullParser.START_TAG && parser.getName().equals("feels_like")){
+                            mContent.put("feel_like_value", parser.getAttributeValue(null, "value"));
+                            mContent.put("feel_like_unit", parser.getAttributeValue(null, "unit"));
+                        }else if (checkStartTag == XmlPullParser.START_TAG  && parser.getName().equals("weather")) {
+                            mContent.put("weather_Number", parser.getAttributeValue(null, "number"));
+                            mContent.put("weather_Name", parser.getAttributeValue(null, "value"));
+                            mContent.put("weather_Much", parser.getAttributeValue(null, "icon"));
                             mTotalValue.add(mContent);
                             break;
                         }

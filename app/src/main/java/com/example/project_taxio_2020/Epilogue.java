@@ -1,28 +1,60 @@
 package com.example.project_taxio_2020;
 
 public class Epilogue {
-    public String driver_id;
-    public String driver_password;
-    public String driver_name;
-    public String driver_sex;
-    public String driver_route;
-    public String driver_region;
-    public Double grade;
-    public String driver_call;
-    public String driver_email;
+    public String epilogue_id; //후기 일렬번호
+    public String driver_id; //기사 id
+    public String general_id; //회원id
+    public Float score; // 별점
+    public String memo; //후기 내용
 
     public Epilogue(){
     }
 
-    public Epilogue(String driver_id, String driver_password, String driver_name, String driver_sex, String driver_route, String driver_region, Double grade, String driver_call, String driver_email){
+    public Epilogue(String epilogue_id, String driver_id, String general_id, Float score, String memo){
+        this.epilogue_id = epilogue_id;
         this.driver_id = driver_id;
-        this.driver_password = driver_password;
-        this.driver_name = driver_name;
-        this.driver_sex = driver_sex;
-        this.driver_route = driver_route;
-        this.driver_region = driver_region;
-        this.grade = grade;
-        this.driver_call = driver_call;
-        this.driver_email = driver_email;
+        this.general_id = general_id;
+        this.score = score;
+        this.memo = memo;
+    }
+
+    public String getEpilogue_id() {
+        return epilogue_id;
+    }
+
+    public void setEpilogue_id(String epilogue_id) {
+        this.epilogue_id = epilogue_id;
+    }
+
+    public String getDriver_id() {
+        return driver_id;
+    }
+
+    public void setDriver_id(String driver_id) {
+        this.driver_id = driver_id;
+    }
+
+    public String getGeneral_id() {
+        return general_id;
+    }
+
+    public void setGeneral_id(String general_id) {
+        this.general_id = general_id;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }
