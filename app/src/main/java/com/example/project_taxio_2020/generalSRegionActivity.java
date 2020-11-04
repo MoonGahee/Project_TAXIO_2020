@@ -26,7 +26,7 @@ public class generalSRegionActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView title_text;
     ImageView map;
-    ImageButton btnJeju;
+    ImageButton btnJeju,btnSeoul, btnBusan, btnGyungju, btnGangwon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +40,70 @@ public class generalSRegionActivity extends AppCompatActivity {
 
         map = findViewById(R.id.imageKorea);
         btnJeju = findViewById(R.id.btnJeju);
+        btnBusan = findViewById(R.id.btnBusan);
+        btnSeoul = findViewById(R.id.btnSeoul);
+        btnGyungju = findViewById(R.id.btnGyungju);
+        btnGangwon = findViewById(R.id.btnGangwon);
+
+        btnGangwon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
+                builder.setTitle("지역 확인");
+                builder.setMessage("현재 개발중인 지역입니다.");
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        btnGyungju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
+                builder.setTitle("지역 확인");
+                builder.setMessage("현재 개발중인 지역입니다.");
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        btnSeoul.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
+                builder.setTitle("지역 확인");
+                builder.setMessage("현재 개발중인 지역입니다.");
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        btnBusan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
+                builder.setTitle("지역 확인");
+                builder.setMessage("현재 개발중인 지역입니다.");
+                builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
 
         btnJeju.setOnClickListener(new View.OnClickListener() {
             @Override

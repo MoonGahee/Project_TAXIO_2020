@@ -223,7 +223,7 @@
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/id" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnid"
                     style="@style/button"
                     android:layout_width="wrap_content"
@@ -231,6 +231,8 @@
                     android:layout_marginLeft="10dp"
                     android:background="@color/button"
                     android:text="중복 확인"
+                    android:textSize="20sp"
+                    android:clickable="true"
                     app:layout_constraintLeft_toRightOf="@id/edtId"
                     app:layout_constraintTop_toBottomOf="@+id/id" />
 
@@ -360,13 +362,15 @@
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnEmail"
                     style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="28dp"
                     android:background="@color/button"
+                    android:textSize="20sp"
+                    android:clickable="true"
                     android:text="인 증"
                     app:layout_constraintLeft_toRightOf="@id/edtEmail"
                     app:layout_constraintTop_toBottomOf="@id/email" />
@@ -394,12 +398,14 @@
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail" />
 
-                <Button
+                <TextView
                     android:id="@+id/btnImg"
                     style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/button"
+                    android:textSize="20sp"
+                    android:clickable="true"
                     android:text="첨 부"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail" />
@@ -421,8 +427,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:textSize="17sp"
-                    app:layout_constraintHorizontal_bias="0.444"
+                    android:textSize="25sp"
+                    app:layout_constraintHorizontal_bias="0.375"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/photo" />
