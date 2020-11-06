@@ -64,30 +64,13 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/weather_test">
 
-            <TextView
-                android:id="@+id/plantitle"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trip_data_Recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="5월 21일~ 5월 23일"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/comingTrip"
-                app:layout_constraintTop_toTopOf="@id/comingTrip" />
-
-            <TextView
-                android:id="@+id/plan1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="5월 21일 : 제주공항-상창농장-용담해변\n\n5월 22일 :
-하얏트호텔-오설록-애월-하얏트호텔\n\n5월 23일 : 하얏트호텔-용담스타벅스-제주공항"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                app:layout_constraintLeft_toLeftOf="@id/comingTrip"
-                app:layout_constraintTop_toBottomOf="@id/plantitle" />
-
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

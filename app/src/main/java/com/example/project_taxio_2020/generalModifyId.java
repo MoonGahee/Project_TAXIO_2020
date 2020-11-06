@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.project_taxio_2020.databinding.ActivityLoginBinding;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,9 +30,9 @@ import java.util.HashMap;
 public class generalModifyId extends AppCompatActivity {
     EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
-    Button checkId, btnEmail, btnImg, btnComplete;
+    Button btnComplete;
+    TextView checkId, btnEmail, btnImg;
     ImageView photo;
-    private ActivityLoginBinding binding;
 
 
     @Override
