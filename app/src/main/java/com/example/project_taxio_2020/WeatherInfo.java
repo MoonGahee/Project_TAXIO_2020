@@ -18,6 +18,7 @@ public class WeatherInfo {
     String clouds_Sort;
     String clouds_Per;
     String feel_like_value;
+    int weather_icon;
 
     public WeatherInfo(String weather_Name, String weather_Number, String weather_Much,
                        String weather_Type, String wind_Direction, String wind_SortNumber,
@@ -87,6 +88,10 @@ public class WeatherInfo {
     public String getWeather_Day() { return weather_Day; }
 
     public void setWeather_Name(String weather_Name) { this.weather_Name = weather_Name; }
+
+    public void setWeather_Name_Icon(int weather_icon) {this.weather_icon = weather_icon;}
+
+    public int getWeather_icon() {return weather_icon;}
 
     public void setWind_Name(String wind_Name) { this.wind_Name = wind_Name; }
 

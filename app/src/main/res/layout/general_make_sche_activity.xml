@@ -91,16 +91,16 @@
             android:layout_margin="10dp" />
 
 
-        <!--<Button
+        <Button
             android:id="@+id/previous1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/map1"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text=" 전 날"
+            android:text="전 날"
             android:background="@drawable/button_short"
             android:layout_margin="10dp" />
-            -->
+
 
         <TextView
             android:id="@+id/day1"
@@ -110,26 +110,25 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:text="1일차"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             style="@style/title2"/>
 
 
-        <!--<Button
+        <Button
             android:id="@+id/next1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/map1"
-            app:layout_constraintLeft_toRightOf="@+id/recommend1"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="10dp"
-            android:text="다음 날 >"
-            android:background="@drawable/button_short"/>-->
+            android:text="다음 날"
+            android:background="@drawable/button_short"/>
 
         <ListView
             android:id="@+id/trip1"
             android:layout_width="wrap_content"
             android:layout_height="300dp"
-            app:layout_constraintTop_toBottomOf="@+id/day1"
+            app:layout_constraintTop_toBottomOf="@+id/trip_fin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="20dp"
@@ -161,8 +160,9 @@
             android:id="@+id/trip_fin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/map1"
-            app:layout_constraintLeft_toRightOf="@+id/day1"
+            app:layout_constraintTop_toBottomOf="@+id/day1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="10dp"
             android:text="일정 완료"/>
 

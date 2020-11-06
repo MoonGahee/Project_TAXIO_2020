@@ -187,8 +187,16 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.49, 126.5), 15));
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        LatLng location = new LatLng(37.568256, 126.897240);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
+
+        gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                scroll2.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 }

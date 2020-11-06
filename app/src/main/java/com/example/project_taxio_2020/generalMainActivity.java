@@ -29,6 +29,8 @@ public class generalMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Context context = this;
 
+    int icon, wear_icon;
+
     public static final int THREAD_HANDLER_SUCCESS_INFO = 1;
     RecyclerView weather_test;
     generalWeatherAdapter generalWeatherAdapter;
@@ -114,9 +116,19 @@ public class generalMainActivity extends AppCompatActivity {
                     +  " /최저 기온: " + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
                     +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n"
                     +  "습도: " + mWeatherInfomation.get(i).getHumidity() + "%";
+
+            if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
+                wear_icon = R.drawable.over25;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 15)
+                wear_icon = R.drawable.under15;
+            else
+                wear_icon = 0;
+
+            icon = mWeatherInfomation.get(i).getWeather_icon();
         }
 
         return mData;
+
     }
 
     public void DataChangedToHangeul()
@@ -161,8 +173,7 @@ public class generalMainActivity extends AppCompatActivity {
                     DataChangedToHangeul();
                     data = PrintValue();
 
-                    list.add(new generalWeatherItem("5월 23일", R.drawable.sun, data, R.drawable.over25));
-                    list.add(new generalWeatherItem("5월 24일", R.drawable.sun, data, R.drawable.under15));
+                    list.add(new generalWeatherItem("현재 온도에 따른 옷 추천", icon, data, wear_icon));
 
                     generalWeatherAdapter = new generalWeatherAdapter(generalMainActivity.this, list);
                     weather_test.setAdapter(generalWeatherAdapter);
