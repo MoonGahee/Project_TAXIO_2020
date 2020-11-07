@@ -65,13 +65,15 @@
 
     <CheckBox
         android:id="@+id/all_check"
+        style="@style/basic"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/intro"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
         android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
-        android:textSize="16sp"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro" />
 
     <ScrollView
         android:id="@+id/show_clause1"
@@ -94,7 +96,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="20dp"
         android:text="TAXIO 이용약관에 동의"
-        android:textSize="16sp"/>
+        style="@style/basic"
+        android:textStyle="bold" />
 
     <ScrollView
         android:id="@+id/show_clause2"
@@ -117,7 +120,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="20dp"
         android:text="개인정보 수집 및 이용에 대한 안내"
-        android:textSize="16sp"/>
+        style="@style/basic"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:id="@+id/show_clause3"
@@ -141,7 +145,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="20dp"
         android:text="위치정보 이용 약관 동의 (선택)"
-        android:textSize="16sp"/>
+        style="@style/basic"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/previous"
@@ -151,7 +156,7 @@
         app:layout_constraintTop_toBottomOf="@id/clause3"
         android:layout_marginTop="30dp"
         android:text="이전"
-        android:textColor="#ffffff"
+        style="@style/button"
         android:textSize="20sp"
         android:background="@color/button"/>
 
@@ -163,9 +168,9 @@
         app:layout_constraintTop_toBottomOf="@id/clause3"
         android:layout_marginTop="30dp"
         android:text="다음"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:background="@color/button"/>
+        style="@style/button"
+        android:background="@color/button"
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

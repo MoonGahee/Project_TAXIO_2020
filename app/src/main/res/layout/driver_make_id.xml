@@ -224,14 +224,14 @@
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
-                    android:id="@+id/btnid"
+                    android:id="@+id/btnEmail"
+                    style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/button"
                     android:layout_marginLeft="10dp"
                     android:background="@color/button"
-                    android:clickable="true"
                     android:text="중복 확인"
+                    android:clickable="true"
                     android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/edtEmail"
                     app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -351,52 +351,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
 
                 <TextView
-                    android:id="@+id/pPhone"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="*보호자 연락처: "
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
-
-                <TextView
-                    android:id="@+id/btnPPhone"
-                    style="@style/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="28dp"
-                    android:background="@color/button"
-                    android:text="인 증"
-                    android:clickable="true"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toRightOf="@id/edtPPhone"
-                    app:layout_constraintTop_toBottomOf="@id/pPhone" />
-
-                <EditText
-                    android:id="@+id/edtPPhone"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="mjc2020@naver.com"
-                    android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/pPhone" />
-
-                <TextView
                     android:id="@+id/profileImg"
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="*프로필 사진: "
+                    android:text="*기사 면허 사진: "
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtPPhone" />
+                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <TextView
                     android:id="@+id/btnImg"
@@ -404,21 +368,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/button"
-                    android:text="첨 부"
                     android:textSize="20sp"
                     android:clickable="true"
+                    android:text="첨 부"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
-                    app:layout_constraintTop_toBottomOf="@id/edtPPhone" />
-
+                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="300dp"
                     android:layout_height="200dp"
-                    app:layout_constraintHorizontal_bias="0.68"
+                    app:layout_constraintHorizontal_bias="0.072"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btnImg" />
+
 
                 <Button
                     android:id="@+id/btnComplete"

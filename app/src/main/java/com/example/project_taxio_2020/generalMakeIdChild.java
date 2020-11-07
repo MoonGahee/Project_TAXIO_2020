@@ -22,10 +22,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class generalMakeIdChild extends AppCompatActivity {
-    EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
+    EditText edtNameM, edtPPhone, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button  btnComplete;
-    TextView checkId, btnEmail, btnImg;
+    TextView btnPPhone, btnEmail, btnImg;
     ImageView photo;
 
     @Override
@@ -38,7 +38,7 @@ public class generalMakeIdChild extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         edtNameM = findViewById(R.id.edtNameM);
-        edtId = findViewById(R.id.edtId);
+        edtPPhone = findViewById(R.id.edtPPhone);
         edtPassword = findViewById(R.id.edtPassword);
         edtCheckPass = findViewById(R.id.edtCheckPass);
         edtNum1 = findViewById(R.id.edtNum1);
@@ -71,7 +71,6 @@ public class generalMakeIdChild extends AppCompatActivity {
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
 
-        checkId = findViewById(R.id.btnid);
         btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
@@ -81,13 +80,13 @@ public class generalMakeIdChild extends AppCompatActivity {
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getGeneral_id = edtId.getText().toString();
+                String getGeneral_id = edtEmail.getText().toString();
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_name = edtNameM.getText().toString();
                 String getGeneral_sex  = spGenderM.getSelectedItem().toString();
                 String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                String getGeneral_email = edtEmail.getText().toString();
+                String getGeneral_email = edtPPhone.getText().toString();
                 //부모 전화
                 // 이미지 루트 데려오기
 

@@ -81,7 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginTop="4dp"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/progress">
@@ -166,7 +167,7 @@
                     android:id="@+id/birthM"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="152dp"
                     app:layout_constraintLeft_toRightOf="@+id/year"
                     app:layout_constraintTop_toBottomOf="@+id/birthMember" />
 
@@ -201,19 +202,19 @@
                     app:layout_constraintTop_toBottomOf="@id/birthMember" />
 
                 <TextView
-                    android:id="@+id/id"
+                    android:id="@+id/email"
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="*아이디 : "
+                    android:text="*이메일 : "
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/year" />
 
                 <EditText
-                    android:id="@+id/edtId"
+                    android:id="@+id/edtEmail"
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -221,20 +222,8 @@
                     android:ems="10"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/id" />
+                    app:layout_constraintTop_toBottomOf="@id/email" />
 
-                <TextView
-                    android:id="@+id/btnid"
-                    style="@style/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/button"
-                    android:text="중복 확인"
-                    android:textSize="20sp"
-                    android:clickable="true"
-                    app:layout_constraintLeft_toRightOf="@id/edtId"
-                    app:layout_constraintTop_toBottomOf="@+id/id" />
 
                 <TextView
                     android:id="@+id/password"
@@ -246,7 +235,7 @@
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtId" />
+                    app:layout_constraintTop_toBottomOf="@id/edtEmail" />
 
                 <EditText
                     android:id="@+id/edtPassword"
@@ -350,41 +339,6 @@
                     app:layout_constraintLeft_toRightOf="@+id/n2"
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
 
-                <TextView
-                    android:id="@+id/email"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="*이메일: "
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
-
-                <TextView
-                    android:id="@+id/btnEmail"
-                    style="@style/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="28dp"
-                    android:background="@color/button"
-                    android:textSize="20sp"
-                    android:clickable="true"
-                    android:text="인 증"
-                    app:layout_constraintLeft_toRightOf="@id/edtEmail"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
-
-                <EditText
-                    android:id="@+id/edtEmail"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="mjc2020@naver.com"
-                    android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
                     android:id="@+id/profileImg"
@@ -396,7 +350,7 @@
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <TextView
                     android:id="@+id/btnImg"
@@ -404,11 +358,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/button"
-                    android:textSize="20sp"
                     android:clickable="true"
                     android:text="첨 부"
+                    android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
-                    app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <ImageView
                     android:id="@+id/photo"
@@ -428,7 +382,6 @@
                     android:background="@drawable/button_long"
                     android:text="입력완료"
                     android:textSize="25sp"
-                    app:layout_constraintHorizontal_bias="0.375"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/photo" />

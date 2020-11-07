@@ -28,10 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class generalModifyId extends AppCompatActivity {
-    EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
+    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
     Button btnComplete;
-    TextView checkId, btnEmail, btnImg;
+    TextView btnImg;
     ImageView photo;
 
 
@@ -45,7 +45,6 @@ public class generalModifyId extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
 
         edtNameM = findViewById(R.id.edtNameM);
-        edtId = findViewById(R.id.edtId);
         edtPassword = findViewById(R.id.edtPassword);
         edtCheckPass = findViewById(R.id.edtCheckPass);
         edtNum1 = findViewById(R.id.edtNum1);
@@ -78,8 +77,6 @@ public class generalModifyId extends AppCompatActivity {
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
 
-        checkId = findViewById(R.id.btnid);
-        btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
         photo = findViewById(R.id.photo);
@@ -103,7 +100,7 @@ public class generalModifyId extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String getGeneral_id = edtId.getText().toString();
+                final String getGeneral_id = edtEmail.getText().toString();
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_name = edtNameM.getText().toString();
                 String getGeneral_sex  = spGenderM.getSelectedItem().toString();
