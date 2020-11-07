@@ -15,6 +15,8 @@ public class WeatherToHangeul {
         mWeatherInfo.setClouds_Sort(Hangeul_Weather(mWeatherInfo.clouds_Sort));
         mWeatherInfo.setWeather_Name(Hangeul_Weather(mWeatherInfo.weather_Number));
         mWeatherInfo.setWind_Name(Hangeul_Weather(mWeatherInfo.wind_Name));
+
+        mWeatherInfo.setWeather_Name_Icon(Hangeul_Weather_icon(mWeatherInfo.weather_Number));
     }
 
     public WeatherInfo getHangeulWeather()
@@ -150,5 +152,33 @@ public class WeatherToHangeul {
         else if(!wind.equals("")) return wind;
 
         return "정보없음";
+    }
+
+    public int Hangeul_Weather_icon (String mWeatherNumber)
+    {
+        String snow = SnowToHangeul(mWeatherNumber);
+        String clear = ClearToHangeul(mWeatherNumber);
+        String broken_Cloud = BrokenCloudsToHangeul(mWeatherNumber);
+        String few_Cloud = FewCloudsToHangeul(mWeatherNumber);
+        String scatter = ScatteredCloudsToHangeul(mWeatherNumber);
+        String Rain = RainToHangeul(mWeatherNumber);
+        String shower = ShowerRainToHanGeul(mWeatherNumber);
+        String thunder = ThunderStromToHangeul(mWeatherNumber);
+        String mist = MistToHangeul(mWeatherNumber);
+        String wind = WindToHangeul(mWeatherNumber);
+
+
+        if(!snow.equals("")) return R.drawable.snow;
+        else if(!clear.equals("")) return R.drawable.sun;
+        else if(!broken_Cloud.equals("")) return R.drawable.cloudsun;
+        else if(!few_Cloud.equals("")) return R.drawable.cloudsun;
+        else if(!scatter.equals("")) return R.drawable.cloudsun;
+        else if(!Rain.equals("")) return R.drawable.rain;
+        else if(!shower.equals("")) return R.drawable.rain;
+        else if(!thunder.equals("")) return R.drawable.thunder;
+        else if(!mist.equals("")) return R.drawable.mist;
+        else if(!wind.equals("")) return R.drawable.wind;
+
+        return 0;
     }
 }

@@ -38,9 +38,9 @@ import java.util.ArrayList;
 
 public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Button finish_btn;
+    Button finish_btn, previous, next;
     Toolbar toolbar;
-    TextView title_text;
+    TextView title_text, day2, date2, people2;
     String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
     ListView listView;
     ScrollView scroll2;
@@ -48,6 +48,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     ArrayList<generalTimelineItem> list_itemArrayList;
     int firstPos, secondPos;
     int count = 1;
+    int day = 1;
+    int tripdays = 3;
 
     MapFragment mapFrag;
     GoogleMap gMap;
@@ -69,16 +71,29 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         scroll2 = findViewById(R.id.scroll2);
 
+        previous = findViewById(R.id.previous2);
+        next = findViewById(R.id.next2);
+
+        previous.setVisibility(View.INVISIBLE);
+
         finish_btn = findViewById(R.id.update_finish2);
+
+        day2 = findViewById(R.id.day2);
+
+        day2.setText(Integer.toString(day) + "일차");
+
+        date2 = findViewById(R.id.date2);
+
+        people2 = findViewById(R.id.people2);
 
         listView = findViewById(R.id.trip2);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
 
-        list_itemArrayList.add(new generalTimelineItem("제주공항", "1", "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("용두암", "2", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("성산일출봉", "3", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("동문시장", "4", "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-        list_itemArrayList.add(new generalTimelineItem("하얏트", "5", "1시간", 0, 0));
+        list_itemArrayList.add(new generalTimelineItem("제주공항", "1", "1시간", 0, 0));
+        list_itemArrayList.add(new generalTimelineItem("성산일출봉", "2", "1시간", 0, 0));
+        list_itemArrayList.add(new generalTimelineItem("오셜록", "3", "1시간", 0, 0));
+        list_itemArrayList.add(new generalTimelineItem("주상절리", "4", "1시간", 0, 0));
+        list_itemArrayList.add(new generalTimelineItem("용두암", "5", "1시간", 0, 0));
 
         generalTimelineAdapter = new generalTimelineAdapter(generalUpdateScheActivity.this, list_itemArrayList);
         listView.setAdapter(generalTimelineAdapter);
@@ -92,6 +107,40 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day--;
+
+                if (day == 1) {
+                    previous.setVisibility(View.INVISIBLE);
+                }
+
+                if (day < tripdays) {
+                    next.setVisibility(View.VISIBLE);
+                }
+
+                day2.setText(Integer.toString(day) + "일차");
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                day++;
+
+                if(day > 1) {
+                    previous.setVisibility(View.VISIBLE);
+                }
+
+                if (day == tripdays) {
+                    next.setVisibility(View.INVISIBLE);
+                }
+
+                day2.setText(Integer.toString(day) + "일차");
             }
         });
 
@@ -187,8 +236,16 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
-        gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.49, 126.5), 15));
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        LatLng location = new LatLng(37.568256, 126.897240);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
+
+        gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                scroll2.requestDisallowInterceptTouchEvent(true);
+            }
+        });
     }
 }

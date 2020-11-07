@@ -84,7 +84,9 @@ public class generalModifyId extends AppCompatActivity {
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                General general = snapshot.getValue(General.class);
+                General general = snapshot.child("mgh").getValue(General.class); //child로 경로 지정
+                edtNameM.setText(general.getGeneral_name());
+                edtEmail.setText(general.getGeneral_id());
                 //읽어오는 거 해야징
             }
 
@@ -93,7 +95,7 @@ public class generalModifyId extends AppCompatActivity {
                 //없는 경우
             }
         };
-        mDatabase.addValueEventListener(generalListener);
+        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
 
 
         btnComplete.setOnClickListener(new View.OnClickListener() {

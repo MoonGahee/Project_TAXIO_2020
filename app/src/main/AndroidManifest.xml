@@ -22,9 +22,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_logo"
+        android:icon="@mipmap/ic_launcher_taxio"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_taxio_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
@@ -46,6 +46,7 @@
         </activity>
 
         <activity android:name=".generalMainActivity" /> <!--승객 메인-->
+        <activity android:name=".generalLoginActivity"/>
         <activity android:name=".generalReservationCompleteActivity"/>
         <activity android:name=".generalCheckEpilogueActivity"/>
         <activity android:name=".generalMakeScheActivity"/>
@@ -62,5 +63,6 @@
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
         <activity android:name=".generalMakeIdChild"/>
         <activity android:name=".generalMakeId"/>
+        <activity android:name=".generalModifyId"/> <!--수정-->
     </application>
 </manifest>
