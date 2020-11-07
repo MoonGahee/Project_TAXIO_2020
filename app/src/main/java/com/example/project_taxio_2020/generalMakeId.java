@@ -129,6 +129,7 @@ public class generalMakeId extends AppCompatActivity {
             }
         });
     }
+
     /*public void join(){
         id=edtId.getText().toString();
         password=edtPassword.getText().toString();
