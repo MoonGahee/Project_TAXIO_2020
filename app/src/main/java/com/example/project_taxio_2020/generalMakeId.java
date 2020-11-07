@@ -109,7 +109,7 @@ public class generalMakeId extends AppCompatActivity {
                 String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
                 String getGeneral_email = edtEmail.getText().toString();
-                //부모 전화
+                //부모 전화 
                 // 이미지 루트 데려오기
 
                 HashMap result = new HashMap<>();
