@@ -72,7 +72,7 @@ public class generalMainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalReservationCompleteActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_out) {

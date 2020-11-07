@@ -117,7 +117,7 @@ public class generalMakeId extends AppCompatActivity {
                 result.put("general_call", getGeneral_call);
                 result.put("general_email", getGeneral_email);
 
-                mDatabase.child(getGeneral_id).setValue(result);
+                mDatabase.child(getGeneral_name).setValue(result);
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
