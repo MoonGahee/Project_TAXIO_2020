@@ -62,7 +62,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     Button edit_btn, taxi_btn, trip_fin;
     Button previous, next;
     Toolbar toolbar;
-    TextView title_text, day1;
+    TextView title_text, day1, date1, people1;
     String jeju;
     int k = 1;
     int day = 1;
@@ -71,15 +71,15 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
-
-    String places[][];
-
+    LatLng latLng1, latLng2;
+    String places[], distance[] = new String[100];
+    String dis;
     MapFragment mapFrag;
     GoogleMap gMap;
     GroundOverlayOptions videoMark;
     String TAG="what?";
     int size;
-    int[][] count;
+    int[] count;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,14 +103,25 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
+                jeju = place.getName();
                 LatLng lat = place.getLatLng();
+
+                count = new int[k];
+
+                places = new String[k];
 
                 videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
                 gMap.addGroundOverlay(videoMark);
-
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
 
-                jeju = place.getName();
+                if (k == 1) {
+                    latLng1 = lat;
+                }
+                else {
+                    latLng2 = lat;
+                    distance[k-2] = calDistance(latLng1, latLng2);
+                    latLng1 = latLng2;
+                }
 
                 list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "", 0, 0));
 
@@ -118,9 +129,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 listView.setAdapter(generalTimelineAdapter);
 
                 size = generalTimelineAdapter.getCount();
-                count = new int[tripdays][size];
-
-                places = new String[tripdays][size];
 
                 k++;
             }
@@ -147,10 +155,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         day1.setText(Integer.toString(day) + "일차");
 
+        date1 = findViewById(R.id.date1);
+
+        people1 = findViewById(R.id.people1);
+
         previous = findViewById(R.id.previous1);
         next = findViewById(R.id.next1);
 
-        if (day == 1) {previous.setVisibility(View.INVISIBLE);}
+        previous.setVisibility(View.INVISIBLE);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +178,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
+
+                k = 1;
+
+                list_itemArrayList.clear();
             }
         });
 
@@ -183,6 +199,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
+
+                k = 1;
+
+                list_itemArrayList.clear();
             }
         });
 
@@ -239,49 +259,50 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = 0;
 
-                for (int n = 0; n < size; n++)
-                    places[day-1][n] = list_itemArrayList.get(n).getPlace();
+                for (int n = 0; n < size; n++){
+                    places[n] = list_itemArrayList.get(n).getPlace();
+                }
 
                 list_itemArrayList.clear();
 
                 while (true) {
                     if (position == i) {
                         if ((size-1) == i){
-                            if (count[day-1][i] != 1){
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "30분", 0, R.drawable.ic_local_taxi_black_24dp));
-                                count[day-1][i] = 1;
+                            if (count[i] != 1){
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                                count[i] = 1;
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "30분", 0, 0));
-                                count[day-1][i] = 0;
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, 0));
+                                count[i] = 0;
                             }
                             break;
                         }
                         else {
-                            if (count[day-1][i] != 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                                count[day-1][i] = 1;
+                            if (count[i] != 1) {
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                                count[i] = 1;
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
-                                count[day-1][i] = 0;
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                                count[i] = 0;
                             }
                         }
                     }
                     else {
                         if ((size-1) == i){
-                            if (count[day-1][i] == 1){
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "30분", 0, R.drawable.ic_local_taxi_black_24dp));
+                            if (count[i] == 1){
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "30분", 0, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, 0));
                             }
                             break;
                         }else {
-                            if (count[day-1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            if (count[i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[day-1][i], Integer.toString(i + 1), "1시간", R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
                             }
                         }
                     }
@@ -329,5 +350,29 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 scroll1.requestDisallowInterceptTouchEvent(true);
             }
         });
+    }
+
+    public String calDistance(LatLng lat1, LatLng lat2) {
+        double earth_R = 6371000.0, radian, radLat1, radLat2, radDist, distances, ret;
+        double latitude1 = lat1.latitude;
+        double longitude1 = lat1.longitude;
+        double latitude2 = lat2.latitude;
+        double longitude2 = lat2.longitude;
+
+        radian = Math.PI/180;
+
+        radLat1 = radian * latitude1;
+        radLat2 = radian * latitude2;
+        radDist = radian * (longitude1 - longitude2);
+
+        distances = Math.sin(radLat1) * Math.sin(radLat2);
+        distances += Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist);
+
+        ret = earth_R * Math.acos(distances);
+
+        double rtn = Math.round(Math.round(ret) / 1000);
+
+        if (rtn <= 0) return Double.toString(rtn) + " m";
+        else return Double.toString(rtn) + "km";
     }
 }
