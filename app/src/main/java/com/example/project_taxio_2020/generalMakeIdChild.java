@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -23,7 +24,8 @@ import java.util.HashMap;
 public class generalMakeIdChild extends AppCompatActivity {
     EditText edtNameM, edtId, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
-    Button checkId, btnEmail, btnImg, btnComplete;
+    Button  btnComplete;
+    TextView checkId, btnEmail, btnImg;
     ImageView photo;
 
     @Override

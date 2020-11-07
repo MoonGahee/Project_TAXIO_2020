@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class ForeCastManager extends Thread {
     String lon,lat;
-
     ArrayList<ContentValues> mWeather;
     generalMainActivity mContext;
     public ArrayList<ContentValues> getmWeather()
