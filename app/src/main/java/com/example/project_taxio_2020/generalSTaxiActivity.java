@@ -44,7 +44,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_taxi_activity);
 
@@ -58,10 +58,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
         generalTaxiAdapter adapter = new generalTaxiAdapter();
         ListView_taxi.setAdapter(adapter);
         setList(adapter);
-
-
-
-
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +106,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.general_taxi_item, parent, false);
+
+                ViewGroup.LayoutParams params = convertView.getLayoutParams();
+                params.height=110;
+                convertView.setLayoutParams(params);
             }
 
             TextView taxi_day =  convertView.findViewById(R.id.taxi_day);
@@ -197,11 +197,11 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 }
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
-                                Log.d("TIME", startTime);
+                            }
+                            else{ //관광택시 이용 안할시 어케 할꺼?
+
                             }
                         }
-
-
                     });
                     dlg.setNegativeButton("취소", null);
                     dlg.show();
