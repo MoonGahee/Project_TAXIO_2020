@@ -78,6 +78,9 @@ public class generalLoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 "Verification email sent to " + mAuth.getCurrentUser().getEmail(),
                                 Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getApplicationContext(), generalLoginActivity.class);
+                        startActivity(i);
+                        finish();
                     } else {                                             //메일 보내기 실패
                         Log.e("Koo TEST", "sendEmailVerification", task.getException());
                         Toast.makeText(getApplicationContext(),
