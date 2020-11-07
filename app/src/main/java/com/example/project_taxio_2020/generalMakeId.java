@@ -25,6 +25,9 @@ import com.google.android.gms.tasks.Task;
 //import com.google.firebase.auth.AuthResult;
 //import com.google.firebase.auth.FirebaseAuth;
 //import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,7 +42,7 @@ public class generalMakeId extends AppCompatActivity {
     TextView checkId, btnEmail, btnImg;
     String id, password;
     ImageView photo;
-    //FirebaseAuth mAuth;
+
     String TAG ="EXCEPTION";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
@@ -67,6 +70,7 @@ public class generalMakeId extends AppCompatActivity {
         birthM = findViewById(R.id.birthM);
         birthD = findViewById(R.id.birthD);
         spinnerNum = findViewById(R.id.spinnerNum);
+        btnEmail = findViewById(R.id.btnEmail);
 
         ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -105,7 +109,7 @@ public class generalMakeId extends AppCompatActivity {
                 String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
                 String getGeneral_email = edtEmail.getText().toString();
-                //부모 전화
+                //부모 전화 
                 // 이미지 루트 데려오기
 
                 HashMap result = new HashMap<>();
@@ -117,7 +121,7 @@ public class generalMakeId extends AppCompatActivity {
                 result.put("general_call", getGeneral_call);
                 result.put("general_email", getGeneral_email);
 
-                mDatabase.child(getGeneral_id).setValue(result);
+                mDatabase.child(getGeneral_name).setValue(result);
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
@@ -125,15 +129,17 @@ public class generalMakeId extends AppCompatActivity {
             }
         });
     }
+
     /*public void join(){
         id=edtId.getText().toString();
         password=edtPassword.getText().toString();
-        /*mAuth.createUserWithEmailAndPassword(id, password)
+        mAuth.createUserWithEmailAndPassword(id, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnCompleteListener(Task<AuthResult> eTask, );
                             Intent i = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i);
                             finish();
@@ -145,7 +151,8 @@ public class generalMakeId extends AppCompatActivity {
                         }
                     }
                 });
-    }
+    }*/
+
 
     public Boolean checkPass(String password) {
         boolean check = false;
@@ -155,7 +162,7 @@ public class generalMakeId extends AppCompatActivity {
             check = true;
         }
         return check;
-    }*/
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
         switch (item.getItemId()){
