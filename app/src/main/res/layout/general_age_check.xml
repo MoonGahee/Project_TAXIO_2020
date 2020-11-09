@@ -52,7 +52,7 @@
         android:layout_marginTop="68dp"
         android:text="나이가 어떻게 되시나요?"
         app:layout_constraintHorizontal_bias="0.556"
-        android:textSize="30sp"
+        android:textSize="31sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/previous" />
@@ -66,7 +66,8 @@
         app:layout_constraintTop_toBottomOf="@+id/intro"
         android:layout_marginTop="40dp"
         android:text="만 14세 이상입니다."
-        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textSize="24sp"
         style="@style/button"
         android:background="#AAD9FA"/>
 
@@ -79,7 +80,8 @@
         app:layout_constraintTop_toBottomOf="@+id/over14"
         android:layout_marginTop="30dp"
         android:text="만 14세 미만입니다."
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         style="@style/button"
         android:background="#AAD9FA"/>
 
@@ -92,7 +94,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/button_short"
         android:text="back"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress" />
 
