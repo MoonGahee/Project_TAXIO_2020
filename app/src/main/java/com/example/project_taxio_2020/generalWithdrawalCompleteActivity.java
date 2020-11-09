@@ -28,35 +28,16 @@ public class generalWithdrawalCompleteActivity extends AppCompatActivity {
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
 
         Button thank = findViewById(R.id.wdOk);
 
-     nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            menuItem.setChecked(true);
-            drawerLayout.closeDrawers();
-
-            int id = menuItem.getItemId();
-
-            if (id == R.id.drawer_schTrip) {
-                Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
-                startActivity(intent);
-                finish();
-            } else if (id == R.id.drawer_myInfo) {
-                Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
-                startActivity(intent);
-            }
-            return true;
-        }
-    });
 
      thank.setOnClickListener(new View.OnClickListener() { // 감사합니다 버튼 클릭시 메인으로 돌아가기 이벤트 진행
          @Override
          public void onClick(View v) {
-             Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+             Intent intent = new Intent(getApplicationContext(), generalLoginActivity.class);
              startActivity(intent);
+             finish();
          }
      });
 
