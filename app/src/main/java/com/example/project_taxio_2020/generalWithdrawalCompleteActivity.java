@@ -18,7 +18,6 @@ import com.google.android.material.navigation.NavigationView;
 // 탈퇴 완료 화면 by 가희
 
 public class generalWithdrawalCompleteActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +25,6 @@ public class generalWithdrawalCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_withdrawal_complete_activity);
         setToolbar();
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         Button thank = findViewById(R.id.wdOk);
 
@@ -40,19 +37,8 @@ public class generalWithdrawalCompleteActivity extends AppCompatActivity {
              finish();
          }
      });
-
-
     }
-        @Override
-        public boolean onOptionsItemSelected (@NonNull MenuItem item){
-            switch (item.getItemId()) {
-                case android.R.id.home: {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                    return true;
-                }
-            }
-            return super.onOptionsItemSelected(item);
-        }
+
 
         public void setToolbar(){ //툴바 활용
             Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정

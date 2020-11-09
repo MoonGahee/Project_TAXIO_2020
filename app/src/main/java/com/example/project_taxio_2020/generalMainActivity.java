@@ -19,6 +19,8 @@ import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -52,8 +54,10 @@ public class generalMainActivity extends AppCompatActivity {
         setToolbar();
         Initialize();
 
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         NavigationView nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -184,20 +188,16 @@ public class generalMainActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+        ImageButton menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!

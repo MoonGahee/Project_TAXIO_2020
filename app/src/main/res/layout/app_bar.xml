@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/appbar"
     style="@style/bar"
     android:layout_width="match_parent"
@@ -12,5 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"/>
+
+    <ImageButton
+        android:id="@+id/menu"
+        android:clickable="true"
+        android:background="@color/bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/menu"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"/>
 
 </androidx.appcompat.widget.Toolbar>
