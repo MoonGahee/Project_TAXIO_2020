@@ -42,6 +42,7 @@ public class generalMakeId extends AppCompatActivity {
     TextView btnEmail, btnImg;
     String id, password;
     ImageView photo;
+    private FirebaseAuth mAuth; //인증
 
     String TAG ="EXCEPTION";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
@@ -56,6 +57,7 @@ public class generalMakeId extends AppCompatActivity {
         setToolbar();
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mAuth = FirebaseAuth.getInstance();
 
         edtNameM = findViewById(R.id.edtNameM);
         edtPassword = findViewById(R.id.edtPassword);
@@ -121,35 +123,29 @@ public class generalMakeId extends AppCompatActivity {
 
                 mDatabase.child(getGeneral_name).setValue(result);
 
+                mAuth.createUserWithEmailAndPassword(getGeneral_id, getGeneral_password)
+                        .addOnCompleteListener(generalMakeId.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 finish();
             }
         });
     }
-
-    /*public void join(){
-        id=edtId.getText().toString();
-        password=edtPassword.getText().toString();
-        mAuth.createUserWithEmailAndPassword(id, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            user.sendEmailVerification().addOnCompleteListener(Task<AuthResult> eTask, );
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            finish();
-
-                            Toast.makeText(getApplicationContext(),"회원가입 완료!",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "이메일을 다시 확인해주세요",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }*/
 
 
     public Boolean checkPass(String password) {

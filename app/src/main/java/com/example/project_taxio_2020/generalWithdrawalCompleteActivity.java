@@ -18,7 +18,6 @@ import com.google.android.material.navigation.NavigationView;
 // 탈퇴 완료 화면 by 가희
 
 public class generalWithdrawalCompleteActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,51 +26,19 @@ public class generalWithdrawalCompleteActivity extends AppCompatActivity {
         setContentView(R.layout.general_withdrawal_complete_activity);
         setToolbar();
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
-
         Button thank = findViewById(R.id.wdOk);
 
-     nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            menuItem.setChecked(true);
-            drawerLayout.closeDrawers();
-
-            int id = menuItem.getItemId();
-
-            if (id == R.id.drawer_schTrip) {
-                Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
-                startActivity(intent);
-                finish();
-            } else if (id == R.id.drawer_myInfo) {
-                Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
-                startActivity(intent);
-            }
-            return true;
-        }
-    });
 
      thank.setOnClickListener(new View.OnClickListener() { // 감사합니다 버튼 클릭시 메인으로 돌아가기 이벤트 진행
          @Override
          public void onClick(View v) {
-             Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+             Intent intent = new Intent(getApplicationContext(), generalLoginActivity.class);
              startActivity(intent);
+             finish();
          }
      });
-
-
     }
-        @Override
-        public boolean onOptionsItemSelected (@NonNull MenuItem item){
-            switch (item.getItemId()) {
-                case android.R.id.home: {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                    return true;
-                }
-            }
-            return super.onOptionsItemSelected(item);
-        }
+
 
         public void setToolbar(){ //툴바 활용
             Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정

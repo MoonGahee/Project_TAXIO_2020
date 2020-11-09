@@ -42,8 +42,6 @@ public class generalLoginActivity extends AppCompatActivity {
                 email = edtId.getText().toString();
                 pw = edtPw.getText().toString();
                 login(email, pw);
-
-
             }
         });
 
