@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class generalMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    NavigationView nDrawer;
     private Context context = this;
 
     int icon, wear_icon;
@@ -56,9 +57,23 @@ public class generalMainActivity extends AppCompatActivity {
 
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
 
+        Button newTripBtn; //새로운 여행 만들기
+        newTripBtn = findViewById(R.id.newTripBtn);
+
+        newTripBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -85,17 +100,6 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                 }
                 return true;
-            }
-        });
-
-        Button newTripBtn; //새로운 여행 만들기
-        newTripBtn = findViewById(R.id.newTripBtn);
-
-        newTripBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -203,5 +207,4 @@ public class generalMainActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
-
 }

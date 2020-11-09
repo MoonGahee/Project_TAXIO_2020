@@ -27,20 +27,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class generalWriteWithdrawalActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    NavigationView nDrawer;
     Button wd_ok;
     Button wd_cancel;
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_write_withdrawal_activity);
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
+
         mAuth = FirebaseAuth.getInstance();
 
         final DatabaseReference mDatabase;
@@ -48,35 +50,6 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
 
         wd_ok = findViewById(R.id.wd_ok);
         wd_cancel = findViewById(R.id.wd_cancel);
-
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalReservationCompleteActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                return true;
-            }
-        });
 
         wd_ok.setOnClickListener(new View.OnClickListener() { //탈퇴버튼 선택시 Dialog
             @Override
@@ -129,6 +102,36 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
             }
         });
     }
+    public void naviItem(){
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
+    }
 
     public void deleteId(){
         mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -136,25 +139,12 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "회원 아이디 삭제 성공", Toast.LENGTH_LONG).show();
-                }
+            }
                 else{
 
                 }
             }
         });
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void setToolbar(){
