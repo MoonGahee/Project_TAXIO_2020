@@ -53,27 +53,26 @@
 
     <TextView
         android:id="@+id/intro"
+        style="@style/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
-        style="@style/title1"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="16dp"
+        android:text="조건 동의"
         android:textStyle="bold"
-        android:text="조건 동의" />
+        app:layout_constraintLeft_toRightOf="@id/makeMember"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
 
     <CheckBox
         android:id="@+id/all_check"
         style="@style/basic"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="28dp"
         android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intro" />
+        app:layout_constraintTop_toBottomOf="@+id/bell" />
 
     <ScrollView
         android:id="@+id/show_clause1"

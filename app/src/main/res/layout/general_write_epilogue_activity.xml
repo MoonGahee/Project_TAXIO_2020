@@ -58,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="여행 일정"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/trip_date"
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_intro"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="2020.05.09"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/trip_region"
@@ -76,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_intro"
             app:layout_constraintLeft_toRightOf="@+id/trip_date"
             android:text="제주"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/driver_name"
@@ -85,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/trip_date"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="홍길동"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/trip_driver"
@@ -94,7 +94,7 @@
             app:layout_constraintTop_toBottomOf="@id/trip_date"
             app:layout_constraintLeft_toRightOf="@+id/driver_name"
             android:text="기사님"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/course"
@@ -103,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/driver_name"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="경로 :"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
         <TextView
             android:id="@+id/trip_course"
@@ -112,17 +112,17 @@
             app:layout_constraintTop_toBottomOf="@+id/driver_name"
             app:layout_constraintLeft_toRightOf="@+id/course"
             android:text="제주공항-애월-오설록"
-            style="@style/title2"/>
+            style="@style/basic"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/satisfaction_intro"
-        style="@style/basic"
+        style="@style/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="기사님과의 여행은 만족하셨나요?"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trip_guide" />
@@ -140,7 +140,7 @@
 
     <TextView
         android:id="@+id/trip_review"
-        style="@style/basic"
+        style="@style/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
@@ -164,29 +164,29 @@
     <Button
         android:id="@+id/cancel_btn"
         style="@style/button"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_short"
-        android:textColor="#ffffff"
         android:text="취소"
+        android:textColor="#ffffff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_text" />
 
     <Button
         android:id="@+id/registration_btn"
         style="@style/button"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="28dp"
-        android:textColor="#ffffff"
+        android:layout_marginLeft="400dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/button_short"
         android:text="후기 등록"
-        app:layout_constraintLeft_toRightOf="@+id/cancel_btn"
+        android:textColor="#ffffff"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
