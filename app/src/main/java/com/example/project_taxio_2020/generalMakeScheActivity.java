@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
@@ -91,7 +92,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //tripmonth = intent.getIntExtra("tripMonth", 0);
         //tripday = intent.getIntExtra("tripDay", 0);
 
-        Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
@@ -103,34 +104,40 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                jeju = place.getName();
+                LatLngBounds cityBounds = new LatLngBounds(new LatLng(33.0000000, 125.0000000), new LatLng(35.0000000, 127.0000000));
                 LatLng lat = place.getLatLng();
 
-                count = new int[k];
+                if (cityBounds.equals(cityBounds.including(lat))) {
+                    jeju = place.getName();
 
-                places = new String[k];
+                    if (k == 1) {
+                        latLng1 = lat;
+                    }
+                    else {
+                        latLng2 = lat;
+                        distance[k-2] = calDistance(latLng1, latLng2);
+                        latLng1 = latLng2;
+                    }
 
-                videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
-                gMap.addGroundOverlay(videoMark);
-                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+                    count = new int[k];
+                    places = new String[k];
 
-                if (k == 1) {
-                    latLng1 = lat;
+                    videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
+                    gMap.addGroundOverlay(videoMark);
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+
+                    list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "", 0, 0));
+
+                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                    listView.setAdapter(generalTimelineAdapter);
+
+                    size = generalTimelineAdapter.getCount();
+
+                    k++;
                 }
                 else {
-                    latLng2 = lat;
-                    distance[k-2] = calDistance(latLng1, latLng2);
-                    latLng1 = latLng2;
+                    Toast.makeText(getApplicationContext(), "제주도만 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
-
-                list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "", 0, 0));
-
-                generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
-                listView.setAdapter(generalTimelineAdapter);
-
-                size = generalTimelineAdapter.getCount();
-
-                k++;
             }
 
             @Override
@@ -138,8 +145,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-
-
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
@@ -353,7 +358,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     public String calDistance(LatLng lat1, LatLng lat2) {
-        double earth_R = 6371000.0, radian, radLat1, radLat2, radDist, distances, ret;
+        double earth_R = 6371000.0;
+        double radian, radLat1, radLat2, radDist, distances, ret;
         double latitude1 = lat1.latitude;
         double longitude1 = lat1.longitude;
         double latitude2 = lat2.latitude;
