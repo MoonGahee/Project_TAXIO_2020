@@ -52,12 +52,14 @@
 
         <TextView
             android:id="@+id/people1"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/intro1"
-            app:layout_constraintLeft_toRightOf="@+id/date1"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="16dp"
             android:text="3명"
-            style="@style/title2"/>
+            app:layout_constraintLeft_toRightOf="@+id/date1"
+            app:layout_constraintTop_toBottomOf="@+id/intro1" />
 
         <fragment
             android:id="@+id/autoSearch"
@@ -148,23 +150,26 @@
 
         <Button
             android:id="@+id/taxi_btn1"
+            style="@style/button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/trip1"
-            app:layout_constraintLeft_toRightOf="@+id/trip_edit1"
-            android:background="@drawable/button_short"
             android:layout_margin="10dp"
-            style="@style/button"
-            android:text="TAXI"/>
+            android:layout_marginLeft="196dp"
+            android:background="@drawable/button_short"
+            android:text="TAXI"
+            app:layout_constraintLeft_toRightOf="@+id/trip_edit1"
+            app:layout_constraintTop_toBottomOf="@+id/trip1" />
 
         <Button
             android:id="@+id/trip_fin"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/map1"
             app:layout_constraintLeft_toRightOf="@+id/day1"
             android:layout_margin="10dp"
-            android:text="일정 완료"/>
+            android:text="일정 완료"
+            style="@style/button"
+            android:background="@drawable/button_short"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

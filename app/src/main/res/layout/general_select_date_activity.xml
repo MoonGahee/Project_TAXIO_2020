@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="오늘의 날씨"
-                style="@style/title1"
+                style="@style/title2"
                 android:layout_gravity="center"/>
             <TextView
                 android:layout_marginTop="10dp"
@@ -113,7 +113,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/button_long"
-        android:text="확인"
+        android:text="확     인"
+        android:textSize="30sp"
         style="@style/button"/>
 
 

@@ -57,10 +57,10 @@
 
         <TextView
             android:id="@+id/guide4"
-            style="@style/basic"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="작성된 후기는 수정되지 않습니다."
+            android:text="\n작성된 후기는 수정되지 않습니다.\n"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/average" />
 
