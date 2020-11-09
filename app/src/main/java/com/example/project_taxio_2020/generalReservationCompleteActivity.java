@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class generalReservationCompleteActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    NavigationView nDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,32 +30,12 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
 
         Button goMain; //새로운 여행 만들기
         goMain = findViewById(R.id.goMain);
-
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
-                    startActivity(intent);
-                }
-                return true;
-            }
-        });
-
 
         goMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,16 +46,35 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                drawerLayout.openDrawer(GravityCompat.START);
+    public void naviItem(){
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             }
-        }
-
-        return super.onOptionsItemSelected(item);
+        });
     }
 
 
