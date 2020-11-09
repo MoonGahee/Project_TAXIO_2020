@@ -57,6 +57,7 @@ public class generalWithdrawalCompleteActivity extends AppCompatActivity {
          public void onClick(View v) {
              Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
              startActivity(intent);
+             finish();
          }
      });
 

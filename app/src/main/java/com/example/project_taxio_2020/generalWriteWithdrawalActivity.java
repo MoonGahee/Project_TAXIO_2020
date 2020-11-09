@@ -17,7 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +28,7 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     Button wd_ok;
     Button wd_cancel;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        mAuth = FirebaseAuth.getInstance();
 
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
@@ -80,11 +85,13 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        deleteId();
                         // DB에 데이터 삭제 시작
                         mDatabase.child("moon2").removeValue(); //moon2대신에 id를 데려오면 되지용!
                         // DB에 데이터 삭제 완료
                         Intent intent = new Intent(getApplicationContext(), generalWithdrawalCompleteActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -119,9 +126,23 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
-
     }
+
+    public void deleteId(){
+        mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "회원 아이디 삭제 성공", Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                }
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
