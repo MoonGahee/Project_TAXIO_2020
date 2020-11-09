@@ -29,8 +29,7 @@
         app:layout_constraintLeft_toRightOf="@id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar"
         style="@style/title1"
-        android:text="회원가입"
-        android:textSize="40sp" />
+        android:text="회원가입" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -53,37 +52,35 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress"
         android:layout_marginTop="50dp"
-        android:text="탑승객이신가요?\n기사님이신가요?"
+        android:text="탑승객이신가요, 기사님이신가요?"
         style="@style/title2"
-        android:textSize="30sp"
+        android:textSize="31sp"
         android:textColor="#000000"/>
 
     <Button
         android:id="@+id/choose_general"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/intro"
         android:layout_marginTop="40dp"
         android:text="탑승객입니다."
-        android:textColor="#ffffff"
         android:background="@color/button"
         style="@style/button"
-        android:textSize="30sp"/>
+        android:textSize="25sp"/>
 
     <Button
         android:id="@+id/choose_driver"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_general"
         android:layout_marginTop="30dp"
         android:text="기사입니다."
-        android:textColor="#ffffff"
         android:background="@color/button"
         style="@style/button"
-        android:textSize="30sp"/>
+        android:textSize="25sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

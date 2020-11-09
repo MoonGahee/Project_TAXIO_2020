@@ -59,6 +59,7 @@
                 android:textColor="#FF0000"
                 style="@style/basic"
                 android:text="*표시는 필수입력 항목입니다."
+                android:textSize="15sp"
                 app:layout_constraintLeft_toRightOf="@id/makeMember"
                 app:layout_constraintTop_toBottomOf="@id/bar"/>
 
@@ -93,7 +94,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="*이름 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toTopOf="@id/joining" />
@@ -117,7 +117,6 @@
                     android:layout_marginLeft="110dp"
                     android:layout_marginTop="10dp"
                     android:text="*성별 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/nameM"
                     app:layout_constraintTop_toTopOf="@id/joining" />
@@ -138,7 +137,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="*생년월일 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@+id/edtNameM" />
@@ -207,7 +205,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*이메일 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/year" />
@@ -225,14 +222,15 @@
 
                 <TextView
                     android:id="@+id/btnid"
+                    style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/button"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="중복 확인"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     app:layout_constraintLeft_toRightOf="@id/edtEmail"
                     app:layout_constraintTop_toBottomOf="@+id/email" />
 
@@ -243,7 +241,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*비밀번호 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail" />
@@ -267,7 +264,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*비밀번호 확인 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtPassword" />
@@ -291,7 +287,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*휴대폰 번호: "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtCheckPass" />
@@ -307,11 +302,10 @@
                 <TextView
                     android:id="@+id/n1"
                     style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="11dp"
+                    android:layout_height="13dp"
                     android:layout_marginTop="13dp"
                     android:text=" - "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@+id/spinnerNum"
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
@@ -334,7 +328,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text=" - "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@+id/edtNum1"
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
@@ -357,7 +350,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*보호자 연락처: "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
@@ -367,11 +359,12 @@
                     style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="28dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/button"
-                    android:text="인 증"
                     android:clickable="true"
-                    android:textSize="20sp"
+                    android:text="인 증"
+                    android:textSize="25sp"
                     app:layout_constraintLeft_toRightOf="@id/edtPPhone"
                     app:layout_constraintTop_toBottomOf="@id/pPhone" />
 
@@ -393,23 +386,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="*프로필 사진: "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtPPhone" />
+
 
                 <TextView
                     android:id="@+id/btnImg"
                     style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
                     android:background="@color/button"
-                    android:text="첨 부"
-                    android:textSize="20sp"
                     android:clickable="true"
+                    android:text="첨 부"
+                    android:textSize="25sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtPPhone" />
-
 
                 <ImageView
                     android:id="@+id/photo"
@@ -427,7 +421,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:textSize="25sp"
+                    android:textSize="30sp"
                     app:layout_constraintHorizontal_bias="0.444"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

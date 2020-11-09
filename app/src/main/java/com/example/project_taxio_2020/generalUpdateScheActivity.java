@@ -49,7 +49,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     int firstPos, secondPos;
     int count = 1;
     int day = 1;
-    int tripdays = 3;
+    int tripdays;
 
     MapFragment mapFrag;
     GoogleMap gMap;
@@ -59,6 +59,9 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_update_sche_activity);
         setToolbar();
+
+        Intent i = getIntent();
+        tripdays = i.getIntExtra("tripDays", 0);
 
         AutoCompleteTextView search = findViewById(R.id.search2);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);

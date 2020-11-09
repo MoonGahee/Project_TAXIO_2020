@@ -67,7 +67,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     String jeju;
     int k = 1;
     int day = 1;
-    int tripdays = 3, tripday, tripmonth;
+    int tripdays, tripday, tripmonth;
     ListView listView;
     ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
@@ -87,12 +87,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setContentView(R.layout.general_make_sche_activity);
         setToolbar();
 
-        //Intent intent = getIntent();
-        //tripdays = intent.getIntExtra("tripDays", 0);
-        //tripmonth = intent.getIntExtra("tripMonth", 0);
-        //tripday = intent.getIntExtra("tripDay", 0);
+        Intent intent = getIntent();
+        tripdays = intent.getIntExtra("tripDays", 0);
+        tripmonth = intent.getIntExtra("tripMonth", 0);
+        tripday = intent.getIntExtra("tripDay", 0);
 
-        //Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
@@ -231,6 +231,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
+                i.putExtra("tripDays", tripdays);
                 startActivity(i);
             }
         });

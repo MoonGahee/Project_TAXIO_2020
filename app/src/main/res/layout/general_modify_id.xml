@@ -59,6 +59,7 @@
                 android:textColor="#FF0000"
                 style="@style/basic"
                 android:text="*표시는 필수입력 항목입니다."
+                android:textSize="15sp"
                 app:layout_constraintLeft_toRightOf="@id/makeMember"
                 app:layout_constraintTop_toBottomOf="@id/bar"/>
 
@@ -94,7 +95,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="*이름 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toTopOf="@id/joining" />
@@ -118,7 +118,6 @@
                     android:layout_marginLeft="110dp"
                     android:layout_marginTop="10dp"
                     android:text="*성별 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/nameM"
                     app:layout_constraintTop_toTopOf="@id/joining" />
@@ -139,7 +138,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="*생년월일 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@+id/edtNameM" />
@@ -157,7 +155,7 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
+                    android:layout_marginTop="12dp"
                     android:text="년"
                     android:textSize="17sp"
                     app:layout_constraintLeft_toRightOf="@+id/birthY"
@@ -167,15 +165,15 @@
                     android:id="@+id/birthM"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="152dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintLeft_toRightOf="@+id/year"
                     app:layout_constraintTop_toBottomOf="@+id/birthMember" />
 
                 <TextView
                     android:id="@+id/month"
                     style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="10dp"
+                    android:layout_height="17dp"
                     android:layout_marginTop="13dp"
                     android:text="월"
                     android:textSize="17sp"
@@ -208,7 +206,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*이메일 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/year" />
@@ -232,7 +229,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*비밀번호 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtEmail" />
@@ -256,7 +252,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*비밀번호 확인 : "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtPassword" />
@@ -280,7 +275,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
                     android:text="*휴대폰 번호: "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtCheckPass" />
@@ -347,7 +341,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:text="*프로필 사진: "
-                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
@@ -357,10 +350,12 @@
                     style="@style/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="첨 부"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
@@ -381,7 +376,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:textSize="25sp"
+                    android:textSize="30sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/photo" />

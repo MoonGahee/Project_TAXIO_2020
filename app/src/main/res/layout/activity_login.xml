@@ -19,26 +19,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TAXIO"
-        android:textSize="60sp"
+        android:textSize="66sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.345" />
+        app:layout_constraintVertical_bias="0.295" />
 
     <Button
         android:id="@+id/idT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="92dp"
         android:background="@color/button"
         android:clickable="false"
         android:text="ID"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mainT" />
 
@@ -46,31 +45,33 @@
         android:id="@+id/passwordT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="76dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="72dp"
+        android:layout_marginTop="40dp"
         android:background="@color/button"
         android:clickable="false"
         android:text="PW"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/idT" />
 
     <EditText
         android:id="@+id/edtPw"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@id/passwordT"
         app:layout_constraintTop_toBottomOf="@id/idT" />
 
     <EditText
         android:id="@+id/edtId"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:textSize="20sp"
+        android:layout_marginTop="96dp"
+        android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@id/idT"
         app:layout_constraintTop_toBottomOf="@id/mainT" />
 
@@ -78,13 +79,13 @@
         android:id="@+id/btnLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="100dp"
         android:background="@color/button"
         android:text="LOGIN"
         android:textColor="#ffffff"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordT" />
