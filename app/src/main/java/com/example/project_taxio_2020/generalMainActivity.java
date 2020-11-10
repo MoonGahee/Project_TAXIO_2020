@@ -55,7 +55,6 @@ public class generalMainActivity extends AppCompatActivity {
         setToolbar();
         Initialize();
 
-
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);

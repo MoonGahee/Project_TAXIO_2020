@@ -174,4 +174,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/drawer"/> <!--네비게이션 드로어 추가-->
 </androidx.drawerlayout.widget.DrawerLayout>

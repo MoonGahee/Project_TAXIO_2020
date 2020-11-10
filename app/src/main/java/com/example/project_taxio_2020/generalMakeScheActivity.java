@@ -95,10 +95,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setContentView(R.layout.general_make_sche_activity);
         setToolbar();
 
-        //drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        //nDrawer = (NavigationView)findViewById(R.id.nDrawer);
-        //drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        //naviItem();
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
 
         Intent intent = getIntent();
         tripdays = intent.getIntExtra("tripDays", 0);

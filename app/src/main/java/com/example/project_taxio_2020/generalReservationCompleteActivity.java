@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -22,6 +23,8 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
 
+    TextView title_text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,6 +37,18 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         Button goMain; //새로운 여행 만들기
         goMain = findViewById(R.id.goMain);
 
@@ -42,6 +57,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

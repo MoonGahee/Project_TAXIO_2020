@@ -47,15 +47,16 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     TextView title_text;
     int tripMonth, tripDay, tripDays=0;
     String date="";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_date_activity);
         setToolbar();
 
-/*        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        naviItem();*/
+        naviItem();
 
         ok = findViewById(R.id.ok);
         title_text = findViewById(R.id.title_text);
