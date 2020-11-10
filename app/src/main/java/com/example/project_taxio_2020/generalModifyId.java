@@ -51,7 +51,7 @@ public class generalModifyId extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        naviItem();
+        //naviItem();
 
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
@@ -142,7 +142,7 @@ public class generalModifyId extends AppCompatActivity {
         });
     }
 
-    public void naviItem(){
+    /*public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -171,7 +171,7 @@ public class generalModifyId extends AppCompatActivity {
                 return true;
             }
         });
-    }
+    }*/
 
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?

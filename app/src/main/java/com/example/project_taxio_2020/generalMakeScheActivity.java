@@ -18,6 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLngBounds;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -42,6 +44,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
@@ -92,10 +95,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setContentView(R.layout.general_make_sche_activity);
         setToolbar();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        naviItem();
+        //drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        //nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        //drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //naviItem();
 
         Intent intent = getIntent();
         tripdays = intent.getIntExtra("tripDays", 0);

@@ -36,6 +36,9 @@ public class generalLoginActivity extends AppCompatActivity {
         edtPw = findViewById(R.id.edtPw);
         btnLogin = findViewById(R.id.btnLogin);
 
+        edtId.setText("heni1325@gmail.com");
+        edtPw.setText("12341234");
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
