@@ -72,37 +72,6 @@ public class generalMainActivity extends AppCompatActivity {
         });
     }
 
-    public void naviItem(){
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                return true;
-            }
-        });
-    }
-
     public void Initialize() {
         weather_test = findViewById(R.id.weather_test);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -192,6 +161,39 @@ public class generalMainActivity extends AppCompatActivity {
     };
 
 
+    //네비게이션
+    public void naviItem(){
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
+    }
+
+    //햄버거 버튼 및 툴바
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);

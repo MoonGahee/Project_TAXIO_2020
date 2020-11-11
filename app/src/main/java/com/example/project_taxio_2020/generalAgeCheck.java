@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 
+// ALL 회원가입 > 나이 선택
+
 public class generalAgeCheck extends AppCompatActivity {
 
     Button over14, under14, previous;

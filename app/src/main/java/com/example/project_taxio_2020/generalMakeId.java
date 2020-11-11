@@ -1,6 +1,7 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -47,7 +48,7 @@ public class generalMakeId extends AppCompatActivity {
     String TAG ="EXCEPTION";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
-
+    int general_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +57,9 @@ public class generalMakeId extends AppCompatActivity {
 
         setToolbar();
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
+        // SharedPreferance 사용 코드 작성해야 함. num값 유지
 
         edtNameM = findViewById(R.id.edtNameM);
         edtPassword = findViewById(R.id.edtPassword);
@@ -102,28 +104,29 @@ public class generalMakeId extends AppCompatActivity {
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getGeneral_id = edtEmail.getText().toString();
+                String getGeneral_num = Integer.toString(general_num);
+                String getGeneral_email = edtEmail.getText().toString();
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_name = edtNameM.getText().toString();
                 String getGeneral_sex  = spGenderM.getSelectedItem().toString();
                 String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                String getGeneral_email = edtEmail.getText().toString();
                 //부모 전화 
                 // 이미지 루트 데려오기
 
                 HashMap result = new HashMap<>();
-                result.put("general_id", getGeneral_id);
+                result.put("general_num", getGeneral_num);
+                result.put("general_email", getGeneral_email);
                 result.put("general_password", getGeneral_password);
                 result.put("general_name", getGeneral_name);
                 result.put("general_sex", getGeneral_sex);
                 result.put("general_birth", getGeneral_birth);
                 result.put("general_call", getGeneral_call);
-                result.put("general_email", getGeneral_email);
 
-                mDatabase.child(getGeneral_name).setValue(result);
 
-                mAuth.createUserWithEmailAndPassword(getGeneral_id, getGeneral_password)
+                mDatabase.child(getGeneral_num).setValue(result);
+
+                mAuth.createUserWithEmailAndPassword(getGeneral_email, getGeneral_password)
                         .addOnCompleteListener(generalMakeId.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

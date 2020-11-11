@@ -51,6 +51,9 @@ public class generalLoginActivity extends AppCompatActivity {
 
 
     }
+
+
+    // 이메일을 비교해서 값을 다음 화면에 넘겨주는 것을 해야한다.
     public void login(String email, String pw){
         mAuth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -68,7 +71,7 @@ public class generalLoginActivity extends AppCompatActivity {
     }
     public void sendEmailVerification(){
         if(mAuth.getCurrentUser().isEmailVerified()){
-            Toast.makeText(this, "로그인!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "로그인 되었습니다.", Toast.LENGTH_LONG).show();
         }
         else {
             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -93,11 +96,12 @@ public class generalLoginActivity extends AppCompatActivity {
         }
     };
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
+
+   //로그인 화면 툴바 삭제
+   public void setToolbar(){
+       Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+       setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+       actionBar.hide(); //액션바의 타이틀 삭제
     }
 }
