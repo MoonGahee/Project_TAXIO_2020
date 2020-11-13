@@ -98,7 +98,7 @@ public class generalModifyId extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 General general = snapshot.child("mgh").getValue(General.class); //child로 경로 지정
                 edtNameM.setText(general.getGeneral_name());
-                edtEmail.setText(general.getGeneral_id());
+                edtEmail.setText(general.getGeneral_email());
                 //읽어오는 거 해야징
             }
 

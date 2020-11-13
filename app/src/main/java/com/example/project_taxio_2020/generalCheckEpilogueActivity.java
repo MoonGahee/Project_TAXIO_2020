@@ -21,7 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-// 관우
+// 후기 by 관우 >> ?
 
 public class generalCheckEpilogueActivity extends AppCompatActivity {
     Toolbar toolbar;

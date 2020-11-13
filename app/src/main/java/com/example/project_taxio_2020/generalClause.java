@@ -14,6 +14,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+// 이것도 잘 모르겠습니다.
+
 public class generalClause extends AppCompatActivity {
 
     CheckBox all_check, clause1, clause2, clause3;

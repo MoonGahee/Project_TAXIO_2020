@@ -1,5 +1,5 @@
 package com.example.project_taxio_2020;
-// 관우
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

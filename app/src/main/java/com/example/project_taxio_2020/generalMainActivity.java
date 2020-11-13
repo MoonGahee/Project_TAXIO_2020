@@ -3,7 +3,6 @@ package com.example.project_taxio_2020;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -13,20 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,7 +31,6 @@ public class generalMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private Context context = this;
-    String people;
 
     int icon, wear_icon;
 
@@ -49,8 +41,8 @@ public class generalMainActivity extends AppCompatActivity {
 
     ForeCastManager mForeCast;
 
-    String lon = "126.5311884"; // 좌표 설정
-    String lat = "33.4996213";  // 좌표 설정
+    String lon = "126.897240"; // 좌표 설정
+    String lat = "37.568256";  // 좌표 설정
     generalMainActivity mThis;
     ArrayList<ContentValues> mWeatherData;
     ArrayList<WeatherInfo> mWeatherInfomation;
@@ -68,48 +60,14 @@ public class generalMainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View view = inflater.inflate(R.layout.general_number_people, null);
-        TextView intro = (TextView) view.findViewById(R.id.people_intro);
-        final EditText number = (EditText) view.findViewById(R.id.people_write);
-
         Button newTripBtn; //새로운 여행 만들기
         newTripBtn = findViewById(R.id.newTripBtn);
 
         newTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(generalMainActivity.this);
-                builder.setTitle("인원 수 선택");
-                builder.setView(view);
-
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(number.getText().length() <= 0) {
-                            Toast.makeText(getApplicationContext(), "값을 입력해주세요!", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            people = number.getText().toString();
-
-                            Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                            intent.putExtra("tripPeople", people);
-                            startActivity(intent);
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("취소", null);
-
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((ViewGroup)view.getParent()).removeView(view);
-                    }
-                });
-
-                builder.show();
-
+                Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+                startActivity(intent);
             }
         });
     }
