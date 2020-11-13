@@ -97,7 +97,7 @@ public class generalMainActivity extends AppCompatActivity {
     public String PrintValue() {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
-            mData = mData + "\n" + mWeatherInfomation.get(i).getWeather_Name() +"\n"
+            mData = mData + mWeatherInfomation.get(i).getWeather_Name() +"\n"
                     +  "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
                     + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
                     +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
