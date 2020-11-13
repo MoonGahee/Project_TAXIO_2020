@@ -231,7 +231,7 @@
 
                 <Spinner
                     android:id="@+id/spEmail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24dp"
                     android:layout_marginTop="12dp"
@@ -249,8 +249,8 @@
                     android:clickable="true"
                     android:text="중복 확인"
                     android:textSize="20sp"
-                    app:layout_constraintLeft_toRightOf="@id/spEmail"
-                    app:layout_constraintTop_toBottomOf="@+id/email" />
+                    app:layout_constraintLeft_toRightOf="@id/email"
+                    app:layout_constraintTop_toBottomOf="@+id/birthD" />
 
                 <TextView
                     android:id="@+id/password"

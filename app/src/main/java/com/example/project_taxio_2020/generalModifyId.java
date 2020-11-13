@@ -29,7 +29,7 @@ import java.util.HashMap;
 
 public class generalModifyId extends AppCompatActivity {
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
-    Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
+    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
     Button btnComplete;
     TextView btnImg;
     ImageView photo;
@@ -56,6 +56,7 @@ public class generalModifyId extends AppCompatActivity {
         birthM = findViewById(R.id.birthM);
         birthD = findViewById(R.id.birthD);
         spinnerNum = findViewById(R.id.spinnerNum);
+        spEmail = findViewById(R.id.spEmail);
 
         ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -76,6 +77,10 @@ public class generalModifyId extends AppCompatActivity {
         ArrayAdapter phoneAdapter = ArrayAdapter.createFromResource(this, R.array.phone, android.R.layout.simple_spinner_item);
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
+
+        ArrayAdapter emailAdapter = ArrayAdapter.createFromResource(this, R.array.email, android.R.layout.simple_spinner_item);
+        emailAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spEmail.setAdapter(emailAdapter);
 
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
