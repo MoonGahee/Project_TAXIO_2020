@@ -63,6 +63,7 @@
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
         <activity android:name=".generalMakeIdChild"/>
         <activity android:name=".generalMakeId"/>
+        <activity android:name=".driverMakeId"/>
         <activity android:name=".generalModifyId"/> <!--수정-->
     </application>
 </manifest>

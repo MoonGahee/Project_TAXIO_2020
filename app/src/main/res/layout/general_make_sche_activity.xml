@@ -101,6 +101,7 @@
             app:layout_constraintTop_toBottomOf="@+id/map1"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="전 날"
+            style="@style/button"
             android:background="@drawable/button_short"
             android:layout_margin="10dp" />
 
@@ -125,12 +126,14 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="10dp"
             android:text="다음 날"
+            style="@style/button"
             android:background="@drawable/button_short"/>
 
         <ListView
             android:id="@+id/trip1"
             android:layout_width="wrap_content"
             android:layout_height="300dp"
+            android:background="#ffffff"
             app:layout_constraintTop_toBottomOf="@+id/trip_fin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -147,18 +150,6 @@
             android:background="@drawable/button_short"
             style="@style/button"
             android:layout_margin="10dp"/>
-
-        <Button
-            android:id="@+id/taxi_btn1"
-            style="@style/button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="196dp"
-            android:background="@drawable/button_short"
-            android:text="TAXI"
-            app:layout_constraintLeft_toRightOf="@+id/trip_edit1"
-            app:layout_constraintTop_toBottomOf="@+id/trip1" />
 
         <Button
             android:id="@+id/trip_fin"

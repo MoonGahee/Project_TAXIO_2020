@@ -221,6 +221,24 @@
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
+                    android:id="@+id/aa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text=" @ "
+                    app:layout_constraintLeft_toRightOf="@id/edtEmail"
+                    app:layout_constraintTop_toBottomOf="@id/email" />
+
+                <Spinner
+                    android:id="@+id/spEmail"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintLeft_toRightOf="@+id/aa"
+                    app:layout_constraintTop_toBottomOf="@id/email" />
+
+                <TextView
                     android:id="@+id/btnid"
                     style="@style/button"
                     android:layout_width="wrap_content"
@@ -230,9 +248,9 @@
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="중복 확인"
-                    android:textSize="25sp"
-                    app:layout_constraintLeft_toRightOf="@id/edtEmail"
-                    app:layout_constraintTop_toBottomOf="@+id/email" />
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@id/email"
+                    app:layout_constraintTop_toBottomOf="@+id/birthD" />
 
                 <TextView
                     android:id="@+id/password"
@@ -357,14 +375,14 @@
                 <TextView
                     android:id="@+id/btnPPhone"
                     style="@style/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="47dp"
+                    android:layout_height="23dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="인 증"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/edtPPhone"
                     app:layout_constraintTop_toBottomOf="@id/pPhone" />
 
@@ -401,7 +419,7 @@
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="첨 부"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtPPhone" />
 
@@ -421,7 +439,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     app:layout_constraintHorizontal_bias="0.444"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

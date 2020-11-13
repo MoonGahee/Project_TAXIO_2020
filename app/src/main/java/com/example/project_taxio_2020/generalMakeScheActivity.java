@@ -18,6 +18,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import androidx.annotation.NonNull;
@@ -68,19 +71,22 @@ import java.util.List;
 public class generalMakeScheActivity extends AppCompatActivity implements OnMapReadyCallback {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-    Button edit_btn, taxi_btn, trip_fin;
+    Button edit_btn, trip_fin;
     Button previous, next;
     Toolbar toolbar;
     TextView title_text, day1, date1, people1;
-    String jeju;
+    String jeju, date;
     int k = 1;
     int day = 1;
     int tripdays = 3, tripday, tripmonth;
+    float width = 200f, height = 200f;
+    float zoom = 15;
+    GroundOverlay imageOverlay;
     ListView listView;
     ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
-    LatLng latLng1, latLng2;
+    LatLng latLng1, latLng2, lat;
     String places[], distance[] = new String[100];
     String dis;
     MapFragment mapFrag;
@@ -101,6 +107,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         naviItem();
 
         Intent intent = getIntent();
+        date = intent.getStringExtra("tripDate");
         tripdays = intent.getIntExtra("tripDays", 0);
         tripmonth = intent.getIntExtra("tripMonth", 0);
         tripday = intent.getIntExtra("tripDay", 0);
@@ -118,7 +125,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onPlaceSelected(Place place) {
                 LatLngBounds cityBounds = new LatLngBounds(new LatLng(33.0000000, 125.0000000), new LatLng(35.0000000, 127.0000000));
-                LatLng lat = place.getLatLng();
+                lat = place.getLatLng();
 
                 if (cityBounds.equals(cityBounds.including(lat))) {
                     jeju = place.getName();
@@ -135,9 +142,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     count = new int[k];
                     places = new String[k];
 
-                    videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
-                    gMap.addGroundOverlay(videoMark);
-                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+                    videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, width, height);
+                    imageOverlay = gMap.addGroundOverlay(videoMark);
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, zoom));
 
                     list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "", 0, 0));
 
@@ -174,6 +181,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         day1.setText(Integer.toString(day) + "일차");
 
         date1 = findViewById(R.id.date1);
+        date1.setText(date);
 
         people1 = findViewById(R.id.people1);
 
@@ -234,7 +242,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         });
 
         edit_btn = findViewById(R.id.trip_edit1);
-        taxi_btn = findViewById(R.id.taxi_btn1);
         trip_fin = findViewById(R.id.trip_fin);
 
         listView = findViewById(R.id.trip1);
@@ -244,16 +251,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
+                i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripdays);
                 startActivity(i);
-            }
-        });
-
-        taxi_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                //startActivity(i);
             }
         });
 
@@ -384,11 +384,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng location = new LatLng(37.568256, 126.897240);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        LatLng location = new LatLng(33.4996213, 126.5311884);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
