@@ -36,6 +36,10 @@ public class generalSRegionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        Intent i = getIntent();
+        final String general_num = (String)i.getSerializableExtra("general_num");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_region_activity);
         setToolbar();
@@ -130,7 +134,7 @@ public class generalSRegionActivity extends AppCompatActivity {
                         String region = "제주";
                         HashMap result = new HashMap<>();
                         result.put("region", region);
-                        mDatabase.child("moon2").child("Schedule").setValue(result); // moon2 대신 현재 나의 id
+                        mDatabase.child(general_num).child("Schedule").setValue(result); // moon2 대신 현재 나의 id
                         //DataBase 종료
 
                         Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
