@@ -120,7 +120,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/button_long"
         android:text="확     인"
-        android:textSize="30sp"
+        android:textSize="25sp"
         style="@style/button"/>
 
 

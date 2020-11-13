@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        style="@style/title2"
+        style="@style/basic"
         android:text="날짜"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        style="@style/title2"
+        style="@style/basic"
         android:text="날씨" />
 
     <ImageView

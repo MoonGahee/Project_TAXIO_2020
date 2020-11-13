@@ -22,7 +22,7 @@
 
     <style name="title"> <!-- 앱 타이틀 -->
         <item name="android:gravity">center</item>
-        <item name="android:textSize">40sp</item>
+        <item name="android:textSize">35sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textColor">#FFFFFF</item>
@@ -31,14 +31,15 @@
     </style>
 
     <style name="title1"> <!-- 상단 타이틀 -->
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">25sp</item>
         <item name="android:layout_margin">10sp</item>
         <item name="android:textColor">@color/mainText</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">@font/hufontbig</item>
     </style>
 
     <style name="title2">
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:layout_marginLeft">10sp</item>
         <item name="android:layout_marginRight">10sp</item>
         <item name="android:layout_marginTop">5sp</item>
@@ -58,7 +59,7 @@
     </style>
 
     <style name="basic"> <!-- 기본 문구 스타일 -->
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">17sp</item>
 
         <item name="android:layout_marginLeft">10sp</item>
         <item name="android:layout_marginRight">10sp</item>

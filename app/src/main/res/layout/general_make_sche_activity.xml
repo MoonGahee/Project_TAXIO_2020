@@ -100,6 +100,7 @@
             app:layout_constraintTop_toBottomOf="@+id/map1"
             app:layout_constraintLeft_toLeftOf="parent"
             android:text="전 날"
+            style="@style/button"
             android:background="@drawable/button_short"
             android:layout_margin="10dp" />
 
@@ -124,6 +125,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_margin="10dp"
             android:text="다음 날"
+            style="@style/button"
             android:background="@drawable/button_short"/>
 
         <ListView
