@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -12,14 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,6 +49,7 @@ public class generalMainActivity extends AppCompatActivity {
     String nowm = monthFormat.format(currentTime);
     String nowd = dayFormat.format(currentTime);
     public String date = nowm+"월 "+nowd+"일";
+    String people;
 
     int icon, wear_icon;
 
@@ -74,42 +82,44 @@ public class generalMainActivity extends AppCompatActivity {
         Button newTripBtn; //새로운 여행 만들기
         newTripBtn = findViewById(R.id.newTripBtn);
 
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View view = inflater.inflate(R.layout.general_number_people, null);
+        TextView intro = (TextView) view.findViewById(R.id.people_intro);
+        final EditText number = (EditText) view.findViewById(R.id.people_write);
+
         newTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalMainActivity.this);
+                builder.setTitle("인원 수 선택");
+                builder.setView(view);
 
-    public void naviItem(){
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(number.getText().length() <= 0) {
+                            Toast.makeText(getApplicationContext(), "값을 입력해주세요!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            people = number.getText().toString();
 
-                int id = menuItem.getItemId();
+                            Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+                            intent.putExtra("tripPeople", people);
+                            startActivity(intent);
+                        }
+                    }
+                });
 
-                if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                return true;
+                builder.setNegativeButton("취소", null);
+
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        ((ViewGroup)view.getParent()).removeView(view);
+                    }
+                });
+
+                builder.show();
             }
         });
     }
@@ -135,8 +145,12 @@ public class generalMainActivity extends AppCompatActivity {
 
             if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
                 wear_icon = R.drawable.over25;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 20)
+                wear_icon = R.drawable.under20;
             else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 15)
                 wear_icon = R.drawable.under15;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
+                wear_icon = R.drawable.under0;
             else
                 wear_icon = 0;
 
@@ -201,6 +215,39 @@ public class generalMainActivity extends AppCompatActivity {
     };
 
 
+    //네비게이션
+    public void naviItem(){
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
+    }
+
+    //햄버거 버튼 및 툴바
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
