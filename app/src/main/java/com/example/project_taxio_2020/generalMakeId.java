@@ -62,7 +62,7 @@ public class generalMakeId extends AppCompatActivity {
 
         setToolbar();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(); //General DB참조
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
         // SharedPreferance 사용 코드 작성해야 함. num값 유지
 
@@ -168,15 +168,15 @@ public class generalMakeId extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i = 0;
-                General general = snapshot.getValue(General.class); //Integer.toString(i)
-                final String number = general.general_call;
-                if(number==null){
-                    Log.d("KOO TEST", "KOO");
+                for(DataSnapshot column: snapshot.getChildren())
+                {
+                    Log.d("TTTEST", column.getKey());
                 }
-                else{
-                Log.d("KOO TEST", number);}
+                General general = snapshot.child("0").getValue(General.class); //Integer.toString(i)
+                final String number = general.getGeneral_num();
+                Log.d("KOO TEST", number);
                 while (true){
-                    if (general.general_num!=Integer.toString(i)){ //여기가 이상한 것 같은데
+                    if (Integer.parseInt(number) != i){ //여기가 이상한 것 같은데
                         String getGeneral_num = Integer.toString(i);
                         result.put("general_num", getGeneral_num);
                         mDatabase.child(getGeneral_num).setValue(result);
