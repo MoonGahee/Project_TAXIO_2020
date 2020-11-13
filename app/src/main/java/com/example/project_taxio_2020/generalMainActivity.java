@@ -23,7 +23,11 @@ import android.widget.ImageButton;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 // 탑승자 메인 화면 by 주혜
 
@@ -31,6 +35,13 @@ public class generalMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private Context context = this;
+    Date currentTime = Calendar.getInstance().getTime();
+    SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+    SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+
+    String nowm = monthFormat.format(currentTime);
+    String nowd = dayFormat.format(currentTime);
+    public String date = nowm+"월 "+nowd+"일";
 
     int icon, wear_icon;
 
@@ -117,12 +128,10 @@ public class generalMainActivity extends AppCompatActivity {
     public String PrintValue() {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
-            mData = mData + "\n" + mWeatherInfomation.get(i).getWeather_Name() +"\n"
-                    +  "풍속: " + mWeatherInfomation.get(i).getWind_Speed() + " mps" + "\n"
-                    +  "최고 기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃"
-                    +  " /최저 기온: " + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
-                    +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n"
-                    +  "습도: " + mWeatherInfomation.get(i).getHumidity() + "%";
+            mData = mData + mWeatherInfomation.get(i).getWeather_Name() +"\n"
+                    +  "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
+                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
+                    +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
 
             if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
                 wear_icon = R.drawable.over25;
@@ -180,7 +189,7 @@ public class generalMainActivity extends AppCompatActivity {
                     DataChangedToHangeul();
                     data = PrintValue();
 
-                    list.add(new generalWeatherItem("현재 온도에 따른 옷 추천", icon, data, wear_icon));
+                    list.add(new generalWeatherItem(date, icon, data, wear_icon));
 
                     generalWeatherAdapter = new generalWeatherAdapter(generalMainActivity.this, list);
                     weather_test.setAdapter(generalWeatherAdapter);
