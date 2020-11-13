@@ -168,7 +168,11 @@ public class generalMakeId extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i = 0;
-                General general = snapshot.child(getGeneral_num).getValue(General.class); //Integer.toString(i)
+                for(DataSnapshot column: snapshot.getChildren())
+                {
+                    Log.d("TTTEST", column.getKey());
+                }
+                General general = snapshot.child("0").getValue(General.class); //Integer.toString(i)
                 final String number = general.getGeneral_num();
                 Log.d("KOO TEST", number);
                 while (true){
