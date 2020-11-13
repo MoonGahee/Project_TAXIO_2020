@@ -252,6 +252,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+    
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
