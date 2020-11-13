@@ -170,21 +170,17 @@ public class generalMakeId extends AppCompatActivity {
                 int i = 0;
                 for(DataSnapshot column: snapshot.getChildren())
                 {
-                    Log.d("TTTEST", column.getKey());
-                }
-                General general = snapshot.child("0").getValue(General.class); //Integer.toString(i)
-                final String number = general.getGeneral_num();
-                Log.d("KOO TEST", number);
-                while (true){
-                    if (Integer.parseInt(number) != i){ //여기가 이상한 것 같은데
-                        String getGeneral_num = Integer.toString(i);
-                        result.put("general_num", getGeneral_num);
-                        mDatabase.child(getGeneral_num).setValue(result);
-                        break;
-                    }
+                    Log.d("KOO TEST", column.getKey());
+                        while (true) {
+                            if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
+                                String getGeneral_num = Integer.toString(i);
+                                result.put("general_num", getGeneral_num);
+                                mDatabase.child(getGeneral_num).setValue(result);
+                                break;
+                            }
                     else{
-                        i++;
-                        Log.d("KOO TEST", Integer.toString(i));
+                            i++;
+                        }
                     }
                 }
                 Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
