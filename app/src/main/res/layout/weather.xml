@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/weather_icon"
@@ -14,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
     <TextView
         android:id="@+id/weather_day"
         android:layout_width="wrap_content"
@@ -22,7 +20,6 @@
         android:layout_marginTop="10dp"
         style="@style/title2"
         android:text="날짜"/>
-
     <TextView
         android:id="@+id/weather_name"
         style="@style/title2"
@@ -37,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
         android:src="@drawable/under15"/>
 
 </LinearLayout>
