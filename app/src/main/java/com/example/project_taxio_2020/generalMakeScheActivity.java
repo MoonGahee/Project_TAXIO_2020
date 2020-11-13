@@ -12,16 +12,25 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.LatLngBounds;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
@@ -52,6 +61,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -59,20 +69,24 @@ import java.util.Arrays;
 import java.util.List;
 
 public class generalMakeScheActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-    Button edit_btn, taxi_btn, trip_fin;
+    private DrawerLayout drawerLayout;
+    NavigationView nDrawer;
+    Button edit_btn, trip_fin;
     Button previous, next;
     Toolbar toolbar;
     TextView title_text, day1, date1, people1;
-    String jeju;
+    String jeju, date;
     int k = 1;
     int day = 1;
     int tripdays = 3, tripday, tripmonth;
+    float width = 200f, height = 200f;
+    float zoom = 15;
+    GroundOverlay imageOverlay;
     ListView listView;
     ScrollView scroll1;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
-    LatLng latLng1, latLng2;
+    LatLng latLng1, latLng2, lat;
     String places[], distance[] = new String[100];
     String dis;
     MapFragment mapFrag;
@@ -87,12 +101,18 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setContentView(R.layout.general_make_sche_activity);
         setToolbar();
 
-        //Intent intent = getIntent();
-        //tripdays = intent.getIntExtra("tripDays", 0);
-        //tripmonth = intent.getIntExtra("tripMonth", 0);
-        //tripday = intent.getIntExtra("tripDay", 0);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
 
-        //Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
+        Intent intent = getIntent();
+        date = intent.getStringExtra("tripDate");
+        tripdays = intent.getIntExtra("tripDays", 0);
+        tripmonth = intent.getIntExtra("tripMonth", 0);
+        tripday = intent.getIntExtra("tripDay", 0);
+
+        Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
@@ -105,7 +125,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onPlaceSelected(Place place) {
                 LatLngBounds cityBounds = new LatLngBounds(new LatLng(33.0000000, 125.0000000), new LatLng(35.0000000, 127.0000000));
-                LatLng lat = place.getLatLng();
+                lat = place.getLatLng();
 
                 if (cityBounds.equals(cityBounds.including(lat))) {
                     jeju = place.getName();
@@ -122,9 +142,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     count = new int[k];
                     places = new String[k];
 
-                    videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 100f, 100f);
-                    gMap.addGroundOverlay(videoMark);
-                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+                    videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, width, height);
+                    imageOverlay = gMap.addGroundOverlay(videoMark);
+                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, zoom));
 
                     list_itemArrayList.add(new generalTimelineItem(jeju, Integer.toString(k), "", 0, 0));
 
@@ -161,6 +181,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         day1.setText(Integer.toString(day) + "일차");
 
         date1 = findViewById(R.id.date1);
+        date1.setText(date);
 
         people1 = findViewById(R.id.people1);
 
@@ -221,7 +242,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         });
 
         edit_btn = findViewById(R.id.trip_edit1);
-        taxi_btn = findViewById(R.id.taxi_btn1);
         trip_fin = findViewById(R.id.trip_fin);
 
         listView = findViewById(R.id.trip1);
@@ -231,15 +251,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
+                i.putExtra("tripDate", date);
+                i.putExtra("tripDays", tripdays);
                 startActivity(i);
-            }
-        });
-
-        taxi_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                //startActivity(i);
             }
         });
 
@@ -322,19 +336,47 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
-                finish();
+    public void naviItem(){
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
             }
-        }
-        return super.onOptionsItemSelected(item);
+        });
     }
 
 
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+        ImageButton menu = findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
@@ -342,11 +384,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng location = new LatLng(37.568256, 126.897240);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        LatLng location = new LatLng(33.4996213, 126.5311884);
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
@@ -358,8 +400,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     public String calDistance(LatLng lat1, LatLng lat2) {
-        double earth_R = 6371000.0;
-        double radian, radLat1, radLat2, radDist, distances, ret;
+        double earth_R = 6371000.0, radian, radLat1, radLat2, radDist, distances, ret;
         double latitude1 = lat1.latitude;
         double longitude1 = lat1.longitude;
         double latitude2 = lat2.latitude;

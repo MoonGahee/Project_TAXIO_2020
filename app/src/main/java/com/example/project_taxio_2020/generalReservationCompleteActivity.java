@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -20,6 +21,9 @@ import com.google.android.material.navigation.NavigationView;
 
 public class generalReservationCompleteActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    NavigationView nDrawer;
+
+    TextView title_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +33,36 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        NavigationView nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
+
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         Button goMain; //새로운 여행 만들기
         goMain = findViewById(R.id.goMain);
 
+        goMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -43,38 +71,26 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_modify) {
+                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_out) {
+                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 return true;
             }
         });
-
-
-        goMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 

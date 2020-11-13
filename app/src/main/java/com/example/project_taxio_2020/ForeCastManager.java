@@ -12,6 +12,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+// 날씨 뭐시긴지 모르겠습니다.
+
 public class ForeCastManager extends Thread {
     String lon,lat;
     ArrayList<ContentValues> mWeather;

@@ -8,7 +8,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/background">
 
-        <include layout="@layout/app_bar"
+        <include layout="@layout/app_bar_"
             android:id="@+id/bar"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

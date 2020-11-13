@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +45,7 @@ public class generalWeatherAdapter extends RecyclerView.Adapter<generalWeatherAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.weather_day.setText(list.get(position).getWeather_day());
         holder.weather_name.setText(list.get(position).getWeather_name());
         holder.weather_day.setText(list.get(position).getWeather_day());
         holder.weather_icon.setImageResource(list.get(position).getWeather_image());

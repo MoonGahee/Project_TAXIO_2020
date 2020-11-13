@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 일정 짜기 by 관우 -->
 <androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -132,6 +133,7 @@
             android:id="@+id/trip1"
             android:layout_width="wrap_content"
             android:layout_height="300dp"
+            android:background="#ffffff"
             app:layout_constraintTop_toBottomOf="@+id/trip_fin"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -150,18 +152,6 @@
             android:layout_margin="10dp"/>
 
         <Button
-            android:id="@+id/taxi_btn1"
-            style="@style/button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="196dp"
-            android:background="@drawable/button_short"
-            android:text="TAXI"
-            app:layout_constraintLeft_toRightOf="@+id/trip_edit1"
-            app:layout_constraintTop_toBottomOf="@+id/trip1" />
-
-        <Button
             android:id="@+id/trip_fin"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -175,4 +165,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/drawer"/> <!--네비게이션 드로어 추가-->
 </androidx.drawerlayout.widget.DrawerLayout>
