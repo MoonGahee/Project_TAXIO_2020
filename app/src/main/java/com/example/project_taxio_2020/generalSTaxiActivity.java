@@ -43,6 +43,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
     String  tripDate, rentTime , startTime;
     Integer tripMonth, tripDay, tripDays;
+    String date;
     Button ok;
     ListView ListView_taxi;
     RadioGroup use;
@@ -64,6 +65,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
         naviItem();
 
         Intent intent = getIntent();
+        date = intent.getStringExtra("tripDate");
         tripDays = intent.getIntExtra("tripDays", 0);
         tripMonth = intent.getIntExtra("tripMonth", 0);
         tripDay = intent.getIntExtra("tripDay", 0);
@@ -90,6 +92,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+                i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripDays);
                 i.putExtra("tripMonth", tripMonth);
                 i.putExtra("tripDay", tripDay);

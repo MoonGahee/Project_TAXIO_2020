@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:text="회원가입"
         android:textStyle="bold"
-        android:textSize="30sp"
         app:layout_constraintLeft_toRightOf="@+id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar"
         />
@@ -156,7 +155,6 @@
         android:layout_marginTop="30dp"
         android:text="이전"
         style="@style/button"
-        android:textSize="20sp"
         android:background="@color/button"/>
 
     <Button
@@ -168,8 +166,7 @@
         android:layout_marginTop="30dp"
         android:text="다음"
         style="@style/button"
-        android:background="@color/button"
-        android:textSize="20sp"/>
+        android:background="@color/button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

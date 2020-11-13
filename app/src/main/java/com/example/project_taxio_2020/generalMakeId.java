@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 
 public class generalMakeId extends AppCompatActivity {
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
-    Spinner spGenderM, birthY, birthM, birthD, spinnerNum;
+    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
     Button  btnComplete;
     TextView btnEmail, btnImg;
     String id, password;
@@ -72,6 +72,7 @@ public class generalMakeId extends AppCompatActivity {
         edtNum1 = findViewById(R.id.edtNum1);
         edtNum2 = findViewById(R.id.edtNum2);
         edtEmail = findViewById(R.id.edtEmail);
+        spEmail = findViewById(R.id.spEmail);
 
         spGenderM = findViewById(R.id.spGenderM);
         birthY = findViewById(R.id.birthY);
@@ -83,6 +84,10 @@ public class generalMakeId extends AppCompatActivity {
         final ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenderM.setAdapter(genderAdapter);
+
+        ArrayAdapter emailAdapter = ArrayAdapter.createFromResource(this, R.array.email, android.R.layout.simple_spinner_item);
+        emailAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spEmail.setAdapter(emailAdapter);
 
         final ArrayAdapter yearAdapter = ArrayAdapter.createFromResource(this, R.array.year, android.R.layout.simple_spinner_item);
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

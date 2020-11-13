@@ -1,5 +1,10 @@
 package com.example.project_taxio_2020;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Weather {
     public String weather_date;
     public String region;
@@ -11,6 +16,7 @@ public class Weather {
     }
 
     public Weather(String weather_date, String region, String temperature, String top, String bottom){
+
         this.weather_date = weather_date;
         this.region = region;
         this.temperature  = temperature;

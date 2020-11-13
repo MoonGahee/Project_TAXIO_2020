@@ -1,6 +1,7 @@
 package com.example.project_taxio_2020;
 
 public class WeatherInfo {
+
     String weather_Day;
     String weather_Name;
     String weather_Number;
@@ -27,6 +28,7 @@ public class WeatherInfo {
                        String clouds_Value, String clouds_Sort, String clouds_Per,String weather_Day,
                        String feel_like_value)
     {
+        this.weather_Day = weather_Day;
         this.weather_Name = weather_Name;
         this.weather_Number = weather_Number;
         this.weather_Much = weather_Much;
@@ -86,6 +88,8 @@ public class WeatherInfo {
     }
 
     public String getWeather_Day() { return weather_Day; }
+
+    public void setWeather_Day(String weather_Day){this.weather_Day = weather_Day;}
 
     public void setWeather_Name(String weather_Name) { this.weather_Name = weather_Name; }
 
