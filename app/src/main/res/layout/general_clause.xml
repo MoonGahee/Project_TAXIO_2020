@@ -1,172 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/all_scroll"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <include layout="@layout/app_bar_"
-        android:id="@+id/bar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/bell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/notice"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bar" />
+        <include
+            android:id="@+id/bar"
+            layout="@layout/app_bar_"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
-    <TextView
-        android:id="@+id/makeMember"
-        style="@style/title1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/bell"
-        app:layout_constraintTop_toBottomOf="@+id/bar"
-        />
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="386dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="12dp"
-        android:max="100"
-        android:progress="40"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/makeMember" />
-
-    <TextView
-        android:id="@+id/intro"
-        style="@style/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="16dp"
-        android:text="조건 동의"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/makeMember"
-        app:layout_constraintTop_toBottomOf="@id/bar" />
-
-    <CheckBox
-        android:id="@+id/all_check"
-        style="@style/basic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bell" />
-
-    <ScrollView
-        android:id="@+id/show_clause1"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_check">
-        <TextView
+        <ImageView
+            android:id="@+id/bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign1"/>
-    </ScrollView>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/notice"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
 
-    <CheckBox
-        android:id="@+id/clause1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/show_clause1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="TAXIO 이용약관에 동의"
-        style="@style/basic"
-        android:textStyle="bold" />
-
-    <ScrollView
-        android:id="@+id/show_clause2"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clause1">
         <TextView
+            android:id="@+id/makeMember"
+            style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign2"/>
-    </ScrollView>
+            android:paddingTop="7dp"
+            android:text="회원가입"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
-    <CheckBox
-        android:id="@+id/clause2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/show_clause2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="개인정보 수집 및 이용에 대한 안내"
-        style="@style/basic"
-        android:textStyle="bold"/>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="386dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="12dp"
+            android:max="100"
+            android:progress="40"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeMember" />
 
-    <ScrollView
-        android:id="@+id/show_clause3"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clause2">
         <TextView
+            android:id="@+id/intro"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign3"/>
-    </ScrollView>
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="16dp"
+            android:text="조건 동의"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/makeMember"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
+
+        <CheckBox
+            android:id="@+id/all_check"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bell" />
+
+        <ScrollView
+            android:id="@+id/show_clause1"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/all_check">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign1" />
+        </ScrollView>
+
+        <CheckBox
+            android:id="@+id/clause1"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="TAXIO 이용약관에 동의"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_clause1" />
+
+        <ScrollView
+            android:id="@+id/show_clause2"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clause1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign2" />
+        </ScrollView>
+
+        <CheckBox
+            android:id="@+id/clause2"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="개인정보 수집 및 이용에 대한 안내"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_clause2" />
+
+        <ScrollView
+            android:id="@+id/show_clause3"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clause2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign3" />
+        </ScrollView>
 
 
-    <CheckBox
-        android:id="@+id/clause3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/show_clause3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="위치정보 이용 약관 동의 (선택)"
-        style="@style/basic"
-        android:textStyle="bold"/>
+        <CheckBox
+            android:id="@+id/clause3"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="위치정보 이용 약관 동의 (선택)"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_clause3" />
 
-    <Button
-        android:id="@+id/previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clause3"
-        android:layout_marginTop="30dp"
-        android:text="이전"
-        style="@style/button"
-        android:background="@color/button"/>
+        <Button
+            android:id="@+id/previous"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/button"
+            android:text="이전"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clause3" />
 
-    <Button
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clause3"
-        android:layout_marginTop="30dp"
-        android:text="다음"
-        style="@style/button"
-        android:background="@color/button"/>
+        <Button
+            android:id="@+id/next"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@color/button"
+            android:text="다음"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clause3" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

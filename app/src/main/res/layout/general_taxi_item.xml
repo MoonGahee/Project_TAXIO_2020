@@ -44,11 +44,11 @@
         style="@style/basic"
         android:layout_width="80dp"
         android:layout_height="30dp"
+        android:layout_marginStart="68dp"
         android:layout_marginRight="56dp"
         android:background="@drawable/button_short"
         android:gravity="center"
         android:visibility="gone"
-        android:layout_marginStart="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/rent_time"
         app:layout_constraintTop_toTopOf="parent" />

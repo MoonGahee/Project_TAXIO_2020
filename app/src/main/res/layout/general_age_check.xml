@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- 회원가입 나이선택 by 주혜 -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <include layout="@layout/app_bar_"
+    <include
         android:id="@+id/bar"
+        layout="@layout/app_bar_"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+        app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
     <ImageView
         android:id="@+id/bell"
@@ -27,9 +30,10 @@
         style="@style/title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="7dp"
         android:text="회원가입"
         app:layout_constraintLeft_toRightOf="@+id/bell"
-        app:layout_constraintTop_toBottomOf="@+id/bar"/>
+        app:layout_constraintTop_toBottomOf="@+id/bar" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -51,39 +55,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
         android:text="나이가 어떻게 되시나요?"
-        app:layout_constraintHorizontal_bias="0.556"
         android:textSize="31sp"
+        app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/previous" />
 
     <Button
         android:id="@+id/over14"
+        style="@style/button"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intro"
         android:layout_marginTop="40dp"
+        android:background="#AAD9FA"
         android:text="만 14세 이상입니다."
         android:textSize="25sp"
         android:textStyle="bold"
-        style="@style/button"
-        android:background="#AAD9FA"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/intro" />
 
     <Button
         android:id="@+id/under14"
+        style="@style/button"
         android:layout_width="200dp"
         android:layout_height="70dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/over14"
         android:layout_marginTop="30dp"
+        android:background="#AAD9FA"
         android:text="만 14세 미만입니다."
         android:textSize="25sp"
         android:textStyle="bold"
-        style="@style/button"
-        android:background="#AAD9FA"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/over14" />
 
     <Button
         android:id="@+id/previous"
