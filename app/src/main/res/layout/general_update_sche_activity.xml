@@ -98,7 +98,7 @@
                 android:id="@+id/map2"
                 class="com.google.android.gms.maps.MapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="200dp"
                 android:layout_margin="4dp"
                 app:cameraTargetLat="33.49"
                 app:cameraTargetLng="126.5"
