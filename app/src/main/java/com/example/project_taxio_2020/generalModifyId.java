@@ -109,6 +109,7 @@ public class generalModifyId extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon-Test","error");
                 //없는 경우
             }
         };
