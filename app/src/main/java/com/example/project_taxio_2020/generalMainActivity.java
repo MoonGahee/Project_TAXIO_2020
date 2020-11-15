@@ -65,9 +65,14 @@ public class generalMainActivity extends AppCompatActivity {
     generalMainActivity mThis;
     ArrayList<ContentValues> mWeatherData;
     ArrayList<WeatherInfo> mWeatherInfomation;
+    String general_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //값을 받아오기
+        Intent i = getIntent();
+        general_num = (String)i.getSerializableExtra("general_num");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_main_activity);
@@ -102,10 +107,11 @@ public class generalMainActivity extends AppCompatActivity {
                         }
                         else {
                             people = number.getText().toString();
-
-                            Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                            intent.putExtra("tripPeople", people);
-                            startActivity(intent);
+                            moveActivity();
+                            //인원수를 어디에 저장할 것인가
+                            //Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+                            //intent.putExtra("tripPeople", people);
+                            //startActivity(intent);
                         }
                     }
                 });
@@ -213,6 +219,15 @@ public class generalMainActivity extends AppCompatActivity {
             }
         }
     };
+
+
+    // 다음 화면으로 회원 번호 전달
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+        intent.putExtra("general_num", general_num);
+        startActivity(intent);
+        finish();
+    }
 
 
     //네비게이션

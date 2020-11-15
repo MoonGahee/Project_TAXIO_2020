@@ -61,7 +61,7 @@
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="19dp"
             android:text="날짜"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recruitDriver2" />
@@ -84,7 +84,7 @@
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="24dp"
             android:text="성별"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/infoDate" />
@@ -102,7 +102,6 @@
 
         <TextView
             android:id="@+id/infoPerson"
-
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,10 +146,10 @@
             android:id="@+id/rg1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="32dp"
             android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="@+id/infoGender"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"> <!--원래는 vertical 기본인가?-->
 
             <RadioButton
@@ -160,6 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="25dp"
+                android:buttonTint="@color/bar"
                 android:text="무관" />
 
             <RadioButton
@@ -169,6 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="25dp"
+                android:buttonTint="@color/bar"
                 android:text="남성" />
 
             <RadioButton
@@ -178,6 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="25dp"
+                android:buttonTint="@color/bar"
                 android:text="여성" />
         </RadioGroup>
 
@@ -185,9 +187,9 @@
             android:id="@+id/rg2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="15dp"
             android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="@+id/infoTrunk"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rg1"> <!--원래는 vertical 기본인가?-->
             <RadioButton
                 android:id="@+id/allTrunk"
@@ -196,6 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="전체" />
 
             <RadioButton
@@ -205,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="유" />
 
             <RadioButton
@@ -214,6 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="무" />
         </RadioGroup>
 
@@ -222,9 +227,9 @@
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="15dp"
             android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="@+id/infoPerson"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rg2"> <!--원래는 vertical 기본인가?-->
             <RadioButton
                 android:id="@+id/under4"
@@ -233,6 +238,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="4인 이하" />
 
             <RadioButton
@@ -242,6 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="6인 이하" />
 
             <RadioButton
@@ -251,6 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
+                android:buttonTint="@color/bar"
                 android:text="6인 초과" />
         </RadioGroup>
 

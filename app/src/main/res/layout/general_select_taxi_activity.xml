@@ -91,10 +91,10 @@
             android:id="@+id/ListView_taxi"
             android:layout_width="wrap_content"
             android:layout_height="340dp"
+            android:divider="#ffffff"
+            android:dividerHeight="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rent"
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/rent" />
 
         <Button
             android:id="@+id/ok"
@@ -106,7 +106,8 @@
             android:text="확     인"
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
