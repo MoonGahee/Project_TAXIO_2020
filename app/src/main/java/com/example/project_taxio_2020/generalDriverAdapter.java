@@ -1,5 +1,6 @@
 package com.example.project_taxio_2020;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,28 +9,43 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView; //ItemViewHolder와 ViewHolder의 차이?
+
+import com.example.project_taxio_2020.databinding.GeneralDriverItemDetailBinding;
+
 import java.util.ArrayList;
 
 // 기사 선택 리사이클러뷰 개당 by 가희
 
-public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdapter.ItemViewHolder>{
+public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdapter.ItemViewHolder> {
     // 주석 체크만 한 경우 ViewHolder > itemViewHolder로 변경함
+
+    //Adapter에 들어갈 리스트트
     private ArrayList<generalDriverItem> dData = new ArrayList<>();
     Context context;
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
+    private int prePosition = -1;
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder{ //
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
         TextView infoDriver;
         TextView infoPrice;
         ImageView driverImg;
+        ImageView plusBtn;
         TextView recruit;
         TextView sendMsg;
+        RecyclerView recyclerView_driver_detail;
+        generalDriverItem dataDriver;
+        private int position;
 
-        ItemViewHolder(View itemView){ //
+
+        ItemViewHolder(View itemView) { //
             super(itemView);
 
             //객체 생성
@@ -37,18 +53,72 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             infoDriver = itemView.findViewById(R.id.infoDriver);
             infoPrice = itemView.findViewById(R.id.infoPrice);
             driverImg = itemView.findViewById(R.id.driverImg);
+            plusBtn = itemView.findViewById(R.id.plusBtn);
             recruit = itemView.findViewById(R.id.recruit);
             sendMsg = itemView.findViewById(R.id.sendMsg);
+            recyclerView_driver_detail = itemView.findViewById(R.id.recyclerView_driver_detail);
         }
 
         //값을 하나하나 보여주는 함수
-        void onBind(generalDriverItem dataD){
-            driverName.setText(dataD.getDriverName());
-            infoDriver.setText(dataD.getDriverInfo());
-            infoPrice.setText(dataD.getDirverPrice());
+        void onBind(generalDriverItem dataDriver, int position) {
+            this.dataDriver = dataDriver;
+            this.position = position;
+            generalDriverDetailAdapter adapter = new generalDriverDetailAdapter();
+
+            driverName.setText(dataDriver.getDriverName());
+            infoDriver.setText(dataDriver.getDriverInfo());
+            infoPrice.setText(dataDriver.getDirverPrice());
+            recyclerView_driver_detail.setAdapter(adapter);
+
+            changeVisibility(selectedItems.get(position));
+
+            plusBtn.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.driverLayout:
+                    if (selectedItems.get(position)) {
+                        //펼쳐진 아이템 클릭시
+                        selectedItems.delete(position);
+                    } else {
+                        selectedItems.delete(prePosition); //직전 클릭한 상태 삭제
+                        selectedItems.put(position, true); //position에 저장
+                    }
+                    //해당 포지션의 변화
+                    if (prePosition != -1)
+                        notifyItemChanged(prePosition);
+                    notifyItemChanged(position);
+                    prePosition = position;
+                    break;
+            }
+        }
+
+        private void changeVisibility(final boolean isExpanded) {
+            int dpValue = 150;
+            float d = context.getResources().getDisplayMetrics().density;
+            int height = (int) (dpValue * d);
+
+
+            //뷰가 변할 값을 지정
+            final ValueAnimator va = isExpanded ? ValueAnimator.ofInt(0, height) : ValueAnimator.ofInt(height, 0);
+
+
+            va.setDuration(600);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int value = (int) animation.getAnimatedValue(); //height
+                    recyclerView_driver_detail.getLayoutParams().height = value;
+                    recyclerView_driver_detail.requestLayout();
+                    recyclerView_driver_detail.setVisibility(isExpanded ? View.VISIBLE : View.GONE); //사라지게 됨
+                }
+            });
+            va.start();
+        }
     }
+
 
     @NonNull
     @Override //view를 인플레이터함
@@ -60,7 +130,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
     @Override // position에 맞추어 각 항목을 구성하기 위해서 호출함
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) { //
-        holder.onBind(dData.get(position));
+        holder.onBind(dData.get(position), position);
 
         holder.recruit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +141,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(context ,generalReservationCompleteActivity.class);
+                        Intent i = new Intent(context, generalReservationCompleteActivity.class);
                         context.startActivity(i);
                     }
                 });
@@ -98,7 +168,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         return dData.size();
     }
 
-    void addData(generalDriverItem data){ // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
+    void addData(generalDriverItem data) { // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
         dData.add(data);
     }
 }
