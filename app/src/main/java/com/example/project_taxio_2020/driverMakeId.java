@@ -36,8 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class driverMakeId extends AppCompatActivity {
-    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
-    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
+    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail, edtCarNum;
+    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount;
     Button  btnComplete;
     TextView btnEmail, btnImg;
     String id, password;
@@ -74,6 +74,10 @@ public class driverMakeId extends AppCompatActivity {
         spinnerNum = findViewById(R.id.spinnerNum);
         btnEmail = findViewById(R.id.btnEmail);
 
+        edtCarNum = findViewById(R.id.edtCarNum);
+        spCarCount = findViewById(R.id.spCarCount);
+        spTrunk = findViewById(R.id.spTrunk);
+
         ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenderM.setAdapter(genderAdapter);
@@ -97,6 +101,14 @@ public class driverMakeId extends AppCompatActivity {
         ArrayAdapter phoneAdapter = ArrayAdapter.createFromResource(this, R.array.phone, android.R.layout.simple_spinner_item);
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
+
+        final ArrayAdapter countAdapter = ArrayAdapter.createFromResource(this, R.array.carpeople, android.R.layout.simple_spinner_item);
+        countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCarCount.setAdapter(countAdapter);
+
+        final ArrayAdapter trunkAdapter = ArrayAdapter.createFromResource(this, R.array.trunk, android.R.layout.simple_spinner_item);
+        trunkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTrunk.setAdapter(trunkAdapter);
 
         btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);

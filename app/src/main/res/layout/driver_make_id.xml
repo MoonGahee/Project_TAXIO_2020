@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="*이메일 : "
+                    android:text="*면허번호 : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/year" />
@@ -215,29 +215,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:ems="10"
+                    android:ems="9"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
-
-                <TextView
-                    android:id="@+id/aa"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text=" @ "
-                    app:layout_constraintLeft_toRightOf="@+id/edtEmail"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
-
-                <Spinner
-                    android:id="@+id/spEmail"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintLeft_toRightOf="@id/aa"
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
@@ -364,6 +344,143 @@
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
 
                 <TextView
+                    android:id="@+id/carNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/basic"
+                    android:text="*차량번호 : "
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtNum1"/>
+
+                <EditText
+                    android:id="@+id/edtCarNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="7"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/carNum"/>
+
+                <TextView
+                    android:id="@+id/carCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/basic"
+                    android:text="*차량인승 : "
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtCarNum"/>
+
+                <Spinner
+                    android:id="@+id/spCarCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/carCount"
+                    app:layout_constraintTop_toBottomOf="@id/edtCarNum"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="인승"
+                    app:layout_constraintLeft_toRightOf="@id/spCarCount"
+                    app:layout_constraintTop_toBottomOf="@id/edtCarNum" />
+
+                <TextView
+                    android:id="@+id/trunk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/basic"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:text="*트렁크 사용 여부 : "
+                    app:layout_constraintTop_toBottomOf="@+id/spCarCount"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <Spinner
+                    android:id="@+id/spTrunk"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@+id/trunk"
+                    app:layout_constraintTop_toBottomOf="@id/spCarCount"/>
+
+                <TextView
+                    android:id="@+id/money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/basic"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:text="*시간별 금액 정보 : "
+                    app:layout_constraintTop_toBottomOf="@+id/spTrunk"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                android:id="@+id/time4"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="4시간 "
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/money" />
+
+                <EditText
+                    android:id="@+id/edtTime4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/time4"
+                    app:layout_constraintTop_toBottomOf="@id/money"/>
+
+                <TextView
+                    android:id="@+id/time8"
+                    style="@style/basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="8시간 "
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtTime4" />
+
+                <EditText
+                    android:id="@+id/edtTime8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/time8"
+                    app:layout_constraintTop_toBottomOf="@id/time4"/>
+
+                <TextView
+                    android:id="@+id/time12"
+                    style="@style/basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="12시간 "
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtTime8" />
+
+                <EditText
+                    android:id="@+id/edtTime12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toRightOf="@id/time12"
+                    app:layout_constraintTop_toBottomOf="@id/edtTime8"/>
+
+                <TextView
                     android:id="@+id/profileImg"
                     style="@style/basic"
                     android:layout_width="wrap_content"
@@ -372,7 +489,7 @@
                     android:text="*기사 면허 사진: "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
+                    app:layout_constraintTop_toBottomOf="@id/edtTime12" />
 
 
                 <TextView
@@ -387,7 +504,7 @@
                     android:text="첨 부"
                     android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
-                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
+                    app:layout_constraintTop_toBottomOf="@id/edtTime12" />
 
                 <ImageView
                     android:id="@+id/photo"
@@ -411,7 +528,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/photo" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
