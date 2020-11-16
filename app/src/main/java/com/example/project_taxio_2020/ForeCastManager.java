@@ -43,6 +43,7 @@ public class ForeCastManager extends Thread {
                     "&units=metric"+
                     "&cnt=" + 6 );
 
+
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             // 위에서 생성된 URL을 통하여 서버에 요청하면 결과가 XML Resource로 전달됨
             XmlPullParser parser = factory.newPullParser();

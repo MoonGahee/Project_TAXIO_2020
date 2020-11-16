@@ -28,6 +28,7 @@ import com.applikeysolutions.cosmocalendar.model.Month;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteria;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteriaType;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,7 +49,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     Button ok;
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
-    int tripMonth, tripDay, tripDays = 0;
+    int tripMonth, tripDay, tripYear, tripDays = 0;
     String date = "";
     DatabaseReference mDatabase;
     String general_num;
@@ -91,11 +92,14 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             @Override
             public void onClick(View v) {
                 Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yy", Locale.getDefault());
                 SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
                 SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
 
+                String nowy = yearFormat.format(currentTime);
                 String nowm = monthFormat.format(currentTime);
                 String nowd = dayFormat.format(currentTime);
+                final int nowYear = Integer.parseInt(nowy);
                 final int nowmonth = Integer.parseInt(nowm);
                 final int nowday = Integer.parseInt(nowd);
 
@@ -123,7 +127,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     dlg.setMessage("원하는 일정을 선택해주세요");
                     dlg.setNegativeButton("확인", null);
                     dlg.show();
-                } else {
+                } else if(tripYear==nowYear){
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
                         date = "";
@@ -157,6 +161,8 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     } else
                         selectDate();
                 }
+                else
+                    selectDate();
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
@@ -169,6 +175,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                moveActivity();
                 makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
             }
         });
@@ -195,16 +202,15 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSTaxiActivity.class);
         intent.putExtra("general_num", general_num);
-        intent.putExtra("tripDate", date);
         intent.putExtra("tripDays", tripDays);
-        intent.putExtra("tripMonth", tripMonth);
-        intent.putExtra("tripDay", tripDay);
+        intent.putExtra("startingDay", tripDate[0]);
+        intent.putExtra("endDay", tripDate[1]);
         startActivity(intent);
         finish();
     }
 
-    // 네비게이션 선택
-    public void naviItem() {
+    //네비게이션
+    public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -213,7 +219,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
+                if(id == R.id.drawer_schTrip){
                     Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
@@ -227,6 +233,12 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

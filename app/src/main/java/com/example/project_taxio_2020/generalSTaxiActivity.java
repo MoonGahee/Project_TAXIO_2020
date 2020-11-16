@@ -33,6 +33,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +47,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
 
-    String  tripDate, rentTime , startTime;
-    Integer tripMonth, tripDay, tripDays;
+    String  tripDate[], rentTime , startTime, startDay, endDay, tripDay;
+    Integer tripDays;
     String date;
     Button ok;
     ListView ListView_taxi;
@@ -65,6 +66,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
         setContentView(R.layout.general_select_taxi_activity);
         setToolbar();
 
+        tripDate=new String[4];
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -76,11 +79,18 @@ public class generalSTaxiActivity extends AppCompatActivity {
         general_num = (String) i.getSerializableExtra("general_num");
 
         readActivity();
-        /*Intent intent = getIntent();
+        Intent intent = getIntent();
         date = intent.getStringExtra("tripDate");
         tripDays = intent.getIntExtra("tripDays", 0);
-        tripMonth = intent.getIntExtra("tripMonth", 0);
-        tripDay = intent.getIntExtra("tripDay", 0);*/
+        startDay = intent.getStringExtra("startingDay");
+        endDay = intent.getStringExtra("endDay");
+
+        int j = startDay.indexOf("월");
+        tripDate[0] = startDay.substring(6, j);
+        tripDate[1] = startDay.substring(j+2, startDay.length()-1);
+        j = endDay.indexOf("월");
+        tripDate[2] = endDay.substring(6, j);
+        tripDate[3] = endDay.substring(j+2, endDay.length()-1);
 
         ok = findViewById(R.id.ok);
         ListView_taxi = findViewById(R.id.ListView_taxi);
@@ -104,10 +114,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripDays);
-                i.putExtra("tripMonth", tripMonth);
-                i.putExtra("tripDay", tripDay);
+                i.putExtra("startDay", startDay);
+                i.putExtra("endDay", endDay);
                 startActivity(i);
                 finish();
             }
@@ -115,11 +124,45 @@ public class generalSTaxiActivity extends AppCompatActivity {
     }
 
     public void setList(generalTaxiAdapter adapter){
-        for(int i = 0; i< tripDays; i++){
-            tripDate = tripMonth+"월 "+(tripDay+i)+"일";
-            adapter.addItem();
+        if(!(tripDate[0].equals(tripDate[2]))){
+            int j = 1;
+            if(tripDate[0]=="1"||tripDate[0]=="3"||tripDate[0]=="5"||tripDate[0]=="7"||tripDate[0]=="8"||tripDate[0]=="10"||tripDate[0]=="12") {
+                for (int i = 0; i < tripDays; i++) {
+                    if ((Integer.parseInt(tripDate[1]) + i) >= 32 && Integer.parseInt(tripDate[3]) >= j) {
+                        tripDay = tripDate[2] + "월 " + j++ + "일";
+                    }
+                    else{
+                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";}
+                    adapter.addItem(tripDay);
+                }
+            } else if(tripDate[0]=="4"||tripDate[0]=="6"||tripDate[0]=="9"||tripDate[0].equals("11")){
+                for (int i = 0; i < tripDays; i++) {
+                    if ((Integer.parseInt(tripDate[1]) + i) >= 31 && Integer.parseInt(tripDate[3]) >= j) {
+                        tripDay = tripDate[2] + "월 " + j++ + "일";
+                    }
+                    else{
+                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";}
+                    adapter.addItem(tripDay);
+                  }
+                }
+                else{
+                    for (int i = 0; i < tripDays; i++) {
+                       tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
+                       if((tripDate[1]+i)=="29"&&Integer.parseInt(tripDate[3])<j){
+                          tripDay = tripDate[2] + "월 " + j++ + "일";
+                      }
+                     adapter.addItem(tripDay);
+                     }
+                }
+            }
+        else {
+            for (int i = 0; i < tripDays; i++) {
+                tripDay = tripDate[0] + "월 " + Integer.parseInt(tripDate[1]+i) + "일";
+                adapter.addItem(tripDay);
+            }
         }
     }
+
     public class generalTaxiAdapter extends BaseAdapter {
 
         public ArrayList<generalTaxiItem> listViewItemList = new ArrayList<generalTaxiItem>();
@@ -254,10 +297,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
             return convertView;
         }
 
-        public void addItem() {
+        public void addItem(String tripDay) {
             generalTaxiItem item = new generalTaxiItem();
 
-            item.setTripDate(tripDate);
+            item.setTripDate(tripDay);
 
             listViewItemList.add(item);
         }
@@ -288,7 +331,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
 
 
-    
+
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -312,6 +356,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

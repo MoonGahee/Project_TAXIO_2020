@@ -1,5 +1,5 @@
 <?xml  version="1.0" encoding="utf-8"?>
-
+<!--기사 예약 현황 체크 화면-->
 <androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"

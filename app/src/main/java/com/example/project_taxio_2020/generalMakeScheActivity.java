@@ -64,6 +64,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -76,11 +77,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     Button edit_btn, trip_fin;
     Button previous, next;
     Toolbar toolbar;
-    TextView title_text, day1, date1, people1;
+    TextView title_text, day1, date1;
     String jeju, date;
     int k = 1;
     int day = 1;
-    int tripdays = 3, tripday, tripmonth;
+    int tripdays;
     float width = 200f, height = 200f;
     float zoom = 15;
     GroundOverlay imageOverlay;
@@ -109,10 +110,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         naviItem();
 
         Intent intent = getIntent();
-        date = intent.getStringExtra("tripDate");
         tripdays = intent.getIntExtra("tripDays", 0);
-        tripmonth = intent.getIntExtra("tripMonth", 0);
-        tripday = intent.getIntExtra("tripDay", 0);
+        date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay");
 
         Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
@@ -185,8 +184,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         date1 = findViewById(R.id.date1);
         date1.setText(date);
-
-        people1 = findViewById(R.id.people1);
 
         previous = findViewById(R.id.previous1);
         next = findViewById(R.id.next1);
@@ -276,6 +273,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -337,8 +335,17 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
             }
         });
+
+        listView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                return false;
+            }
+        });
     }
 
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -362,6 +369,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
