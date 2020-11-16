@@ -33,6 +33,11 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -51,7 +56,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
     TextView taxiTime_tv, startTime_tv, title_text;;
     Spinner rent_spin;
     TimePicker start_pick;
-
+    String general_num;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -64,11 +70,17 @@ public class generalSTaxiActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-        Intent intent = getIntent();
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        //값 받아오기
+        Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
+
+        readActivity();
+        /*Intent intent = getIntent();
         date = intent.getStringExtra("tripDate");
         tripDays = intent.getIntExtra("tripDays", 0);
         tripMonth = intent.getIntExtra("tripMonth", 0);
-        tripDay = intent.getIntExtra("tripDay", 0);
+        tripDay = intent.getIntExtra("tripDay", 0);*/
 
         ok = findViewById(R.id.ok);
         ListView_taxi = findViewById(R.id.ListView_taxi);
@@ -255,6 +267,24 @@ public class generalSTaxiActivity extends AppCompatActivity {
         }
     }
 
+    //데이터를 읽어오는 함수
+    public void readActivity(){
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Schedule schedule = snapshot.child(general_num).getValue(Schedule.class); //Schedule 참고할 것이므로
+                tripDays = Integer.parseInt(schedule.getTimes());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon-Test","error");
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener);
+    }
 
 
 

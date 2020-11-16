@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="trunk">
+        <item>사용 가능</item>
+        <item>사용 불가능</item>
+    </string-array>
+</resources>

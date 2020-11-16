@@ -3,7 +3,10 @@ package com.example.project_taxio_2020;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,29 +46,177 @@ import java.util.regex.Pattern;
 public class generalMakeId extends AppCompatActivity {
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
-    Button  btnComplete;
+    Button btnComplete;
     TextView btnEmail, btnImg;
-    String id, password;
     ImageView photo;
     private FirebaseAuth mAuth; //인증
-    String TAG ="EXCEPTION";
+    String TAG = "EXCEPTION";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
+    boolean isCorrectPassword = false;
     DatabaseReference mDatabase;
-    String getGeneral_num;
     HashMap result;
+
+    String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
+    String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
+    String chkNullNotice = "입력값을 다 입력해주세요.";
+    String chkAutoNotice = "Authentication failed.";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_make_id);
 
-        setToolbar();
-
+        setToolbar();//Toolbar세팅
+        setFindView();//뷰 객체화 findViewbyId 일괄처리
+        setAdapter();//Adapter 세팅 일괄처리
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
-        // SharedPreferance 사용 코드 작성해야 함. num값 유지
 
+        //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기
+        edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!checkPass(edtPassword.getText().toString())) {
+                    isCorrectPassword = false;
+                    Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //비밀번호 확인 입력이 끝난 뒤 비밀번호와 맞는지 비교하기
+        edtCheckPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (edtPassword.getText().toString().equals(edtCheckPass.getText().toString())) {
+                        isCorrectPassword = true;
+                    } else {
+                        isCorrectPassword = false;
+                        Toast.makeText(getApplicationContext(),chkPasswordNotice , Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //로그인 값을 저장함
+                final String getGeneral_email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
+                final String getGeneral_password = edtPassword.getText().toString();
+                final String getGeneral_name = edtNameM.getText().toString();
+                final String getGeneral_sex = spGenderM.getSelectedItem().toString();
+                final String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
+                final String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
+                //부모 전화
+                //이미지 루트 데려오기
+                if (chkNull(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_call)) {
+                    //인증
+                    mAuth.createUserWithEmailAndPassword(getGeneral_email, getGeneral_password)
+                            .addOnCompleteListener(generalMakeId.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
+                                        makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                } else {
+                    Toast.makeText(getApplicationContext(), chkNullNotice, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    //로그인 값을 저장
+    public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call) {
+        result = new HashMap<>();
+        result.put("general_email", getGeneral_email);
+        result.put("general_password", getGeneral_password);
+        result.put("general_name", getGeneral_name);
+        result.put("general_sex", getGeneral_sex);
+        result.put("general_birth", getGeneral_birth);
+        result.put("general_call", getGeneral_call);
+        getNumber();//회원 번호 부여
+    }
+
+    public boolean chkNull(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_call) {
+        if (getGeneral_email.split("@")[0].isEmpty() || getGeneral_password.isEmpty() || getGeneral_name.isEmpty() || getGeneral_call.split("-")[1].isEmpty() || getGeneral_call.split("-")[2].isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }//입력값이 null인지 비교
+
+    public void getNumber() {
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i = 0;
+                for (DataSnapshot column : snapshot.getChildren()) {
+                    if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+                result.put("general_num", Integer.toString(i));
+                setDatabase();//데이터베이스 값 입력
+                moveActivity();//액티비티 이동
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }//회원 번호 부여
+
+    public void setDatabase() {
+        mDatabase.child(result.get("general_num").toString()).setValue(result);
+    }//데이터베이스 값 입력
+
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+        intent.putExtra("general_num", result.get("general_num").toString());
+        startActivity(intent);
+        finish();
+    }//액티비티 이동
+
+    public Boolean checkPass(String password) {
+        boolean check = false;
+        Pattern p = Pattern.compile(pattern);
+        m = p.matcher(password);
+        if (m.find()) {
+            check = true;
+        }
+        return check;
+    }//비밀번호가 패턴에 맞는지 비교
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {//이전 화면으로 돌아감
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }//toolbar의 back키 눌렀을 시
+
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
+        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
+        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제
+        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }//Toolbar세팅
+
+    public void setFindView() {
         edtNameM = findViewById(R.id.edtNameM);
         edtPassword = findViewById(R.id.edtPassword);
         edtCheckPass = findViewById(R.id.edtCheckPass);
@@ -81,6 +232,14 @@ public class generalMakeId extends AppCompatActivity {
         spinnerNum = findViewById(R.id.spinnerNum);
         btnEmail = findViewById(R.id.btnEmail);
 
+        btnEmail = findViewById(R.id.btnEmail);
+        btnImg = findViewById(R.id.btnImg);
+        btnComplete = findViewById(R.id.btnComplete);
+
+        photo = findViewById(R.id.photo);
+    }//뷰 객체화 findViewbyId 일괄처리
+
+    public void setAdapter() {
         final ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spGenderM.setAdapter(genderAdapter);
@@ -104,123 +263,5 @@ public class generalMakeId extends AppCompatActivity {
         ArrayAdapter phoneAdapter = ArrayAdapter.createFromResource(this, R.array.phone, android.R.layout.simple_spinner_item);
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
-
-        btnEmail = findViewById(R.id.btnEmail);
-        btnImg = findViewById(R.id.btnImg);
-        btnComplete = findViewById(R.id.btnComplete);
-
-        photo = findViewById(R.id.photo);
-
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //로그인 값을 저장함
-                String getGeneral_email = edtEmail.getText().toString();
-                String getGeneral_password = edtPassword.getText().toString();
-                String getGeneral_name = edtNameM.getText().toString();
-                String getGeneral_sex  = spGenderM.getSelectedItem().toString();
-                String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
-                String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                //부모 전화 
-                // 이미지 루트 데려오기
-
-                //인증
-                mAuth.createUserWithEmailAndPassword(getGeneral_email, getGeneral_password)
-                        .addOnCompleteListener(generalMakeId.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                //DB에 저장하는 함수 왜 둘이 순서가 바뀌면 아니되오?
-                makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call);
-            }
-        });
-    }
-
-
-
-    //로그인 값을 저장
-    public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call){
-        result = new HashMap<>();
-        result.put("general_email", getGeneral_email);
-        result.put("general_password", getGeneral_password);
-        result.put("general_name", getGeneral_name);
-        result.put("general_sex", getGeneral_sex);
-        result.put("general_birth", getGeneral_birth);
-        result.put("general_call", getGeneral_call);
-        getNumber();
-    }
-
-    //회원 번호 부여
-    public void getNumber(){
-        ValueEventListener generalListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i = 0;
-                for(DataSnapshot column: snapshot.getChildren())
-                {
-                    Log.d("KOO TEST", column.getKey());
-                        while (true) {
-                            if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
-                                String getGeneral_num = Integer.toString(i);
-                                result.put("general_num", getGeneral_num);
-                                mDatabase.child(getGeneral_num).setValue(result);
-                                break;
-                            }
-                    else{
-                            i++;
-                        }
-                    }
-                }
-                Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                intent.putExtra("general_num", getGeneral_num);
-                startActivity(intent);
-                finish();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //없는 경우
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
-    }
-
-    public Boolean checkPass(String password) {
-        boolean check = false;
-        Pattern p = Pattern.compile(pattern);
-        m=p.matcher(password);
-        if(m.find()) {
-            check = true;
-        }
-        return check;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
-        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
-    }
+    }//Adapter 세팅 일괄처리
 }

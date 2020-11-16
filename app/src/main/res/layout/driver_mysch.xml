@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 날짜 선택 by 하은 -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include layout="@layout/app_bar"
+        android:id="@+id/bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sclMySch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/cal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
+
+    <TextView
+        android:id="@+id/mySch"
+        app:layout_constraintLeft_toRightOf="@id/bell"
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 스케쥴"
+        style="@style/title1"/>
+
+    <TextView
+        android:id="@+id/select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/mySch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="예약된 내 스케쥴을 확인해보세요."
+        style="@style/title2"/>
+
+        <ScrollView
+            android:id="@+id/calScroll"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            app:layout_constraintTop_toBottomOf="@+id/select"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:scrollbars="none">
+            <com.applikeysolutions.cosmocalendar.view.CalendarView
+                android:id="@+id/cal"
+                android:layout_width="wrap_content"
+                android:layout_height="335dp"
+                app:connectedDayIconPosition="top"
+                app:currentDayTextColor="@color/mainText"
+                app:firstDayOfTheWeek="sunday"
+                app:orientation="horizontal"
+                app:selectedDayBackgroundColor="@color/back"
+                app:selectedDayBackgroundEndColor="@color/bar"
+                app:selectedDayBackgroundStartColor="@color/background"
+                app:selectedDayTextColor="@color/colorAccent"
+                app:selectionType="range"
+                app:disabledDayTextColor="@color/colorPrimary"
+                app:weekendDayTextColor="@color/colorPrimaryDark"
+                android:layout_marginTop="10dp"
+                />//년월 색깔 바꾸기
+        </ScrollView>
+
+
+        <TextView
+            android:id="@+id/tripDetail"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/trip_ex1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calScroll" />
+
+    </ScrollView>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

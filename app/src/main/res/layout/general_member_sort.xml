@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- 회원가입 정보 확인 by 주혜-->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <include layout="@layout/app_bar_"
+    <include
         android:id="@+id/bar"
+
+        layout="@layout/app_bar_"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+        app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
     <ImageView
         android:id="@+id/bell"
@@ -24,12 +28,13 @@
 
     <TextView
         android:id="@+id/title"
+        style="@style/title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="7dp"
+        android:text="회원가입"
         app:layout_constraintLeft_toRightOf="@id/bell"
-        app:layout_constraintTop_toBottomOf="@+id/bar"
-        style="@style/title1"
-        android:text="회원가입" />
+        app:layout_constraintTop_toBottomOf="@+id/bar" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -46,41 +51,41 @@
 
     <TextView
         android:id="@+id/intro"
+        style="@style/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress"
         android:layout_marginTop="50dp"
         android:text="탑승객이신가요, 기사님이신가요?"
-        style="@style/title2"
+        android:textColor="#000000"
         android:textSize="31sp"
-        android:textColor="#000000"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
 
     <Button
         android:id="@+id/choose_general"
+        style="@style/button"
         android:layout_width="180dp"
         android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/button"
+        android:text="탑승객입니다."
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/intro"
-        android:layout_marginTop="40dp"
-        android:text="탑승객입니다."
-        android:background="@color/button"
-        style="@style/button"
-        android:textSize="25sp"/>
+        app:layout_constraintTop_toBottomOf="@id/intro" />
 
     <Button
         android:id="@+id/choose_driver"
+        style="@style/button"
         android:layout_width="180dp"
         android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/button"
+        android:text="기사입니다."
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_general"
-        android:layout_marginTop="30dp"
-        android:text="기사입니다."
-        android:background="@color/button"
-        style="@style/button"
-        android:textSize="25sp"/>
+        app:layout_constraintTop_toBottomOf="@+id/choose_general" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
