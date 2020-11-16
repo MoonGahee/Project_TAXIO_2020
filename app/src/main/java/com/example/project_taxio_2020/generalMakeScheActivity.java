@@ -276,6 +276,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -335,6 +336,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                 listView.setAdapter(generalTimelineAdapter);
 
+            }
+        });
+
+        listView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                return false;
             }
         });
     }
