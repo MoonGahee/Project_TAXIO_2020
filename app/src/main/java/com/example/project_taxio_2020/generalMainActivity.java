@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.Locale;
 // 탑승자 메인 화면 by 주혜
 
 public class generalMainActivity extends AppCompatActivity {
+
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private Context context = this;
@@ -87,45 +89,10 @@ public class generalMainActivity extends AppCompatActivity {
         Button newTripBtn; //새로운 여행 만들기
         newTripBtn = findViewById(R.id.newTripBtn);
 
-        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View view = inflater.inflate(R.layout.general_number_people, null);
-        TextView intro = (TextView) view.findViewById(R.id.people_intro);
-        final EditText number = (EditText) view.findViewById(R.id.people_write);
-
         newTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(generalMainActivity.this);
-                builder.setTitle("인원 수 선택");
-                builder.setView(view);
-
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(number.getText().length() <= 0) {
-                            Toast.makeText(getApplicationContext(), "값을 입력해주세요!", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            people = number.getText().toString();
-                            moveActivity();
-                            //인원수를 어디에 저장할 것인가
-                            //Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                            //intent.putExtra("tripPeople", people);
-                            //startActivity(intent);
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("취소", null);
-
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((ViewGroup)view.getParent()).removeView(view);
-                    }
-                });
-
-                builder.show();
+                moveActivity();
             }
         });
     }
@@ -254,6 +221,12 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

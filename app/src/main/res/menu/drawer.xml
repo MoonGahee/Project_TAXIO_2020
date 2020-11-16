@@ -26,6 +26,9 @@
             android:id="@+id/drawer_out"
             android:icon="@drawable/setting"
             android:title="회원 탈퇴" />
+        <item
+            android:id="@+id/logout"
+            android:title="로그아웃"/>
     </group>
 
 

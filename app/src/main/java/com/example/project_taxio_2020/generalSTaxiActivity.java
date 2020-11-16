@@ -33,6 +33,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,14 +87,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         int j = startDay.indexOf("월");
         tripDate[0] = startDay.substring(6, j);
-        Log.d("KOO TEST: ", tripDate[0]);
         tripDate[1] = startDay.substring(j+2, startDay.length()-1);
-        Log.d("KOO TEST: ", tripDate[1]);
         j = endDay.indexOf("월");
         tripDate[2] = endDay.substring(6, j);
-        Log.d("KOO TEST: ", tripDate[2]);
         tripDate[3] = endDay.substring(j+2, endDay.length()-1);
-        Log.d("KOO TEST: ", tripDate[3]);
 
         ok = findViewById(R.id.ok);
         ListView_taxi = findViewById(R.id.ListView_taxi);
@@ -117,7 +114,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripDays);
                 i.putExtra("startDay", startDay);
                 i.putExtra("endDay", endDay);
@@ -130,7 +126,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
     public void setList(generalTaxiAdapter adapter){
         if(!(tripDate[0].equals(tripDate[2]))){
             int j = 1;
-            Log.d("KOO TEST: ", String.valueOf(j));
             if(tripDate[0]=="1"||tripDate[0]=="3"||tripDate[0]=="5"||tripDate[0]=="7"||tripDate[0]=="8"||tripDate[0]=="10"||tripDate[0]=="12") {
                 for (int i = 0; i < tripDays; i++) {
                     if ((Integer.parseInt(tripDate[1]) + i) >= 32 && Integer.parseInt(tripDate[3]) >= j) {
@@ -162,7 +157,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             }
         else {
             for (int i = 0; i < tripDays; i++) {
-                tripDay = tripDate[0] + "월 " + (tripDate[1]+i) + "일";
+                tripDay = tripDate[0] + "월 " + Integer.parseInt(tripDate[1]+i) + "일";
                 adapter.addItem(tripDay);
             }
         }
@@ -321,8 +316,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                Schedule schedule = snapshot.child(general_num).getValue(Schedule.class); //Schedule 참고할 것이므로
-            //    tripDays = Integer.parseInt(schedule.getTimes());
+                Schedule schedule = snapshot.child(general_num).getValue(Schedule.class); //Schedule 참고할 것이므로
+                tripDays = Integer.parseInt(schedule.getTimes());
 
             }
 
@@ -337,7 +332,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
 
 
-    
+
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -361,6 +357,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
