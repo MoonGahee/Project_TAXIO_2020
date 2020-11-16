@@ -184,7 +184,7 @@ public class generalMakeId extends AppCompatActivity {
                     }
                 }
                 Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-                //intent.putExtra("general_num", getGeneral_num);
+                intent.putExtra("general_num", getGeneral_num);
                 startActivity(intent);
                 finish();
             }

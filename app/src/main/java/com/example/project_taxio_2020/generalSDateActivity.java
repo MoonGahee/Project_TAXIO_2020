@@ -45,7 +45,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     Button ok;
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
-    int tripMonth, tripDay, tripDays=0;
+    int tripMonth, tripDay, tripYear, tripDays=0;
     String date="";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +77,14 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             @Override
             public void onClick(View v) {
                 Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yy", Locale.getDefault());
                 SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
                 SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
 
+                String nowy = yearFormat.format(currentTime);
                 String nowm = monthFormat.format(currentTime);
                 String nowd = dayFormat.format(currentTime);
+                final int nowyear = Integer.parseInt(nowy);
                 final int nowmonth = Integer.parseInt(nowm);
                 final int nowday = Integer.parseInt(nowd);
 
@@ -97,6 +100,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                                 date += (day_full + "~");
                                 tripMonth = month+1;
                                 tripDay = day;
+                                tripYear = year;
                             }
                     else if (i == days.size() - 1)
                         date += day_full;
@@ -109,7 +113,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     dlg.setMessage("원하는 일정을 선택해주세요");
                     dlg.setNegativeButton("확인", null);
                     dlg.show();
-                } else {
+                } else if(nowyear==tripYear){
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
                         date=""; tripDays=0;
@@ -145,6 +149,8 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     else
                         selectDate();
                 }
+                else
+                    selectDate();
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
