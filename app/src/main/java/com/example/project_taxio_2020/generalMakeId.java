@@ -8,11 +8,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,6 +130,15 @@ public class generalMakeId extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), chkNullNotice, Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        //단계 터치리스너 막아버리기
+        SeekBar seek_signin = (SeekBar)findViewById(R.id.progress);
+        seek_signin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
             }
         });
     }

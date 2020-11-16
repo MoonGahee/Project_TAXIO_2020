@@ -138,10 +138,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     }
                     else{
                         tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";}
-                    adapter.addItem(tripDay);
+                    adapter.addItem(tripDay); //하루씩
                 }
             } else if(tripDate[0]=="4"||tripDate[0]=="6"||tripDate[0]=="9"||tripDate[0].equals("11")){
-                for (int i = 0; i < tripDays; i++) {
+                for (int i = 0; i < tripDays; i++) { //날짜 개수
                     if ((Integer.parseInt(tripDate[1]) + i) >= 31 && Integer.parseInt(tripDate[3]) >= j) {
                         tripDay = tripDate[2] + "월 " + j++ + "일";
                     }
@@ -302,6 +302,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             return convertView;
         }
 
+        // ListView 하나씩 추가
         public void addItem(String tripDay) {
             generalTaxiItem item = new generalTaxiItem();
 
