@@ -40,7 +40,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
     Button finish_btn, previous, next;
     Toolbar toolbar;
-    TextView title_text, day2, date2, people2;
+    TextView title_text, day2, date2;
     String jeju[];
     String date;
     ListView listView;
@@ -65,10 +65,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         date = i.getStringExtra("tripDate");
         tripdays = i.getIntExtra("tripDays", 0);
 
-        //AutoCompleteTextView search = findViewById(R.id.search2);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
-        //search.setAdapter(adapter);
-
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
         mapFrag = (MapFragment)getFragmentManager().findFragmentById(R.id.map2);
@@ -89,8 +85,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         date2 = findViewById(R.id.date2);
         date2.setText(date);
-
-        people2 = findViewById(R.id.people2);
 
         listView = findViewById(R.id.trip2);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
@@ -130,6 +124,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 }
 
                 day2.setText(Integer.toString(day) + "일차");
+
+                list_itemArrayList.clear();
             }
         });
 
@@ -147,6 +143,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 }
 
                 day2.setText(Integer.toString(day) + "일차");
+
+                list_itemArrayList.clear();
             }
         });
 

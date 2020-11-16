@@ -117,7 +117,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripDays);
                 i.putExtra("startDay", startDay);
                 i.putExtra("endDay", endDay);

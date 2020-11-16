@@ -63,17 +63,6 @@
 
             <!-- 인원 수 -->
 
-            <TextView
-                android:id="@+id/people2"
-                style="@style/title2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="16dp"
-                android:text="3명"
-                app:layout_constraintLeft_toRightOf="@+id/date2"
-                app:layout_constraintTop_toBottomOf="@+id/intro2" />
-
             <fragment
                 android:id="@+id/map2"
                 class="com.google.android.gms.maps.MapFragment"
