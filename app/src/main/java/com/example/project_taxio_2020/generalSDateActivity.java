@@ -46,7 +46,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
     int tripMonth, tripDay, tripYear, tripDays=0;
-    String date="";
+    String date="", startDate="", finishDate="";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +98,13 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     String day_full = year + "년 " + (month + 1) + "월 " + day + "일";
                     if (i==0) {
                                 date += (day_full + "~");
+                                startDate = day_full;
                                 tripMonth = month+1;
                                 tripDay = day;
                                 tripYear = year;
                             }
                     else if (i == days.size() - 1)
+                        finishDate = day_full;
                         date += day_full;
                     tripDays=days.size();
                 }
@@ -116,7 +118,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                 } else if(nowyear==tripYear){
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
-                        date=""; tripDays=0;
+                        date=""; startDate=""; finishDate=""; tripDays=0;
                         AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                         dlg.setTitle("알림");
                         dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
@@ -125,7 +127,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     } else if (nowmonth == tripMonth){
                         if (nowday > tripDay) {
                             cal.clearSelections();
-                            date="";
+                            date=""; startDate=""; finishDate="";
                             cal.clearSelections();
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("알림");
@@ -135,7 +137,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                         }
                         else if(nowday==tripDay){
                             cal.clearSelections();
-                            date="";
+                            date=""; startDate=""; finishDate="";
                             cal.clearSelections();
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("알림");
@@ -165,7 +167,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             public void onClick(DialogInterface dialog, int which) {
 
                 Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                i.putExtra("tripDate", date);
+                i.putExtra("startDate", startDate);
                 i.putExtra("tripDays", tripDays);
                 i.putExtra("tripMonth", tripMonth);
                 i.putExtra("tripDay", tripDay);
