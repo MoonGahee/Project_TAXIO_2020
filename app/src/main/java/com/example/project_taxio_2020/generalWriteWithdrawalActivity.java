@@ -102,6 +102,7 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
             }
         });
     }
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -125,6 +126,12 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    mAuth.signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
