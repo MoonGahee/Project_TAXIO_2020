@@ -125,7 +125,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
     public void setList(generalTaxiAdapter adapter){
         if(!(tripDate[0].equals(tripDate[2]))){
             int j = 1;
-            Log.d("KOO TEST: ", String.valueOf(j));
             if(tripDate[0]=="1"||tripDate[0]=="3"||tripDate[0]=="5"||tripDate[0]=="7"||tripDate[0]=="8"||tripDate[0]=="10"||tripDate[0]=="12") {
                 for (int i = 0; i < tripDays; i++) {
                     if ((Integer.parseInt(tripDate[1]) + i) >= 32 && Integer.parseInt(tripDate[3]) >= j) {
