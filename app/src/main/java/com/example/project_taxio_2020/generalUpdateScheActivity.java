@@ -40,8 +40,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
     Button finish_btn, previous, next;
     Toolbar toolbar;
-    TextView title_text, day2, date2, people2;
-    String jeju[] = {"용두암", "용머리해안", "성산일출봉", "한라산"};
+    TextView title_text, day2, date2;
+    String jeju[];
     String date;
     ListView listView;
     ScrollView scroll2;
@@ -65,10 +65,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         date = i.getStringExtra("tripDate");
         tripdays = i.getIntExtra("tripDays", 0);
 
-        AutoCompleteTextView search = findViewById(R.id.search2);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item,jeju);
-        search.setAdapter(adapter);
-
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
         mapFrag = (MapFragment)getFragmentManager().findFragmentById(R.id.map2);
@@ -89,8 +85,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         date2 = findViewById(R.id.date2);
         date2.setText(date);
-
-        people2 = findViewById(R.id.people2);
 
         listView = findViewById(R.id.trip2);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
@@ -130,6 +124,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 }
 
                 day2.setText(Integer.toString(day) + "일차");
+
+                list_itemArrayList.clear();
             }
         });
 
@@ -147,6 +143,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 }
 
                 day2.setText(Integer.toString(day) + "일차");
+
+                list_itemArrayList.clear();
             }
         });
 
@@ -186,14 +184,19 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = 1;
                 int size = generalTimelineAdapter.getCount();
+                jeju = new String[size];
+
+                for (int k = 0; k < size; k++) {
+                    jeju[k] = list_itemArrayList.get(k).getPlace();
+                }
 
                 if (count % 2 == 1) {
-                    firstPos = position + 1;
+                    firstPos = position+1;
                     count++;
 
                 }
                 else {
-                    secondPos = position + 1;
+                    secondPos = position+1;
                     count++;
 
                     list_itemArrayList.clear();
@@ -205,9 +208,9 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                         }
 
                         if (firstPos == i)
-                            list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(secondPos), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[secondPos-1], Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
                         else if (secondPos == i)
-                            list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(firstPos), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[firstPos-1], Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
                         else
                             list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
 
@@ -243,7 +246,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng location = new LatLng(37.568256, 126.897240);
+        LatLng location = new LatLng(33.4996213, 126.5311884);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
