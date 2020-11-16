@@ -175,7 +175,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 moveActivity();
-    //            makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
+                makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
             }
         });
         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -193,7 +193,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("times", tripDays);
         result.put("departure_date", startingDay);
         result.put("arrival_date", endDay);
-//        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
+        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
         moveActivity();
     }
 
