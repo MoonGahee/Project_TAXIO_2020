@@ -28,10 +28,13 @@ import com.applikeysolutions.cosmocalendar.model.Month;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteria;
 import com.applikeysolutions.cosmocalendar.settings.lists.DisabledDaysCriteriaType;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -45,25 +48,36 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     Button ok;
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
-    int tripMonth, tripDay, tripDays=0;
-    String date="";
+    int tripMonth, tripDay, tripDays = 0;
+    String date = "";
+    DatabaseReference mDatabase;
+    String general_num;
+    String[] tripDate;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_date_activity);
         setToolbar();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        //값 받아오기
+        Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
+
+        //인플레이팅
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
         ok = findViewById(R.id.ok);
         title_text = findViewById(R.id.title_text);
         cal = findViewById(R.id.cal);
+
+        //홈버튼
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
-
         title_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +87,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             }
         });
 
-           ok.setOnClickListener(new View.OnClickListener() {
+        ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Date currentTime = Calendar.getInstance().getTime();
@@ -93,15 +107,15 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     final int month = calendar.get(Calendar.MONTH);
                     final int year = calendar.get(Calendar.YEAR);
                     String day_full = year + "년 " + (month + 1) + "월 " + day + "일";
-                    if (i==0) {
-                                date += (day_full + "~");
-                                tripMonth = month+1;
-                                tripDay = day;
-                            }
-                    else if (i == days.size() - 1)
+                    if (i == 0) {
+                        date += (day_full + "~");
+                        tripMonth = month + 1;
+                        tripDay = day;
+                    } else if (i == days.size() - 1)
                         date += day_full;
-                    tripDays=days.size();
+                    tripDays = days.size();
                 }
+                tripDate = date.split("~");
                 if (tripDays == 0) {
                     cal.clearSelections();
                     AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
@@ -112,37 +126,35 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                 } else {
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
-                        date=""; tripDays=0;
+                        date = "";
+                        tripDays = 0;
                         AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                         dlg.setTitle("알림");
                         dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
                         dlg.setNegativeButton("확인", null);
                         dlg.show();
-                    } else if (nowmonth == tripMonth){
+                    } else if (nowmonth == tripMonth) {
                         if (nowday > tripDay) {
                             cal.clearSelections();
-                            date="";
+                            date = "";
                             cal.clearSelections();
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("알림");
                             dlg.setMessage("지난 날짜는 선택할 수 없습니다.");
                             dlg.setNegativeButton("확인", null);
                             dlg.show();
-                        }
-                        else if(nowday==tripDay){
+                        } else if (nowday == tripDay) {
                             cal.clearSelections();
-                            date="";
+                            date = "";
                             cal.clearSelections();
                             AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
                             dlg.setTitle("알림");
                             dlg.setMessage("오늘 날짜는 선택할 수 없습니다");
                             dlg.setNegativeButton("확인", null);
                             dlg.show();
-                        }
-                        else
+                        } else
                             selectDate();
-                    }
-                    else
+                    } else
                         selectDate();
                 }
             }
@@ -150,37 +162,49 @@ public class generalSDateActivity extends AppCompatActivity {//finish
 
     }
 
-    public void selectDate(){
+    public void selectDate() {
         AlertDialog.Builder dlg = new AlertDialog.Builder(generalSDateActivity.this);
         dlg.setTitle("일정 확인");
-        dlg.setMessage(date + ", "+ (tripDays-1)+"박"+tripDays+"일이 선택한 일정이 맞습니까?");
+        dlg.setMessage(date + ", " + (tripDays - 1) + "박" + tripDays + "일이 선택한 일정이 맞습니까?");
         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                Intent i = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-                i.putExtra("tripDate", date);
-                i.putExtra("tripDays", tripDays);
-                i.putExtra("tripMonth", tripMonth);
-                i.putExtra("tripDay", tripDay);
-                startActivity(i);
-                finish();
+                makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
             }
         });
         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                date="";
+                date = "";
                 cal.clearSelections();
             }
         });
         dlg.show();
     }
 
+    public void makeSchedule(String tripDays, String startingDay, String endDay){
+        HashMap result = new HashMap<>();
+        result.put("times", tripDays);
+        result.put("departure_date", startingDay);
+        result.put("arrival_date", endDay);
+        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
+        moveActivity();
+    }
 
+    // 회원정보를 가지고 다음 액티비티로 이동
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalSTaxiActivity.class);
+        intent.putExtra("general_num", general_num);
+        intent.putExtra("tripDate", date);
+        intent.putExtra("tripDays", tripDays);
+        intent.putExtra("tripMonth", tripMonth);
+        intent.putExtra("tripDay", tripDay);
+        startActivity(intent);
+        finish();
+    }
 
     // 네비게이션 선택
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -189,7 +213,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
@@ -212,8 +236,8 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     }
 
     //햄버거 버튼, 툴바 설정
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

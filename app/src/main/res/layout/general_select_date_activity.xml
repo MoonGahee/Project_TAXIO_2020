@@ -1,137 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 날짜 선택 by 하은 -->
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawerLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:openDrawer="start">
-<androidx.constraintlayout.widget.ConstraintLayout
-   android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
 
-    <include layout="@layout/app_bar"
-        android:id="@+id/bar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
-
-    <ImageView
-        android:id="@+id/bell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/cal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bar" />
-
-    <TextView
-        android:id="@+id/Name"
-        app:layout_constraintLeft_toRightOf="@id/bell"
-        app:layout_constraintTop_toBottomOf="@+id/bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="일정 선택"
-        style="@style/title1"/>
-
-    <TextView
-        android:id="@+id/warn"
-        style="@style/attention"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="한 번 만들어진 일정은 기간 변경이 불가능합니다."
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Name" />
-
-    <LinearLayout
-        android:id="@+id/weather"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/warn"
-        android:background="@color/back"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="오늘의 날씨"
-                style="@style/title2"
-                android:layout_gravity="center"/>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="기온: 25도, 맑음"
-                style="@style/basic"/>
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <include
+            android:id="@+id/bar"
+            layout="@layout/app_bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" /><!-- 툴바 -->
+
         <ImageView
+            android:id="@+id/bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/sun"/>
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/cal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
 
-    </LinearLayout>
-    <TextView
-        android:id="@+id/select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/weather"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="출발일과 도착일을 선택해주세요"
-        style="@style/title2"/>
-    <ScrollView
-        android:id="@+id/calScroll"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
-        app:layout_constraintTop_toBottomOf="@+id/select"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:scrollbars="none">
-    <com.applikeysolutions.cosmocalendar.view.CalendarView
-        android:id="@+id/cal"
-        android:layout_width="wrap_content"
-        android:layout_height="335dp"
-        app:connectedDayIconPosition="top"
-        app:currentDayTextColor="@color/mainText"
-        app:firstDayOfTheWeek="sunday"
-        app:orientation="horizontal"
-        app:selectedDayBackgroundColor="@color/back"
-        app:selectedDayBackgroundEndColor="@color/bar"
-        app:selectedDayBackgroundStartColor="@color/background"
-        app:selectedDayTextColor="@color/colorAccent"
-        app:selectionType="range"
-        app:disabledDayTextColor="@color/colorPrimary"
-        app:weekendDayTextColor="@color/colorPrimaryDark"
-        android:layout_marginTop="10dp"
-        />//년월 색깔 바꾸기
-    </ScrollView>
-    <Button
-        android:id="@+id/ok"
-        android:layout_margin="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/calScroll"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:background="@drawable/button_long"
-        android:text="확     인"
-        android:textSize="25sp"
-        style="@style/button"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/Name"
+            style="@style/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="7dp"
+            android:text="일정 선택"
+            app:layout_constraintLeft_toRightOf="@id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
+
+        <TextView
+            android:id="@+id/warn"
+            style="@style/attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="한 번 만들어진 일정은 기간 변경이 불가능합니다."
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Name" />
+
+        <LinearLayout
+            android:id="@+id/weather"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@color/back"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/warn">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="오늘의 날씨" />
+
+                <TextView
+                    style="@style/basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="기온: 25도, 맑음" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sun" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/select"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="출발일과 도착일을 선택해주세요"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weather" />
+
+        <ScrollView
+            android:layout_marginTop="20dp"
+            android:id="@+id/calScroll"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:scrollbars="none"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select">
+
+            <com.applikeysolutions.cosmocalendar.view.CalendarView
+                android:id="@+id/cal"
+                android:layout_width="wrap_content"
+                android:layout_height="335dp"
+                android:layout_marginTop="10dp"
+                app:connectedDayIconPosition="top"
+                app:currentDayTextColor="@color/mainText"
+                app:disabledDayTextColor="@color/colorPrimary"
+                app:firstDayOfTheWeek="sunday"
+                app:orientation="horizontal"
+                app:selectedDayBackgroundColor="@color/back"
+                app:selectedDayBackgroundEndColor="@color/bar"
+                app:selectedDayBackgroundStartColor="@color/background"
+                app:selectedDayTextColor="@color/colorAccent"
+                app:selectionType="range"
+                app:weekendDayTextColor="@color/colorPrimaryDark" />//년월 색깔 바꾸기
+        </ScrollView>
+
+        <Button
+            android:id="@+id/ok"
+            style="@style/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/button_long"
+            android:text="확     인"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nDrawer"
         android:layout_width="wrap_content"
@@ -139,7 +152,7 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/drawer"/> <!--네비게이션 드로어 추가-->
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

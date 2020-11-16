@@ -1,204 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- Mypage 후기 작성 by 관우 -->
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawerLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:openDrawer="start">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
-
-    <include layout="@layout/app_bar"
-        android:id="@+id/bar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/><!-- 툴바 -->
-
-    <ImageView
-        android:id="@+id/bell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/bag"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bar" />
-
-    <TextView
-        android:id="@+id/intro3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/bar"
-        app:layout_constraintLeft_toRightOf="@id/bell"
-        android:text="후기 작성"
-        style="@style/title1"/>
-
-    <TextView
-        android:id="@+id/guide3"
-        style="@style/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="기사님과 함께한 여행 후기를 들려주세요"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/intro3" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/trip_guide"
-        android:layout_width="400dp"
-        android:layout_height="150dp"
-        app:layout_constraintTop_toBottomOf="@+id/guide3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="20dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <TextView
-            android:id="@+id/trip_intro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+        <include
+            android:id="@+id/bar"
+            layout="@layout/app_bar"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="여행 일정"
-            style="@style/basic"/>
+            app:layout_constraintTop_toTopOf="parent" /><!-- 툴바 -->
 
-        <TextView
-            android:id="@+id/trip_date"
+        <ImageView
+            android:id="@+id/bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/trip_intro"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/bag"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="2020.05.09"
-            style="@style/basic"/>
+            app:layout_constraintTop_toBottomOf="@id/bar" />
 
         <TextView
-            android:id="@+id/trip_region"
+            android:id="@+id/intro3"
+            style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/trip_intro"
-            app:layout_constraintLeft_toRightOf="@+id/trip_date"
-            android:text="제주"
-            style="@style/basic"/>
+            android:padding="7dp"
+            android:text="후기 작성"
+            app:layout_constraintLeft_toRightOf="@id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
         <TextView
-            android:id="@+id/driver_name"
+            android:id="@+id/guide3"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/trip_date"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="기사님과 함께한 여행 후기를 들려주세요"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="홍길동"
-            style="@style/basic"/>
+            app:layout_constraintTop_toBottomOf="@+id/intro3" />
 
-        <TextView
-            android:id="@+id/trip_driver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/trip_date"
-            app:layout_constraintLeft_toRightOf="@+id/driver_name"
-            android:text="기사님"
-            style="@style/basic"/>
-
-        <TextView
-            android:id="@+id/course"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/driver_name"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trip_guide"
+            android:layout_width="400dp"
+            android:layout_height="150dp"
+            android:layout_margin="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="경로 :"
-            style="@style/basic"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guide3">
+
+            <TextView
+                android:id="@+id/trip_intro"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여행 일정"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/trip_date"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020.05.09"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trip_intro" />
+
+            <TextView
+                android:id="@+id/trip_region"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제주"
+                app:layout_constraintLeft_toRightOf="@+id/trip_date"
+                app:layout_constraintTop_toBottomOf="@+id/trip_intro" />
+
+            <TextView
+                android:id="@+id/driver_name"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홍길동"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trip_date" />
+
+            <TextView
+                android:id="@+id/trip_driver"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="기사님"
+                app:layout_constraintLeft_toRightOf="@+id/driver_name"
+                app:layout_constraintTop_toBottomOf="@id/trip_date" />
+
+            <TextView
+                android:id="@+id/course"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="경로 :"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/driver_name" />
+
+            <TextView
+                android:id="@+id/trip_course"
+                style="@style/basic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제주공항-애월-오설록"
+                app:layout_constraintLeft_toRightOf="@+id/course"
+                app:layout_constraintTop_toBottomOf="@+id/driver_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/trip_course"
+            android:id="@+id/satisfaction_intro"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/driver_name"
-            app:layout_constraintLeft_toRightOf="@+id/course"
-            android:text="제주공항-애월-오설록"
-            style="@style/basic"/>
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:text="기사님과의 여행은 만족하셨나요?"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_guide" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:rating="5"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/satisfaction_intro" />
+
+        <TextView
+            android:id="@+id/trip_review"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:text="여행 후기를 들려주세요"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rating" />
+
+        <EditText
+            android:id="@+id/review_text"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/search_blank"
+            android:hint=" 내용을 입력해주세요"
+            android:textColorHint="#33000000"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_review" />
+
+        <Button
+            android:id="@+id/cancel_btn"
+            style="@style/button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginLeft="88dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_short"
+            android:text="취소"
+            android:textColor="#ffffff"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_text" />
+
+        <Button
+            android:id="@+id/registration_btn"
+            style="@style/button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginLeft="400dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/button_short"
+            android:text="후기 등록"
+            android:textColor="#ffffff"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/review_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/satisfaction_intro"
-        style="@style/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:text="기사님과의 여행은 만족하셨나요?"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trip_guide" />
-
-    <RatingBar
-        android:id="@+id/rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:rating="5"
-        app:layout_constraintHorizontal_bias="0.187"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/satisfaction_intro" />
-
-    <TextView
-        android:id="@+id/trip_review"
-        style="@style/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:text="여행 후기를 들려주세요"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating" />
-
-    <EditText
-        android:id="@+id/review_text"
-        android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/search_blank"
-        android:hint=" 내용을 입력해주세요"
-        android:textColorHint="#33000000"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trip_review" />
-
-    <Button
-        android:id="@+id/cancel_btn"
-        style="@style/button"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_short"
-        android:text="취소"
-        android:textColor="#ffffff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/review_text" />
-
-    <Button
-        android:id="@+id/registration_btn"
-        style="@style/button"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginLeft="400dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/button_short"
-        android:text="후기 등록"
-        android:textColor="#ffffff"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/review_text" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nDrawer"
         android:layout_width="wrap_content"
@@ -206,6 +211,6 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/drawer"/> <!--네비게이션 드로어 추가-->
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

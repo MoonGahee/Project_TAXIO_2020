@@ -18,12 +18,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+//Login by 하은
 
 public class generalLoginActivity extends AppCompatActivity {
     EditText edtId, edtPw;
     Button btnLogin;
     FirebaseAuth mAuth;
     String email, pw;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,9 +43,10 @@ public class generalLoginActivity extends AppCompatActivity {
         edtId = findViewById(R.id.edtId);
         edtPw = findViewById(R.id.edtPw);
         btnLogin = findViewById(R.id.btnLogin);
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
-        edtId.setText("heni1325@gmail.com");
-        edtPw.setText("12341234");
+        edtId.setText("moongahee12@naver.com");
+        edtPw.setText("bada0100");
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,16 +63,15 @@ public class generalLoginActivity extends AppCompatActivity {
 
 
     // 이메일을 비교해서 값을 다음 화면에 넘겨주는 것을 해야한다.
-    public void login(String email, String pw){
+    public void login(final String email, final String pw){
         mAuth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             sendEmailVerification();
-                            Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                            startActivity(i);
-                            finish();
+                            //데이터를 읽어서 해당 general_num 전송기능 진행
+                            moveActivity(email, pw);
                         }
 
                     }
@@ -95,6 +103,31 @@ public class generalLoginActivity extends AppCompatActivity {
             });
         }
     };
+
+
+    //이동하기
+    public void moveActivity(final String email, String pw){
+        //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 general_num 값을 인텐트로 계속 전달전달
+        mDatabase.orderByChild("general_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot general : snapshot.getChildren()){
+                    String general_num = general.getKey();
+                    Log.d("Moon", "Key:"+general_num); //아니 왜 난 로그가 안뜨는겨
+                    Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                    intent.putExtra("general_num", general_num);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon", "failed");
+            }
+        });
+
+    }
 
 
    //로그인 화면 툴바 삭제

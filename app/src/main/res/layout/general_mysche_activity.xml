@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- Mypage 일정 확인 by 가희 -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <include layout="@layout/app_bar"
+    <include
         android:id="@+id/bar"
+        layout="@layout/app_bar"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/> <!-- 툴바 -->
+        app:layout_constraintTop_toTopOf="parent" /> <!-- 툴바 -->
 
     <ImageView
         android:id="@+id/bell"
@@ -28,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
+        android:paddingTop="7dp"
         android:text="여행 일정"
         app:layout_constraintLeft_toRightOf="@id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar" />
@@ -48,8 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/recruitDriver2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

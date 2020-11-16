@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 예약 확인 by 가희 -->
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawerLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:openDrawer="end"
-    tools:context=".generalReservationCompleteActivity">
+    tools:context=".generalReservationCompleteActivity"
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/app_bar"
+        <include
             android:id="@+id/bar"
+            layout="@layout/app_bar"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+            app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
         <ImageView
             android:id="@+id/bell"
@@ -34,37 +36,38 @@
 
         <TextView
             android:id="@+id/reservation1"
+            style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
-            app:layout_constraintLeft_toRightOf="@id/bell"
+            android:paddingTop="7dp"
             android:text="예약 완료"
-            style="@style/title1"/>
+            app:layout_constraintLeft_toRightOf="@id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
         <TextView
             android:id="@+id/reservation2"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/reservation1"
+            android:layout_marginBottom="200dp"
+            android:text="문가희 승객님의\n예약이 완료되었습니다."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginBottom="200dp"
-            android:text="문가희 승객님의\n예약이 완료되었습니다."
-            style="@style/title2"/>
+            app:layout_constraintTop_toBottomOf="@+id/reservation1" />
 
         <Button
             android:id="@+id/goMain"
+            style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/reservation2"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="100dp"
+            android:background="@drawable/button_long"
             android:text="메인으로 돌아가기"
             android:textSize="25sp"
-            style="@style/button"
-            android:background="@drawable/button_long"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reservation2" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -76,6 +79,6 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/drawer"/> <!--네비게이션 드로어 추가-->
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,13 +1,13 @@
 package com.example.project_taxio_2020;
 // 여행 일정 DB
 public class Schedule {
-    public String general_num; //회원 번호
-    public String times; // 며칠 여행
-    public String region; //여행지역
-    public String departure_date; //출발일
-    public String arrival_date; // 도착일
+    public String general_num; //회원 번호 > Login
+    public String times; // 며칠 여행 > SDate
+    public String region; //여행지역 >SRegion
+    public String departure_date; //출발일 >SDate
+    public String arrival_date; // 도착일 >SDate
     public String travel_state; // 여행 상태 (여행중, 여행완료, 여행준비)
-    public String number; // 탑승객 인원 수
+    public String number; // 탑승객 인원 수 > ?
 
     public Schedule() {
     }

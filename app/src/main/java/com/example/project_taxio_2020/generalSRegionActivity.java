@@ -33,9 +33,15 @@ public class generalSRegionActivity extends AppCompatActivity {
     TextView title_text;
     ImageView map;
     ImageButton btnJeju,btnSeoul, btnBusan, btnGyungju, btnGangwon;
+    String general_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        //값 받아오기
+        Intent i = getIntent();
+        general_num = (String)i.getSerializableExtra("general_num");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_region_activity);
         setToolbar();
@@ -60,7 +66,7 @@ public class generalSRegionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
-                builder.setTitle("지역 확인");
+                builder.setTitle("강원");
                 builder.setMessage("현재 개발중인 지역입니다.");
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -75,7 +81,7 @@ public class generalSRegionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
-                builder.setTitle("지역 확인");
+                builder.setTitle("경주");
                 builder.setMessage("현재 개발중인 지역입니다.");
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -90,7 +96,7 @@ public class generalSRegionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
-                builder.setTitle("지역 확인");
+                builder.setTitle("서울");
                 builder.setMessage("현재 개발중인 지역입니다.");
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -105,7 +111,7 @@ public class generalSRegionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalSRegionActivity.this);
-                builder.setTitle("지역 확인");
+                builder.setTitle("부산");
                 builder.setMessage("현재 개발중인 지역입니다.");
                 builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {
                     @Override
@@ -130,12 +136,9 @@ public class generalSRegionActivity extends AppCompatActivity {
                         String region = "제주";
                         HashMap result = new HashMap<>();
                         result.put("region", region);
-                        mDatabase.child("moon2").child("Schedule").setValue(result); // moon2 대신 현재 나의 id
+                        mDatabase.child(general_num).child("Schedule").setValue(result);
                         //DataBase 종료
-
-                        Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
-                        startActivity(intent);
-                        finish();
+                        moveActivity();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -160,6 +163,15 @@ public class generalSRegionActivity extends AppCompatActivity {
         });
     }
 
+    // 회원정보를 가지고 다음 액티비티로 이동
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
+        intent.putExtra("general_num", general_num);
+        startActivity(intent);
+        finish();
+    }
+
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
