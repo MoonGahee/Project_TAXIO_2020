@@ -48,7 +48,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     Button ok;
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
-    int tripMonth, tripDay, tripDays = 0;
+    int tripMonth, tripDay, tripYear, tripDays = 0;
     String date = "";
     DatabaseReference mDatabase;
     String general_num;
@@ -91,11 +91,14 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             @Override
             public void onClick(View v) {
                 Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yy", Locale.getDefault());
                 SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
                 SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
 
+                String nowy = yearFormat.format(currentTime);
                 String nowm = monthFormat.format(currentTime);
                 String nowd = dayFormat.format(currentTime);
+                final int nowYear = Integer.parseInt(nowy);
                 final int nowmonth = Integer.parseInt(nowm);
                 final int nowday = Integer.parseInt(nowd);
 
@@ -123,7 +126,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     dlg.setMessage("원하는 일정을 선택해주세요");
                     dlg.setNegativeButton("확인", null);
                     dlg.show();
-                } else {
+                } else if(tripYear==nowYear){
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
                         date = "";
@@ -157,6 +160,8 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     } else
                         selectDate();
                 }
+                else
+                    selectDate();
             }
         });//확인 버튼 눌렀을 때 다이얼로그
 
@@ -169,7 +174,8 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         dlg.setPositiveButton("예", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
+                moveActivity();
+    //            makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
             }
         });
         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -187,7 +193,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("times", tripDays);
         result.put("departure_date", startingDay);
         result.put("arrival_date", endDay);
-        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
+//        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
         moveActivity();
     }
 
@@ -195,10 +201,9 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSTaxiActivity.class);
         intent.putExtra("general_num", general_num);
-        intent.putExtra("tripDate", date);
         intent.putExtra("tripDays", tripDays);
-        intent.putExtra("tripMonth", tripMonth);
-        intent.putExtra("tripDay", tripDay);
+        intent.putExtra("startingDay", tripDate[0]);
+        intent.putExtra("endDay", tripDate[1]);
         startActivity(intent);
         finish();
     }

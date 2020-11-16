@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalLoginActivity.class);
+                Intent i = new Intent(getApplicationContext(), generalSDateActivity.class);
                 startActivity(i);
                 finish();
             }
