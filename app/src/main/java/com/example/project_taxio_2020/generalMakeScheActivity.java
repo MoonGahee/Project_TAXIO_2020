@@ -98,6 +98,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     String TAG="what?";
     int size;
     int[] count;
+    String general_num;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +110,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
+        //값을 불러오는 곳
         Intent intent = getIntent();
+        general_num = (String) intent.getSerializableExtra("general_num");
         tripdays = intent.getIntExtra("tripDays", 0);
         date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay");
 

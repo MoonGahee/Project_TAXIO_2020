@@ -137,7 +137,7 @@ public class generalSRegionActivity extends AppCompatActivity {
                         String region = "제주";
                         HashMap result = new HashMap<>();
                         result.put("region", region);
-//                        mDatabase.child(general_num).child("Schedule").setValue(result);
+                        mDatabase.child(general_num).child("Schedule").setValue(result);
                         //DataBase 종료
                         moveActivity();
                     }

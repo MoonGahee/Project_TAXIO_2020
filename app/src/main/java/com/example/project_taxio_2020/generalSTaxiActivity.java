@@ -1,6 +1,7 @@
 
 package com.example.project_taxio_2020;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,24 +42,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class generalSTaxiActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
 
-    String  tripDate[], rentTime , startTime, startDay, endDay, tripDay;
+    String tripDate[], rentTime, startTime, startDay, endDay, tripDay;
     Integer tripDays;
     String date;
     Button ok;
     ListView ListView_taxi;
     RadioGroup use;
     RadioButton yes, no;
-    TextView taxiTime_tv, startTime_tv, title_text;;
+    TextView taxiTime_tv, startTime_tv, title_text;
+    ;
     Spinner rent_spin;
     TimePicker start_pick;
     String general_num;
     DatabaseReference mDatabase;
+    HashMap result;
+    int count = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -66,10 +72,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
         setContentView(R.layout.general_select_taxi_activity);
         setToolbar();
 
-        tripDate=new String[4];
+        tripDate = new String[4];
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
@@ -78,7 +84,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
 
-        readActivity();
         Intent intent = getIntent();
         date = intent.getStringExtra("tripDate");
         tripDays = intent.getIntExtra("tripDays", 0);
@@ -87,10 +92,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         int j = startDay.indexOf("월");
         tripDate[0] = startDay.substring(6, j);
-        tripDate[1] = startDay.substring(j+2, startDay.length()-1);
+        tripDate[1] = startDay.substring(j + 2, startDay.length() - 1);
         j = endDay.indexOf("월");
         tripDate[2] = endDay.substring(6, j);
-        tripDate[3] = endDay.substring(j+2, endDay.length()-1);
+        tripDate[3] = endDay.substring(j + 2, endDay.length() - 1);
 
         ok = findViewById(R.id.ok);
         ListView_taxi = findViewById(R.id.ListView_taxi);
@@ -113,51 +118,44 @@ public class generalSTaxiActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                i.putExtra("tripDays", tripDays);
-                i.putExtra("startDay", startDay);
-                i.putExtra("endDay", endDay);
-                startActivity(i);
-                finish();
+                moveActivity();
             }
         });
     }
 
-    public void setList(generalTaxiAdapter adapter){
-        if(!(tripDate[0].equals(tripDate[2]))){
+    public void setList(generalTaxiAdapter adapter) {
+        if (!(tripDate[0].equals(tripDate[2]))) {
             int j = 1;
-            if(tripDate[0]=="1"||tripDate[0]=="3"||tripDate[0]=="5"||tripDate[0]=="7"||tripDate[0]=="8"||tripDate[0]=="10"||tripDate[0]=="12") {
+            if (tripDate[0] == "1" || tripDate[0] == "3" || tripDate[0] == "5" || tripDate[0] == "7" || tripDate[0] == "8" || tripDate[0] == "10" || tripDate[0] == "12") {
                 for (int i = 0; i < tripDays; i++) {
                     if ((Integer.parseInt(tripDate[1]) + i) >= 32 && Integer.parseInt(tripDate[3]) >= j) {
                         tripDay = tripDate[2] + "월 " + j++ + "일";
+                    } else {
+                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
                     }
-                    else{
-                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";}
                     adapter.addItem(tripDay); //하루씩
                 }
-            } else if(tripDate[0]=="4"||tripDate[0]=="6"||tripDate[0]=="9"||tripDate[0].equals("11")){
+            } else if (tripDate[0] == "4" || tripDate[0] == "6" || tripDate[0] == "9" || tripDate[0].equals("11")) {
                 for (int i = 0; i < tripDays; i++) { //날짜 개수
                     if ((Integer.parseInt(tripDate[1]) + i) >= 31 && Integer.parseInt(tripDate[3]) >= j) {
                         tripDay = tripDate[2] + "월 " + j++ + "일";
+                    } else {
+                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
                     }
-                    else{
-                        tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";}
                     adapter.addItem(tripDay);
-                  }
                 }
-                else{
-                    for (int i = 0; i < tripDays; i++) {
-                       tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
-                       if((tripDate[1]+i)=="29"&&Integer.parseInt(tripDate[3])<j){
-                          tripDay = tripDate[2] + "월 " + j++ + "일";
-                      }
-                     adapter.addItem(tripDay);
-                     }
+            } else {
+                for (int i = 0; i < tripDays; i++) {
+                    tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
+                    if ((tripDate[1] + i) == "29" && Integer.parseInt(tripDate[3]) < j) {
+                        tripDay = tripDate[2] + "월 " + j++ + "일";
+                    }
+                    adapter.addItem(tripDay);
                 }
             }
-        else {
+        } else {
             for (int i = 0; i < tripDays; i++) {
-                tripDay = tripDate[0] + "월 " + Integer.parseInt(tripDate[1]+i) + "일";
+                tripDay = tripDate[0] + "월 " + Integer.parseInt(tripDate[1] + i) + "일";
                 adapter.addItem(tripDay);
             }
         }
@@ -167,7 +165,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         public ArrayList<generalTaxiItem> listViewItemList = new ArrayList<generalTaxiItem>();
 
-        public generalTaxiAdapter(){}
+        public generalTaxiAdapter() {
+        }
+
         @Override
         public int getCount() {
             return listViewItemList.size();
@@ -175,13 +175,14 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         @Override
         public Object getItem(int position) {
-            return listViewItemList.get(position) ;
+            return listViewItemList.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return position ;
+            return position;
         }
+
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -193,23 +194,22 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 convertView = inflater.inflate(R.layout.general_taxi_item, parent, false);
 
                 ViewGroup.LayoutParams params = convertView.getLayoutParams();
-                params.height=110;
+                params.height = 110;
                 convertView.setLayoutParams(params);
             }
 
-            TextView taxi_day =  convertView.findViewById(R.id.taxi_day);
+            TextView taxi_day = convertView.findViewById(R.id.taxi_day);
             final Button choice = convertView.findViewById(R.id.choice);
             final TextView rent_time = convertView.findViewById(R.id.rent_time);
             final TextView start_time = convertView.findViewById(R.id.start_time);
             generalTaxiItem listViewItem = listViewItemList.get(position);
 
 
-
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder dlg = new AlertDialog.Builder(generalSTaxiActivity.this);
-                    View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi,null);
+                    View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi, null);
 
                     use = taxi_plus.findViewById(R.id.use);
                     yes = taxi_plus.findViewById(R.id.yes);
@@ -224,8 +224,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     use.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup group, int checkedId) {
-                            switch (checkedId){
-                                case R.id.yes :
+                            switch (checkedId) {
+                                case R.id.yes:
                                     taxiTime_tv.setVisibility(View.VISIBLE);
                                     rent_spin.setVisibility(View.VISIBLE);
                                     break;
@@ -243,13 +243,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            rentTime= String.valueOf(parent.getItemAtPosition(position));
+                            rentTime = String.valueOf(parent.getItemAtPosition(position));
 
-                            if(!rentTime.equals("0")){
+                            if (!rentTime.equals("0")) {
                                 startTime_tv.setVisibility(View.VISIBLE);
                                 start_pick.setVisibility(View.VISIBLE);
-                            }
-                            else{
+                            } else {
                                 startTime_tv.setVisibility(View.GONE);
                                 start_pick.setVisibility(View.GONE);
                             }
@@ -264,7 +263,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                         @Override
                         public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                            startTime= hourOfDay+"시"+minute+"분";
+                            startTime = hourOfDay + "시" + minute + "분";
                         }
                     });
 
@@ -282,8 +281,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 }
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
-                            }
-                            else{ //관광택시 이용 안할시 어케 할꺼?
+                            } else { //관광택시 이용 안할시 어케 할꺼?
 
                             }
                         }
@@ -300,41 +298,47 @@ public class generalSTaxiActivity extends AppCompatActivity {
         // ListView 하나씩 추가
         public void addItem(String tripDay) {
             generalTaxiItem item = new generalTaxiItem();
-
             item.setTripDate(tripDay);
-
             listViewItemList.add(item);
+            makeSchOne();
         }
 
-        public void clearItem(){
+        public void clearItem() {
             listViewItemList.clear();
         }
     }
 
-    //데이터를 읽어오는 함수
-    public void readActivity(){
-        ValueEventListener generalListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Schedule schedule = snapshot.child(general_num).getValue(Schedule.class); //Schedule 참고할 것이므로
-                tripDays = Integer.parseInt(schedule.getTimes());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Moon-Test","error");
-                //없는 경우
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(generalListener);
+    public void makeSchOne() {
+        if (count != tripDays) {
+            Log.d("Moon-Test", "start");
+            HashMap result = new HashMap<>();
+            result.put("schedule_num", Integer.toString(count + 1));
+            mDatabase.push();
+            Log.d("Moon-Test", "며칠" + (count + 1));
+            HashMap resultDay = new HashMap<>();
+            resultDay.put("schedule_date", tripDay);
+            mDatabase.child(general_num).child("Schedule").child("days").child("Date_Schedule").child("schedule_num").child(Integer.toString(count + 1)).updateChildren(resultDay);
+            Log.d("Moon-Test", "언제" + tripDay);
+            Log.d("Moon-Test", "wow");
+            mDatabase.push();
+            count++;
+        } else {
+            Log.d("Moon-test", "faild");
+        }
     }
 
-
-
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+        intent.putExtra("general_num", result.get("general_num").toString());
+        intent.putExtra("tripDays", tripDays);
+        intent.putExtra("startDay", startDay);
+        intent.putExtra("endDay", endDay);
+        startActivity(intent);
+        finish();
+    }
 
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -343,7 +347,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
@@ -359,10 +363,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else if(id==R.id.logout){
+                } else if (id == R.id.logout) {
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -372,9 +375,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
     }
 
 
-
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

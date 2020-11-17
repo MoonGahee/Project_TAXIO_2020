@@ -194,6 +194,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("times", tripDays);
         result.put("departure_date", startingDay);
         result.put("arrival_date", endDay);
+        result.put("days", tripDays); //임의의 테이블 생성
         mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
         moveActivity();
     }
@@ -201,10 +202,10 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     // 회원정보를 가지고 다음 액티비티로 이동
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSTaxiActivity.class);
-        intent.putExtra("general_num", general_num);
-        intent.putExtra("tripDays", tripDays);
-        intent.putExtra("startingDay", tripDate[0]);
-        intent.putExtra("endDay", tripDate[1]);
+        intent.putExtra("general_num", general_num);  //회원번호
+        intent.putExtra("tripDays", tripDays); //여행 며칠간
+        intent.putExtra("startingDay", tripDate[0]); //시작날
+        intent.putExtra("endDay", tripDate[1]); //도착날
         startActivity(intent);
         finish();
     }
