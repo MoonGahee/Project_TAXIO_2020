@@ -65,6 +65,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
     HashMap result;
     int count = 0;
+    int cnt = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -208,9 +209,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //초기화 하는 경우 고려해서 카운트도 초기화
                     AlertDialog.Builder dlg = new AlertDialog.Builder(generalSTaxiActivity.this);
                     View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi, null);
-
+                    final HashMap resultTaxi = new HashMap<>();
                     use = taxi_plus.findViewById(R.id.use);
                     yes = taxi_plus.findViewById(R.id.yes);
 
@@ -225,11 +227,15 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         @Override
                         public void onCheckedChanged(RadioGroup group, int checkedId) {
                             switch (checkedId) {
-                                case R.id.yes:
+                                case R.id.yes: //이용
+                                    resultTaxi.put("boarding_status", true); //이용여부 Boolean
+                                    Log.d("Moon-Test", "0");
                                     taxiTime_tv.setVisibility(View.VISIBLE);
                                     rent_spin.setVisibility(View.VISIBLE);
                                     break;
-                                case R.id.no:
+                                case R.id.no: //아니오
+                                    resultTaxi.put("boarding_status", false);
+                                    Log.d("Moon-Test", "1");
                                     taxiTime_tv.setVisibility(View.GONE);
                                     startTime_tv.setVisibility(View.GONE);
                                     rent_spin.setVisibility(View.GONE);
@@ -243,8 +249,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            rentTime = String.valueOf(parent.getItemAtPosition(position));
-
+                            rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
+                            resultTaxi.put("taxi_time", rentTime);
+                            Log.d("Moon-Test", rentTime);
                             if (!rentTime.equals("0")) {
                                 startTime_tv.setVisibility(View.VISIBLE);
                                 start_pick.setVisibility(View.VISIBLE);
@@ -256,14 +263,15 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-
                         }
                     });
 
                     start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                         @Override
                         public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                            startTime = hourOfDay + "시" + minute + "분";
+                            startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
+                            resultTaxi.put("start_time", startTime);
+                            Log.d("Moon-Test", startTime);
                         }
                     });
 
@@ -272,15 +280,21 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (yes.isChecked()) {
+                                chkCnt();
+                                Log.d("Moon-Test", Integer.toString(cnt));
                                 choice.setVisibility(View.GONE);
                                 rent_time.setVisibility(View.VISIBLE);
                                 rent_time.setText(rentTime);
                                 if (rentTime.equals("0")) {
                                     startTime = "-";
-
                                 }
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
+                                //count를 어떻게 클릭할 때마다 줄 것인가?
+                                mDatabase.child(general_num).child("Schedule").child("days").child("Date_Schedule").child("schedule_num").child(Integer.toString(cnt)).updateChildren(resultTaxi);
+                                Log.d("Moon-Test", "success");
+                                mDatabase.push();
+
                             } else { //관광택시 이용 안할시 어케 할꺼?
 
                             }
@@ -293,6 +307,15 @@ public class generalSTaxiActivity extends AppCompatActivity {
             taxi_day.setText(listViewItem.getTripDate());
 
             return convertView;
+        }
+
+        //초기화 경우 고려하여 함수
+        public void chkCnt() {
+            if (cnt < count) {
+                cnt++;
+            } else {
+                cnt = count - cnt;
+            }
         }
 
         // ListView 하나씩 추가
@@ -308,6 +331,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
         }
     }
 
+
+    //날짜별 DB 저장
     public void makeSchOne() {
         if (count != tripDays) {
             Log.d("Moon-Test", "start");
@@ -327,9 +352,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
         }
     }
 
+    //화면 이동
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-        intent.putExtra("general_num", result.get("general_num").toString());
+        intent.putExtra("general_num", general_num);
         intent.putExtra("tripDays", tripDays);
         intent.putExtra("startDay", startDay);
         intent.putExtra("endDay", endDay);
