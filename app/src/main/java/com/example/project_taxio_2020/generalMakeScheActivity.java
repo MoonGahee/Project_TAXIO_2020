@@ -334,14 +334,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
             }
         });
-
-        listView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                return false;
-            }
-        });
     }
 
     public void naviItem(){

@@ -65,5 +65,10 @@
         <activity android:name=".generalMakeId"/>
         <activity android:name=".driverMakeId"/>
         <activity android:name=".generalModifyId"/> <!--수정-->
+        <activity android:name=".driverAcceptRequestActivity"/><!--기사 요청-->
+        <activity android:name=".driverResumeActivity"/><!--기사 지원-->
+        <activity android:name=".driverMainActivity"/><!--기사 메인-->
+        <activity android:name=".driverMyScheActivity"/><!--기사 일정-->
+        <activity android:name=".driverCheckScheActivity"/><!--기사 예약 현황-->
     </application>
 </manifest>
