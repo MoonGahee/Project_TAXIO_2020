@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.Locale;
 // 탑승자 메인 화면 by 주혜
 
 public class generalMainActivity extends AppCompatActivity {
+
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private Context context = this;
@@ -235,6 +237,12 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

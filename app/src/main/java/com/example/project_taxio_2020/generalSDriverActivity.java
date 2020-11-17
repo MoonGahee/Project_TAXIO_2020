@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
 import java.util.List;
@@ -124,6 +125,7 @@ public class generalSDriverActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
     }
 
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -147,6 +149,12 @@ public class generalSDriverActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

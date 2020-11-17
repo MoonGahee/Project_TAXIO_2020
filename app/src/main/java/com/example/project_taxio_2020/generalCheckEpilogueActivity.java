@@ -18,6 +18,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -74,6 +75,7 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         });
     }
 
+    //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -97,6 +99,12 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

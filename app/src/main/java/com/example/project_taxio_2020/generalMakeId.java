@@ -1,18 +1,25 @@
 package com.example.project_taxio_2020;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +29,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.loader.content.CursorLoader;
 
 import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 //import com.google.firebase.auth.AuthResult;
@@ -38,19 +47,27 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class generalMakeId extends AppCompatActivity {
+    private final int GALLERY_CODE = 10;
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
     Button btnComplete;
     TextView btnEmail, btnImg;
     ImageView photo;
     private FirebaseAuth mAuth; //인증
-    String TAG = "EXCEPTION";
+    private FirebaseStorage storage;
+    StorageReference storageRef;
+    String TAG = "EXCEPTION", imagePath;
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
@@ -73,6 +90,11 @@ public class generalMakeId extends AppCompatActivity {
         setAdapter();//Adapter 세팅 일괄처리
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);}
 
         //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기
         edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -98,11 +120,32 @@ public class generalMakeId extends AppCompatActivity {
                 }
             }
         });
+        btnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPicture();
+
+            }
+        });
 
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //로그인 값을 저장함
+                Uri file = Uri.fromFile(new File(imagePath));
+                StorageReference ref = storageRef.child("images/"+file.getLastPathSegment());
+                UploadTask uploadTask =  ref.putFile(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        ;
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        ;
+                    }
+                });
                 final String getGeneral_email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
                 final String getGeneral_password = edtPassword.getText().toString();
                 final String getGeneral_name = edtNameM.getText().toString();
@@ -130,7 +173,49 @@ public class generalMakeId extends AppCompatActivity {
                 }
             }
         });
+
+        //단계 터치리스너 막아버리기
+        SeekBar seek_signin = (SeekBar)findViewById(R.id.progress);
+        seek_signin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
+
+    public void getPicture(){
+
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent. setType(MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, GALLERY_CODE);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==GALLERY_CODE){
+            imagePath = getPath(data.getData());
+            File f = new File(imagePath);
+            photo.setImageURI(data.getData());
+        }
+    }
+
+    public String getPath(Uri uri){
+        String[] proj = {MediaStore.Images.Media.DATA};
+        CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
+
+        Cursor cu = cursorLoader.loadInBackground();
+        int index = cu.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cu.moveToFirst();
+
+        return cu.getString(index);
+    }
+
+
+
+
+
+
 
     //로그인 값을 저장
     public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call) {
