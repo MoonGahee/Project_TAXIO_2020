@@ -1,6 +1,10 @@
 package com.example.project_taxio_2020;
+
+import java.util.List;
+
 // 여행 일정 DB
 public class Schedule {
+    // public List<Date_Schedule> date_schedule;
     public String general_num; //회원 번호 > Login
     public String times; // 며칠 여행 > SDate
     public String region; //여행지역 >SRegion
@@ -8,11 +12,12 @@ public class Schedule {
     public String arrival_date; // 도착일 >SDate
     public String travel_state; // 여행 상태 (여행중, 여행완료, 여행준비)
     public String number; // 탑승객 인원 수 > ?
+    public String days;
 
     public Schedule() {
     }
 
-    public Schedule(String general_num, String times, String region, String departure_date, String arrival_date, String travel_state, String number) {
+    public Schedule(String general_num, String times, String region, String departure_date, String arrival_date, String travel_state, String number, String days) {
         this.general_num = general_num;
         this.times = times;
         this.region = region;
@@ -20,6 +25,7 @@ public class Schedule {
         this.arrival_date = arrival_date;
         this.travel_state = travel_state;
         this.number = number;
+        this.number = days;
     }
 
     public String getGeneral_num() {
@@ -76,5 +82,13 @@ public class Schedule {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
     }
 }
