@@ -71,6 +71,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class generalMakeScheActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -165,7 +166,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
 
-                    size = generalTimelineAdapter.getCount();
+                    size = generalTimelineAdapter.getCount(); //ListView count
 
                     k++;
                 }
@@ -189,6 +190,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
+        trip_fin = findViewById(R.id.trip_fin);
 
         day1 = findViewById(R.id.day1);
 
@@ -201,6 +203,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         next = findViewById(R.id.next1);
 
         previous.setVisibility(View.INVISIBLE);
+        trip_fin.setVisibility(View.INVISIBLE);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,6 +216,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (day < tripdays) {
                     next.setVisibility(View.VISIBLE);
+                    trip_fin.setVisibility(View.INVISIBLE);
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
@@ -234,6 +238,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (day == tripdays) {
                     next.setVisibility(View.INVISIBLE);
+                    trip_fin.setVisibility(View.VISIBLE);
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
@@ -254,7 +259,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         });
 
         edit_btn = findViewById(R.id.trip_edit1);
-        trip_fin = findViewById(R.id.trip_fin);
 
         listView = findViewById(R.id.trip1);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
@@ -276,6 +280,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         trip_fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addDateActivity();
                 moveActivity();
             }
         });
@@ -354,6 +359,23 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         intent.putExtra("general_num", general_num);
         startActivity(intent);
         finish();
+    }
+
+    public void addDateActivity(){
+        int cnt = 1;
+        for(int countDate = 0; countDate < tripdays; countDate++){
+            HashMap result = new HashMap<>();
+            result.put("schedule_num", Integer.toString(countDate + 1));
+            mDatabase.push();
+            Log.d("Moon-Test", "며칠" + (countDate + 1));
+            if(cnt < size){
+                HashMap resultDay = new HashMap<>();
+                resultDay.put("coures_place", places);
+                resultDay.put("boarding_status", count[cnt]);
+                mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(countDate + 1)).child("Date_Course").updateChildren(resultDay);
+
+            }
+        }
     }
 
     //네비게이션
