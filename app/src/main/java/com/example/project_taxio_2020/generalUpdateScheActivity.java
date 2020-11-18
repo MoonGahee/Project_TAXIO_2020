@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.MenuItem;
@@ -33,7 +34,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
@@ -42,9 +47,12 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     Button finish_btn, previous, next;
     Toolbar toolbar;
     TextView title_text, day2, date2;
-    String jeju[];
+    String jeju[], distance[] = new String[100];
     String date;
     ListView listView;
+    ArrayList<LatLng> latLng;
+    ArrayList<String> place;
+    LatLng latLng1, latLng2;
     ScrollView scroll2;
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
@@ -55,6 +63,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
     MapFragment mapFrag;
     GoogleMap gMap;
+    GroundOverlayOptions videoMark;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +74,9 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         Intent i = getIntent();
         date = i.getStringExtra("tripDate");
         tripdays = i.getIntExtra("tripDays", 0);
+        latLng = i.getParcelableArrayListExtra("tripLatLng");
+        place = i.getStringArrayListExtra("trip");
+
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
@@ -90,11 +102,14 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         listView = findViewById(R.id.trip2);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
 
-        list_itemArrayList.add(new generalTimelineItem("제주공항", "1", "1시간", 0, 0));
-        list_itemArrayList.add(new generalTimelineItem("성산일출봉", "2", "1시간", 0, 0));
-        list_itemArrayList.add(new generalTimelineItem("오셜록", "3", "1시간", 0, 0));
-        list_itemArrayList.add(new generalTimelineItem("주상절리", "4", "1시간", 0, 0));
-        list_itemArrayList.add(new generalTimelineItem("용두암", "5", "1시간", 0, 0));
+        for (int n = 0; n < place.size(); n++) {
+            if (n != place.size()) {
+                list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], 0, 0));
+            }
+            else {
+                list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], R.drawable.ic_arrow_downward_black_24dp, 0));
+            }
+        }
 
         generalTimelineAdapter = new generalTimelineAdapter(generalUpdateScheActivity.this, list_itemArrayList);
         listView.setAdapter(generalTimelineAdapter);
@@ -198,22 +213,27 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 }
                 else {
                     secondPos = position+1;
+
+                    String n = jeju[firstPos-1];
+                    jeju[firstPos-1] = jeju[secondPos-1];
+                    jeju[secondPos-1] = n;
+
                     count++;
 
                     list_itemArrayList.clear();
 
                     while (true) {
                         if (size == i) {
-                            list_itemArrayList.add(new generalTimelineItem("용두암", Integer.toString(i), "1시간", 0, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], 0, 0));
                             break;
                         }
 
                         if (firstPos == i)
-                            list_itemArrayList.add(new generalTimelineItem(jeju[secondPos-1], Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
                         else if (secondPos == i)
-                            list_itemArrayList.add(new generalTimelineItem(jeju[firstPos-1], Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
                         else
-                            list_itemArrayList.add(new generalTimelineItem("제주공항", Integer.toString(i), "1시간 30분", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
 
                         i++;
                     }
@@ -232,7 +252,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
                 Toast.makeText(getApplicationContext(), Integer.toString(position + 1) + "번째 장소가 삭제 됩니다.", Toast.LENGTH_SHORT).show();
 
-                return false;
+                return true;
             }
         });
     }
@@ -269,5 +289,47 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 scroll2.requestDisallowInterceptTouchEvent(true);
             }
         });
+
+        for (int n = 0; n < latLng.size(); n++) {
+            LatLng lat = new LatLng(latLng.get(n).latitude, latLng.get(n).longitude);
+
+            if (n == 0) {
+                latLng1 = lat;
+            }
+            else {
+                latLng2 = lat;
+                distance[n-1] = calDistance(latLng1, latLng2);
+                gMap.addPolyline(new PolylineOptions().add(latLng1, latLng2).width(5).color(Color.RED));
+                latLng1 = latLng2;
+            }
+
+            videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 200f, 200f);
+            gMap.addGroundOverlay(videoMark);
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+        }
+    }
+
+    public String calDistance(LatLng lat1, LatLng lat2) {
+        double earth_R = 6371000.0, radian, radLat1, radLat2, radDist, distances, ret;
+        double latitude1 = lat1.latitude;
+        double longitude1 = lat1.longitude;
+        double latitude2 = lat2.latitude;
+        double longitude2 = lat2.longitude;
+
+        radian = Math.PI/180;
+
+        radLat1 = radian * latitude1;
+        radLat2 = radian * latitude2;
+        radDist = radian * (longitude1 - longitude2);
+
+        distances = Math.sin(radLat1) * Math.sin(radLat2);
+        distances += Math.cos(radLat1) * Math.cos(radLat2) * Math.cos(radDist);
+
+        ret = earth_R * Math.acos(distances);
+
+        double rtn = Math.round(Math.round(ret) / 1000);
+
+        if (rtn <= 0) return Double.toString(rtn) + " m";
+        else return Double.toString(rtn) + "km";
     }
 }

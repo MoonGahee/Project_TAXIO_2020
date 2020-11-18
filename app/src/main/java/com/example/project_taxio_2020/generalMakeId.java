@@ -32,7 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
 
-//import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
+import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -187,8 +187,6 @@ public class generalMakeId extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
     public void getPicture(){
