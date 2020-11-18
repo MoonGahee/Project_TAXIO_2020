@@ -32,7 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
 
-import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
+//import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -188,14 +188,7 @@ public class generalMakeId extends AppCompatActivity {
             }
         });
 
-        //단계 터치리스너 막아버리기
-        SeekBar seek_signin = (SeekBar)findViewById(R.id.progress);
-        seek_signin.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+
     }
 
     public void getPicture(){

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Project_TAXIO_2020</string>
-    <string name="title_name">TAXIO</string>
+    <string name="app_name">TAXIO</string>
     <string name="line">..........................</string>
     <string name="trip_ex1">
         1. 4월 24일 : 제주공항 - 상창농장(시작) - 용담해변

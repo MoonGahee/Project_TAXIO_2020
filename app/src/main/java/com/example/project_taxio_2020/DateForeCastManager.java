@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 // 날씨 뭐시긴지 모르겠습니다.
 
-public class ForeCastManager extends Thread {
+public class DateForeCastManager extends Thread {
     String lon,lat;
     ArrayList<ContentValues> mWeather;
-    generalMainActivity mContext;
+    generalSDateActivity mContext;
     public ArrayList<ContentValues> getmWeather()
     {
         return mWeather;
     }
 
-    public ForeCastManager(String lon, String lat, generalMainActivity mContext)
+    public DateForeCastManager(String lon, String lat, generalSDateActivity mContext)
     {
         this.lon = lon ; this.lat = lat;
         this.mContext = mContext;
@@ -110,4 +110,6 @@ public class ForeCastManager extends Thread {
         mWeather = GetOpenWeather(lon,lat);
         mContext.handler.sendEmptyMessage(mContext.THREAD_HANDLER_SUCCESS_INFO);
     }
+
+
 }
