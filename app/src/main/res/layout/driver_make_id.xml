@@ -421,64 +421,24 @@
                     app:layout_constraintLeft_toLeftOf="parent"/>
 
                 <TextView
-                android:id="@+id/time4"
-                style="@style/basic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:text="4시간 "
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/money" />
-
-                <EditText
-                    android:id="@+id/edtTime4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/time4"
-                    app:layout_constraintTop_toBottomOf="@id/money"/>
-
-                <TextView
-                    android:id="@+id/time8"
+                    android:id="@+id/time"
                     style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="8시간 "
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtTime4" />
-
-                <EditText
-                    android:id="@+id/edtTime8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="6"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/time8"
-                    app:layout_constraintTop_toBottomOf="@id/time4"/>
-
-                <TextView
-                    android:id="@+id/time12"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="84dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="16dp"
-                    android:text="12시간 "
+                    android:text="시간 당 "
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtTime8" />
+                    app:layout_constraintTop_toBottomOf="@+id/money" />
 
                 <EditText
-                    android:id="@+id/edtTime12"
+                    android:id="@+id/edtTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="6"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/time12"
-                    app:layout_constraintTop_toBottomOf="@id/edtTime8"/>
+                    app:layout_constraintLeft_toRightOf="@id/time"
+                    app:layout_constraintTop_toBottomOf="@id/money"/>
 
                 <TextView
                     android:id="@+id/profileImg"
@@ -489,7 +449,7 @@
                     android:text="*기사 면허 사진: "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@+id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtTime12" />
+                    app:layout_constraintTop_toBottomOf="@id/edtTime" />
 
 
                 <TextView
@@ -504,7 +464,7 @@
                     android:text="첨 부"
                     android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
-                    app:layout_constraintTop_toBottomOf="@id/edtTime12" />
+                    app:layout_constraintTop_toBottomOf="@id/edtTime" />
 
                 <ImageView
                     android:id="@+id/photo"
