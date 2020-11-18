@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ public class generalLoginActivity extends AppCompatActivity {
     TextView btnFId, btnFPw, btnJoin;
     FirebaseAuth mAuth;
     String email, pw;
+    RadioGroup rdg;
+    RadioButton rdoD, rdoG;
     DatabaseReference mDatabase;
     private SharedPreferences loginData;
 
@@ -51,6 +55,10 @@ public class generalLoginActivity extends AppCompatActivity {
         btnFId = findViewById(R.id.btnFId);
         btnFPw = findViewById(R.id.btnFPw);
         btnJoin = findViewById(R.id.btnJoin);
+        rdg = findViewById(R.id.rdg);
+        rdoD = findViewById(R.id.rdoD);
+        rdoG = findViewById(R.id.rdoG);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
 

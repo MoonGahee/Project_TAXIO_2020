@@ -78,5 +78,7 @@
         <activity android:name=".driverWriteWithdrawal"/><!--기사 탈퇴하기-->
         <activity android:name=".driverWithdrawalComplete"/><!--기사 탈퇴 완료-->
         <activity android:name=".driverCheckEpilogueActivity"/><!--기사 후기-->
+        <activity android:name=".findId"/><!--아이디 찾기-->
+        <activity android:name=".findPw"/><!--패스워드 찾기-->
     </application>
 </manifest>
