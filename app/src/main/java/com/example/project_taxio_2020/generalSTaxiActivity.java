@@ -190,12 +190,13 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            final int pos = position;
-            final Context context = parent.getContext();
+        public View getView(final int pos, @Nullable View convertView, @NonNull ViewGroup parent) {
+            final int posi = pos;
+
+            final Context[] context = {parent.getContext()};
 
             if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) context[0].getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.general_taxi_item, parent, false);
 
                 ViewGroup.LayoutParams params = convertView.getLayoutParams();
@@ -207,15 +208,16 @@ public class generalSTaxiActivity extends AppCompatActivity {
             final Button choice = convertView.findViewById(R.id.choice);
             final Spinner rent_time = convertView.findViewById(R.id.rent_time);
             final TextView start_time = convertView.findViewById(R.id.start_time);
-            generalTaxiItem listViewItem = listViewItemList.get(position);
+            generalTaxiItem listViewItem = listViewItemList.get(posi);
             rent_time.getBackground().setColorFilter(getResources().getColor(R.color.button), PorterDuff.Mode.SRC_ATOP);
 
 
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     //초기화 하는 경우 고려해서 카운트도 초기화
-                    AlertDialog.Builder dlg = new AlertDialog.Builder(generalSTaxiActivity.this);
+                    final AlertDialog.Builder[] dlg = {new AlertDialog.Builder(generalSTaxiActivity.this)};
                     View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi, null);
 
                     use = taxi_plus.findViewById(R.id.use);
@@ -227,8 +229,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     start_pick = taxi_plus.findViewById(R.id.start_pick);
                     choose = taxi_plus.findViewById(R.id.choose);
 
-                    dlg.setTitle("택시 선택");
-                    dlg.setView(taxi_plus);
+                    final int[] timepos = {0};
+
+                    dlg[0].setTitle("택시 선택");
+                    dlg[0].setView(taxi_plus);
                     use.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -249,6 +253,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     rent_spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            timepos[0] = position;
                             rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                             resultTaxi.put("taxi_time", rentTime);
                         }
@@ -258,6 +263,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                             resultTaxi.put("taxi_time", rentTime);
                         }
                     });
+
                     if(start_pick.isSelected()) {//시간 선택시
                         start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                             @Override
@@ -273,14 +279,14 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     }
 
 
-                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    dlg[0].setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (yes.isChecked()) {
                                 chkCnt();
                                 choice.setVisibility(View.GONE);
                                 rent_time.setVisibility(View.VISIBLE);
-                                rent_time.setSelection(position);
+                                rent_time.setSelection(timepos[0]);
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
                                 //count를 어떻게 클릭할 때마다 줄 것인가?
@@ -293,8 +299,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    dlg.setNegativeButton("취소", null);
-                    dlg.show();
+                    dlg[0].setNegativeButton("취소", null);
+                    dlg[0].show();
 
 
                 }
