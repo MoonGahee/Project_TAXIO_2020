@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,6 +67,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     HashMap result;
     int count = 0;
     int cnt = 0;
+    final HashMap resultTaxi = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -212,7 +214,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     //초기화 하는 경우 고려해서 카운트도 초기화
                     AlertDialog.Builder dlg = new AlertDialog.Builder(generalSTaxiActivity.this);
                     View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi, null);
-                    final HashMap resultTaxi = new HashMap<>();
+
                     use = taxi_plus.findViewById(R.id.use);
                     yes = taxi_plus.findViewById(R.id.yes);
 
@@ -251,7 +253,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                             resultTaxi.put("taxi_time", rentTime);
-                            Log.d("Moon-Test", rentTime);
                             if (!rentTime.equals("0")) {
                                 startTime_tv.setVisibility(View.VISIBLE);
                                 start_pick.setVisibility(View.VISIBLE);
@@ -302,12 +303,36 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     });
                     dlg.setNegativeButton("취소", null);
                     dlg.show();
+
+
+                }
+            });
+            start_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TimePickerDialog dlg = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
+                            resultTaxi.put("start_time", startTime);
+                            Log.d("Moon-Test", startTime);
+                        }
+                    }, 14, 14, true);
+                }
+            });
+
+            rent_time.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
+                    resultTaxi.put("taxi_time", rentTime);
                 }
             });
             taxi_day.setText(listViewItem.getTripDate());
 
             return convertView;
         }
+
 
         //초기화 경우 고려하여 함수
         public void chkCnt() {
