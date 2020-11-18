@@ -4,7 +4,6 @@ import java.util.List;
 
 // 여행 일정 DB
 public class Schedule {
-    // public List<Date_Schedule> date_schedule;
     public String general_num; //회원 번호 > Login
     public String times; // 며칠 여행 > SDate
     public String region; //여행지역 >SRegion
