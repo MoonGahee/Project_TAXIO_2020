@@ -122,7 +122,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
-        tripdays = intent.getIntExtra("tripDays", 0); //며칠
+        //tripdays = intent.getIntExtra("tripDays", 0); //며칠
         date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
 
         count = new int[tripdays][];
@@ -173,6 +173,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                     size = generalTimelineAdapter.getCount(); //ListView count
 
+                    count[day-1] = new int[size];
+
                     p[day-1] = 1;
 
                     k++;
@@ -220,7 +222,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if(list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day-1] = new String[size];
-                    count[day-1] = new int[k];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++){
@@ -284,7 +285,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if(list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day-1] = new String[size];
-                    count[day-1] = new int[k];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++){
@@ -388,6 +388,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (int n = 0; n < list_itemArrayList.size(); n++) {
+                    places.add(list_itemArrayList.get(n).getPlace());
+                }
+
                 int i = 0;
 
                 list_itemArrayList.clear();
