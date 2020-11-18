@@ -84,7 +84,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     String jeju, date;
     int k = 1;
     int day = 1;
-    int tripdays;
+    int tripdays = 3;
     float width = 200f, height = 200f;
     float zoom = 15;
     GroundOverlay imageOverlay;
@@ -96,11 +96,13 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     ArrayList<LatLng> latLng = new ArrayList<>();
     ArrayList<String> places = new ArrayList<>();
     String dis, distance[] = new String[100];
+    String place_name[][];
     MapFragment mapFrag;
     GoogleMap gMap;
     GroundOverlayOptions videoMark;
     String TAG="what?";
     int size;
+    int p[];
     int[] count;
     String general_num;
     DatabaseReference mDatabase;
@@ -120,8 +122,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
-        tripdays = intent.getIntExtra("tripDays", 0); //며칠
+        //tripdays = intent.getIntExtra("tripDays", 0); //며칠
         date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
+
+        place_name = new String[tripdays][];
+        p = new int[tripdays];
 
         Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
@@ -168,6 +173,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                     size = generalTimelineAdapter.getCount(); //ListView count
 
+                    p[day-1] = 1;
+
                     k++;
                 }
                 else {
@@ -208,6 +215,17 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int i = 0;
+
+                if(list_itemArrayList.size() != 0) {
+                    Log.d("tttest", "idx" + day);
+                    place_name[day-1] = new String[size];
+                }
+
+                for (int n = 0; n < list_itemArrayList.size(); n++){
+                    place_name[day-1][n] = list_itemArrayList.get(n).getPlace();
+                }
+
                 day--;
 
                 if (day == 1) {
@@ -224,12 +242,53 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 k = 1;
 
                 list_itemArrayList.clear();
+                places.clear();
+
+                while (true) {
+                    if (p[day-1] != 0){
+                        if ((size-1) == i){
+                            if (count[i] == 1){
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], 0, 0));
+                            }
+                            break;
+                        }else {
+                            if (count[i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+                        }
+
+                        i++;
+                    }
+                    else break;
+                }
+
+                if (list_itemArrayList.size() != 0) {
+                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                    listView.setAdapter(generalTimelineAdapter);
+                }
             }
         });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int i = 0;
+
+                if(list_itemArrayList.size() != 0) {
+                    Log.d("tttest", "idx" + day);
+                    place_name[day-1] = new String[size];
+                }
+
+                for (int n = 0; n < list_itemArrayList.size(); n++){
+                    place_name[day-1][n] = list_itemArrayList.get(n).getPlace();
+                }
+
                 day++;
 
                 if(day > 1) {
@@ -246,6 +305,36 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 k = 1;
 
                 list_itemArrayList.clear();
+                places.clear();
+
+                while (true) {
+                    if (p[day-1] != 0){
+                        if ((size-1) == i){
+                            if (count[i] == 1){
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], 0, 0));
+                            }
+                            break;
+                        }else {
+                            if (count[i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            }
+                            else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day-1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+                        }
+
+                        i++;
+                    }
+                    else break;
+                }
+
+                if (list_itemArrayList.size() != 0) {
+                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                    listView.setAdapter(generalTimelineAdapter);
+                }
             }
         });
 
