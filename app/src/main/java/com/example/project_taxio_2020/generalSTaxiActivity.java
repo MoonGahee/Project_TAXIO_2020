@@ -237,7 +237,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                     break;
                                 case R.id.no: //아니오
                                     resultTaxi.put("boarding_status", false);
-                                    Log.d("Moon-Test", "1");
                                     taxiTime_tv.setVisibility(View.GONE);
                                     startTime_tv.setVisibility(View.GONE);
                                     rent_spin.setVisibility(View.GONE);
