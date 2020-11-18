@@ -1,6 +1,8 @@
 package com.example.project_taxio_2020;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,12 +36,13 @@ public class generalLoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String email, pw;
     DatabaseReference mDatabase;
+    private SharedPreferences loginData;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //setToolbar();
 
         mAuth = FirebaseAuth.getInstance();
         edtId = findViewById(R.id.edtId);
@@ -51,8 +54,8 @@ public class generalLoginActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
-        edtId.setText("moongahee12@naver.com");
-        edtPw.setText("bada0100");
+        loginData = getSharedPreferences("loginData", MODE_PRIVATE);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +65,6 @@ public class generalLoginActivity extends AppCompatActivity {
                 login(email, pw);
             }
         });
-
-
-
     }
 
 
@@ -72,17 +72,17 @@ public class generalLoginActivity extends AppCompatActivity {
     public void login(final String email, final String pw){
         mAuth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            sendEmailVerification();
-                            //데이터를 읽어서 해당 general_num 전송기능 진행
-                            moveActivity(email, pw);
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                sendEmailVerification();
+                                //데이터를 읽어서 해당 general_num 전송기능 진행
+                                moveActivity(email, pw);
+                            }
                         }
+                    });
+        }
 
-                    }
-                });
-    }
     public void sendEmailVerification(){
         if(mAuth.getCurrentUser().isEmailVerified()){
             Toast.makeText(this, "로그인 되었습니다.", Toast.LENGTH_LONG).show();
@@ -108,7 +108,7 @@ public class generalLoginActivity extends AppCompatActivity {
                 }
             });
         }
-    };
+    }
 
 
     //이동하기

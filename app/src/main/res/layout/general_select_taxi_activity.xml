@@ -65,7 +65,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select" />
 
-        <TextView
+        <Spinner
             android:id="@+id/rent"
             style="@style/basic"
             android:layout_width="wrap_content"
