@@ -65,8 +65,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -92,8 +90,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
     LatLng latLng1, latLng2, lat;
-    String places[], distance[] = new String[100];
-    String dis;
+    ArrayList<LatLng> latLng = new ArrayList<>();
+    ArrayList<String> places = new ArrayList<>();
+    String dis, distance[] = new String[100];
     MapFragment mapFrag;
     GoogleMap gMap;
     GroundOverlayOptions videoMark;
@@ -138,19 +137,22 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (cityBounds.equals(cityBounds.including(lat))) {
                     jeju = place.getName();
+                    listView.setVisibility(View.VISIBLE);
 
                     if (k == 1) {
                         latLng1 = lat;
+                        latLng.add(lat);
                     }
                     else {
                         latLng2 = lat;
+                        latLng.add(lat);
                         distance[k-2] = calDistance(latLng1, latLng2);
                         gMap.addPolyline(new PolylineOptions().add(latLng1, latLng2).width(5).color(Color.RED));
                         latLng1 = latLng2;
                     }
 
                     count = new int[k];
-                    places = new String[k];
+                    places.add(jeju);
 
                     videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, width, height);
                     imageOverlay = gMap.addGroundOverlay(videoMark);
@@ -261,7 +263,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
                 i.putExtra("tripDate", date);
                 i.putExtra("tripDays", tripdays);
+                i.putExtra("tripLatLng", latLng);
+                i.putExtra("trip", places);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -287,31 +292,27 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int i = 0;
 
-                for (int n = 0; n < size; n++){
-                    places[n] = list_itemArrayList.get(n).getPlace();
-                }
-
                 list_itemArrayList.clear();
 
                 while (true) {
                     if (position == i) {
                         if ((size-1) == i){
                             if (count[i] != 1){
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
                                 count[i] = 1;
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
                                 count[i] = 0;
                             }
                             break;
                         }
                         else {
                             if (count[i] != 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
                                 count[i] = 1;
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
                                 count[i] = 0;
                             }
                         }
@@ -319,18 +320,18 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     else {
                         if ((size-1) == i){
                             if (count[i] == 1){
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], 0, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
                             }
                             break;
                         }else {
                             if (count[i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
                             }
                             else {
-                                list_itemArrayList.add(new generalTimelineItem(places[i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
                             }
                         }
                     }

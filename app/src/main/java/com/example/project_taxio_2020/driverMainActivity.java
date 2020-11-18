@@ -21,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class driverMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.driver_accept_request);
+        setContentView(R.layout.driver_main_activity);
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -70,15 +71,6 @@ public class driverMainActivity extends AppCompatActivity {
 
         reservationAdapter = new reservationAdapter(driverMainActivity.this, list_itemArrayList);
         recruitList.setAdapter(reservationAdapter);
-
-        recruitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
         btnResume.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +111,7 @@ public class driverMainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_modify) {
@@ -128,6 +120,12 @@ public class driverMainActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_out) {
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id==R.id.logout){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }

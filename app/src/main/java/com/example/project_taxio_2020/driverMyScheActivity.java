@@ -13,17 +13,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class driverMyScheActivity extends AppCompatActivity {
     TextView title_text;
     Toolbar toolbar;
+    com.applikeysolutions.cosmocalendar.view.CalendarView cal;
+    int tripMonth, tripDay, tripYear, tripDays = 0;
+    String date = "";
+    String[] tripDate;
+    TextView tripDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.driver_accept_request);
+        setContentView(R.layout.driver_mysch);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
+
+        tripDetail = findViewById(R.id.tripDetail);
 
         title_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +44,44 @@ public class driverMyScheActivity extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), driverMainActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        cal = findViewById(R.id.cal);
+
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yy", Locale.getDefault());
+                SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+                SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+
+                String nowy = yearFormat.format(currentTime);
+                String nowm = monthFormat.format(currentTime);
+                String nowd = dayFormat.format(currentTime);
+                final int nowYear = Integer.parseInt(nowy);
+                final int nowmonth = Integer.parseInt(nowm);
+                final int nowday = Integer.parseInt(nowd);
+
+                final List<Calendar> days = cal.getSelectedDates();
+                for (int i = 0; i < days.size(); i++) {
+                    Calendar calendar = days.get(i);
+                    final int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    final int month = calendar.get(Calendar.MONTH);
+                    final int year = calendar.get(Calendar.YEAR);
+                    String day_full = year + "년 " + (month + 1) + "월 " + day + "일";
+                    if (i == 0) {
+                        date += (day_full + "~");
+                        tripMonth = month + 1;
+                        tripDay = day;
+                    } else if (i == days.size() - 1)
+                        date += day_full;
+                    tripDays = days.size();
+                }
+                tripDate = date.split("~");
+
+                tripDetail.setText(date);
             }
         });
     }
