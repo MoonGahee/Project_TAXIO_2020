@@ -27,10 +27,11 @@ public class driverCheckScheActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.driver_accept_request);
+        setContentView(R.layout.driver_chk_sch);
         setToolbar();
 
         trip_data = findViewById(R.id.trip_data_Recycler);
+        recruitList = findViewById(R.id.recruitList);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);

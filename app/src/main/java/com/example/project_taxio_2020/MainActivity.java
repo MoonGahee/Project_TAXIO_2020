@@ -25,7 +25,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button main, member, map;
+    Button main, member, map, driver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         main = findViewById(R.id.main);
         member = findViewById(R.id.member);
         map = findViewById(R.id.taxiomap);
+        driver = findViewById(R.id.driver_main);
 
         main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),driverMainActivity.class);
                 startActivity(i);
                 finish();
             }

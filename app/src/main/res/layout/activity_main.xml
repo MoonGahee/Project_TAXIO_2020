@@ -23,10 +23,10 @@
         android:background="@color/button"
         android:text="  회원 가입 화면으로  \n 이동"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/main"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bar" />
+        app:layout_constraintTop_toBottomOf="@+id/bar"
+        app:layout_constraintBottom_toBottomOf="@+id/main"/>
 
     <Button
         android:id="@+id/main"
@@ -36,7 +36,7 @@
         android:background="@color/button"
         android:text="    메인 화면으로     \n이동"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/taxiomap"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/member" />
@@ -50,5 +50,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main" />
+
+    <Button
+        android:id="@+id/driver_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/taxiomap"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="기사 메인 화면으로 이동"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
