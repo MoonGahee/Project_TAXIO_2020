@@ -78,7 +78,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.driverLayout:
+                case R.id.plusBtn:
                     if (selectedItems.get(position)) {
                         //펼쳐진 아이템 클릭시
                         selectedItems.delete(position);

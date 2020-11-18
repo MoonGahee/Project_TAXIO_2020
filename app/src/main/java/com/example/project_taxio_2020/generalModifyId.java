@@ -92,7 +92,7 @@ public class generalModifyId extends AppCompatActivity {
 
         ArrayAdapter emailAdapter = ArrayAdapter.createFromResource(this, R.array.email, android.R.layout.simple_spinner_item);
         emailAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spEmail.setAdapter(emailAdapter);
+        //spEmail.setAdapter(emailAdapter);
 
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
@@ -101,7 +101,7 @@ public class generalModifyId extends AppCompatActivity {
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                General general = snapshot.child("mgh").getValue(General.class); //child로 경로 지정
+                General general = snapshot.child("4").getValue(General.class); //child로 경로 지정
                 edtNameM.setText(general.getGeneral_name());
                 edtEmail.setText(general.getGeneral_email());
                 //읽어오는 거 해야징
