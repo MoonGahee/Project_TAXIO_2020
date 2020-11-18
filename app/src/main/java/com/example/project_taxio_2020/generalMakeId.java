@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
@@ -76,6 +77,7 @@ public class generalMakeId extends AppCompatActivity {
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
     String chkNullNotice = "입력값을 다 입력해주세요.";
     String chkAutoNotice = "Authentication failed.";
+    String signInComplete = "회원가입 완료!";
 
 
     @Override
@@ -131,7 +133,7 @@ public class generalMakeId extends AppCompatActivity {
             public void onClick(View v) {
                 //로그인 값을 저장함
                 Uri file = Uri.fromFile(new File(imagePath));
-                StorageReference ref = storageRef.child("images/"+file.getLastPathSegment());
+                StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
                 UploadTask uploadTask =  ref.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -150,6 +152,7 @@ public class generalMakeId extends AppCompatActivity {
                 final String getGeneral_sex = spGenderM.getSelectedItem().toString();
                 final String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 final String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
+                final String getGeneral_route = imagePath;
                 //부모 전화
                 //이미지 루트 데려오기
                 if (chkNull(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_call)) {
@@ -160,7 +163,7 @@ public class generalMakeId extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
-                                        makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call);
+                                        makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call, getGeneral_route);
                                     } else {
                                         Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();
                                     }
@@ -169,6 +172,8 @@ public class generalMakeId extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), chkNullNotice, Toast.LENGTH_SHORT).show();
                 }
+
+                Toast.makeText(getApplicationContext(), signInComplete, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -207,7 +212,7 @@ public class generalMakeId extends AppCompatActivity {
 
 
     //로그인 값을 저장
-    public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call) {
+    public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call, String getGeneral_route) {
         result = new HashMap<>();
         result.put("general_email", getGeneral_email);
         result.put("general_password", getGeneral_password);
@@ -215,6 +220,8 @@ public class generalMakeId extends AppCompatActivity {
         result.put("general_sex", getGeneral_sex);
         result.put("general_birth", getGeneral_birth);
         result.put("general_call", getGeneral_call);
+        result.put("general_route", getGeneral_route);
+
         getNumber();//회원 번호 부여
     }
 

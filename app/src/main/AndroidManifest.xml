@@ -29,7 +29,9 @@
         android:roundIcon="@mipmap/ic_launcher_taxio_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true">
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
