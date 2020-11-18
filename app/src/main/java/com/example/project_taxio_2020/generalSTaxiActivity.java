@@ -291,7 +291,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
                                 //count를 어떻게 클릭할 때마다 줄 것인가?
-                                mDatabase.child(general_num).child("Schedule").child("days").child("Date_Schedule").child(Integer.toString(cnt)).updateChildren(resultTaxi);
+                                mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                 Log.d("Moon-Test", "success");
                                 mDatabase.push();
 
@@ -342,7 +342,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             Log.d("Moon-Test", "며칠" + (count + 1));
             HashMap resultDay = new HashMap<>();
             resultDay.put("schedule_date", tripDay);
-            mDatabase.child(general_num).child("Schedule").child("days").child("Date_Schedule").child(Integer.toString(count + 1)).updateChildren(resultDay);
+            mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(count + 1)).child("Date_Schedule").updateChildren(resultDay);
             Log.d("Moon-Test", "언제" + tripDay);
             Log.d("Moon-Test", "wow");
             mDatabase.push();
