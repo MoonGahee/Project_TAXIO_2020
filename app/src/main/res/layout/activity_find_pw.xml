@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <include
+        android:id="@+id/bar"
+        layout="@layout/app_bar_"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/notice"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar" />
+
+    <RadioGroup
+        android:id="@+id/rdg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bell">
+
+        <RadioButton
+            android:id="@+id/rdoD"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기사"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainT" />
+
+        <RadioButton
+            android:id="@+id/rdoG"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="탑승객"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainT" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/cwd1"
+        style="@style/title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:padding="7dp"
+        android:text="패스워드찾기"
+        app:layout_constraintLeft_toRightOf="@id/bell"
+        app:layout_constraintTop_toBottomOf="@+id/bar" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름 : "
+        style="@style/title2"
+        app:layout_constraintTop_toBottomOf="@id/rdg"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/edtName"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        style="@style/basic"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/rdg"
+        app:layout_constraintLeft_toRightOf="@id/name"/>
+
+    <TextView
+        android:id="@+id/birth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="생년월일 : "
+        style="@style/title2"
+        app:layout_constraintTop_toBottomOf="@id/edtName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/edtBirth"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        style="@style/basic"
+        android:layout_marginTop="30dp"
+        android:ems="8"
+        android:hint="19970224"
+        app:layout_constraintTop_toBottomOf="@id/edtName"
+        app:layout_constraintLeft_toRightOf="@id/birth"/>
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휴대폰 번호 : "
+        style="@style/title2"
+        app:layout_constraintTop_toBottomOf="@id/edtBirth"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"/>
+
+    <EditText
+        android:id="@+id/edtPhone"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        style="@style/basic"
+        android:ems="11"
+        android:hint="01012345678"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/edtBirth"
+        app:layout_constraintLeft_toRightOf="@id/phone"/>
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이메일 : "
+        style="@style/title2"
+        app:layout_constraintTop_toBottomOf="@id/edtPhone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"/>
+    
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edtPhone"
+        app:layout_constraintLeft_toRightOf="@id/email"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@color/button"
+        style="@style/button"
+        android:text="패스워드 찾기"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
