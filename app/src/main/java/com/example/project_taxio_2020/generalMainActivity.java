@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +70,10 @@ public class generalMainActivity extends AppCompatActivity {
     ArrayList<WeatherInfo> mWeatherInfomation;
     String general_num;
 
+    ListView recruitList;
+    reservationAdapter reservationAdapter;
+    ArrayList<reservationItem> list_itemArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -95,6 +100,17 @@ public class generalMainActivity extends AppCompatActivity {
                 moveActivity();
             }
         });
+
+        recruitList = findViewById(R.id.recruitList);
+
+        list_itemArrayList = new ArrayList<reservationItem>();
+
+        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+        list_itemArrayList.add(new reservationItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+
+        reservationAdapter = new reservationAdapter(generalMainActivity.this, list_itemArrayList);
+        recruitList.setAdapter(reservationAdapter);
     }
 
     public void Initialize() {

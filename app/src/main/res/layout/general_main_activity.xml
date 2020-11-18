@@ -102,107 +102,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recruitState" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recruitList1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
+        <ListView
+            android:id="@+id/recruitList"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recruitCount">
-
-            <TextView
-                android:id="@+id/recruit1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5월 25일 16시(4시간)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList1"
-                app:layout_constraintTop_toTopOf="@id/recruitList1" />
-
-            <TextView
-                android:id="@+id/recruitPlc1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="상창농장 - 용담해변(총 2명)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList1"
-                app:layout_constraintTop_toBottomOf="@id/recruit1" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recruitList2"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recruitList1">
-
-            <TextView
-                android:id="@+id/recruit2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5월 30일 16시(4시간)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList2"
-                app:layout_constraintTop_toTopOf="@id/recruitList2" />
-
-            <TextView
-                android:id="@+id/recruitPlc2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="상창농장 - 용담해변(총 2명)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList2"
-                app:layout_constraintTop_toBottomOf="@id/recruit2" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recruitList3"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recruitList2">
-
-            <TextView
-                android:id="@+id/recruit3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5월 25일 16시(4시간)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList3"
-                app:layout_constraintTop_toTopOf="@id/recruitList3" />
-
-            <TextView
-                android:id="@+id/recruitPlc3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="상창농장 - 용담해변(총 2명)"
-                android:textColor="#000000"
-                android:textSize="17sp"
-                app:layout_constraintLeft_toLeftOf="@id/recruitList3"
-                app:layout_constraintTop_toBottomOf="@id/recruit3" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/recruitCount"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

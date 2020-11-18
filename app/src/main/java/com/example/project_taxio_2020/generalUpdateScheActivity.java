@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -220,6 +221,18 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                     generalTimelineAdapter = new generalTimelineAdapter(generalUpdateScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
                 }
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                list_itemArrayList.remove(position);
+                generalTimelineAdapter.notifyDataSetChanged();
+
+                Toast.makeText(getApplicationContext(), Integer.toString(position + 1) + "번째 장소가 삭제 됩니다.", Toast.LENGTH_SHORT).show();
+
+                return false;
             }
         });
     }
