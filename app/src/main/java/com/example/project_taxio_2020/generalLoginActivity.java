@@ -73,6 +73,9 @@ public class generalLoginActivity extends AppCompatActivity {
                                 //데이터를 읽어서 해당 general_num 전송기능 진행
                                 moveActivity(email, pw);
                             }
+                            else {
+                                Toast.makeText(getApplicationContext(), "아이디나 비밀번호를 다시 한 번 확인해주세요!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
         }
