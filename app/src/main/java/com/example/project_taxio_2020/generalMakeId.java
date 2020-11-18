@@ -188,6 +188,14 @@ public class generalMakeId extends AppCompatActivity {
             }
         });
 
+        //단계 터치리스너 막아버리기
+        SeekBar seek_signin = (SeekBar)findViewById(R.id.progress);
+        seek_signin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
     }
 
     public void getPicture(){
