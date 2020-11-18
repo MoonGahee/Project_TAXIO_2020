@@ -324,7 +324,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             rent_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
+                   // rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                     resultTaxi.put("taxi_time", rentTime);
                 }
             });
