@@ -74,5 +74,8 @@
         <activity android:name=".driverMainActivity"/><!--기사 메인-->
         <activity android:name=".driverMyScheActivity"/><!--기사 일정-->
         <activity android:name=".driverCheckScheActivity"/><!--기사 예약 현황-->
+        <activity android:name=".driverModifyId"/><!--기사 정보 수정-->
+        <activity android:name=".driverWriteWithdrawal"/><!--기사 탈퇴하기-->
+        <activity android:name=".driverWithdrawalComplete"/><!--기사 탈퇴 완료-->
     </application>
 </manifest>
