@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +41,6 @@ public class generalLoginActivity extends AppCompatActivity {
     RadioGroup rdg;
     RadioButton rdoD, rdoG;
     DatabaseReference mDatabase;
-    private SharedPreferences loginData;
 
 
     @Override
@@ -62,8 +62,10 @@ public class generalLoginActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
-        loginData = getSharedPreferences("loginData", MODE_PRIVATE);
-
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            login(user.getEmail());
+        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,28 +79,28 @@ public class generalLoginActivity extends AppCompatActivity {
 
 
     // 이메일을 비교해서 값을 다음 화면에 넘겨주는 것을 해야한다.
-    public void login(final String email, final String pw){
+    public void login(final String email, final String pw) {
         mAuth.signInWithEmailAndPassword(email, pw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                sendEmailVerification();
-                                //데이터를 읽어서 해당 general_num 전송기능 진행
-                                moveActivity(email, pw);
-                            }
-                            else {
-                                Toast.makeText(getApplicationContext(), "아이디나 비밀번호를 다시 한 번 확인해주세요!", Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            sendEmailVerification();
+                            //데이터를 읽어서 해당 general_num 전송기능 진행
+                            moveActivity(email);
                         }
-                    });
-        }
+                    }
+                });
+    }
 
-    public void sendEmailVerification(){
-        if(mAuth.getCurrentUser().isEmailVerified()){
+    public void login(String email) {
+        moveActivity(email);
+    }
+
+    public void sendEmailVerification() {
+        if (mAuth.getCurrentUser().isEmailVerified()) {
             Toast.makeText(this, "로그인 되었습니다.", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -123,35 +125,53 @@ public class generalLoginActivity extends AppCompatActivity {
 
 
     //이동하기
-    public void moveActivity(final String email, String pw){
+    public void moveActivity(final String email) {
         //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 general_num 값을 인텐트로 계속 전달전달
-        mDatabase.orderByChild("general_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot general : snapshot.getChildren()){
-                    String general_num = general.getKey();
-                    Log.d("Moon", "Key:"+general_num); //아니 왜 난 로그가 안뜨는겨
-                    Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
-                    intent.putExtra("general_num", general_num);
-                    startActivity(intent);
-                    finish();
+                for (DataSnapshot general : snapshot.getChildren()) {
+                    if (general.child("general_email").getValue().toString().equals(email)) {
+                        Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                        intent.putExtra("general_num", general.getKey());
+                        startActivity(intent);
+                        return;
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Moon", "failed");
+
             }
         });
+//        mDatabase.orderByChild("general_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot general : snapshot.getChildren()) {
+//                    String general_num = general.getKey();
+//                    Log.d("Moon", "Key:" + general_num); //아니 왜 난 로그가 안뜨는겨
+//                    Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+//                    intent.putExtra("general_num", general_num);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.d("Moon", "failed");
+//            }
+//        });
 
     }
 
 
-   //로그인 화면 툴바 삭제
-   public void setToolbar(){
-       Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-       setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
+    //로그인 화면 툴바 삭제
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-       actionBar.hide(); //액션바의 타이틀 삭제
+        actionBar.hide(); //액션바의 타이틀 삭제
     }
 }
