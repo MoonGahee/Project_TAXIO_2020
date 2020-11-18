@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class generalLoginActivity extends AppCompatActivity {
     EditText edtId, edtPw;
     Button btnLogin;
+    TextView btnFId, btnFPw, btnJoin;
     FirebaseAuth mAuth;
     String email, pw;
     DatabaseReference mDatabase;
@@ -43,6 +45,10 @@ public class generalLoginActivity extends AppCompatActivity {
         edtId = findViewById(R.id.edtId);
         edtPw = findViewById(R.id.edtPw);
         btnLogin = findViewById(R.id.btnLogin);
+        btnFId = findViewById(R.id.btnFId);
+        btnFPw = findViewById(R.id.btnFPw);
+        btnJoin = findViewById(R.id.btnJoin);
+
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
         edtId.setText("moongahee12@naver.com");

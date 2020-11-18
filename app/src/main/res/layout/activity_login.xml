@@ -77,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:background="@color/button"
+        style="@style/button"
         android:text="LOGIN"
         android:textColor="#ffffff"
         android:textSize="25sp"
@@ -85,6 +86,86 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordT" />
+
+    <TextView
+        android:id="@+id/btnJoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textStyle="bold"
+        style="@style/basic"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/passwordT"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:clickable="true"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/btnFId"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:text="아이디찾기"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/btnJoin"
+        app:layout_constraintTop_toBottomOf="@id/passwordT" />
+
+    <TextView
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="/"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/btnFId"
+        app:layout_constraintTop_toBottomOf="@id/passwordT" />
+
+    <TextView
+        android:id="@+id/btnFPw"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:text="패스워드찾기"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/btnFId"
+        app:layout_constraintTop_toBottomOf="@id/passwordT" />
+
+    <RadioGroup
+        android:id="@+id/rdg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainT">
+
+        <RadioButton
+            android:id="@+id/rdoD"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기사"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainT" />
+
+        <RadioButton
+            android:id="@+id/rdoG"
+            style="@style/basic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="탑승객"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainT" />
+
+    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
