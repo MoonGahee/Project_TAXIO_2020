@@ -64,7 +64,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                         // DB에 데이터 삭제 시작
                         mDatabase.child("moon2").removeValue(); //moon2대신에 id를 데려오면 되지용!
                         // DB에 데이터 삭제 완료
-                        Intent intent = new Intent(getApplicationContext(), generalWithdrawalCompleteActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), driverWithdrawalComplete.class);
                         startActivity(intent);
                         finish();
                     }
@@ -88,7 +88,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -113,24 +113,29 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                }
+                else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else if (id == R.id.drawer_myInfo) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                    Intent intent = new Intent(getApplicationContext(), driverModifyId.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), driverWriteWithdrawal.class);
                     startActivity(intent);
                     finish();
                 }
                 else if(id==R.id.logout){
-                    mAuth.signOut();
+                    FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
