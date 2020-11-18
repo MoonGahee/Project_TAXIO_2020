@@ -34,44 +34,42 @@
             android:text="아니오" />
     </RadioGroup>
 
+    <LinearLayout
+        android:id="@+id/choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/use"
+        android:orientation="vertical"
+        android:visibility="gone">
     <TextView
         android:id="@+id/taxiTime_tv"
         style="@style/basic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="관광택시 이용시간"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/use" />
+         />
 
     <Spinner
         android:id="@+id/rent_spin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="7.5dp"
-        android:entries="@array/rent"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taxiTime_tv" />
+        android:entries="@array/rent" />
 
     <TextView
         android:id="@+id/startTime_tv"
         style="@style/basic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="관광택시 탑승시간"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rent_spin" />
+        android:text="관광택시 탑승시간"/>
 
     <TimePicker
         android:id="@+id/start_pick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startTime_tv" />
+        android:timePickerMode="spinner"/>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

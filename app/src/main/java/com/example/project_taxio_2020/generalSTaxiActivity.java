@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -59,7 +61,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     RadioGroup use;
     RadioButton yes, no;
     TextView taxiTime_tv, startTime_tv, title_text;
-    ;
+    LinearLayout choose;
     Spinner rent_spin;
     TimePicker start_pick;
     String general_num;
@@ -188,7 +190,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
         @NonNull
         @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             final int pos = position;
             final Context context = parent.getContext();
 
@@ -203,9 +205,10 @@ public class generalSTaxiActivity extends AppCompatActivity {
 
             TextView taxi_day = convertView.findViewById(R.id.taxi_day);
             final Button choice = convertView.findViewById(R.id.choice);
-            final TextView rent_time = convertView.findViewById(R.id.rent_time);
+            final Spinner rent_time = convertView.findViewById(R.id.rent_time);
             final TextView start_time = convertView.findViewById(R.id.start_time);
             generalTaxiItem listViewItem = listViewItemList.get(position);
+            rent_time.getBackground().setColorFilter(getResources().getColor(R.color.button), PorterDuff.Mode.SRC_ATOP);
 
 
             choice.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +225,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     startTime_tv = taxi_plus.findViewById(R.id.startTime_tv);
                     rent_spin = taxi_plus.findViewById(R.id.rent_spin);
                     start_pick = taxi_plus.findViewById(R.id.start_pick);
+                    choose = taxi_plus.findViewById(R.id.choose);
 
                     dlg.setTitle("택시 선택");
                     dlg.setView(taxi_plus);
@@ -231,17 +235,11 @@ public class generalSTaxiActivity extends AppCompatActivity {
                             switch (checkedId) {
                                 case R.id.yes: //이용
                                     resultTaxi.put("boarding_status", true); //이용여부 Boolean
-                                    Log.d("Moon-Test", "0");
-                                    taxiTime_tv.setVisibility(View.VISIBLE);
-                                    rent_spin.setVisibility(View.VISIBLE);
+                                    choose.setVisibility(View.VISIBLE);
                                     break;
                                 case R.id.no: //아니오
                                     resultTaxi.put("boarding_status", false);
-                                    Log.d("Moon-Test", "1");
-                                    taxiTime_tv.setVisibility(View.GONE);
-                                    startTime_tv.setVisibility(View.GONE);
-                                    rent_spin.setVisibility(View.GONE);
-                                    start_pick.setVisibility(View.GONE);
+                                    choose.setVisibility(View.GONE);
                                     break;
 
                             }
@@ -253,28 +251,26 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                             resultTaxi.put("taxi_time", rentTime);
-                            if (!rentTime.equals("0")) {
-                                startTime_tv.setVisibility(View.VISIBLE);
-                                start_pick.setVisibility(View.VISIBLE);
-                            } else {
-                                startTime_tv.setVisibility(View.GONE);
-                                start_pick.setVisibility(View.GONE);
-                            }
                         }
-
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
+                            rentTime = String.valueOf(parent.getItemAtPosition(0)); //대여시간
+                            resultTaxi.put("taxi_time", rentTime);
                         }
                     });
-
-                    start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                        @Override
-                        public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                            startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
-                            resultTaxi.put("start_time", startTime);
-                            Log.d("Moon-Test", startTime);
-                        }
-                    });
+                    if(start_pick.isSelected()) {//시간 선택시
+                        start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                            @Override
+                            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                                startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
+                                resultTaxi.put("start_time", startTime);
+                            }
+                        });
+                    }
+                    else{
+                        startTime = "9시 00분"; //탑승 시각
+                        resultTaxi.put("start_time", startTime);
+                    }
 
 
                     dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -282,21 +278,17 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (yes.isChecked()) {
                                 chkCnt();
-                                Log.d("Moon-Test", Integer.toString(cnt));
                                 choice.setVisibility(View.GONE);
                                 rent_time.setVisibility(View.VISIBLE);
-                                rent_time.setText(rentTime);
-                                if (rentTime.equals("0")) {
-                                    startTime = "-";
-                                }
+                                rent_time.setSelection(position);
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
                                 //count를 어떻게 클릭할 때마다 줄 것인가?
                                 mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
-                                Log.d("Moon-Test", "success");
                                 mDatabase.push();
 
-                            } else { //관광택시 이용 안할시 어케 할꺼?
+                            } else {
+                                choice.setText("이용 안함");
 
                             }
                         }
@@ -310,28 +302,37 @@ public class generalSTaxiActivity extends AppCompatActivity {
             start_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TimePickerDialog dlg = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+                    TimePickerDialog dlg = new TimePickerDialog(generalSTaxiActivity.this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
                             resultTaxi.put("start_time", startTime);
-                            Log.d("Moon-Test", startTime);
                         }
-                    }, 14, 14, true);
+                    }, 9, 0, false);
+
+                    dlg.show();
+                    start_time.setText(startTime);
                 }
             });
 
-            rent_time.setOnClickListener(new View.OnClickListener() {
+            rent_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onClick(View v) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                     resultTaxi.put("taxi_time", rentTime);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    ;
                 }
             });
             taxi_day.setText(listViewItem.getTripDate());
 
             return convertView;
         }
+
+
 
 
         //초기화 경우 고려하여 함수
@@ -360,20 +361,15 @@ public class generalSTaxiActivity extends AppCompatActivity {
     //날짜별 DB 저장
     public void makeSchOne() {
         if (count != tripDays) {
-            Log.d("Moon-Test", "start");
             HashMap result = new HashMap<>();
             result.put("schedule_num", Integer.toString(count + 1));
             mDatabase.push();
-            Log.d("Moon-Test", "며칠" + (count + 1));
             HashMap resultDay = new HashMap<>();
             resultDay.put("schedule_date", tripDay);
             mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(count + 1)).child("Date_Schedule").updateChildren(resultDay);
-            Log.d("Moon-Test", "언제" + tripDay);
-            Log.d("Moon-Test", "wow");
             mDatabase.push();
             count++;
         } else {
-            Log.d("Moon-test", "faild");
         }
     }
 
