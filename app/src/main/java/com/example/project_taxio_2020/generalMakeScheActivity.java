@@ -65,6 +65,8 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -99,6 +101,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     int size;
     int[] count;
     String general_num;
+    DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,11 +114,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-        //값을 불러오는 곳
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
-        tripdays = intent.getIntExtra("tripDays", 0);
-        date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay");
+        tripdays = intent.getIntExtra("tripDays", 0); //며칠
+        date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
 
         Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
@@ -260,11 +265,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+        //완료 버튼 눌렀을 때
         trip_fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalSDriverActivity.class);
-                startActivity(i);
+                moveActivity();
             }
         });
 
@@ -338,6 +343,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
             }
         });
+    }
+
+    //화면 이동
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+        intent.putExtra("general_num", general_num);
+        startActivity(intent);
+        finish();
     }
 
     //네비게이션
