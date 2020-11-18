@@ -20,6 +20,7 @@ public class introActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        
         //inflating
         introTaxio = (ImageView)findViewById(R.id.introTaxio);
         //띄우기
