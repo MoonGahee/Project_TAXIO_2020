@@ -242,6 +242,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                     break;
                                 case R.id.no: //아니오
                                     resultTaxi.put("boarding_status", false);
+                                    mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                     choose.setVisibility(View.GONE);
                                     break;
 
@@ -275,6 +276,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                     else{
                         startTime = "9시 00분"; //탑승 시각
                         resultTaxi.put("start_time", startTime);
+                        mDatabase.push();
                     }
 
 
@@ -313,6 +315,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
                             resultTaxi.put("start_time", startTime);
+                            mDatabase.push();
                         }
                     }, 9, 0, false);
 
@@ -326,6 +329,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                     resultTaxi.put("taxi_time", rentTime);
+                    mDatabase.push();
                 }
 
                 @Override
