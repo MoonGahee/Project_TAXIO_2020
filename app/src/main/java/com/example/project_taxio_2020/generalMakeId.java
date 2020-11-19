@@ -271,7 +271,7 @@ public class generalMakeId extends AppCompatActivity {
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
+        Intent intent = new Intent(getApplicationContext(), GeneralMakeIdComplete.class);
         intent.putExtra("general_num", result.get("general_num").toString());
         startActivity(intent);
         finish();
