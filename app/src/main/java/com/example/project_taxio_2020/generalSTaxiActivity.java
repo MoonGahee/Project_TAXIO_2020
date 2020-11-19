@@ -242,7 +242,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                     break;
                                 case R.id.no: //아니오
                                     resultTaxi.put("boarding_status", false);
-                                    mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                     choose.setVisibility(View.GONE);
                                     break;
 
@@ -260,25 +259,22 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                             rentTime = String.valueOf(parent.getItemAtPosition(0)); //대여시간
-                            resultTaxi.put("taxi_time", rentTime);
+
                         }
                     });
 
-                    if(start_pick.isSelected()) {//시간 선택시
-                        start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                            @Override
-                            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                                startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
-                                resultTaxi.put("start_time", startTime);
-                            }
-                        });
-                    }
-                    else{
-                        startTime = "9시 00분"; //탑승 시각
-                        resultTaxi.put("start_time", startTime);
-                        mDatabase.push();
-                    }
-
+                    //시간 선택시
+                    start_pick.setHour(9);
+                    start_pick.setMinute(00);
+                    int hour = start_pick.getHour();
+                    int min = start_pick.getMinute();
+                    startTime = hour + "시" + min + "분"; //탑승 시각
+                    start_pick.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                        @Override
+                        public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                            startTime = hourOfDay + "시" + minute + "분";
+                        }
+                    });
 
                     dlg[0].setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
@@ -292,12 +288,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 start_time.setVisibility(View.VISIBLE);
                                 start_time.setText(startTime);
                                 //count를 어떻게 클릭할 때마다 줄 것인가?
+                                resultTaxi.put("taxi_time", rentTime);
+                                resultTaxi.put("start_time", startTime);
                                 mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                 mDatabase.push();
-
                             } else {
                                 choice.setText("이용 안함");
-
                             }
                         }
                     });
@@ -315,12 +311,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             startTime = hourOfDay + "시" + minute + "분"; //탑승 시각
                             resultTaxi.put("start_time", startTime);
-                            mDatabase.push();
+                            start_time.setText(startTime);
                         }
                     }, 9, 0, false);
 
                     dlg.show();
-                    start_time.setText(startTime);
+
                 }
             });
 
@@ -329,7 +325,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                     resultTaxi.put("taxi_time", rentTime);
-                    mDatabase.push();
                 }
 
                 @Override
