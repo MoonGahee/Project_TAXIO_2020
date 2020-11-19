@@ -105,7 +105,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     int size;
     int p[];
     int[][] count;
-    String general_num;
+    String general_num, schedule_num;
     DatabaseReference mDatabase;
 
     @Override
@@ -123,6 +123,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
+        schedule_num = (String) intent.getSerializableExtra("schedule_num");
         tripdays = intent.getIntExtra("tripDays", 0); //며칠
         date = intent.getStringExtra("startDay") + " ~ " + intent.getStringExtra("endDay"); //언제부터 언제까지
         //latLng = intent.getParcelableArrayListExtra("tripLatLng");
@@ -450,6 +451,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
         intent.putExtra("general_num", general_num);
+        intent.putExtra("schedule_num", schedule_num);  //회원번호
         startActivity(intent);
         finish();
     }

@@ -64,7 +64,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     LinearLayout choose;
     Spinner rent_spin;
     TimePicker start_pick;
-    String general_num;
+    String general_num, schedule_num;
     DatabaseReference mDatabase;
     HashMap result;
     int count = 0;
@@ -88,6 +88,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
+        schedule_num = (String) i.getSerializableExtra("schedule_num");
 
         Intent intent = getIntent();
         date = intent.getStringExtra("tripDate");
@@ -290,10 +291,12 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 //count를 어떻게 클릭할 때마다 줄 것인가?
                                 resultTaxi.put("taxi_time", rentTime);
                                 resultTaxi.put("start_time", startTime);
-                                mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
+                                mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                 mDatabase.push();
                             } else {
                                 choice.setText("이용 안함");
+                                mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
+                                mDatabase.push();
                             }
                         }
                     });
@@ -371,7 +374,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             mDatabase.push();
             HashMap resultDay = new HashMap<>();
             resultDay.put("schedule_date", tripDay);
-            mDatabase.child(general_num).child("Schedule").child("days").child(Integer.toString(count + 1)).child("Date_Schedule").updateChildren(resultDay);
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(count + 1)).child("Date_Schedule").updateChildren(resultDay);
             mDatabase.push();
             count++;
         } else {
@@ -382,6 +385,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
         intent.putExtra("general_num", general_num);
+        intent.putExtra("schedule_num", schedule_num);  //회원번호
         intent.putExtra("tripDays", tripDays);
         intent.putExtra("startDay", startDay);
         intent.putExtra("endDay", endDay);
