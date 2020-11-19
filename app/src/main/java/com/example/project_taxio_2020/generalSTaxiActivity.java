@@ -1,3 +1,4 @@
+
 package com.example.project_taxio_2020;
 
 import android.animation.ValueAnimator;
@@ -214,7 +215,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
             choice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     //초기화 하는 경우 고려해서 카운트도 초기화
                     final AlertDialog.Builder[] dlg = {new AlertDialog.Builder(generalSTaxiActivity.this)};
                     View taxi_plus = View.inflate(generalSTaxiActivity.this, R.layout.general_choice_taxi, null);
@@ -283,6 +283,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (yes.isChecked()) {
                                 chkCnt();
+                                Log.d("Moon-Test", Integer.toString(cnt));
                                 choice.setVisibility(View.GONE);
                                 rent_time.setVisibility(View.VISIBLE);
                                 rent_time.setSelection(timepos[0]);

@@ -93,6 +93,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     generalTimelineAdapter generalTimelineAdapter;
     ArrayList<generalTimelineItem> list_itemArrayList;
     LatLng latLng1, latLng2, lat;
+    LatLng latLngs[][];
     ArrayList<LatLng> latLng = new ArrayList<>();
     ArrayList<String> places = new ArrayList<>();
     String dis, distance[] = new String[100];
@@ -124,10 +125,13 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         general_num = (String) intent.getSerializableExtra("general_num");
         tripdays = intent.getIntExtra("tripDays", 0); //며칠
         date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
+        latLng = intent.getParcelableArrayListExtra("tripLatLng");
+        places = intent.getStringArrayListExtra("trip");
 
         count = new int[tripdays][];
         place_name = new String[tripdays][];
         p = new int[tripdays];
+        latLngs = new LatLng[tripdays][];
 
         Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
@@ -172,6 +176,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     listView.setAdapter(generalTimelineAdapter);
 
                     size = generalTimelineAdapter.getCount(); //ListView count
+
+                    count[day-1] = new int[size];
 
                     p[day-1] = 1;
 
@@ -220,11 +226,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if(list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day-1] = new String[size];
-                    count[day-1] = new int[k];
+                    latLngs[day-1] = new LatLng[size];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++){
                     place_name[day-1][n] = list_itemArrayList.get(n).getPlace();
+                    latLngs[day-1][n] = latLng.get(n);
                 }
 
                 day--;
@@ -242,8 +249,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 k = 1;
 
-                list_itemArrayList.clear();
-                places.clear();
+                if(list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                    latLng.clear();
+                }
 
                 while (true) {
                     if (p[day-1] != 0){
@@ -284,11 +294,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if(list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day-1] = new String[size];
-                    count[day-1] = new int[k];
+                    latLngs[day-1] = new LatLng[size];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++){
                     place_name[day-1][n] = list_itemArrayList.get(n).getPlace();
+                    latLngs[day-1][n] = latLng.get(n);
                 }
 
                 day++;
@@ -306,8 +317,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 k = 1;
 
-                list_itemArrayList.clear();
-                places.clear();
+                if(list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                    latLng.clear();
+                }
 
                 while (true) {
                     if (p[day-1] != 0){
@@ -359,7 +373,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
                 i.putExtra("tripDate", date);
-                i.putExtra("tripDays", tripdays);
+                i.putExtra("tripDays", day);
                 i.putExtra("tripLatLng", latLng);
                 i.putExtra("trip", places);
                 startActivity(i);
@@ -388,6 +402,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (int n = 0; n < list_itemArrayList.size(); n++) {
+                    places.add(list_itemArrayList.get(n).getPlace());
+                }
+
                 int i = 0;
 
                 list_itemArrayList.clear();
