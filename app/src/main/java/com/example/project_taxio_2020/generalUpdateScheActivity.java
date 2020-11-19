@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Button finish_btn, previous, next;
+    Button finish_btn;
     Toolbar toolbar;
     TextView title_text, day2, date2;
     String jeju[], distance[] = new String[100];
@@ -85,11 +85,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         scroll2 = findViewById(R.id.scroll2);
 
-        previous = findViewById(R.id.previous2);
-        next = findViewById(R.id.next2);
-
-        previous.setVisibility(View.INVISIBLE);
-
         finish_btn = findViewById(R.id.update_finish2);
 
         day2 = findViewById(R.id.day2);
@@ -123,44 +118,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(i);
                 finish();
-            }
-        });
-
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day--;
-
-                if (day == 1) {
-                    previous.setVisibility(View.INVISIBLE);
-                }
-
-                if (day < tripdays) {
-                    next.setVisibility(View.VISIBLE);
-                }
-
-                day2.setText(Integer.toString(day) + "일차");
-
-                list_itemArrayList.clear();
-            }
-        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day++;
-
-                if(day > 1) {
-                    previous.setVisibility(View.VISIBLE);
-                }
-
-                if (day == tripdays) {
-                    next.setVisibility(View.INVISIBLE);
-                }
-
-                day2.setText(Integer.toString(day) + "일차");
-
-                list_itemArrayList.clear();
             }
         });
 
@@ -249,6 +206,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 list_itemArrayList.remove(position);
                 generalTimelineAdapter.notifyDataSetChanged();
+
+                latLng.remove(position);
 
                 Toast.makeText(getApplicationContext(), Integer.toString(position + 1) + "번째 장소가 삭제 됩니다.", Toast.LENGTH_SHORT).show();
 

@@ -123,8 +123,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
-        //tripdays = intent.getIntExtra("tripDays", 0); //며칠
+        tripdays = intent.getIntExtra("tripDays", 0); //며칠
         date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
+        latLng = intent.getParcelableArrayListExtra("tripLatLng");
+        places = intent.getStringArrayListExtra("trip");
 
         count = new int[tripdays][];
         place_name = new String[tripdays][];
@@ -367,7 +369,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
                 i.putExtra("tripDate", date);
-                i.putExtra("tripDays", tripdays);
+                i.putExtra("tripDays", day);
                 i.putExtra("tripLatLng", latLng);
                 i.putExtra("trip", places);
                 startActivity(i);

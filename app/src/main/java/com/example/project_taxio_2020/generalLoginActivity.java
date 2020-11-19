@@ -70,6 +70,7 @@ public class generalLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = edtId.getText().toString();
                 pw = edtPw.getText().toString();
+                login(email, pw);
             }
         });
 
