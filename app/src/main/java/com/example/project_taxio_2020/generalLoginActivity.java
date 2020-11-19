@@ -75,6 +75,40 @@ public class generalLoginActivity extends AppCompatActivity {
                 login(email, pw);
             }
         });
+
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rdoD.isChecked()){
+                    Intent i = new Intent(getApplicationContext(),driverMakeId.class);
+                    startActivity(i);
+                    finish();
+                }
+                else if (rdoG.isChecked()){
+                    Intent i = new Intent(getApplicationContext(),generalMakeId.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        });
+
+        btnFId.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),findId.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        btnFPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),findPw.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
 

@@ -47,22 +47,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recruitDriver1" />
 
-    <com.applikeysolutions.cosmocalendar.view.CalendarView
-        android:id="@+id/cal"
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/cal1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recruitDriver2"
         android:layout_width="wrap_content"
-        android:layout_height="335dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:connectedDayIconPosition="top"
-        app:currentDayTextColor="@color/mainText"
-        app:disabledDayTextColor="@color/colorPrimary"
-        app:firstDayOfTheWeek="sunday"
-        app:orientation="horizontal"
-        app:selectedDayBackgroundColor="@color/back"
-        app:selectedDayBackgroundEndColor="@color/bar"
-        app:selectedDayBackgroundStartColor="@color/background"
-        app:selectedDayTextColor="@color/colorAccent"
-        app:selectionType="range"
-        app:weekendDayTextColor="@color/colorPrimaryDark"/>
+        />
 
 
     <androidx.recyclerview.widget.RecyclerView
