@@ -224,7 +224,7 @@ public class generalMainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
