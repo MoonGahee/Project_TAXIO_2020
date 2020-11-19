@@ -249,9 +249,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 k = 1;
 
-                list_itemArrayList.clear();
-                places.clear();
-                latLng.clear();
+                if(list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                    latLng.clear();
+                }
 
                 while (true) {
                     if (p[day-1] != 0){
@@ -315,9 +317,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 k = 1;
 
-                list_itemArrayList.clear();
-                places.clear();
-                latLng.clear();
+                if(list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                    latLng.clear();
+                }
 
                 while (true) {
                     if (p[day-1] != 0){
