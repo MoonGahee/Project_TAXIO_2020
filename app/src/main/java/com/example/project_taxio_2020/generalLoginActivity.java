@@ -79,7 +79,10 @@ public class generalLoginActivity extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rdoD.isChecked()){
+                Intent i = new Intent(getApplicationContext(),generalMemberSort.class);
+                startActivity(i);
+                finish();
+                /*if(rdoD.isChecked()){
                     Intent i = new Intent(getApplicationContext(),driverMakeId.class);
                     startActivity(i);
                     finish();
@@ -88,7 +91,7 @@ public class generalLoginActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(),generalMakeId.class);
                     startActivity(i);
                     finish();
-                }
+                }*/
             }
         });
 
