@@ -13,9 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -95,19 +93,10 @@ public class LoginActivity extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),generalMemberSort.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), MemberSort.class);
+                startActivity(intent);
                 finish();
-                /*if(rdoD.isChecked()){
-                    Intent i = new Intent(getApplicationContext(),driverMakeId.class);
-                    startActivity(i);
-                    finish();
-                }
-                else if (rdoG.isChecked()){
-                    Intent i = new Intent(getApplicationContext(),generalMakeId.class);
-                    startActivity(i);
-                    finish();
-                }*/
+
             }
         });
 
