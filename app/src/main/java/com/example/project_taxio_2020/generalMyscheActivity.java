@@ -64,7 +64,7 @@ public class generalMyscheActivity extends AppCompatActivity {
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
                     Schedule data = new Schedule();
                     data.setSchedule_num(column.getKey());
-                    data.setDeparture_date(column.child("departure_date").getValue(String.class));
+                    //data.setDeparture_date(column.child("departure_date").getValue(String.class));
                     data.setArrival_date(column.child("arrival_date").getValue(String.class));
                     data.setTimes(column.child("times").getValue(String.class));
                     data.setRegion(column.child("region").getValue(String.class));

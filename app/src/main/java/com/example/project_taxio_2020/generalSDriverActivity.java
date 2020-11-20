@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 // 기사 선택 리사이클러뷰 by 가희
@@ -34,13 +39,18 @@ public class generalSDriverActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private generalDriverAdapter adapter;
-    String general_num, schedule_num, date;
+    String general_num, schedule_num, date, name, trunk, sex, seat, cost;
     RadioGroup rg1, rg2, rg3;
     RadioButton noGender, manDriver, womanDriver, allTrunk, yesTrunk, noTrunk, under4, under6, over6;
     Button searchBtn;
     TextView title_text, search_result, tripdate;
     Toolbar toolbar;
     RecyclerView recyclerView_driver;
+    List<String> listDriverName = new ArrayList<>();
+    List<String> listDriverSex = new ArrayList<>();
+    List<String> listDriverSeat = new ArrayList<>();
+    List<String> listDriverTrunk = new ArrayList<>();
+    List<String> listDriverPrice = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +69,31 @@ public class generalSDriverActivity extends AppCompatActivity {
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
-        final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference("Driver");
+
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    name = driverSnapshot.child("driver_name").getValue(String.class);
+                    trunk = driverSnapshot.child("driver_trunk").getValue(String.class);
+                    seat = driverSnapshot.child("driver_carSeat").getValue(String.class);
+                    sex = driverSnapshot.child("driver_sex").getValue(String.class);
+                    cost = driverSnapshot.child("driver_cost").getValue(String.class);
+                    listDriverSex.add(sex);
+                    listDriverSeat.add(seat);
+                    listDriverTrunk.add(trunk);
+                    listDriverName.add(name);
+                    listDriverPrice.add(cost);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         tripdate = findViewById(R.id.tripdate);
         tripdate.setText(date);
@@ -100,6 +133,7 @@ public class generalSDriverActivity extends AppCompatActivity {
             public void onClick(View v) { //조회 누르면 밑에 리사이클러뷰가 뜸
                 search_result.setVisibility(View.VISIBLE);
                 recyclerView_driver.setVisibility(View.VISIBLE);
+                selectDriver();
             }
         });
         //RecyclerView 사용
@@ -118,18 +152,13 @@ public class generalSDriverActivity extends AppCompatActivity {
     }
 
     public void getData(){ //임시 데이터값 추가
-        List<String> listDriverName = Arrays.asList("아이린", "이지은", "박보검","이민호", "아이유", "예린");
+        List<Integer> listDriverPhoto = Arrays.asList(R.drawable.taxi);
 
-        List<String> listDriverInfo = Arrays.asList("성별 : 여 \n트렁크 : 유 \n4인승", "성별 : 남 \n트렁크 : 무 \n6인승", "성별 : 남 \n트렁크 : 유 \n4인승","성별 : 여 \n트렁크 : 유 \n4인승", "성별 : 여 \n트렁크 : 유 \n4인승", "성별 : 여 \n트렁크 : 유 \n4인승");
-
-        List<String> listDriverPrice = Arrays.asList("가격 : 60,000원", "가격 : 60,000원", "가격 : 40,000원","가격 : 50,000원", "가격 : 60,000원", "가격 : 60,000원");
-
-        List<Integer> listDriverPhoto = Arrays.asList(R.drawable.taxi, R.drawable.taxi, R.drawable.taxi,R.drawable.taxi, R.drawable.taxi, R.drawable.taxi);
 
         for(int i = 0; i < listDriverName.size(); i++){  //DriverData Class 객체에 set
             generalDriverItem data = new generalDriverItem();
             data.setDriverName(listDriverName.get(i));
-            data.setDriverInfo(listDriverInfo.get(i));
+            //data.setDriverInfo(listDriverInfo.get(i));
             data.setDirverPrice(listDriverPrice.get(i));
             data.setDriverPhoto(listDriverPhoto.get(i));
 
@@ -145,10 +174,16 @@ public class generalSDriverActivity extends AppCompatActivity {
                 selectTrunck();
                 break;
             case R.id.manDriver:
-                selectTrunck();
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverSex.equals("남");
+                    selectTrunck();
+                }
                 break;
             case R.id.womanDriver:
-                selectTrunck();
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverSex.equals("여");
+                    selectTrunck();
+                }
                 break;
         }
 
@@ -159,20 +194,32 @@ public class generalSDriverActivity extends AppCompatActivity {
                 selectSeat();
                 break;
             case R.id.noTrunk:
-                selectSeat();
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverTrunk.equals("사용 불가능");
+                    selectSeat();
+                }
                 break;
             case R.id.yesTrunk:
-                selectSeat();
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverTrunk.equals("사용 가능");
+                    selectSeat();
+                }
                 break;
         }
     }
     public void selectSeat(){
         switch(rg1.getCheckedRadioButtonId()){
-            case R.id.noGender:
+            case R.id.under4:
                 break;
-            case R.id.manDriver:
+            case R.id.under6:
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverSeat.equals("4");
+                }
                 break;
-            case R.id.womanDriver:
+            case R.id.over6:
+                for(int i = 0; i<listDriverName.size();i++){
+                    listDriverSeat.equals("6");
+                }
                 break;
         }
     }
