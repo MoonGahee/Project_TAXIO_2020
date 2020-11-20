@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -57,6 +58,9 @@ public class driverMainActivity extends AppCompatActivity {
         btnResume = findViewById(R.id.btnResume);
         recruitList = findViewById(R.id.recruitList);
         trip_data = findViewById(R.id.trip_data_Recycler);
+
+        LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        trip_data.setLayoutManager(layoutManagers);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
