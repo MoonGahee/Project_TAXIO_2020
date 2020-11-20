@@ -73,7 +73,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         Intent i = getIntent();
         date = i.getStringExtra("tripDate");
-        tripdays = i.getIntExtra("tripDays", 0);
+        day = i.getIntExtra("tripDays", 0);
         latLng = i.getParcelableArrayListExtra("tripLatLng");
         place = i.getStringArrayListExtra("trip");
 
@@ -98,7 +98,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         list_itemArrayList = new ArrayList<generalTimelineItem>();
 
         for (int n = 0; n < place.size(); n++) {
-            if (n != place.size()) {
+            if (n == (place.size()-1)) {
                 list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], 0, 0));
             }
             else {

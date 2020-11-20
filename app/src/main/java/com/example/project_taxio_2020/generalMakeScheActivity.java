@@ -124,7 +124,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
         schedule_num = (String) intent.getSerializableExtra("schedule_num");
-        tripdays = intent.getIntExtra("tripDays", 0); //며칠
+        tripdays = intent.getIntExtra("tripDays", 3); //며칠
         date = intent.getStringExtra("startDay") + " ~ " + intent.getStringExtra("endDay"); //언제부터 언제까지
         //latLng = intent.getParcelableArrayListExtra("tripLatLng");
         //places = intent.getStringArrayListExtra("trip");
@@ -133,8 +133,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         place_name = new String[tripdays][];
         p = new int[tripdays];
         latLngs = new LatLng[tripdays][];
-
-        Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
@@ -452,6 +450,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
         intent.putExtra("general_num", general_num);
         intent.putExtra("schedule_num", schedule_num);  //회원번호
+        intent.putExtra("tripDate", date);
         startActivity(intent);
         finish();
     }

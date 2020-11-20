@@ -32,10 +32,11 @@ public class generalSDriverActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private generalDriverAdapter adapter;
+    String general_num, schedule_num, date;
     RadioGroup rg1, rg2, rg3;
     RadioButton noGender, manDriver, womanDriver, allTrunk, yesTrunk, noTrunk, under4, under6, over6;
     Button searchBtn;
-    TextView title_text, search_result;
+    TextView title_text, search_result, tripdate;
     Toolbar toolbar;
     RecyclerView recyclerView_driver;
 
@@ -46,10 +47,19 @@ public class generalSDriverActivity extends AppCompatActivity {
 
         setToolbar();
 
+        Intent intent = getIntent();
+        general_num = (String) intent.getSerializableExtra("general_num");
+        schedule_num = (String) intent.getSerializableExtra("schedule_num");
+        date = intent.getStringExtra("tripDate");
+
+
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+
+        tripdate = findViewById(R.id.tripdate);
+        tripdate.setText(date);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
