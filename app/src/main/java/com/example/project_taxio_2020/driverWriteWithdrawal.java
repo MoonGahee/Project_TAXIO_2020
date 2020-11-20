@@ -125,7 +125,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
+                } /*else if (id == R.id.drawer_modify) {
                     Intent intent = new Intent(getApplicationContext(), driverModifyId.class);
                     startActivity(intent);
                     finish();
@@ -139,7 +139,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
-                }
+                }*/
                 return true;
             }
         });
