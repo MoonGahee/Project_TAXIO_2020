@@ -5,6 +5,7 @@ import java.util.List;
 // 여행 일정 DB
 public class Schedule {
     public String general_num; //회원 번호 > Login
+    public String schedule_num; //회원의 여행 번호
     public String times; // 며칠 여행 > SDate
     public String region; //여행지역 >SRegion
     public String departure_date; //출발일 >SDate
@@ -16,8 +17,9 @@ public class Schedule {
     public Schedule() {
     }
 
-    public Schedule(String general_num, String times, String region, String departure_date, String arrival_date, String travel_state, String number, String days) {
+    public Schedule(String general_num, String schedule_num, String times, String region, String departure_date, String arrival_date, String travel_state, String number, String days) {
         this.general_num = general_num;
+        this.schedule_num = schedule_num;
         this.times = times;
         this.region = region;
         this.departure_date = departure_date;
@@ -33,6 +35,14 @@ public class Schedule {
 
     public void setGeneral_num(String general_num) {
         this.general_num = general_num;
+    }
+
+    public String getSchedule_num() {
+        return schedule_num;
+    }
+
+    public void setSchedule_num(String schedule_num) {
+        this.schedule_num = schedule_num;
     }
 
     public String getTimes() {

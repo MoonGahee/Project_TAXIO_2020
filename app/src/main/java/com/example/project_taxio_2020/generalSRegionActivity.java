@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,8 +21,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -35,6 +39,9 @@ public class generalSRegionActivity extends AppCompatActivity {
     ImageView map;
     ImageButton btnJeju,btnSeoul, btnBusan, btnGyungju, btnGangwon;
     String general_num;
+    DatabaseReference mDatabase;
+    HashMap resultRegion;
+    HashMap result;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ public class generalSRegionActivity extends AppCompatActivity {
         naviItem();
 
         //DataBase
-        final DatabaseReference mDatabase;
+
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //path자체를 그 회원의id로 넣어도 될 것
 
         map = findViewById(R.id.imageKorea);
@@ -135,11 +142,11 @@ public class generalSRegionActivity extends AppCompatActivity {
 
                         //DataBase 시작
                         String region = "제주";
-                        HashMap result = new HashMap<>();
+                        result = new HashMap<>();
                         result.put("region", region);
-                        mDatabase.child(general_num).child("Schedule").setValue(result);
                         //DataBase 종료
-                        moveActivity();
+                        getNumber();
+
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -164,10 +171,41 @@ public class generalSRegionActivity extends AppCompatActivity {
         });
     }
 
+    public void getNumber() {
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i = 1;
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                    if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+                resultRegion = new HashMap<>();
+                resultRegion.put("schedule_num", Integer.toString(i));
+                Log.d("moon", Integer.toString(i));
+                mDatabase.child(general_num).child("Schedule").child(resultRegion.get("schedule_num").toString()).setValue(result);
+                //mDatabase.child(resultRegion.get("schedule_num").toString());
+                moveActivity();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }//회원 번호 부여
+
+
+
     // 회원정보를 가지고 다음 액티비티로 이동
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
         intent.putExtra("general_num", general_num);
+        intent.putExtra("schedule_num",resultRegion.get("schedule_num").toString());
         startActivity(intent);
         finish();
     }

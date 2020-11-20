@@ -73,7 +73,7 @@ public class generalMakeId extends AppCompatActivity {
     Matcher m;
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase;
-    HashMap result;
+    HashMap result, resultNum;
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
@@ -253,7 +253,8 @@ public class generalMakeId extends AppCompatActivity {
                         i++;
                     }
                 }
-                result.put("general_num", Integer.toString(i));
+                resultNum = new HashMap<>();
+                resultNum.put("general_num", Integer.toString(i));
                 setDatabase();//데이터베이스 값 입력
                 moveActivity();//액티비티 이동
             }
@@ -267,12 +268,12 @@ public class generalMakeId extends AppCompatActivity {
     }//회원 번호 부여
 
     public void setDatabase() {
-        mDatabase.child(result.get("general_num").toString()).setValue(result);
+        mDatabase.child(resultNum.get("general_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), GeneralMakeIdComplete.class);
-        intent.putExtra("general_num", result.get("general_num").toString());
+        intent.putExtra("general_num", resultNum.get("general_num").toString());
         startActivity(intent);
         finish();
     }//액티비티 이동

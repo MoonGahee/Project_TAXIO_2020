@@ -58,8 +58,9 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     int tripMonth, tripDay, tripYear, tripDays = 0;
     String date = "";
     DatabaseReference mDatabase;
-    String general_num;
+    String general_num, schedule_num;
     String[] tripDate;
+
 
     int icon, wear_icon;
 
@@ -85,6 +86,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
+        schedule_num = (String) i.getSerializableExtra("schedule_num");
 
         //인플레이팅
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -306,7 +308,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("departure_date", startingDay);
         result.put("arrival_date", endDay);
         result.put("days", tripDays); //임의의 테이블 생성
-        mDatabase.child(general_num).child("Schedule").updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
+        mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
         moveActivity();
     }
 
@@ -314,6 +316,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSTaxiActivity.class);
         intent.putExtra("general_num", general_num);  //회원번호
+        intent.putExtra("schedule_num", schedule_num);  //회원번호
         intent.putExtra("tripDays", tripDays); //여행 며칠간
         intent.putExtra("startingDay", tripDate[0]); //시작날
         intent.putExtra("endDay", tripDate[1]); //도착날

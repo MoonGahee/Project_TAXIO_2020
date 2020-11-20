@@ -15,24 +15,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.sql.Date;
 
 public class generalMyscheActivity extends AppCompatActivity {
-
-
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     DatabaseReference mDatabase;
     String general_num;
-
     MaterialCalendarView cal1;
+    private generalMyScheAdapter adapter;
 
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -55,8 +59,58 @@ public class generalMyscheActivity extends AppCompatActivity {
         cal1 = findViewById(R.id.cal1);
         cal1.setSelectedDate(d);
 
+        //init();
+        //getData();
     }
 
+
+
+
+
+/*
+    public void init(){
+        RecyclerView tripRecycler = findViewById(R.id.tripRecycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        tripRecycler.setLayoutManager(linearLayoutManager);
+
+        adapter = new generalMyScheAdapter();
+        tripRecycler.setAdapter(adapter);
+        tripRecycler.setHasFixedSize(true);
+    }
+
+    public void getData() {
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                General general = snapshot.child("Schedule").getValue(General.class); //child로 경로 지정
+                //nameC.setText(nameC.getText().toString()+general.getGeneral_name());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon-Test","error");
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener);
+    }
+                     //콜백 한 번만 호출이 이뤄지는 경우
+    /*SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
+        Cursor cursor = sqlDB.rawQuery("SELECT name, number FROM STUDENT;", null);
+
+        while (cursor.moveToNext()) {
+            Student data = new Student();
+            data.setStuName(cursor.getString(0));
+            data.setStuNumber(cursor.getInt(1));
+            adapter.addItem(data);
+        }
+        cursor.close();
+        sqlDB.close();
+        myDBHelper.close();
+
+        adapter.notifyDataSetChanged();*/
+    // DB
 
     //네비게이션
     public void naviItem() {
