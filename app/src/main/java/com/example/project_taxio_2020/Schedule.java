@@ -81,7 +81,7 @@ public class Schedule {
     public void setTravel_state() throws ParseException {
         Date currentTime = Calendar.getInstance().getTime();
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
         Date now = currentTime;
         Date arrivalDate = dateFormat.parse(arrival_date);
         Date departureDate = dateFormat.parse(departure_date);
