@@ -90,9 +90,15 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     if (selectedItems.get(position)) {
                         //펼쳐진 아이템 클릭시
                         selectedItems.delete(position);
+                        adapter.removeData(Edata);
+
                     } else {
                         selectedItems.delete(prePosition); //직전 클릭한 상태 삭제
                         selectedItems.put(position, true); //position에 저장
+
+                        Edata = new generalEpilogueItem(R.drawable.profile, dataDriver.getDriverName(), 4.0f, distinction, review);
+                        adapter.addData(Edata);
+                        adapter.notifyDataSetChanged();
                     }
                     //해당 포지션의 변화
                     if (prePosition != -1)
@@ -100,9 +106,6 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     notifyItemChanged(position);
                     prePosition = position;
 
-                    Edata = new generalEpilogueItem(R.drawable.profile, dataDriver.getDriverName(), 4.0f, distinction, review);
-                    adapter.addData(Edata);
-                    adapter.notifyDataSetChanged();
                     break;
             }
         }

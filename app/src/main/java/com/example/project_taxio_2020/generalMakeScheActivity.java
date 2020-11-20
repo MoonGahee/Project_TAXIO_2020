@@ -274,7 +274,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
                 }
-                addDateActivity();
+                //addDateActivity();
             }
         });
 
@@ -390,6 +390,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                places.clear();
+
                 for (int n = 0; n < list_itemArrayList.size(); n++) {
                     places.add(list_itemArrayList.get(n).getPlace());
                 }
