@@ -126,8 +126,9 @@ public class LoginActivity extends AppCompatActivity {
                             //데이터를 읽어서 해당 general_num 전송기능 진행
                             if (rdg.getCheckedRadioButtonId() == R.id.rdoG) {
                                 gMoveActivity(email);
-                            } else if (rdg.getCheckedRadioButtonId() == R.id.rdoD)
+                            } else if (rdg.getCheckedRadioButtonId() == R.id.rdoD) {
                                 dMoveActivity(email);
+                            }
                         }
                     }
                 });
@@ -138,9 +139,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void sendEmailVerification() {
-        if (mAuth.getCurrentUser().isEmailVerified()) {
-            Toast.makeText(this, "로그인 되었습니다.", Toast.LENGTH_LONG).show();
-        } else {
+        if (!mAuth.getCurrentUser().isEmailVerified()) {
             mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -178,9 +177,8 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         return;
                     }
-                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
-
                 }
+                Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -204,9 +202,8 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                         return;
                     }
-                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
-
                 }
+                Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
             }
 
             @Override
