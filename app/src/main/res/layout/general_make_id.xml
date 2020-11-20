@@ -271,7 +271,6 @@
 
                 <EditText
                     android:id="@+id/edtPassword"
-                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -294,7 +293,6 @@
 
                 <EditText
                     android:id="@+id/edtCheckPass"
-                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

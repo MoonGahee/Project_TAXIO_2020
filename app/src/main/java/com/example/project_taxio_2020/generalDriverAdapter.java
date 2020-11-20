@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView; //ItemViewHolder와 ViewHolder의 차이?
 
 import com.example.project_taxio_2020.databinding.GeneralDriverItemDetailBinding;
@@ -27,10 +28,14 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     // 주석 체크만 한 경우 ViewHolder > itemViewHolder로 변경함
 
     //Adapter에 들어갈 리스트트
+    generalDriverDetailAdapter adapter = new generalDriverDetailAdapter();
     private ArrayList<generalDriverItem> dData = new ArrayList<>();
+    generalEpilogueItem Edata;
     Context context;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int prePosition = -1;
+    final String distinction = "..........................";
+    final String review = "기사님이 너무 친절하셨어요!";
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -61,14 +66,17 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
         //값을 하나하나 보여주는 함수
         void onBind(generalDriverItem dataDriver, int position) {
+
             this.dataDriver = dataDriver;
             this.position = position;
-            generalDriverDetailAdapter adapter = new generalDriverDetailAdapter();
 
             driverName.setText(dataDriver.getDriverName());
             infoDriver.setText(dataDriver.getDriverInfo());
             infoPrice.setText(dataDriver.getDirverPrice());
             recyclerView_driver_detail.setAdapter(adapter);
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            recyclerView_driver_detail.setLayoutManager(linearLayoutManager);
 
             changeVisibility(selectedItems.get(position));
 
@@ -91,6 +99,10 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                         notifyItemChanged(prePosition);
                     notifyItemChanged(position);
                     prePosition = position;
+
+                    Edata = new generalEpilogueItem(R.drawable.profile, dataDriver.getDriverName(), 4.0f, distinction, review);
+                    adapter.addData(Edata);
+                    adapter.notifyDataSetChanged();
                     break;
             }
         }

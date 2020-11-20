@@ -7,19 +7,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 
 // ALL 회원가입 > 나이 선택
 
 public class generalAgeCheck extends AppCompatActivity {
 
     Button over14, under14, previous;
+    String memberSort;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +30,9 @@ public class generalAgeCheck extends AppCompatActivity {
         under14 = findViewById(R.id.under14);
         previous = findViewById(R.id.previous);
 
+        Intent i = getIntent();
+        memberSort = i.getStringExtra("sort");
+
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,7 +42,7 @@ public class generalAgeCheck extends AppCompatActivity {
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(getApplicationContext(), generalMemberSort.class);
+                        Intent i = new Intent(getApplicationContext(), MemberSort.class);
                         startActivity(i);
                         finish();
                     }
@@ -48,7 +50,7 @@ public class generalAgeCheck extends AppCompatActivity {
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        ;
                     }
                 });
                 builder.show();
@@ -59,7 +61,7 @@ public class generalAgeCheck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
-                i.putExtra("age", 13);
+                i.putExtra("sort", memberSort);
                 startActivity(i);
                 finish();
             }
@@ -69,6 +71,7 @@ public class generalAgeCheck extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
+                i.putExtra("sort", memberSort);
                 i.putExtra("age", 14);
                 startActivity(i);
                 finish();

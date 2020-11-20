@@ -25,6 +25,7 @@ public class generalClause extends AppCompatActivity {
     Button previous, next;
     ScrollView all_scroll, show_clause1, show_clause2, show_clause3;
     int age;
+    String memberSort;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +34,9 @@ public class generalClause extends AppCompatActivity {
         setToolbar();
 
         Intent i = getIntent();
-        age = i.getExtras().getInt("age");
+        age = i.getIntExtra("age", 0);
+        memberSort = i.getStringExtra("sort");
+
 
         all_check = findViewById(R.id.all_check);
 
@@ -93,16 +96,24 @@ public class generalClause extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(clause1.isChecked() && clause2.isChecked()) {
-                    if(age == 14){
-                        Intent intent = new Intent(getApplicationContext(), generalMakeIdChild.class);
+                    if(memberSort.equals("general")){
+                        if(age == 14){
+                            Intent intent = new Intent(getApplicationContext(), generalMakeIdChild.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                    else if(memberSort.equals("driver")){
+                        Intent intent = new Intent(getApplicationContext(), driverMakeId.class);
                         startActivity(intent);
                         finish();
                     }
-                    else {
-                        Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
-                        startActivity(intent);
-                        finish();
-                    }
+
                 }
                 else
                     Toast.makeText(getApplicationContext(), "필수 항목에 동의해주세요!", Toast.LENGTH_SHORT).show();

@@ -132,14 +132,14 @@ public class generalMainActivity extends AppCompatActivity {
                     + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
                     +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
 
-            if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
-                wear_icon = R.drawable.over25;
-            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 20)
-                wear_icon = R.drawable.under20;
+            if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
+                wear_icon = R.drawable.under0;
             else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 15)
                 wear_icon = R.drawable.under15;
-            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
-                wear_icon = R.drawable.under0;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 20)
+                wear_icon = R.drawable.under20;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
+                wear_icon = R.drawable.over25;
             else
                 wear_icon = 0;
 
@@ -224,7 +224,7 @@ public class generalMainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {

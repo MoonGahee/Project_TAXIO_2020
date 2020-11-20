@@ -70,7 +70,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(generalWriteEpilogueActivity.this);
                 builder.setTitle("작성 취소");
                 builder.setMessage("후기 작성을 정말 취소하시겠습니까?");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {

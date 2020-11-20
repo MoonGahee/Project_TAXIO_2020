@@ -73,7 +73,7 @@ public class generalMakeId extends AppCompatActivity {
     Matcher m;
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase;
-    HashMap result;
+    HashMap result, resultNum;
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
@@ -98,16 +98,13 @@ public class generalMakeId extends AppCompatActivity {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);}
 
-        //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기
-        edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!checkPass(edtPassword.getText().toString())) {
-                    isCorrectPassword = false;
-                    Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
-                }
+        //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기//다시해야됨
+        if(!(edtPassword.getText().toString().equals(""))&&!(edtPassword.isFocused())){
+            if (!checkPass(edtPassword.getText().toString())) {
+                isCorrectPassword = false;
+                Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
             }
-        });
+        }
         //비밀번호 확인 입력이 끝난 뒤 비밀번호와 맞는지 비교하기
         edtCheckPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -256,7 +253,8 @@ public class generalMakeId extends AppCompatActivity {
                         i++;
                     }
                 }
-                result.put("general_num", Integer.toString(i));
+                resultNum = new HashMap<>();
+                resultNum.put("general_num", Integer.toString(i));
                 setDatabase();//데이터베이스 값 입력
                 moveActivity();//액티비티 이동
             }
@@ -270,12 +268,12 @@ public class generalMakeId extends AppCompatActivity {
     }//회원 번호 부여
 
     public void setDatabase() {
-        mDatabase.child(result.get("general_num").toString()).setValue(result);
+        mDatabase.child(resultNum.get("general_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-        intent.putExtra("general_num", result.get("general_num").toString());
+        Intent intent = new Intent(getApplicationContext(), GeneralMakeIdComplete.class);
+        intent.putExtra("general_num", resultNum.get("general_num").toString());
         startActivity(intent);
         finish();
     }//액티비티 이동
