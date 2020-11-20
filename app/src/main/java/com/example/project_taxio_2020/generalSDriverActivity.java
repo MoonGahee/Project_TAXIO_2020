@@ -138,10 +138,13 @@ public class generalSDriverActivity extends AppCompatActivity {
     public void selectDriver(){
         switch(rg1.getCheckedRadioButtonId()){
             case R.id.noGender:
+                selectTrunck();
                 break;
             case R.id.manDriver:
+                selectTrunck();
                 break;
             case R.id.womanDriver:
+                selectTrunck();
                 break;
         }
 
@@ -149,10 +152,13 @@ public class generalSDriverActivity extends AppCompatActivity {
     public void selectTrunck(){
         switch(rg2.getCheckedRadioButtonId()){
             case R.id.allTrunk:
+                selectSeat();
                 break;
             case R.id.noTrunk:
+                selectSeat();
                 break;
             case R.id.yesTrunk:
+                selectSeat();
                 break;
         }
     }
