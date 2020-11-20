@@ -81,6 +81,6 @@
         <activity android:name=".driverCheckEpilogueActivity"/><!--기사 후기-->
         <activity android:name=".findId"/><!--아이디 찾기-->
         <activity android:name=".findPw"/><!--패스워드 찾기-->
-        <activity android:name=".GeneralMakeIdComplete"/> <!--회원가입 완료-->
+        <activity android:name=".MakeIdComplete"/> <!--회원가입 완료-->
     </application>
 </manifest>
