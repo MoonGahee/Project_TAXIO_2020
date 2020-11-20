@@ -111,7 +111,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         }
 
         private void changeVisibility(final boolean isExpanded) {
-            int dpValue = 150;
+            int dpValue = 200;
             float d = context.getResources().getDisplayMetrics().density;
             int height = (int) (dpValue * d);
 
