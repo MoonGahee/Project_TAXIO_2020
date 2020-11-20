@@ -71,6 +71,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class generalMakeScheActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -83,25 +84,29 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     String jeju, date;
     int k = 1;
     int day = 1;
-    int tripdays;
+    int tripdays = 3;
     float width = 200f, height = 200f;
     float zoom = 15;
-    GroundOverlay imageOverlay;
-    ListView listView;
+    GroundOverlay imageOverlay; //이미지 마커 수정용
+    ListView listView; //일정 띄우는 뷰
     ScrollView scroll1;
-    generalTimelineAdapter generalTimelineAdapter;
-    ArrayList<generalTimelineItem> list_itemArrayList;
-    LatLng latLng1, latLng2, lat;
-    ArrayList<LatLng> latLng = new ArrayList<>();
-    ArrayList<String> places = new ArrayList<>();
-    String dis, distance[] = new String[100];
-    MapFragment mapFrag;
+    generalTimelineAdapter generalTimelineAdapter; //listview와 arraylist를 연결해주는 adapter
+    ArrayList<generalTimelineItem> list_itemArrayList; //일정을 저장하는 arraylist
+    LatLng latLng1, latLng2; //거리 계산을 위한 변수
+    LatLng lat; //검색된 장소의 위도, 경도를 저장하는 임시변수
+    LatLng latLngs[][]; //검색된 장소의 위도, 경도를 저장하는 변수(사용 x)
+    ArrayList<LatLng> latLng = new ArrayList<>(); //위도, 경도를 저장하는 최종 변수
+    ArrayList<String> places = new ArrayList<>(); //장소들의 이름을 저장하는 arraylist
+    String distance[] = new String[100]; //계산된 거릿 값을 저장하는 변수
+    String place_name[][]; //장소들의 이름을 저장하는 배열
+    MapFragment mapFrag; //구글 맵 프레그먼트
     GoogleMap gMap;
-    GroundOverlayOptions videoMark;
-    String TAG="what?";
+    GroundOverlayOptions videoMark; //이미지 마커 띄우는 용
+    String TAG = "what?";
     int size;
-    int[] count;
-    String general_num;
+    int p[];
+    int[][] count; //택시 선택 유무 저장하는 변수
+    String general_num, schedule_num;
     DatabaseReference mDatabase;
 
     @Override
@@ -110,8 +115,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setContentView(R.layout.general_make_sche_activity);
         setToolbar();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
@@ -119,10 +124,16 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         //값 받아오기
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
-        tripdays = intent.getIntExtra("tripDays", 0); //며칠
-        date = intent.getStringExtra("startDay") + " ~ " +intent.getStringExtra("endDay"); //언제부터 언제까지
+        schedule_num = (String) intent.getSerializableExtra("schedule_num");
+        tripdays = intent.getIntExtra("tripDays", 3); //며칠
+        date = intent.getStringExtra("startDay") + " ~ " + intent.getStringExtra("endDay"); //언제부터 언제까지
+        //latLng = intent.getParcelableArrayListExtra("tripLatLng");
+        //places = intent.getStringArrayListExtra("trip");
 
-        Toast.makeText(getApplicationContext(), Integer.toString(tripdays), Toast.LENGTH_SHORT).show();
+        count = new int[tripdays][];
+        place_name = new String[tripdays][];
+        p = new int[tripdays];
+        latLngs = new LatLng[tripdays][];
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
@@ -144,16 +155,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     if (k == 1) {
                         latLng1 = lat;
                         latLng.add(lat);
-                    }
-                    else {
+                    } else {
                         latLng2 = lat;
                         latLng.add(lat);
-                        distance[k-2] = calDistance(latLng1, latLng2);
+                        distance[k - 2] = calDistance(latLng1, latLng2);
                         gMap.addPolyline(new PolylineOptions().add(latLng1, latLng2).width(5).color(Color.RED));
                         latLng1 = latLng2;
                     }
 
-                    count = new int[k];
                     places.add(jeju);
 
                     videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, width, height);
@@ -165,11 +174,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
 
-                    size = generalTimelineAdapter.getCount();
+                    size = generalTimelineAdapter.getCount(); //ListView count
+
+                    count[day - 1] = new int[size];
+
+                    p[day - 1] = 1;
 
                     k++;
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "제주도만 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -182,13 +194,14 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MODE_PRIVATE);
 
-        mapFrag = (MapFragment)getFragmentManager().findFragmentById(R.id.map1);
+        mapFrag = (MapFragment) getFragmentManager().findFragmentById(R.id.map1);
         mapFrag.getMapAsync(this);
 
         scroll1 = findViewById(R.id.scroll1);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
+        trip_fin = findViewById(R.id.trip_fin);
 
         day1 = findViewById(R.id.day1);
 
@@ -201,10 +214,22 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         next = findViewById(R.id.next1);
 
         previous.setVisibility(View.INVISIBLE);
+        trip_fin.setVisibility(View.INVISIBLE);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int i = 0;
+
+                if (list_itemArrayList.size() != 0) {
+                    Log.d("tttest", "idx" + day);
+                    place_name[day - 1] = new String[size];
+                }
+
+                for (int n = 0; n < list_itemArrayList.size(); n++) {
+                    place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
+                }
+
                 day--;
 
                 if (day == 1) {
@@ -213,34 +238,108 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (day < tripdays) {
                     next.setVisibility(View.VISIBLE);
+                    trip_fin.setVisibility(View.INVISIBLE);
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
 
                 k = 1;
 
-                list_itemArrayList.clear();
+                if (list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                }
+
+                while (true) {
+                    if (p[day - 1] != 0) {
+                        if ((size - 1) == i) {
+                            if (count[day - 1][i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, 0));
+                            }
+                            break;
+                        } else {
+                            if (count[day - 1][i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+                        }
+
+                        i++;
+                    } else break;
+                }
+
+                if (list_itemArrayList.size() != 0) {
+                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                    listView.setAdapter(generalTimelineAdapter);
+                }
+                addDateActivity();
             }
         });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int i = 0;
+
+                if (list_itemArrayList.size() != 0) {
+                    Log.d("tttest", "idx" + day);
+                    place_name[day - 1] = new String[size];
+                }
+
+                for (int n = 0; n < list_itemArrayList.size(); n++) {
+                    place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
+                }
+
                 day++;
 
-                if(day > 1) {
+                if (day > 1) {
                     previous.setVisibility(View.VISIBLE);
                 }
 
                 if (day == tripdays) {
                     next.setVisibility(View.INVISIBLE);
+                    trip_fin.setVisibility(View.VISIBLE);
                 }
 
                 day1.setText(Integer.toString(day) + "일차");
 
                 k = 1;
 
-                list_itemArrayList.clear();
+                if (list_itemArrayList.size() > 0) {
+                    list_itemArrayList.clear();
+                    places.clear();
+                }
+
+                while (true) {
+                    if (p[day - 1] != 0) {
+                        if ((size - 1) == i) {
+                            if (count[day - 1][i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, 0));
+                            }
+                            break;
+                        } else {
+                            if (count[day - 1][i] == 1) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+                        }
+
+                        i++;
+                    } else break;
+                }
+
+                if (list_itemArrayList.size() != 0) {
+                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                    listView.setAdapter(generalTimelineAdapter);
+                }
+
+                addDateActivity();
             }
         });
 
@@ -254,7 +353,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         });
 
         edit_btn = findViewById(R.id.trip_edit1);
-        trip_fin = findViewById(R.id.trip_fin);
 
         listView = findViewById(R.id.trip1);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
@@ -264,7 +362,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
                 i.putExtra("tripDate", date);
-                i.putExtra("tripDays", tripdays);
+                i.putExtra("tripDays", day);
                 i.putExtra("tripLatLng", latLng);
                 i.putExtra("trip", places);
                 startActivity(i);
@@ -276,6 +374,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         trip_fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addDateActivity();
                 moveActivity();
             }
         });
@@ -292,47 +391,48 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                places.clear();
+
+                for (int n = 0; n < list_itemArrayList.size(); n++) {
+                    places.add(list_itemArrayList.get(n).getPlace());
+                }
+
                 int i = 0;
 
                 list_itemArrayList.clear();
 
                 while (true) {
                     if (position == i) {
-                        if ((size-1) == i){
-                            if (count[i] != 1){
+                        if ((size - 1) == i) {
+                            if (count[day - 1][i] != 1) {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
-                                count[i] = 1;
-                            }
-                            else {
+                                count[day - 1][i] = 1;
+                            } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
-                                count[i] = 0;
+                                count[day - 1][i] = 0;
                             }
                             break;
-                        }
-                        else {
-                            if (count[i] != 1) {
+                        } else {
+                            if (count[day - 1][i] != 1) {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                                count[i] = 1;
+                                count[day - 1][i] = 1;
                             } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
-                                count[i] = 0;
+                                count[day - 1][i] = 0;
                             }
                         }
-                    }
-                    else {
-                        if ((size-1) == i){
-                            if (count[i] == 1){
+                    } else {
+                        if ((size - 1) == i) {
+                            if (count[day - 1][i] == 1) {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
-                            }
-                            else {
+                            } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
                             }
                             break;
-                        }else {
-                            if (count[i] == 1) {
+                        } else {
+                            if (count[day - 1][i] == 1) {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                            }
-                            else {
+                            } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
                             }
                         }
@@ -352,12 +452,50 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
         intent.putExtra("general_num", general_num);
+        intent.putExtra("schedule_num", schedule_num);  //회원번호
+        intent.putExtra("tripDate", date);
         startActivity(intent);
         finish();
     }
 
+    public void addDateActivity() {
+
+        for (int n = 0; n < list_itemArrayList.size(); n++) {
+            String placeName = list_itemArrayList.get(n).getPlace();
+            int taxiRide = list_itemArrayList.get(n).getTaxi();
+            String number = list_itemArrayList.get(n).getNumber();
+            Log.d("Moon", placeName);
+            Log.d("Moon", String.valueOf(taxiRide));
+            HashMap resultDay = new HashMap<>();
+            HashMap result = new HashMap<>();
+            result.put("course_order", number);
+            resultDay.put("coures_place", placeName);
+            resultDay.put("boarding_status", taxiRide);
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(number).updateChildren(resultDay);
+            mDatabase.push();
+        }
+
+
+        /*int cnt = 1;
+        for(int countDate = 0; countDate < tripdays; countDate++){
+            HashMap result = new HashMap<>();
+            result.put("schedule_num", Integer.toString(countDate + 1));
+            mDatabase.push();
+            Log.d("Moon-Test", "며칠" + (countDate + 1));
+            if(cnt < size){
+                HashMap resultDay = new HashMap<>();
+                //resultDay.put("coures_place", list_itemArrayList);
+
+                String a = list_itemArrayList.get(0).getPlace();
+                Log.d("MoonTest", a);
+                resultDay.put("boarding_status", count);
+
+            }
+        }*/
+    }
+
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -366,7 +504,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
                     startActivity(intent);
                     finish();
@@ -382,10 +520,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else if(id==R.id.logout){
+                } else if (id == R.id.logout) {
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -395,8 +532,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -433,7 +570,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         double latitude2 = lat2.latitude;
         double longitude2 = lat2.longitude;
 
-        radian = Math.PI/180;
+        radian = Math.PI / 180;
 
         radLat1 = radian * latitude1;
         radLat2 = radian * latitude2;

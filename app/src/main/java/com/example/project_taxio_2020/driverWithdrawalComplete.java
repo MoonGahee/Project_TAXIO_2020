@@ -2,18 +2,12 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.google.android.material.navigation.NavigationView;
 
 // 탈퇴 완료 화면 by 가희
 
@@ -32,7 +26,7 @@ public class driverWithdrawalComplete extends AppCompatActivity {
         thank.setOnClickListener(new View.OnClickListener() { // 감사합니다 버튼 클릭시 메인으로 돌아가기 이벤트 진행
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalLoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

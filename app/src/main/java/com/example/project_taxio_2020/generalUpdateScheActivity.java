@@ -44,18 +44,19 @@ import java.util.ArrayList;
 
 public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Button finish_btn, previous, next;
+    Button finish_btn;
     Toolbar toolbar;
     TextView title_text, day2, date2;
-    String jeju[], distance[] = new String[100];
-    String date;
-    ListView listView;
-    ArrayList<LatLng> latLng;
-    ArrayList<String> place;
-    LatLng latLng1, latLng2;
+    String jeju[];//장소 저장하는 배열
+    String distance[] = new String[100];// 계산된 거릿 값 저장하는 변수
+    String date; //여행 일자
+    ListView listView; //여행 일자 띄우는 뷰
+    ArrayList<LatLng> latLng; //가져온 장소들의 위도, 경도들을 저장하는 변수
+    ArrayList<String> place; //가져온 장소들을 저장하는 변수
+    LatLng latLng1, latLng2; //거리를 계산하기 위한 변수들
     ScrollView scroll2;
-    generalTimelineAdapter generalTimelineAdapter;
-    ArrayList<generalTimelineItem> list_itemArrayList;
+    generalTimelineAdapter generalTimelineAdapter; //listview와 arraylist를 연결해주는 adapter
+    ArrayList<generalTimelineItem> list_itemArrayList; //여행 일정을 저장하는 최종변수
     int firstPos, secondPos;
     int count = 1;
     int day = 1;
@@ -73,7 +74,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         Intent i = getIntent();
         date = i.getStringExtra("tripDate");
-        tripdays = i.getIntExtra("tripDays", 0);
+        day = i.getIntExtra("tripDays", 0);
         latLng = i.getParcelableArrayListExtra("tripLatLng");
         place = i.getStringArrayListExtra("trip");
 
@@ -84,11 +85,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         mapFrag.getMapAsync(this);
 
         scroll2 = findViewById(R.id.scroll2);
-
-        previous = findViewById(R.id.previous2);
-        next = findViewById(R.id.next2);
-
-        previous.setVisibility(View.INVISIBLE);
 
         finish_btn = findViewById(R.id.update_finish2);
 
@@ -102,8 +98,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         listView = findViewById(R.id.trip2);
         list_itemArrayList = new ArrayList<generalTimelineItem>();
 
-        for (int n = 0; n < place.size(); n++) {
-            if (n != place.size()) {
+        for (int n = 0; n < place.size(); n++) { //가져온 일정 띄우는 코드
+            if (n == (place.size()-1)) {
                 list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], 0, 0));
             }
             else {
@@ -126,47 +122,9 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
             }
         });
 
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day--;
-
-                if (day == 1) {
-                    previous.setVisibility(View.INVISIBLE);
-                }
-
-                if (day < tripdays) {
-                    next.setVisibility(View.VISIBLE);
-                }
-
-                day2.setText(Integer.toString(day) + "일차");
-
-                list_itemArrayList.clear();
-            }
-        });
-
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                day++;
-
-                if(day > 1) {
-                    previous.setVisibility(View.VISIBLE);
-                }
-
-                if (day == tripdays) {
-                    next.setVisibility(View.INVISIBLE);
-                }
-
-                day2.setText(Integer.toString(day) + "일차");
-
-                list_itemArrayList.clear();
-            }
-        });
-
         finish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //변경 완료 누르면 나오는 다이얼로그 창
                 AlertDialog.Builder builder = new AlertDialog.Builder(generalUpdateScheActivity.this);
                 builder.setTitle("일정 확인");
                 builder.setMessage("이대로 일정을 마무리하겠습니까?");
@@ -197,7 +155,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //여행 일정 순서 변경하는 코드
                 int i = 1;
                 int size = generalTimelineAdapter.getCount();
                 jeju = new String[size];
@@ -246,9 +204,11 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) { //여행 일정 중 선택한 일정 삭제하는 코드
                 list_itemArrayList.remove(position);
                 generalTimelineAdapter.notifyDataSetChanged();
+
+                latLng.remove(position);
 
                 Toast.makeText(getApplicationContext(), Integer.toString(position + 1) + "번째 장소가 삭제 됩니다.", Toast.LENGTH_SHORT).show();
 
@@ -290,7 +250,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
             }
         });
 
-        for (int n = 0; n < latLng.size(); n++) {
+        for (int n = 0; n < latLng.size(); n++) {//가져온 위도, 경도들에 마커 찍고 연결선 나오게 하는 코드
             LatLng lat = new LatLng(latLng.get(n).latitude, latLng.get(n).longitude);
 
             if (n == 0) {
@@ -309,7 +269,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         }
     }
 
-    public String calDistance(LatLng lat1, LatLng lat2) {
+    public String calDistance(LatLng lat1, LatLng lat2) { //위도랑 경도를 이용해서 거릿값 계산하는 메소드
         double earth_R = 6371000.0, radian, radLat1, radLat2, radDist, distances, ret;
         double latitude1 = lat1.latitude;
         double longitude1 = lat1.longitude;

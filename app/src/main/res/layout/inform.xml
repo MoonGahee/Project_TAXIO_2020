@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--추천 여행지 by 가희-->
+<!-- 탈퇴하기 by 가희 -->
 
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,10 +8,9 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".generalReservationCompleteActivity"
     tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,25 +21,43 @@
             android:id="@+id/bar"
             layout="@layout/app_bar"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/notice"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
 
         <TextView
-            android:id="@+id/recommandSche"
+            android:id="@+id/wd1"
             style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="추천 여행지"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="7dp"
+            android:text="공지사항"
+            app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
+
         <TextView
-            android:id="@+id/recommandSche2"
-            style="@style/title2"
+            android:id="@+id/position"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="원하는 추천 장소들을 선택해주세요."
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:text="공지 내용이 없습니다."
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recommandSche" />
+            app:layout_constraintTop_toBottomOf="@id/wd1" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -48,9 +65,8 @@
         android:id="@+id/nDrawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
         app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
-
 </androidx.drawerlayout.widget.DrawerLayout>

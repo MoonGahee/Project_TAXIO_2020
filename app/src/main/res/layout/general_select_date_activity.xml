@@ -71,16 +71,16 @@
             style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="출발일과 도착일을 선택해주세요"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/weather_test" />
 
         <ScrollView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/calScroll"
             android:layout_width="match_parent"
-            android:layout_height="340dp"
+            android:layout_height="350dp"
             android:scrollbars="none"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -89,7 +89,7 @@
             <com.applikeysolutions.cosmocalendar.view.CalendarView
                 android:id="@+id/cal"
                 android:layout_width="wrap_content"
-                android:layout_height="335dp"
+                android:layout_height="300dp"
                 android:layout_marginTop="10dp"
                 app:connectedDayIconPosition="top"
                 app:currentDayTextColor="@color/mainText"
@@ -109,7 +109,7 @@
             style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:background="@drawable/button_long"
             android:text="확     인"
             android:textSize="25sp"

@@ -52,14 +52,16 @@ public class generalMainActivity extends AppCompatActivity {
     String nowm = monthFormat.format(currentTime);
     String nowd = dayFormat.format(currentTime);
     public String date = nowm+"월 "+nowd+"일";
-    String people;
 
     int icon, wear_icon;
 
     public static final int THREAD_HANDLER_SUCCESS_INFO = 1;
     RecyclerView weather_test;
+    RecyclerView trip_data;
     generalWeatherAdapter generalWeatherAdapter;
     ArrayList<generalWeatherItem> list;
+    mainTripAdapter mainTripAdapter;
+    ArrayList<mainTripItem> lists;
 
     ForeCastManager mForeCast;
 
@@ -79,7 +81,7 @@ public class generalMainActivity extends AppCompatActivity {
 
         //값을 받아오기
         Intent i = getIntent();
-        general_num = (String)i.getSerializableExtra("general_num");
+        general_num = i.getStringExtra("general_num");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_main_activity);
@@ -115,8 +117,22 @@ public class generalMainActivity extends AppCompatActivity {
 
     public void Initialize() {
         weather_test = findViewById(R.id.weather_test);
+        trip_data = findViewById(R.id.trip_data_Recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         weather_test.setLayoutManager(layoutManager);
+
+
+        LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        trip_data.setLayoutManager(layoutManagers);
+
+        lists = new ArrayList<mainTripItem>();
+        lists.add(new mainTripItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+        lists.add(new mainTripItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+
+        mainTripAdapter = new mainTripAdapter(this, lists);
+        trip_data.setAdapter(mainTripAdapter);
+
+
         list = new ArrayList<generalWeatherItem>();
         mWeatherInfomation = new ArrayList<>();
         mThis = this;
@@ -132,14 +148,14 @@ public class generalMainActivity extends AppCompatActivity {
                     + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
                     +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
 
-            if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
-                wear_icon = R.drawable.over25;
-            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 20)
-                wear_icon = R.drawable.under20;
+            if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
+                wear_icon = R.drawable.under0;
             else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 15)
                 wear_icon = R.drawable.under15;
-            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
-                wear_icon = R.drawable.under0;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 20)
+                wear_icon = R.drawable.under20;
+            else if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
+                wear_icon = R.drawable.over25;
             else
                 wear_icon = 0;
 
@@ -196,6 +212,7 @@ public class generalMainActivity extends AppCompatActivity {
 
                     generalWeatherAdapter = new generalWeatherAdapter(generalMainActivity.this, list);
                     weather_test.setAdapter(generalWeatherAdapter);
+
                     break;
                 default:
                     break;
@@ -224,7 +241,7 @@ public class generalMainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {

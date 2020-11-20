@@ -31,7 +31,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
         ItemViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
-            driverName = itemView.findViewById(R.id.driverName);
+            driverName = itemView.findViewById(R.id.driver);
             rating = itemView.findViewById(R.id.rating);
             distinction = itemView.findViewById(R.id.distinction);
             reviews = itemView.findViewById(R.id.reivews);
@@ -40,6 +40,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
 
         //값을 하나하나 출력해주는 함수
         void onBind(generalEpilogueItem dataE){
+            image.setImageResource(dataE.getImage());
             driverName.setText(dataE.getDriver());
             rating.setRating(dataE.getRating());
             distinction.setText(dataE.getDistinction());
@@ -51,7 +52,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.general_driver_item_detail, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.general_epilogue_item, parent, false);
         context = parent.getContext();
         return new generalDriverDetailAdapter.ItemViewHolder(view);
     }
@@ -70,4 +71,6 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
     void addData(generalEpilogueItem data){ // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
         EData.add(data);
     }
+
+    void removeData(generalEpilogueItem data) {EData.remove(data);}
 }

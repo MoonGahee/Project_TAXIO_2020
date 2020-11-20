@@ -2,16 +2,11 @@ package com.example.project_taxio_2020;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,12 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
 
-import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +35,6 @@ import com.google.android.gms.tasks.Task;
 //import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +45,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,12 +59,12 @@ public class generalMakeId extends AppCompatActivity {
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
-    String TAG = "EXCEPTION", imagePath;
+    String TAG = "EXCEPTION", imagePath, memberSort;
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase;
-    HashMap result;
+    HashMap result, resultNum;
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
@@ -90,6 +81,8 @@ public class generalMakeId extends AppCompatActivity {
         setToolbar();//Toolbar세팅
         setFindView();//뷰 객체화 findViewbyId 일괄처리
         setAdapter();//Adapter 세팅 일괄처리
+        Intent i = getIntent();
+        memberSort = i.getStringExtra("sort");
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -98,16 +91,13 @@ public class generalMakeId extends AppCompatActivity {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);}
 
-        //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기
-        edtPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!checkPass(edtPassword.getText().toString())) {
-                    isCorrectPassword = false;
-                    Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
-                }
+        //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기//다시해야됨
+        if(!(edtPassword.getText().toString().equals(""))&&!(edtPassword.isFocused())){
+            if (!checkPass(edtPassword.getText().toString())) {
+                isCorrectPassword = false;
+                Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
             }
-        });
+        }
         //비밀번호 확인 입력이 끝난 뒤 비밀번호와 맞는지 비교하기
         edtCheckPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -217,11 +207,6 @@ public class generalMakeId extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     //로그인 값을 저장
     public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call, String getGeneral_route) {
         result = new HashMap<>();
@@ -256,7 +241,8 @@ public class generalMakeId extends AppCompatActivity {
                         i++;
                     }
                 }
-                result.put("general_num", Integer.toString(i));
+                resultNum = new HashMap<>();
+                resultNum.put("general_num", Integer.toString(i));
                 setDatabase();//데이터베이스 값 입력
                 moveActivity();//액티비티 이동
             }
@@ -270,12 +256,13 @@ public class generalMakeId extends AppCompatActivity {
     }//회원 번호 부여
 
     public void setDatabase() {
-        mDatabase.child(result.get("general_num").toString()).setValue(result);
+        mDatabase.child(resultNum.get("general_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
-        intent.putExtra("general_num", result.get("general_num").toString());
+        Intent intent = new Intent(getApplicationContext(), MakeIdComplete.class);
+        intent.putExtra("general_num", resultNum.get("general_num").toString());
+        intent.putExtra("sort", memberSort);
         startActivity(intent);
         finish();
     }//액티비티 이동

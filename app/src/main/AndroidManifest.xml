@@ -50,7 +50,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".generalMainActivity" /> <!--승객 메인-->
-        <activity android:name=".generalLoginActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".generalReservationCompleteActivity"/>
         <activity android:name=".generalCheckEpilogueActivity"/>
         <activity android:name=".generalMakeScheActivity"/>
@@ -60,8 +60,9 @@
         <activity android:name=".generalSDriverActivity"/>
         <activity android:name=".generalSRegionActivity"/>
         <activity android:name=".generalWriteEpilogueActivity"/>
+        <activity android:name=".generalMyscheActivity" />
         <activity android:name=".generalClause"/>
-        <activity android:name=".generalMemberSort"/>
+        <activity android:name=".MemberSort"/>
         <activity android:name=".generalAgeCheck"/>
         <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
@@ -78,5 +79,10 @@
         <activity android:name=".driverWriteWithdrawal"/><!--기사 탈퇴하기-->
         <activity android:name=".driverWithdrawalComplete"/><!--기사 탈퇴 완료-->
         <activity android:name=".driverCheckEpilogueActivity"/><!--기사 후기-->
+        <activity android:name=".findId"/><!--아이디 찾기-->
+        <activity android:name=".findPw"/><!--패스워드 찾기-->
+        <activity android:name=".GeneralMakeIdComplete"/> <!--회원가입 완료-->
+        <activity android:name=".generalMakeIdChildComplete"/> <!--아가회원가입 완료-->
+        <activity android:name=".driverMakeIdComplete"/> <!--기사회원가입 완료-->
     </application>
 </manifest>

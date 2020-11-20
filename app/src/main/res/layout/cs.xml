@@ -1,11 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Mypage 후기 관리 by 관우 -->
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 탈퇴하기 by 가희 -->
 
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +21,7 @@
             android:id="@+id/bar"
             layout="@layout/app_bar"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" /><!-- 툴바 -->
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/bell"
@@ -23,67 +29,61 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/bag"
+            android:src="@drawable/notice"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bar" />
 
         <TextView
-            android:id="@+id/intro4"
+            android:id="@+id/wd1"
             style="@style/title1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="7dp"
-            android:text="후기 관리"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="7dp"
+            android:text="고객센터"
             app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
-        <TextView
-            android:id="@+id/average_num"
-            style="@style/title2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:text="3.5 점"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/intro4" />
 
         <TextView
-            android:id="@+id/average"
-            style="@style/title2"
+            android:id="@+id/position"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="평균 점수 : "
-            app:layout_constraintRight_toLeftOf="@id/average_num"
-            app:layout_constraintTop_toBottomOf="@+id/intro4" />
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:text="문의 전화번호 : 02-2255-4567"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wd1" />
 
         <TextView
-            android:id="@+id/guide4"
-            style="@style/title2"
+            android:id="@+id/position2"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\n작성된 후기는 수정되지 않습니다.\n"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="문의 카톡 아이디 : taxio2020"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/average" />
+            app:layout_constraintTop_toBottomOf="@id/position" />
 
-        <Button
-            android:id="@+id/edit_epilogue"
-            style="@style/button"
+        <TextView
+            android:id="@+id/position3"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/button_short"
-            android:text="후기 작성"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="문의 이메일 : taxio2020@naver.com"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guide4" />
+            app:layout_constraintTop_toBottomOf="@id/position2" />
 
-        <ListView
-            android:id="@+id/epilogues"
-            android:layout_width="wrap_content"
-            android:layout_height="500dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_epilogue" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,5 +95,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
         app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
-
 </androidx.drawerlayout.widget.DrawerLayout>
