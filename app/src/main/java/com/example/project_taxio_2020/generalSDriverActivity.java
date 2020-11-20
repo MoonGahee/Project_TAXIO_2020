@@ -135,6 +135,38 @@ public class generalSDriverActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
     }
 
+    public void selectDriver(){
+        switch(rg1.getCheckedRadioButtonId()){
+            case R.id.noGender:
+                break;
+            case R.id.manDriver:
+                break;
+            case R.id.womanDriver:
+                break;
+        }
+
+    }
+    public void selectTrunck(){
+        switch(rg2.getCheckedRadioButtonId()){
+            case R.id.allTrunk:
+                break;
+            case R.id.noTrunk:
+                break;
+            case R.id.yesTrunk:
+                break;
+        }
+    }
+    public void selectSeat(){
+        switch(rg1.getCheckedRadioButtonId()){
+            case R.id.noGender:
+                break;
+            case R.id.manDriver:
+                break;
+            case R.id.womanDriver:
+                break;
+        }
+    }
+
     //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용

@@ -63,6 +63,7 @@ public class generalMyscheActivity extends AppCompatActivity {
                     if (Integer.parseInt(column.getKey()) != day.getSchedule_num().length()) { //여기가 이상한 것 같은데
                         startDay[i] = day.getDeparture_date();
                         finishDay[i] = day.getArrival_date();
+                        Log.d("KOO TEST", startDay[i]);
                     } else {
                         i++;
                     }
