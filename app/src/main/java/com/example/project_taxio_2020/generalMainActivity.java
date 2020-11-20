@@ -80,7 +80,7 @@ public class generalMainActivity extends AppCompatActivity {
 
         //값을 받아오기
         Intent i = getIntent();
-        general_num = (String)i.getSerializableExtra("general_num");
+        general_num = i.getStringExtra("general_num");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_main_activity);

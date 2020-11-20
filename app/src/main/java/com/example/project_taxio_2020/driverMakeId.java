@@ -36,7 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class driverMakeId extends AppCompatActivity {
-    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail, edtCarNum;
+    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail, edtCarNum, edtNumber;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount;
     Button  btnComplete;
     TextView btnEmail, btnImg;
@@ -66,6 +66,7 @@ public class driverMakeId extends AppCompatActivity {
         edtNum2 = findViewById(R.id.edtNum2);
         edtEmail = findViewById(R.id.edtEmail);
         spEmail = findViewById(R.id.spEmail);
+        edtNumber = findViewById(R.id.edtNumber);
 
         spGenderM = findViewById(R.id.spGenderM);
         birthY = findViewById(R.id.birthY);

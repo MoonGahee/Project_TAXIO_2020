@@ -11,7 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class generalMemberSort extends AppCompatActivity {
+public class MemberSort extends AppCompatActivity {
 
     Button choose_driver, choose_general;
 
@@ -28,6 +28,7 @@ public class generalMemberSort extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalAgeCheck.class);
+                intent.putExtra("sort", "general");
                 startActivity(intent);
                 finish();
             }
@@ -37,6 +38,7 @@ public class generalMemberSort extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalClause.class);
+                intent.putExtra("sort", "driver");
                 startActivity(intent);
                 finish();
             }

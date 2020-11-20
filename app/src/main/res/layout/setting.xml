@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 탈퇴하기 by 가희 -->
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:openDrawer="start">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/bar"
+            layout="@layout/app_bar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/notice"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar" />
+
+        <TextView
+            android:id="@+id/wd1"
+            style="@style/title1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="7dp"
+            android:text="설정"
+            app:layout_constraintLeft_toRightOf="@id/bell"
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
+
+        <TextView
+            android:id="@+id/wd2"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:text="서비스 설정"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wd1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/basic"
+            android:id="@+id/position"
+            android:text="위치 서비스 : "
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/wd2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="20dp"/>
+
+        <Spinner
+            android:id="@+id/spPosition"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/wd2"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toRightOf="@id/position"/>
+
+
+        <TextView
+            android:id="@+id/alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알람 : "
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/position"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Switch
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/switchAl"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/position"
+            app:layout_constraintLeft_toRightOf="@id/alarm"/>
+
+        <TextView
+        android:id="@+id/agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마켓팅 수신동의 : "
+        style="@style/basic"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/alarm"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Switch
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/switchAg"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/alarm"
+            app:layout_constraintLeft_toRightOf="@id/agree"/>
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버전 정보 : "
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/agree"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/version_info"
+            style="@style/basic"
+            android:text="1.1.10"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/agree"
+            app:layout_constraintLeft_toRightOf="@+id/version"/>
+
+        <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공지사항 >>"
+        android:clickable="true"
+        style="@style/basic"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/version"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/cs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="고객센터 >>"
+            android:clickable="true"
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/info"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header"
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
+</androidx.drawerlayout.widget.DrawerLayout>

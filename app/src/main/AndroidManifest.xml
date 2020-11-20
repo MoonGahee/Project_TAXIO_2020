@@ -62,7 +62,7 @@
         <activity android:name=".generalWriteEpilogueActivity"/>
         <activity android:name=".generalMyscheActivity" />
         <activity android:name=".generalClause"/>
-        <activity android:name=".generalMemberSort"/>
+        <activity android:name=".MemberSort"/>
         <activity android:name=".generalAgeCheck"/>
         <activity android:name=".generalWriteWithdrawalActivity"/> <!--탈퇴 진행-->
         <activity android:name=".generalWithdrawalCompleteActivity"/> <!--탈퇴 완료-->
