@@ -495,7 +495,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     //네비게이션
-    public void naviItem() {
+    public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -504,25 +504,16 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                if(id == R.id.drawer_schTrip){
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                }else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     startActivity(intent);
                     finish();
                 }
