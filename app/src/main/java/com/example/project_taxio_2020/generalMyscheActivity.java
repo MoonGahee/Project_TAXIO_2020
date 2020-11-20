@@ -56,6 +56,7 @@ public class generalMyscheActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
+        cal1 = findViewById(R.id.cal1);
         ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -67,6 +68,10 @@ public class generalMyscheActivity extends AppCompatActivity {
                     data.setArrival_date(column.child("arrival_date").getValue(String.class));
                     data.setTimes(column.child("times").getValue(String.class));
                     data.setRegion(column.child("region").getValue(String.class));
+                    startDay = data.getDeparture_date();
+                    finishDay = data.getArrival_date();
+
+
 
 
                     Log.d("Moon", "scheduleNum : "+data.getSchedule_num() +" departureDate : "+ data.getDeparture_date() + " arrivalDate : "+ data.getArrival_date());
@@ -81,11 +86,13 @@ public class generalMyscheActivity extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(scheduleListener);
         // 시작일, 종료일 가져오기
 
-        String date = 2020 + "-" + 11 + "-" + 20;
-        Date d = Date.valueOf(date);
+        //Date d = Date.valueOf(startDay);
+//        Date d = Date.valueOf(startDay);
+  //      cal1.setSelectedDate(d);
 
-        cal1 = findViewById(R.id.cal1);
-        cal1.setSelectedDate(d);
+
+
+        //cal1.setSelectedDate(d);
 
         init();
         //getData();
