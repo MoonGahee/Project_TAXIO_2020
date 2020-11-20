@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdapter.ItemViewHolder> {
     //
-    private ArrayList<generalMyscheItem> tData = new ArrayList<>();
+    private ArrayList<Date_Schedule> tData = new ArrayList<>();
 
     class ItemViewHolder extends RecyclerView.ViewHolder { //subView setting
         TextView tripSchedule;
@@ -37,9 +37,9 @@ public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdap
             });
         }
 
-        void onBind(generalMyscheItem dataT) { //data setting
-            tripSchedule.setText(dataT.getTripSchedule());
-            tripPosition.setText(dataT.getTripPosition());
+        void onBind(Date_Schedule dataT) { //data setting
+            tripSchedule.setText(dataT.getSchedule_date());
+            tripPosition.setText(dataT.getGeneral_num());
         }
     }
 
@@ -61,7 +61,7 @@ public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdap
         return tData.size();
     }
 
-    void addItem(generalMyscheItem data) {
+    void addItem(Date_Schedule data) {
         tData.add(data);
     }
 

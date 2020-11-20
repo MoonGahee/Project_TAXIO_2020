@@ -223,7 +223,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
-                    place_name[day - 1] = new String[size];
+                    place_name[day - 1] = new String[list_itemArrayList.size()];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++) {
@@ -252,20 +252,13 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 while (true) {
                     if (p[day - 1] != 0) {
-                        if ((size - 1) == i) {
-                            if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
-                            } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, 0));
-                            }
+                        if ((place_name[day-1].length-1) == i) {
+                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                             break;
                         } else {
-                            if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                            } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
-                            }
+                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
                         }
+
 
                         i++;
                     } else break;
@@ -286,7 +279,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 if (list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
-                    place_name[day - 1] = new String[size];
+                    place_name[day - 1] = new String[list_itemArrayList.size()];
                 }
 
                 for (int n = 0; n < list_itemArrayList.size(); n++) {
@@ -315,19 +308,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 while (true) {
                     if (p[day - 1] != 0) {
-                        if ((size - 1) == i) {
-                            if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
-                            } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], 0, 0));
-                            }
+                        if ((place_name[day-1].length-1) == i) {
+                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                             break;
                         } else {
-                            if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
-                            } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
-                            }
+                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
                         }
 
                         i++;
@@ -360,7 +345,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addDateActivity();
                 Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
+                i.putExtra("general_num", general_num);
+                i.putExtra("schedule_num", schedule_num);  //회원번호
                 i.putExtra("tripDate", date);
                 i.putExtra("tripDays", day);
                 i.putExtra("tripLatLng", latLng);
