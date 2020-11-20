@@ -1,9 +1,11 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class introActivity extends AppCompatActivity {
     ImageView introTaxio;
+    final String strDriver = "Driver";
+    final String strGeneral = "General";
+    DatabaseReference gDatabase, dDatabase;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,25 +52,39 @@ public class introActivity extends AppCompatActivity {
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        String strDriverOrGeneral = getPreference();
         //최근 로그인한 유저가 있고 해당 이메일이 인증이 된 경우 자동로그인
-        if (user != null && user.isEmailVerified()) {
-            login(user.getEmail());
+        if (user != null && user.isEmailVerified() && !(strDriverOrGeneral.length() == 0)) {
+            login(user.getEmail(), strDriverOrGeneral);
             return true;
         } else {
             return false;
         }
     }
 
-    public void login(String email) {
-        moveActivity(email);
+    public void login(String email, String strFlag) {
+        switch (strFlag) {
+            case strDriver:
+                dMoveActivity(email);
+                break;
+            case strGeneral:
+                gMoveActivity(email);
+                break;
+        }
     }
 
-    public void moveActivity(final String email) {
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+    public String getPreference() {
+        SharedPreferences driverOrGeneral = getSharedPreferences("preferenceFile", MODE_PRIVATE);
+        String tempDriverOrGeneral = driverOrGeneral.getString("driverOrGeneral", "");
+        return tempDriverOrGeneral;
+    }
+
+    //이동하기
+    public void gMoveActivity(final String email) {
+        gDatabase = FirebaseDatabase.getInstance().getReference("General");
 
         //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 general_num 값을 인텐트로 계속 전달전달
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        gDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot general : snapshot.getChildren()) {
@@ -73,9 +92,37 @@ public class introActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                         intent.putExtra("general_num", general.getKey());
                         startActivity(intent);
+                        finish();
                         return;
                     }
                 }
+                Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void dMoveActivity(final String email) {
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+
+        //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 driver_num 값을 인텐트로 계속 전달전달
+        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driver : snapshot.getChildren()) {
+                    if (driver.child("driver_email").getValue().toString().equals(email)) {
+                        Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
+                        intent.putExtra("driver_num", driver.getKey());
+                        startActivity(intent);
+                        finish();
+                        return;
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
             }
 
             @Override
