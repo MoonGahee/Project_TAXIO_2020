@@ -8,16 +8,19 @@ public class Driver{
     public String driver_name; //이름
     public String driver_sex; //성별
     public String driver_birth;//생년월일
-
+    public String driver_carNum;//차번호
     public String driver_region; //지역
     public String driver_call; //연락처
     public Float driver_avg_score; //평점
     public String driver_route; //기사 자격증 사진
+    public String driver_carSeat; //인승
+    public String driver_trunk;//트렁크
+    public String driver_cost;//시간당 금액
 
     public Driver(){
     }
 
-    public Driver(String driver_email, String driver_password, String driver_name, String driver_sex, String driver_birth, String driver_region, String driver_call, Float driver_avg_score, String driver_route){
+    public Driver(String driver_email, String driver_password, String driver_name, String driver_sex, String driver_birth, String driver_region, String driver_call, Float driver_avg_score, String driver_route, String driver_carNum, String driver_carSeat, String driver_trunk, String driver_cost){
         this.driver_email = driver_email;
         this.driver_password = driver_password;
         this.driver_name = driver_name;
@@ -27,6 +30,10 @@ public class Driver{
         this.driver_call = driver_call;
         this.driver_avg_score = driver_avg_score;
         this.driver_route = driver_route;
+        this.driver_carNum = driver_carNum;
+        this.driver_carSeat = driver_carSeat;
+        this.driver_trunk = driver_trunk;
+        this.driver_cost = driver_cost;
     }
 
     public String getDriver_email() {
@@ -99,5 +106,37 @@ public class Driver{
 
     public void setDriver_route(String driver_route) {
         this.driver_route = driver_route;
+    }
+
+    public String getDriver_carNum() {
+        return driver_carNum;
+    }
+
+    public void setDriver_carNum(String driver_carNum) {
+        this.driver_carNum = driver_carNum;
+    }
+
+    public String getDriver_carSeat() {
+        return driver_carSeat;
+    }
+
+    public void setDriver_carSeat(String driver_carSeat) {
+        this.driver_carSeat = driver_carSeat;
+    }
+
+    public String getDriver_cost() {
+        return driver_cost;
+    }
+
+    public void setDriver_cost(String driver_cost) {
+        this.driver_cost = driver_cost;
+    }
+
+    public String getDriver_trunk() {
+        return driver_trunk;
+    }
+
+    public void setDriver_trunk(String driver_trunk) {
+        this.driver_trunk = driver_trunk;
     }
 }

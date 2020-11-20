@@ -29,7 +29,7 @@ public class generalMakeIdChildComplete extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_make_id_complete);
+        setContentView(R.layout.general_make_id_child_complete);
         setToolbar();
         nameC = findViewById(R.id.nameC);
         emailC = findViewById(R.id.emailC);
