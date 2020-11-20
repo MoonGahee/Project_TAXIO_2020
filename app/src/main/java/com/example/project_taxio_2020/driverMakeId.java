@@ -49,8 +49,8 @@ import java.util.regex.Pattern;
 
 public class driverMakeId extends AppCompatActivity {
     private final int GALLERY_CODE = 10;
-    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail;
-    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail;
+    EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtTime, edtNum2, edtEmail, edtCarNum;
+    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount, spRegion;
     Button btnComplete;
     TextView btnEmail, btnImg;
     ImageView photo;
@@ -143,7 +143,11 @@ public class driverMakeId extends AppCompatActivity {
                 final String getdriver_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 final String getdriver_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
                 final String getdriver_route = imagePath;
-                final String getdriver_region = "제주";
+                final String getdriver_region = spRegion.getSelectedItem().toString();
+                final String getdriver_carNum = edtCarNum.getText().toString();
+                final String getdriver_carSeat = spCarCount.getSelectedItem().toString();
+                final String getdriver_trunk = spTrunk.getSelectedItem().toString();
+                final String getdriver_cost = edtTime.getText().toString();
                 if (chkNull(getdriver_email, getdriver_password, getdriver_name, getdriver_call)) {
                     //인증
                     mAuth.createUserWithEmailAndPassword(getdriver_email, getdriver_password)
@@ -152,7 +156,7 @@ public class driverMakeId extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
-                                        makeId(getdriver_email, getdriver_password, getdriver_name, getdriver_sex, getdriver_birth, getdriver_region,  getdriver_call, getdriver_route);
+                                        makeId(getdriver_email, getdriver_password, getdriver_name, getdriver_sex, getdriver_birth, getdriver_region,  getdriver_call, getdriver_route, getdriver_carNum, getdriver_carSeat, getdriver_trunk, getdriver_cost);
 
                                     } else {
                                         Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();
@@ -206,7 +210,7 @@ public class driverMakeId extends AppCompatActivity {
 
 
     //로그인 값을 저장
-    public void makeId(String getdriver_email, String getdriver_password, String getdriver_name,  String getdriver_sex, String getdriver_birth, String getdriver_region,String getdriver_call, String getdriver_route) {
+    public void makeId(String getdriver_email, String getdriver_password, String getdriver_name,  String getdriver_sex, String getdriver_birth, String getdriver_region,String getdriver_call, String getdriver_route, String getdriver_carNum, String getdriver_carSeat, String getdriver_trunk, String getdriver_cost) {
         result = new HashMap<>();
         result.put("driver_email", getdriver_email);
         result.put("driver_password", getdriver_password);
@@ -216,6 +220,10 @@ public class driverMakeId extends AppCompatActivity {
         result.put("driver_region", getdriver_region);
         result.put("driver_call", getdriver_call);
         result.put("driver_route", getdriver_route);
+        result.put("driver_carNum", getdriver_carNum);
+        result.put("driver_carSeat", getdriver_carSeat);
+        result.put("driver_trunk", getdriver_trunk);
+        result.put("driver_cost", getdriver_cost);
 
         getNumber();//회원 번호 부여
     }
@@ -302,6 +310,7 @@ public class driverMakeId extends AppCompatActivity {
         edtNum2 = findViewById(R.id.edtNum2);
         edtEmail = findViewById(R.id.edtEmail);
         spEmail = findViewById(R.id.spEmail);
+        edtTime = findViewById(R.id.edtTime);
 
         spGenderM = findViewById(R.id.spGenderM);
         birthY = findViewById(R.id.birthY);
@@ -313,6 +322,11 @@ public class driverMakeId extends AppCompatActivity {
         btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
+
+        edtCarNum = findViewById(R.id.edtCarNum);
+        spCarCount = findViewById(R.id.spCarCount);
+        spTrunk = findViewById(R.id.spTrunk);
+        spRegion = findViewById(R.id.spRegion);
 
         photo = findViewById(R.id.photo);
     }//뷰 객체화 findViewbyId 일괄처리
@@ -341,5 +355,18 @@ public class driverMakeId extends AppCompatActivity {
         ArrayAdapter phoneAdapter = ArrayAdapter.createFromResource(this, R.array.phone, android.R.layout.simple_spinner_item);
         phoneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerNum.setAdapter(phoneAdapter);
+
+        final ArrayAdapter countAdapter = ArrayAdapter.createFromResource(this, R.array.carpeople, android.R.layout.simple_spinner_item);
+        countAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCarCount.setAdapter(countAdapter);
+
+        final ArrayAdapter trunkAdapter = ArrayAdapter.createFromResource(this, R.array.trunk, android.R.layout.simple_spinner_item);
+        trunkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTrunk.setAdapter(trunkAdapter);
+
+        final ArrayAdapter regionAdapter = ArrayAdapter.createFromResource(this, R.array.region, android.R.layout.simple_spinner_item);
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRegion.setAdapter(regionAdapter);
+
     }//Adapter 세팅 일괄처리
 }
