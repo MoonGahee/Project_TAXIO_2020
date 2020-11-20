@@ -97,15 +97,15 @@
             app:layout_constraintLeft_toRightOf="@id/alarm"/>
 
         <TextView
-        android:id="@+id/agree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="마켓팅 수신동의 : "
-        style="@style/basic"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/alarm"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+            android:id="@+id/agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마켓팅 수신동의 : "
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/alarm"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <Switch
             android:layout_width="70dp"
@@ -138,16 +138,16 @@
             app:layout_constraintLeft_toRightOf="@+id/version"/>
 
         <TextView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="공지사항 >>"
-        android:clickable="true"
-        style="@style/basic"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/version"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항 >>"
+            android:clickable="true"
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/version"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
             android:id="@+id/cs"
@@ -161,7 +161,41 @@
             app:layout_constraintTop_toBottomOf="@+id/info"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
+        <TextView
+            android:id="@+id/modifyInf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정보수정 >>"
+            android:clickable="true"
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/cs"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
+        <TextView
+            android:id="@+id/withdrawal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="탈퇴하기 >>"
+            android:clickable="true"
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/modifyInf"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그아웃 >>"
+            android:clickable="true"
+            style="@style/basic"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/withdrawal"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

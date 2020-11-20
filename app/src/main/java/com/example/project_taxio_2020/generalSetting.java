@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,56 +18,55 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
-// 후기 by 관우 >> ?
-
-public class generalCheckEpilogueActivity extends AppCompatActivity {
-    Toolbar toolbar;
+public class generalSetting extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-    TextView title_text;
-    Button edit_epilogue;
-    ListView listView;
-    generalEpilogueAdapter epilogue_listAdapter;
-    ArrayList<generalEpilogueItem> list_itemArrayList;
+
+    TextView logout, withdrawal, modifyInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_check_epilogue_activity);
+        setContentView(R.layout.general_setting);
         setToolbar();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
-        naviItem();
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        naviItem();
 
-        edit_epilogue = findViewById(R.id.edit_epilogue);
-        listView = findViewById(R.id.epilogues);
+        logout = findViewById(R.id.logout);
+        withdrawal = findViewById(R.id.withdrawal);
+        modifyInfo = findViewById(R.id.modifyInf);
 
-        list_itemArrayList = new ArrayList<generalEpilogueItem>();
+        logout.setClickable(true);
+        withdrawal.setClickable(true);
+        modifyInfo.setClickable(true);
 
-        epilogue_listAdapter = new generalEpilogueAdapter(generalCheckEpilogueActivity.this, list_itemArrayList);
-        listView.setAdapter(epilogue_listAdapter);
-
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(generalCheckEpilogueActivity.this, generalMainActivity.class);
-                startActivity(i);
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
 
-        edit_epilogue.setOnClickListener(new View.OnClickListener() {
+        withdrawal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(generalCheckEpilogueActivity.this, generalWriteEpilogueActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        modifyInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -101,15 +98,6 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
                 return true;
             }
         });
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void setToolbar(){

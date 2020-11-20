@@ -135,6 +135,44 @@ public class generalSDriverActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
     }
 
+    public void selectDriver(){
+        switch(rg1.getCheckedRadioButtonId()){
+            case R.id.noGender:
+                selectTrunck();
+                break;
+            case R.id.manDriver:
+                selectTrunck();
+                break;
+            case R.id.womanDriver:
+                selectTrunck();
+                break;
+        }
+
+    }
+    public void selectTrunck(){
+        switch(rg2.getCheckedRadioButtonId()){
+            case R.id.allTrunk:
+                selectSeat();
+                break;
+            case R.id.noTrunk:
+                selectSeat();
+                break;
+            case R.id.yesTrunk:
+                selectSeat();
+                break;
+        }
+    }
+    public void selectSeat(){
+        switch(rg1.getCheckedRadioButtonId()){
+            case R.id.noGender:
+                break;
+            case R.id.manDriver:
+                break;
+            case R.id.womanDriver:
+                break;
+        }
+    }
+
     //네비게이션
     public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
@@ -146,25 +184,15 @@ public class generalSDriverActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else if(id==R.id.logout){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                } else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     startActivity(intent);
                     finish();
                 }

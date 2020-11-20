@@ -82,5 +82,8 @@
         <activity android:name=".findId"/><!--아이디 찾기-->
         <activity android:name=".findPw"/><!--패스워드 찾기-->
         <activity android:name=".GeneralMakeIdComplete"/> <!--회원가입 완료-->
+        <activity android:name=".generalMakeIdChildComplete"/> <!--아가회원가입 완료-->
+        <activity android:name=".driverMakeIdComplete"/> <!--기사회원가입 완료-->
+        <activity android:name=".generalSetting"/>
     </application>
 </manifest>

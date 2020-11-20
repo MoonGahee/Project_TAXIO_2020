@@ -52,7 +52,6 @@ public class generalMainActivity extends AppCompatActivity {
     String nowm = monthFormat.format(currentTime);
     String nowd = dayFormat.format(currentTime);
     public String date = nowm+"월 "+nowd+"일";
-    String people;
 
     int icon, wear_icon;
 
@@ -61,6 +60,8 @@ public class generalMainActivity extends AppCompatActivity {
     RecyclerView trip_data;
     generalWeatherAdapter generalWeatherAdapter;
     ArrayList<generalWeatherItem> list;
+    mainTripAdapter mainTripAdapter;
+    ArrayList<mainTripItem> lists;
 
     ForeCastManager mForeCast;
 
@@ -119,8 +120,19 @@ public class generalMainActivity extends AppCompatActivity {
         trip_data = findViewById(R.id.trip_data_Recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         weather_test.setLayoutManager(layoutManager);
+
+
         LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         trip_data.setLayoutManager(layoutManagers);
+
+        lists = new ArrayList<mainTripItem>();
+        lists.add(new mainTripItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+        lists.add(new mainTripItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+
+        mainTripAdapter = new mainTripAdapter(this, lists);
+        trip_data.setAdapter(mainTripAdapter);
+
+
         list = new ArrayList<generalWeatherItem>();
         mWeatherInfomation = new ArrayList<>();
         mThis = this;
@@ -237,16 +249,11 @@ public class generalMainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                }else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else if(id==R.id.logout){
+                } else if(id==R.id.logout){
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);

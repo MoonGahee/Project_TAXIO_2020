@@ -99,17 +99,20 @@ public class generalClause extends AppCompatActivity {
                     if(memberSort.equals("general")){
                         if(age == 14){
                             Intent intent = new Intent(getApplicationContext(), generalMakeIdChild.class);
+                            intent.putExtra("sort", memberSort);
                             startActivity(intent);
                             finish();
                         }
                         else {
                             Intent intent = new Intent(getApplicationContext(), generalMakeId.class);
+                            intent.putExtra("sort", memberSort);
                             startActivity(intent);
                             finish();
                         }
                     }
                     else if(memberSort.equals("driver")){
                         Intent intent = new Intent(getApplicationContext(), driverMakeId.class);
+                        intent.putExtra("sort", memberSort);
                         startActivity(intent);
                         finish();
                     }

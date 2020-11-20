@@ -38,14 +38,17 @@
             app:layout_constraintLeft_toRightOf="@+id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
-        <ProgressBar
+        <SeekBar
+            android:progressTintMode="add"
             android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="386dp"
             android:layout_height="17dp"
-            android:layout_marginTop="12dp"
-            android:max="100"
-            android:progress="40"
+            android:layout_marginTop="20dp"
+            android:max="4"
+            android:progress="2"
+            android:progressDrawable="@drawable/seekbar_progress"
+            android:thumb="@drawable/seekbar_thumb"
+            android:tickMark="@drawable/seekbar_thumb1"
             app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

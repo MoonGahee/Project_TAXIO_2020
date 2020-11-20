@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GeneralMakeIdComplete extends AppCompatActivity {
+public class driverMakeIdComplete extends AppCompatActivity {
     TextView nameC, emailC, birthC, phoneC;
     DatabaseReference mDatabase;
     String general_num;
@@ -29,7 +29,7 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_make_id_complete);
+        setContentView(R.layout.driver_make_id_complete);
         setToolbar();
         nameC = findViewById(R.id.nameC);
         emailC = findViewById(R.id.emailC);
