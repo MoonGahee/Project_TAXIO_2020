@@ -204,7 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
-                    android:text="*면허번호 : "
+                    android:text="*이메일 : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/year" />
@@ -218,6 +218,26 @@
                     android:ems="9"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
+                    app:layout_constraintTop_toBottomOf="@id/email" />
+
+                <TextView
+                    android:id="@+id/aa"
+                    style="@style/basic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text=" @ "
+                    app:layout_constraintLeft_toRightOf="@+id/edtEmail"
+                    app:layout_constraintTop_toBottomOf="@id/email" />
+
+                <Spinner
+                    android:id="@+id/spEmail"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintLeft_toRightOf="@id/aa"
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
