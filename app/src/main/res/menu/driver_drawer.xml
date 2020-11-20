@@ -17,19 +17,6 @@
             android:icon="@drawable/setting"
             android:title="후기 확인" />
 
-        <item
-            android:id="@+id/drawer_modify"
-            android:icon="@drawable/setting"
-            android:title="정보 수정" />
-
-        <item
-            android:id="@+id/drawer_out"
-            android:icon="@drawable/setting"
-            android:title="회원 탈퇴" />
-
-        <item
-            android:id="@+id/logout"
-            android:title="로그아웃"/>
     </group>
 
 
