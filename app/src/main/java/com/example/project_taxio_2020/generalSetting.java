@@ -17,18 +17,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class generalSetting extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
 
     TextView logout, withdrawal, modifyInfo;
+    String general_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_setting);
         setToolbar();
+
+
+        Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
@@ -57,6 +63,7 @@ public class generalSetting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                intent.putExtra("general_num", general_num);
                 startActivity(intent);
                 finish();
             }
@@ -66,6 +73,7 @@ public class generalSetting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                intent.putExtra("general_num", general_num);
                 startActivity(intent);
                 finish();
             }
