@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -39,8 +40,11 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -66,15 +70,22 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     GoogleMap gMap;
     GroundOverlayOptions videoMark;
 
+    String general_num, schedule_num;
+    DatabaseReference mDatabase;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_update_sche_activity);
         setToolbar();
 
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+
         Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
+        schedule_num = (String) i.getSerializableExtra("schedule_num");
         date = i.getStringExtra("tripDate");
-        day = i.getIntExtra("tripDays", 0);
+        day = i.getIntExtra("tripDays", 3);
         latLng = i.getParcelableArrayListExtra("tripLatLng");
         place = i.getStringArrayListExtra("trip");
 
@@ -131,8 +142,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
-                        startActivity(intent);
+                        addDateActivity();
+                        moveActivity();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -215,6 +226,51 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 return true;
             }
         });
+    }
+
+    public void moveActivity() {
+        Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+        intent.putExtra("general_num", general_num);
+        intent.putExtra("schedule_num", schedule_num);  //회원번호
+        intent.putExtra("tripDate", date);
+        startActivity(intent);
+        finish();
+    }
+
+    public void addDateActivity() {
+
+        for (int n = 0; n < list_itemArrayList.size(); n++) {
+            String placeName = list_itemArrayList.get(n).getPlace();
+            int taxiRide = list_itemArrayList.get(n).getTaxi();
+            String number = list_itemArrayList.get(n).getNumber();
+            Log.d("Moon", placeName);
+            Log.d("Moon", String.valueOf(taxiRide));
+            HashMap resultDay = new HashMap<>();
+            HashMap result = new HashMap<>();
+            result.put("course_order", number);
+            resultDay.put("coures_place", placeName);
+            resultDay.put("boarding_status", taxiRide);
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(Integer.toString(n+1)).updateChildren(resultDay);
+            mDatabase.push();
+        }
+
+
+        /*int cnt = 1;
+        for(int countDate = 0; countDate < tripdays; countDate++){
+            HashMap result = new HashMap<>();
+            result.put("schedule_num", Integer.toString(countDate + 1));
+            mDatabase.push();
+            Log.d("Moon-Test", "며칠" + (countDate + 1));
+            if(cnt < size){
+                HashMap resultDay = new HashMap<>();
+                //resultDay.put("coures_place", list_itemArrayList);
+
+                String a = list_itemArrayList.get(0).getPlace();
+                Log.d("MoonTest", a);
+                resultDay.put("boarding_status", count);
+
+            }
+        }*/
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시

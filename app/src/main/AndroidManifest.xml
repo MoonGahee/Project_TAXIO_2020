@@ -85,5 +85,7 @@
         <activity android:name=".generalMakeIdChildComplete"/> <!--아가회원가입 완료-->
         <activity android:name=".driverMakeIdComplete"/> <!--기사회원가입 완료-->
         <activity android:name=".generalSetting"/>
+        <activity android:name=".generalInfo"/>
+        <activity android:name=".generalCs"/>
     </application>
 </manifest>
