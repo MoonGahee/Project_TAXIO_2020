@@ -72,7 +72,11 @@ public class generalLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = edtId.getText().toString();
                 pw = edtPw.getText().toString();
-                login(email, pw);
+                if(email==null||pw==null){
+                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    login(email, pw);
             }
         });
 
@@ -173,6 +177,9 @@ public class generalLoginActivity extends AppCompatActivity {
                         intent.putExtra("general_num", general.getKey());
                         startActivity(intent);
                         return;
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
