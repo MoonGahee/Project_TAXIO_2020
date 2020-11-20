@@ -52,11 +52,11 @@ public class driverMakeId extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_make_id);
+        setContentView(R.layout.driver_make_id);
 
         setToolbar();
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mAuth = FirebaseAuth.getInstance();
 
         edtNameM = findViewById(R.id.edtNameM);
@@ -119,28 +119,28 @@ public class driverMakeId extends AppCompatActivity {
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getGeneral_id = edtEmail.getText().toString();
-                String getGeneral_password = edtPassword.getText().toString();
-                String getGeneral_name = edtNameM.getText().toString();
-                String getGeneral_sex  = spGenderM.getSelectedItem().toString();
-                String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
-                String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                String getGeneral_email = edtEmail.getText().toString();
+                String getDriver_password = edtPassword.getText().toString();
+                String getDriver_name = edtNameM.getText().toString();
+                String getDriver_sex  = spGenderM.getSelectedItem().toString();
+                String getDriver_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
+                String getDriver_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
+                String getDriver_email = edtEmail.getText().toString();
+                String getDriver_num = null;
                 //부모 전화
                 // 이미지 루트 데려오기
 
                 HashMap result = new HashMap<>();
-                result.put("general_id", getGeneral_id);
-                result.put("general_password", getGeneral_password);
-                result.put("general_name", getGeneral_name);
-                result.put("general_sex", getGeneral_sex);
-                result.put("general_birth", getGeneral_birth);
-                result.put("general_call", getGeneral_call);
-                result.put("general_email", getGeneral_email);
+                result.put("Driver_num", getDriver_num);
+                result.put("Driver_password", getDriver_password);
+                result.put("Driver_name", getDriver_name);
+                result.put("Driver_sex", getDriver_sex);
+                result.put("Driver_birth", getDriver_birth);
+                result.put("Driver_call", getDriver_call);
+                result.put("Driver_email", getDriver_email);
 
-                mDatabase.child(getGeneral_name).setValue(result);
+                mDatabase.child(getDriver_name).setValue(result);
 
-                mAuth.createUserWithEmailAndPassword(getGeneral_id, getGeneral_password)
+                mAuth.createUserWithEmailAndPassword(getDriver_email, getDriver_password)
                         .addOnCompleteListener(driverMakeId.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

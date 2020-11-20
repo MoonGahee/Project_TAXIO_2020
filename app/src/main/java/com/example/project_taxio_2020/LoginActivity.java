@@ -1,8 +1,6 @@
 package com.example.project_taxio_2020;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 //Login by 하은
 
-public class generalLoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText edtId, edtPw;
     Button btnLogin;
     TextView btnFId, btnFPw, btnJoin;
@@ -40,7 +38,7 @@ public class generalLoginActivity extends AppCompatActivity {
     String email, pw;
     RadioGroup rdg;
     RadioButton rdoD, rdoG;
-    DatabaseReference mDatabase;
+    DatabaseReference gDatabase, dDatabase;
 
 
     @Override
@@ -60,9 +58,11 @@ public class generalLoginActivity extends AppCompatActivity {
         rdoG = findViewById(R.id.rdoG);
 
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        gDatabase = FirebaseDatabase.getInstance().getReference("General");
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
         FirebaseUser user = mAuth.getCurrentUser();
+
         if (user != null) {
             login(user.getEmail());
         }
@@ -72,7 +72,23 @@ public class generalLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = edtId.getText().toString();
                 pw = edtPw.getText().toString();
-                login(email, pw);
+
+                if(email==null||pw==null){
+                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    switch(rdg.getCheckedRadioButtonId()){
+                        case R.id.rdoG:
+                            login(email, pw);
+                            break;
+                        case R.id.rdoD:
+                            login(email, pw);
+                            break;
+                        default:
+                            Toast.makeText(getApplicationContext(), "회원 종류를 선택해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
 
@@ -124,14 +140,17 @@ public class generalLoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             sendEmailVerification();
                             //데이터를 읽어서 해당 general_num 전송기능 진행
-                            moveActivity(email);
+                            if(rdg.getCheckedRadioButtonId()==R.id.rdoG){
+                                gMoveActivity(email);
+                            }else if(rdg.getCheckedRadioButtonId()==R.id.rdoD)
+                                dMoveActivity(email);
                         }
                     }
                 });
     }
 
     public void login(String email) {
-        moveActivity(email);
+        gMoveActivity(email);
     }
 
     public void sendEmailVerification() {
@@ -142,11 +161,10 @@ public class generalLoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {                         //해당 이메일에 확인메일을 보냄
-                        Log.d("Koo TEST", "Email sent.");
                         Toast.makeText(getApplicationContext(),
                                 "Verification email sent to " + mAuth.getCurrentUser().getEmail(),
                                 Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), generalLoginActivity.class);
+                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
                         finish();
                     } else {                                             //메일 보내기 실패
@@ -162,9 +180,9 @@ public class generalLoginActivity extends AppCompatActivity {
 
 
     //이동하기
-    public void moveActivity(final String email) {
+    public void gMoveActivity(final String email) {
         //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 general_num 값을 인텐트로 계속 전달전달
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        gDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot general : snapshot.getChildren()) {
@@ -173,6 +191,8 @@ public class generalLoginActivity extends AppCompatActivity {
                         intent.putExtra("general_num", general.getKey());
                         startActivity(intent);
                         return;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -182,6 +202,31 @@ public class generalLoginActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+        public void dMoveActivity ( final String email) {
+            //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 driver_num 값을 인텐트로 계속 전달전달
+            dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot driver : snapshot.getChildren()) {
+                        if (driver.child("driver_email").getValue().toString().equals(email)) {
+                            Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
+                            intent.putExtra("driver_num", driver.getKey());
+                            startActivity(intent);
+                            return;
+                        } else {
+                            Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
 //        mDatabase.orderByChild("general_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -201,14 +246,6 @@ public class generalLoginActivity extends AppCompatActivity {
 //            }
 //        });
 
-    }
 
-
-    //로그인 화면 툴바 삭제
-    public void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
-        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.hide(); //액션바의 타이틀 삭제
+        //}
     }
-}
