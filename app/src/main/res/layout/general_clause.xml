@@ -88,6 +88,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/basic"
+                android:textSize="13sp"
                 android:text="@string/sign1" />
         </ScrollView>
 
@@ -113,7 +115,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign2" />
+                android:text="@string/sign2"
+                style="@style/basic"
+                android:textSize="13sp"/>
         </ScrollView>
 
         <CheckBox
@@ -127,10 +131,12 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/show_clause2" />
 
+
         <ScrollView
             android:id="@+id/show_clause3"
             android:layout_width="300dp"
             android:layout_height="200dp"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clause2">
@@ -138,9 +144,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sign3" />
+                android:text="@string/sign3"
+                style="@style/basic"
+                android:textSize="13sp" />
         </ScrollView>
-
 
         <CheckBox
             android:id="@+id/clause3"

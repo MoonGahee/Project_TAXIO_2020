@@ -71,4 +71,6 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
     void addData(generalEpilogueItem data){ // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
         EData.add(data);
     }
+
+    void removeData(generalEpilogueItem data) {EData.remove(data);}
 }

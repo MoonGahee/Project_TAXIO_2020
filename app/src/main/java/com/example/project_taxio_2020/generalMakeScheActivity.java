@@ -87,24 +87,25 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     int tripdays = 3;
     float width = 200f, height = 200f;
     float zoom = 15;
-    GroundOverlay imageOverlay;
-    ListView listView;
+    GroundOverlay imageOverlay; //이미지 마커 수정용
+    ListView listView; //일정 띄우는 뷰
     ScrollView scroll1;
-    generalTimelineAdapter generalTimelineAdapter;
-    ArrayList<generalTimelineItem> list_itemArrayList;
-    LatLng latLng1, latLng2, lat;
-    LatLng latLngs[][];
-    ArrayList<LatLng> latLng = new ArrayList<>();
-    ArrayList<String> places = new ArrayList<>();
-    String dis, distance[] = new String[100];
-    String place_name[][]; //배열
-    MapFragment mapFrag;
+    generalTimelineAdapter generalTimelineAdapter; //listview와 arraylist를 연결해주는 adapter
+    ArrayList<generalTimelineItem> list_itemArrayList; //일정을 저장하는 arraylist
+    LatLng latLng1, latLng2; //거리 계산을 위한 변수
+    LatLng lat; //검색된 장소의 위도, 경도를 저장하는 임시변수
+    LatLng latLngs[][]; //검색된 장소의 위도, 경도를 저장하는 변수(사용 x)
+    ArrayList<LatLng> latLng = new ArrayList<>(); //위도, 경도를 저장하는 최종 변수
+    ArrayList<String> places = new ArrayList<>(); //장소들의 이름을 저장하는 arraylist
+    String distance[] = new String[100]; //계산된 거릿 값을 저장하는 변수
+    String place_name[][]; //장소들의 이름을 저장하는 배열
+    MapFragment mapFrag; //구글 맵 프레그먼트
     GoogleMap gMap;
-    GroundOverlayOptions videoMark;
+    GroundOverlayOptions videoMark; //이미지 마커 띄우는 용
     String TAG = "what?";
     int size;
     int p[];
-    int[][] count;
+    int[][] count; //택시 선택 유무 저장하는 변수
     String general_num, schedule_num;
     DatabaseReference mDatabase;
 
@@ -390,6 +391,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                places.clear();
+
                 for (int n = 0; n < list_itemArrayList.size(); n++) {
                     places.add(list_itemArrayList.get(n).getPlace());
                 }
@@ -466,10 +469,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             HashMap resultDay = new HashMap<>();
             HashMap result = new HashMap<>();
             result.put("course_order", number);
-            mDatabase.push();
             resultDay.put("coures_place", placeName);
             resultDay.put("boarding_status", taxiRide);
             mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(number).updateChildren(resultDay);
+            mDatabase.push();
         }
 
 
