@@ -294,6 +294,8 @@ public class generalSTaxiActivity extends AppCompatActivity {
                                 mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                 mDatabase.push();
                             } else {
+                                chkCnt();
+                                Log.d("Moon-Test", Integer.toString(cnt));
                                 choice.setText("이용 안함");
                                 mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(cnt)).child("Date_Schedule").updateChildren(resultTaxi);
                                 mDatabase.push();
