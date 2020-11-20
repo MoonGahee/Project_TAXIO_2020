@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class driverMakeId extends AppCompatActivity {
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtNum2, edtEmail, edtCarNum, edtNumber;
-    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount;
+    Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount, spRegion;
     Button  btnComplete;
     TextView btnEmail, btnImg;
     String id, password;
@@ -78,6 +78,7 @@ public class driverMakeId extends AppCompatActivity {
         edtCarNum = findViewById(R.id.edtCarNum);
         spCarCount = findViewById(R.id.spCarCount);
         spTrunk = findViewById(R.id.spTrunk);
+        spRegion = findViewById(R.id.spRegion);
 
         ArrayAdapter genderAdapter = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -110,6 +111,10 @@ public class driverMakeId extends AppCompatActivity {
         final ArrayAdapter trunkAdapter = ArrayAdapter.createFromResource(this, R.array.trunk, android.R.layout.simple_spinner_item);
         trunkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTrunk.setAdapter(trunkAdapter);
+
+        final ArrayAdapter regionAdapter = ArrayAdapter.createFromResource(this, R.array.region, android.R.layout.simple_spinner_item);
+        regionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spRegion.setAdapter(regionAdapter);
 
         btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
