@@ -54,11 +54,6 @@ public class generalLoginActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            login(user.getEmail());
-        }
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,10 +78,6 @@ public class generalLoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    public void login(String email) {
-        moveActivity(email);
     }
 
     public void sendEmailVerification() {
