@@ -1,6 +1,7 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     RadioGroup rdg;
     RadioButton rdoD, rdoG;
     DatabaseReference gDatabase, dDatabase;
-
+    final String strDriver = "Driver";
+    final String strGeneral = "General";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,23 +61,16 @@ public class LoginActivity extends AppCompatActivity {
         gDatabase = FirebaseDatabase.getInstance().getReference("General");
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        if (user != null) {
-            login(user.getEmail());
-        }
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = edtId.getText().toString();
                 pw = edtPw.getText().toString();
 
-                if(email==null||pw==null){
+                if (email == null || pw == null) {
                     Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    switch(rdg.getCheckedRadioButtonId()){
+                } else {
+                    switch (rdg.getCheckedRadioButtonId()) {
                         case R.id.rdoG:
                             login(email, pw);
                             break;
@@ -103,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         btnFId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),findId.class);
+                Intent i = new Intent(getApplicationContext(), findId.class);
                 startActivity(i);
                 finish();
             }
@@ -112,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         btnFPw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),findPw.class);
+                Intent i = new Intent(getApplicationContext(), findPw.class);
                 startActivity(i);
                 finish();
             }
@@ -129,9 +124,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             sendEmailVerification();
                             //데이터를 읽어서 해당 general_num 전송기능 진행
-                            if(rdg.getCheckedRadioButtonId()==R.id.rdoG){
+                            if (rdg.getCheckedRadioButtonId() == R.id.rdoG) {
                                 gMoveActivity(email);
-                            }else if(rdg.getCheckedRadioButtonId()==R.id.rdoD)
+                            } else if (rdg.getCheckedRadioButtonId() == R.id.rdoD)
                                 dMoveActivity(email);
                         }
                     }
@@ -179,10 +174,12 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                         intent.putExtra("general_num", general.getKey());
                         startActivity(intent);
+                        savePreference(strGeneral);
+                        finish();
                         return;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
                     }
+                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
@@ -193,48 +190,46 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-        public void dMoveActivity ( final String email) {
-            //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 driver_num 값을 인텐트로 계속 전달전달
-            dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot driver : snapshot.getChildren()) {
-                        if (driver.child("driver_email").getValue().toString().equals(email)) {
-                            Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
-                            intent.putExtra("driver_num", driver.getKey());
-                            startActivity(intent);
-                            return;
-                        } else {
-                            Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
-                        }
+    public void dMoveActivity(final String email) {
+        //데이터베이스에서 이메일과 동일한 아이를 찾아서 거기 driver_num 값을 인텐트로 계속 전달전달
+        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driver : snapshot.getChildren()) {
+                    if (driver.child("driver_email").getValue().toString().equals(email)) {
+                        Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
+                        intent.putExtra("driver_num", driver.getKey());
+                        startActivity(intent);
+                        savePreference(strDriver);
+                        finish();
+                        return;
                     }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
 
                 }
-            });
-        }
-//        mDatabase.orderByChild("general_email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot general : snapshot.getChildren()) {
-//                    String general_num = general.getKey();
-//                    Log.d("Moon", "Key:" + general_num); //아니 왜 난 로그가 안뜨는겨
-//                    Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
-//                    intent.putExtra("general_num", general_num);
-//                    startActivity(intent);
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("Moon", "failed");
-//            }
-//        });
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        //}
+            }
+        });
     }
+
+    public void savePreference(String strFlag) {
+        SharedPreferences driverOrGeneral = getSharedPreferences("preferenceFile", MODE_PRIVATE);
+        SharedPreferences.Editor editor = driverOrGeneral.edit();
+
+        switch (strFlag) {
+            case strDriver:
+                editor.putString("driverOrGeneral", strFlag);
+                break;
+            case strGeneral:
+                editor.putString("driverOrGeneral", strFlag);
+                break;
+            default:
+                break;
+        }
+        editor.commit();
+    }
+}
