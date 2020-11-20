@@ -64,164 +64,17 @@
                 app:layout_constraintLeft_toRightOf="@id/makeMember"
                 app:layout_constraintTop_toBottomOf="@id/bar" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="386dp"
-                android:layout_height="17dp"
-                android:layout_marginTop="12dp"
-                android:max="100"
-                android:progress="70"
-                app:layout_constraintHorizontal_bias="0.08"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/makeMember" />
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/joining"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress">
-
-                <TextView
-                    android:id="@+id/nameM"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="*이름 : "
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toTopOf="@id/joining" />
-
-                <EditText
-                    android:id="@+id/edtNameM"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:ems="5"
-                    android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/nameM" />
-
-                <TextView
-                    android:id="@+id/genderM"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="110dp"
-                    android:layout_marginTop="10dp"
-                    android:text="*성별 : "
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@id/nameM"
-                    app:layout_constraintTop_toTopOf="@id/joining" />
-
-                <Spinner
-                    android:id="@+id/spGenderM"
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintLeft_toRightOf="@id/edtNameM"
-                    app:layout_constraintTop_toBottomOf="@id/genderM" />
-
-                <TextView
-                    android:id="@+id/birthMember"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="*생년월일 : "
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@+id/edtNameM" />
-
-                <Spinner
-                    android:id="@+id/birthY"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@+id/birthMember" />
-
-                <TextView
-                    android:id="@+id/year"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="년"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthY"
-                    app:layout_constraintTop_toBottomOf="@id/birthMember" />
-
-                <Spinner
-                    android:id="@+id/birthM"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintLeft_toRightOf="@+id/year"
-                    app:layout_constraintTop_toBottomOf="@+id/birthMember" />
-
-                <TextView
-                    android:id="@+id/month"
-                    style="@style/basic"
-                    android:layout_width="10dp"
-                    android:layout_height="17dp"
-                    android:layout_marginTop="13dp"
-                    android:text="월"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthM"
-                    app:layout_constraintTop_toBottomOf="@id/birthMember" />
-
-                <Spinner
-                    android:id="@+id/birthD"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintLeft_toRightOf="@id/month"
-                    app:layout_constraintTop_toBottomOf="@+id/birthMember" />
-
-                <TextView
-                    android:id="@+id/day"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="일"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthD"
-                    app:layout_constraintTop_toBottomOf="@id/birthMember" />
-
-                <TextView
-                    android:id="@+id/email"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="*이메일 : "
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/year" />
-
-                <EditText
-                    android:id="@+id/edtEmail"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:ems="10"
-                    android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/email" />
-
+                app:layout_constraintTop_toBottomOf="@+id/makeMember">
 
                 <TextView
                     android:id="@+id/password"
@@ -232,7 +85,7 @@
                     android:text="*비밀번호 : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/edtPassword"

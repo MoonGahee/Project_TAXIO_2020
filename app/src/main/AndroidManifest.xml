@@ -60,6 +60,7 @@
         <activity android:name=".generalSDriverActivity"/>
         <activity android:name=".generalSRegionActivity"/>
         <activity android:name=".generalWriteEpilogueActivity"/>
+        <activity android:name=".MakeIdComplete"/><!--회원가입 완료-->
         <activity android:name=".generalMyscheActivity" />
         <activity android:name=".generalClause"/>
         <activity android:name=".MemberSort"/>
@@ -81,9 +82,11 @@
         <activity android:name=".driverCheckEpilogueActivity"/><!--기사 후기-->
         <activity android:name=".findId"/><!--아이디 찾기-->
         <activity android:name=".findPw"/><!--패스워드 찾기-->
-        <activity android:name=".GeneralMakeIdComplete"/> <!--회원가입 완료-->
+
         <activity android:name=".generalMakeIdChildComplete"/> <!--아가회원가입 완료-->
         <activity android:name=".driverMakeIdComplete"/> <!--기사회원가입 완료-->
         <activity android:name=".generalSetting"/>
+        <activity android:name=".generalInfo"/>
+        <activity android:name=".generalCs"/>
     </application>
 </manifest>

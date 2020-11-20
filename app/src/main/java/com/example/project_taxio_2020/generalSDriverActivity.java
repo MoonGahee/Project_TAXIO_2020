@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +59,8 @@ public class generalSDriverActivity extends AppCompatActivity {
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        final DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
 
         tripdate = findViewById(R.id.tripdate);
         tripdate.setText(date);

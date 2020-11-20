@@ -247,15 +247,12 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
-                    startActivity(intent);
-                    finish();
-                } else if(id==R.id.logout){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
