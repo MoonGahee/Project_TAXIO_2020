@@ -36,13 +36,12 @@ import java.util.ArrayList;
 public class generalMyscheActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-    FirebaseDatabase mDatabase;
-    DatabaseReference nDatabase;
+    DatabaseReference mDatabase;
     String general_num;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
+    ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
     String startDay, finishDay;
-    DatabaseReference myRef;
     //Schedule day;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -53,24 +52,24 @@ public class generalMyscheActivity extends AppCompatActivity {
         nDrawer = findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 //        naviItem();
-        mDatabase = FirebaseDatabase.getInstance();
-        nDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
-        //final String[] startDay = new String[1];
-        //final String[] finishDay = new String[1];
-        myRef = mDatabase.getReference().child("General").child(general_num).child("Schedule").child("1").child("Date_Schedule").child("arrival_date");
-        Log.d("Moon-num",general_num);
-        /*ValueEventListener scheduleListener = new ValueEventListener() {
+        ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i = 1;
+                Log.d("Moon","generalNum : "+general_num);
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
                     Schedule data = new Schedule();
+                    data.setSchedule_num(column.getKey());
+                    data.setDeparture_date(column.child("departure_date").getValue(String.class));
                     data.setArrival_date(column.child("arrival_date").getValue(String.class));
+                    data.setTimes(column.child("times").getValue(String.class));
+                    data.setRegion(column.child("region").getValue(String.class));
 
-                    Log.d("Moon", column.getValue(String.class));
+
+                    Log.d("Moon", "scheduleNum : "+data.getSchedule_num() +" departureDate : "+ data.getDeparture_date() + " arrivalDate : "+ data.getArrival_date());
                 }
             }
 
@@ -80,26 +79,7 @@ public class generalMyscheActivity extends AppCompatActivity {
             }
         };
         mDatabase.addListenerForSingleValueEvent(scheduleListener);
-        // 시작일, 종료일 가져오기*/
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    Schedule content = snapshot.getValue(Schedule.class);
-                    String start_day = content.getArrival_date().toString();
-                }
-                else {
-                    Log.d("moon_day","no");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("moon_day","fail");
-            }
-        });
-
+        // 시작일, 종료일 가져오기
 
         String date = 2020 + "-" + 11 + "-" + 20;
         Date d = Date.valueOf(date);
