@@ -35,6 +35,7 @@ public class driverMainActivity extends AppCompatActivity {
     ListView recruitList;
     reservationAdapter reservationAdapter;
     ArrayList<reservationItem> list_itemArrayList;
+    String driver_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +43,16 @@ public class driverMainActivity extends AppCompatActivity {
         setContentView(R.layout.driver_main_activity);
         setToolbar();
 
+        //값을 받아오기
+        Intent i = getIntent();
+        driver_num = i.getStringExtra("driver_num");
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+
+
 
         btnResume = findViewById(R.id.btnResume);
         recruitList = findViewById(R.id.recruitList);
