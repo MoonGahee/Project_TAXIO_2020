@@ -50,7 +50,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".generalMainActivity" /> <!--승객 메인-->
-        <activity android:name=".generalLoginActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".generalReservationCompleteActivity"/>
         <activity android:name=".generalCheckEpilogueActivity"/>
         <activity android:name=".generalMakeScheActivity"/>

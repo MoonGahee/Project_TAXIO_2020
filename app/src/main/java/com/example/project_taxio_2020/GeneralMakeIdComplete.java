@@ -74,7 +74,7 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
 
     public void moveActivity() {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(getApplicationContext(), generalLoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
         finish();
     } //액티비티 이동
