@@ -16,20 +16,19 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class generalSetting extends AppCompatActivity {
+public class generalCs extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
 
-    TextView logout, withdrawal, modifyInfo, cs, info;
     TextView title_text;
     Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_setting);
+        setContentView(R.layout.cs);
+
         setToolbar();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -45,64 +44,6 @@ public class generalSetting extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(i);
-                finish();
-            }
-        });
-
-        logout = findViewById(R.id.logout);
-        withdrawal = findViewById(R.id.withdrawal);
-        modifyInfo = findViewById(R.id.modifyInf);
-        cs = findViewById(R.id.cs);
-        info = findViewById(R.id.info);
-
-        logout.setClickable(true);
-        withdrawal.setClickable(true);
-        modifyInfo.setClickable(true);
-        cs.setClickable(true);
-        info.setClickable(true);
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        withdrawal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        modifyInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        cs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalCs.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generalInfo.class);
-                startActivity(intent);
                 finish();
             }
         });

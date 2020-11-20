@@ -38,6 +38,9 @@ public class driverMainActivity extends AppCompatActivity {
     ArrayList<reservationItem> list_itemArrayList;
     String driver_num;
 
+    mainTripAdapter mainTripAdapter;
+    ArrayList<mainTripItem> lists;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +56,19 @@ public class driverMainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-
-
         btnResume = findViewById(R.id.btnResume);
         recruitList = findViewById(R.id.recruitList);
         trip_data = findViewById(R.id.trip_data_Recycler);
 
         LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         trip_data.setLayoutManager(layoutManagers);
+
+        lists = new ArrayList<mainTripItem>();
+        lists.add(new mainTripItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+        lists.add(new mainTripItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
+
+        mainTripAdapter = new mainTripAdapter(this, lists);
+        trip_data.setAdapter(mainTripAdapter);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
