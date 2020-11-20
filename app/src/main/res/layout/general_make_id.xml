@@ -399,29 +399,6 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btnImg" />
 
-                <TextView
-                    android:id="@+id/number"
-                    style="@style/basic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
-                    android:text="*면허번호 : "
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/photo" />
-
-                <EditText
-                    android:id="@+id/edtNumber"
-                    style="@style/basic"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:ems="10"
-                    android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/number" />
-
-
                 <Button
                     android:id="@+id/btnComplete"
                     style="@style/button"
