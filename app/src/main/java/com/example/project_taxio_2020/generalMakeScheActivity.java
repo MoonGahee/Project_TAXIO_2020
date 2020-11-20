@@ -468,10 +468,10 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             HashMap resultDay = new HashMap<>();
             HashMap result = new HashMap<>();
             result.put("course_order", number);
-            mDatabase.push();
             resultDay.put("coures_place", placeName);
             resultDay.put("boarding_status", taxiRide);
             mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(number).updateChildren(resultDay);
+            mDatabase.push();
         }
 
 
