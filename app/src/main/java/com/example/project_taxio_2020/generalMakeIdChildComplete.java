@@ -20,8 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GeneralMakeIdComplete extends AppCompatActivity {
-    TextView nameC, emailC, birthC, phoneC;
+public class generalMakeIdChildComplete extends AppCompatActivity {
+    TextView nameC, emailC, birthC, phoneC, emailParentC;
     DatabaseReference mDatabase;
     String general_num;
     Button btnCom;
@@ -36,6 +36,7 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
         birthC = findViewById(R.id.birthC);
         phoneC = findViewById(R.id.phoneC);
         btnCom = findViewById(R.id.btnCom);
+        emailParentC = findViewById(R.id.emailParentC);
 
         Intent i = getIntent();
         general_num = (String)i.getSerializableExtra("general_num");
@@ -61,6 +62,7 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
                 birthC.setText(birthC.getText().toString()+general.getGeneral_birth());
                 phoneC.setText(phoneC.getText().toString()+general.getGeneral_call());
                 emailC.setText(emailC.getText().toString()+general.getGeneral_email());
+                emailParentC.setText(emailParentC.getText().toString()+general.getGeneral_email());  //보호자 이메일은 머로 해야댕????
             }
 
             @Override
