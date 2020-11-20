@@ -20,16 +20,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GeneralMakeIdComplete extends AppCompatActivity {
+public class MakeIdComplete extends AppCompatActivity {
     TextView nameC, emailC, birthC, phoneC;
     DatabaseReference mDatabase;
-    String general_num;
+    String general_num, memberSort, driver_num;
     Button btnCom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_make_id_complete);
+        setContentView(R.layout.make_id_complete);
         setToolbar();
         nameC = findViewById(R.id.nameC);
         emailC = findViewById(R.id.emailC);
@@ -39,8 +39,14 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
 
         Intent i = getIntent();
         general_num = (String)i.getSerializableExtra("general_num");
+        driver_num = i.getStringExtra("driver_num");
+        memberSort = i.getStringExtra("sort");
 
-        completeId();
+        if(memberSort.equals("general"))
+            gCompleteId();
+        else if(memberSort.equals("driver"))
+            dCompleteId();
+
         btnCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +57,7 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
 
     }
 
-    public void completeId(){
+    public void gCompleteId(){
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
@@ -61,6 +67,26 @@ public class GeneralMakeIdComplete extends AppCompatActivity {
                 birthC.setText(birthC.getText().toString()+general.getGeneral_birth());
                 phoneC.setText(phoneC.getText().toString()+general.getGeneral_call());
                 emailC.setText(emailC.getText().toString()+general.getGeneral_email());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon-Test","error");
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }
+    public void dCompleteId(){
+        mDatabase = FirebaseDatabase.getInstance().getReference("Driver"); //얘한테 줄거야
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Driver driver = snapshot.child(driver_num).getValue(Driver.class); //child로 경로 지정
+                nameC.setText(nameC.getText().toString()+driver.getDriver_name());
+                birthC.setText(birthC.getText().toString()+driver.getDriver_birth());
+                phoneC.setText(phoneC.getText().toString()+driver.getDriver_call());
+                emailC.setText(emailC.getText().toString()+driver.getDriver_email());
             }
 
             @Override

@@ -2,16 +2,11 @@ package com.example.project_taxio_2020;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,12 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.loader.content.CursorLoader;
 
-import com.example.project_taxio_2020.databinding.GeneralSelectRegionActivityBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +35,6 @@ import com.google.android.gms.tasks.Task;
 //import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +45,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,7 +59,7 @@ public class generalMakeId extends AppCompatActivity {
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
-    String TAG = "EXCEPTION", imagePath;
+    String TAG = "EXCEPTION", imagePath, memberSort;
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
@@ -90,6 +81,8 @@ public class generalMakeId extends AppCompatActivity {
         setToolbar();//Toolbar세팅
         setFindView();//뷰 객체화 findViewbyId 일괄처리
         setAdapter();//Adapter 세팅 일괄처리
+        Intent i = getIntent();
+        memberSort = i.getStringExtra("sort");
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -214,11 +207,6 @@ public class generalMakeId extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     //로그인 값을 저장
     public void makeId(String getGeneral_email, String getGeneral_password, String getGeneral_name, String getGeneral_sex, String getGeneral_birth, String getGeneral_call, String getGeneral_route) {
         result = new HashMap<>();
@@ -272,8 +260,9 @@ public class generalMakeId extends AppCompatActivity {
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), GeneralMakeIdComplete.class);
+        Intent intent = new Intent(getApplicationContext(), MakeIdComplete.class);
         intent.putExtra("general_num", resultNum.get("general_num").toString());
+        intent.putExtra("sort", memberSort);
         startActivity(intent);
         finish();
     }//액티비티 이동

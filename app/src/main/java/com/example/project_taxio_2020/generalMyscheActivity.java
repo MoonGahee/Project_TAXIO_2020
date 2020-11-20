@@ -51,7 +51,31 @@ public class generalMyscheActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
-        String startDay; // 시작일, 종료일 가져오기
+        final String[] startDay = new String[1];
+        final String[] finishDay = new String[1];
+
+        ValueEventListener scheduleListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Schedule day = snapshot.child(general_num).child("Schedule").getValue(Schedule.class); //child로 경로 지정
+                int i = 0;
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                    if (Integer.parseInt(column.getKey()) != day.getSchedule_num().length()) { //여기가 이상한 것 같은데
+                        startDay[i] = day.getDeparture_date();
+                        finishDay[i] = day.getArrival_date();
+                    } else {
+                        i++;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(scheduleListener);
+        // 시작일, 종료일 가져오기
 
         String date = 2020 + "-" + 11 + "-" + 20;
         Date d = Date.valueOf(date);
@@ -59,16 +83,12 @@ public class generalMyscheActivity extends AppCompatActivity {
         cal1 = findViewById(R.id.cal1);
         cal1.setSelectedDate(d);
 
-        //init();
+        init();
         //getData();
     }
 
 
-
-
-
-/*
-    public void init(){
+    public void init() {
         RecyclerView tripRecycler = findViewById(R.id.tripRecycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         tripRecycler.setLayoutManager(linearLayoutManager);
@@ -78,24 +98,32 @@ public class generalMyscheActivity extends AppCompatActivity {
         tripRecycler.setHasFixedSize(true);
     }
 
-    public void getData() {
+    /*public void getData() {
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                General general = snapshot.child("Schedule").getValue(General.class); //child로 경로 지정
+                Date_Schedule date_schedule = snapshot.child(general_num).child("Schedule").getValue(Date_Schedule.class); //child로 경로 지정
                 //nameC.setText(nameC.getText().toString()+general.getGeneral_name());
+                int i = 1;
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                    if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
+                        break;
+                    } else {
+                        i++;
+                    }
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Moon-Test","error");
-                //없는 경우
+                @Override
+                public void onCancelled (@NonNull DatabaseError error){
+                    Log.d("Moon-Test", "error");
+                    //없는 경우
+                }
             }
-        };
+            ;
         mDatabase.addListenerForSingleValueEvent(generalListener);
-    }
-                     //콜백 한 번만 호출이 이뤄지는 경우
+        }*/
+        //콜백 한 번만 호출이 이뤄지는 경우
     /*SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
         Cursor cursor = sqlDB.rawQuery("SELECT name, number FROM STUDENT;", null);
 
@@ -110,59 +138,59 @@ public class generalMyscheActivity extends AppCompatActivity {
         myDBHelper.close();
 
         adapter.notifyDataSetChanged();*/
-    // DB
+        // DB
 
-    //네비게이션
-    public void naviItem() {
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
+        //네비게이션
+        public void naviItem () {
+            nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    menuItem.setChecked(true);
+                    drawerLayout.closeDrawers();
 
-                int id = menuItem.getItemId();
+                    int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (id == R.id.drawer_schTrip) {
+                        Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (id == R.id.drawer_myInfo) {
+                        Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (id == R.id.drawer_modify) {
+                        Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (id == R.id.drawer_out) {
+                        Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (id == R.id.logout) {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
-    }
+            });
+        }
 
 
-    public void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-        ImageButton menu = findViewById(R.id.menu);
-        menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.END);
-            }
-        });
-        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
-        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+        public void setToolbar () {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+            ImageButton menu = findViewById(R.id.menu);
+            menu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.openDrawer(GravityCompat.END);
+                }
+            });
+            setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
+            ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
+            actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
+            actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+        }
     }
-}
 
