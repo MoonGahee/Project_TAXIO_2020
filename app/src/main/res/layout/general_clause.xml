@@ -41,7 +41,7 @@
         <SeekBar
             android:progressTintMode="add"
             android:id="@+id/progress"
-            android:layout_width="386dp"
+            android:layout_width="410dp"
             android:layout_height="17dp"
             android:layout_marginTop="20dp"
             android:max="4"
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="23dp"
             android:text="조건 동의"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/makeMember"
@@ -71,11 +71,11 @@
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:text="이용약관, 개인정보 수집 및 이용, 위치 정보\n이용약관(선택)에 모두 동의합니다."
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bell" />
+            app:layout_constraintTop_toBottomOf="@+id/progress" />
 
         <ScrollView
             android:id="@+id/show_clause1"
@@ -165,8 +165,8 @@
             style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@color/button"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_short"
             android:text="이전"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clause3" />
@@ -176,8 +176,8 @@
             style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@color/button"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_short"
             android:text="다음"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clause3" />

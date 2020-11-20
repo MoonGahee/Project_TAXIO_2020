@@ -39,7 +39,7 @@
     <SeekBar
         android:progressTintMode="add"
         android:id="@+id/progress"
-        android:layout_width="386dp"
+        android:layout_width="410dp"
         android:layout_height="17dp"
         android:layout_marginTop="20dp"
         android:max="4"
@@ -58,9 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="탑승객이신가요, 기사님이신가요?"
+        android:text="승객이신가요, 기사님이신가요?"
         android:textColor="#000000"
-        android:textSize="31sp"
+        android:textSize="25sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress" />
@@ -72,8 +72,8 @@
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:background="@color/button"
-        android:text="탑승객입니다."
-        android:textSize="25sp"
+        android:text="승객입니다."
+        android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/intro" />
@@ -86,7 +86,7 @@
         android:layout_marginTop="30dp"
         android:background="@color/button"
         android:text="기사입니다."
-        android:textSize="25sp"
+        android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_general" />

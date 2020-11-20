@@ -35,15 +35,18 @@
         app:layout_constraintLeft_toRightOf="@+id/bell"
         app:layout_constraintTop_toBottomOf="@+id/bar" />
 
-    <ProgressBar
+    <SeekBar
+        android:progressTintMode="add"
         android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:max="100"
-        android:progress="40"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="410dp"
+        android:layout_height="17dp"
+        android:layout_marginTop="20dp"
+        android:max="4"
+        android:progress="2"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@drawable/seekbar_thumb"
+        android:tickMark="@drawable/seekbar_thumb1"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -55,11 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
         android:text="나이가 어떻게 되시나요?"
-        android:textSize="31sp"
+        android:textSize="25sp"
         app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/previous" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <Button
         android:id="@+id/over14"
@@ -69,7 +72,7 @@
         android:layout_marginTop="40dp"
         android:background="#AAD9FA"
         android:text="만 14세 이상입니다."
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -83,7 +86,7 @@
         android:layout_marginTop="30dp"
         android:background="#AAD9FA"
         android:text="만 14세 미만입니다."
-        android:textSize="25sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -94,11 +97,11 @@
         style="@style/button"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="236dp"
         android:background="@drawable/button_short"
-        android:text="back"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress" />
+        android:text="이전"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

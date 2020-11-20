@@ -28,7 +28,7 @@
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="44dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="96dp"
         android:background="@color/button"
         android:clickable="false"
@@ -42,7 +42,7 @@
         style="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="44dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="36dp"
         android:background="@color/button"
         android:clickable="false"
@@ -53,9 +53,9 @@
 
     <EditText
         android:id="@+id/edtPw"
-        android:layout_width="250dp"
+        android:layout_width="265dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPassword"
         android:textSize="18sp"
@@ -64,12 +64,13 @@
 
     <EditText
         android:id="@+id/edtId"
-        android:layout_width="250dp"
+        android:layout_width="265dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:textSize="18sp"
         app:layout_constraintLeft_toRightOf="@id/idT"
-        app:layout_constraintTop_toBottomOf="@id/mainT" />
+        app:layout_constraintTop_toBottomOf="@id/mainT"
+        android:singleLine="true"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -94,7 +95,7 @@
         android:text="회원가입"
         android:textStyle="bold"
         style="@style/basic"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintTop_toBottomOf="@id/passwordT"
         app:layout_constraintLeft_toLeftOf="parent"
         android:clickable="true"
@@ -110,7 +111,7 @@
         android:layout_marginTop="20dp"
         android:clickable="true"
         android:text="아이디찾기"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@id/btnJoin"
         app:layout_constraintTop_toBottomOf="@id/passwordT" />
 
@@ -120,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="/"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@id/btnFId"
         app:layout_constraintTop_toBottomOf="@id/passwordT" />
 
@@ -133,7 +134,7 @@
         android:layout_marginTop="20dp"
         android:clickable="true"
         android:text="패스워드찾기"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@id/btnFId"
         app:layout_constraintTop_toBottomOf="@id/passwordT" />
 

@@ -55,18 +55,18 @@
                 style="@style/basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="28dp"
                 android:text="*표시는 필수입력 항목입니다."
                 android:textColor="#FF0000"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 app:layout_constraintLeft_toRightOf="@id/makeMember"
                 app:layout_constraintTop_toBottomOf="@id/bar" />
 
             <SeekBar
                 android:progressTintMode="add"
                 android:id="@+id/progress"
-                android:layout_width="386dp"
+                android:layout_width="410dp"
                 android:layout_height="17dp"
                 android:layout_marginTop="20dp"
                 android:max="4"
@@ -107,18 +107,18 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="65dp"
                     android:ems="5"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
-                    app:layout_constraintTop_toBottomOf="@id/nameM" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/genderM"
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="110dp"
+                    android:layout_marginLeft="130dp"
                     android:layout_marginTop="10dp"
                     android:text="*성별 : "
                     android:textStyle="bold"
@@ -129,10 +129,10 @@
                     android:id="@+id/spGenderM"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginTop="6dp"
                     app:layout_constraintLeft_toRightOf="@id/edtNameM"
-                    app:layout_constraintTop_toBottomOf="@id/genderM" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/birthMember"
@@ -147,8 +147,9 @@
 
                 <Spinner
                     android:id="@+id/birthY"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@+id/birthMember" />
@@ -159,9 +160,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
+                    android:layout_marginLeft="124dp"
                     android:text="년"
                     android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthY"
+                    app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/birthMember" />
 
                 <Spinner
@@ -178,9 +180,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="13dp"
+                    android:layout_marginLeft="230dp"
                     android:text="월"
                     android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthM"
+                    app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/birthMember" />
 
                 <Spinner
@@ -199,7 +202,8 @@
                     android:layout_marginTop="13dp"
                     android:text="일"
                     android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@+id/birthD"
+                    android:layout_marginLeft="333dp"
+                    app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/birthMember" />
 
                 <TextView
@@ -216,7 +220,7 @@
                 <EditText
                     android:id="@+id/edtEmail"
                     style="@style/basic"
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:ems="10"
@@ -229,7 +233,7 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="8dp"
                     android:text=" @ "
                     app:layout_constraintLeft_toRightOf="@+id/edtEmail"
@@ -237,9 +241,9 @@
 
                 <Spinner
                     android:id="@+id/spEmail"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintLeft_toRightOf="@id/aa"
                     app:layout_constraintTop_toBottomOf="@id/email" />
@@ -254,7 +258,7 @@
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="중복 확인"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     app:layout_constraintLeft_toRightOf="@id/email"
                     app:layout_constraintTop_toBottomOf="@+id/birthD" />
 
@@ -273,7 +277,8 @@
                     android:id="@+id/edtPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="6dp"
                     android:ems="10"
                     android:inputType="textPassword"
                     android:textSize="15sp"
@@ -295,7 +300,8 @@
                     android:id="@+id/edtCheckPass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="6dp"
                     android:ems="10"
                     android:inputType="textPassword"
                     android:textSize="15sp"
@@ -317,7 +323,8 @@
                     android:id="@+id/spinnerNum"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="12dp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@+id/phone" />
 
@@ -386,15 +393,16 @@
                     android:background="@color/button"
                     android:clickable="true"
                     android:text="첨 부"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     app:layout_constraintLeft_toRightOf="@id/profileImg"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <ImageView
                     android:id="@+id/photo"
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    app:layout_constraintHorizontal_bias="0.072"
+                    android:layout_width="400dp"
+                    android:layout_height="237dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/btnImg" />
@@ -403,14 +411,15 @@
                     android:id="@+id/btnComplete"
                     style="@style/button"
                     android:layout_width="300dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:textSize="25sp"
+                    android:textSize="22sp"
                     app:layout_constraintHorizontal_bias="0.444"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/photo" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
