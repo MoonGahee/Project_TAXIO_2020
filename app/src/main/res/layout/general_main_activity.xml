@@ -76,6 +76,12 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comingTrip" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="parent"
+            android:id="@+id/mine"/>
 
         <ImageView
             android:id="@+id/bell"
@@ -109,11 +115,11 @@
 
         <ListView
             android:id="@+id/recruitList"
-            android:layout_width="wrap_content"
+            android:layout_width="385dp"
             android:layout_height="0dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="12dp"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recruitCount"
             app:layout_constraintBottom_toBottomOf="parent"/>

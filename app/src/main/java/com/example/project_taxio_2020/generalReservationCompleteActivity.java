@@ -25,33 +25,37 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     NavigationView nDrawer;
 
     TextView title_text;
+    TextView time, name, taxi, date, course;
+
+    String tripdate, general_num, schedule_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_reservation_complete_activity);
         setToolbar();
+        setHomeBtn();
+
+        Intent intent = getIntent();
+        general_num = (String) intent.getSerializableExtra("general_num");
+        schedule_num = (String) intent.getSerializableExtra("schedule_num");
+        tripdate = intent.getStringExtra("tripDate");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
         Button goMain; //새로운 여행 만들기
         goMain = findViewById(R.id.goMain);
+
+        name = findViewById(R.id.name);
+        course = findViewById(R.id.course);
+        date = findViewById(R.id.date);
+        taxi = findViewById(R.id.taxi);
+        time = findViewById(R.id.time);
+
+        date.setText(tripdate);
 
         goMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +109,19 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }
+
+    public void setHomeBtn() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                //i.putExtra("general_num", general_num);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 }
