@@ -19,8 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView; //ItemViewHolder와 ViewHolder의 차이?
 
 import com.example.project_taxio_2020.databinding.GeneralDriverItemDetailBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // 기사 선택 리사이클러뷰 개당 by 가희
 
@@ -36,7 +42,10 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     private int prePosition = -1;
     final String distinction = "..........................";
     final String review = "기사님이 너무 친절하셨어요!";
-    String general_num, schedule_num, date;
+    String general_num, schedule_num, date, driver_num;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseRef = database.getReference("Driver");
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -145,7 +154,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     }
 
     @Override // position에 맞추어 각 항목을 구성하기 위해서 호출함
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) { //
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) { //
         holder.onBind(dData.get(position), position);
 
         holder.recruit.setOnClickListener(new View.OnClickListener() {
@@ -153,10 +162,32 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("기사 요청");
-                builder.setMessage("아이린 기사님에게 요청하시겠습니까?\n금액은 60,000원입니다.");
+                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 요청하시겠습니까?\n금액은 60,000원입니다.");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
+                        databaseRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot driver : snapshot.getChildren()) {
+                                    if (dData.get(position).getDriverName().equals(driver.child("driver_name").getValue(String.class))) {
+                                        driver_num = driver.getKey();
+                                    }
+                                }
+
+                                HashMap result = new HashMap<>();
+                                result.put("tripDate", date);
+
+                                databaseRef.child(driver_num).child("tripDate").updateChildren(result);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         Intent i = new Intent(context, generalReservationCompleteActivity.class);
                         i.putExtra("general_num", general_num);
                         i.putExtra("schedule_num", schedule_num);
