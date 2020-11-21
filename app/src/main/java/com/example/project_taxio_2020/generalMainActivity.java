@@ -61,6 +61,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class generalMainActivity extends AppCompatActivity {
     Date currentTime = Calendar.getInstance().getTime();
     SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
     SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     ImageView mine;
     String nowm = monthFormat.format(currentTime);
@@ -124,7 +127,7 @@ public class generalMainActivity extends AppCompatActivity {
         GetData();
         Initialize();
 
-        mine = findViewById(R.id.mine);
+        mine = findViewById(R.id.bell);
         /*FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -148,6 +151,7 @@ public class generalMainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         header = nDrawer.getHeaderView(0);
         naviItem();
+        setHeaderImage();
 
         Button newTripBtn; //새로운 여행 만들기
         newTripBtn = findViewById(R.id.newTripBtn);
@@ -165,11 +169,9 @@ public class generalMainActivity extends AppCompatActivity {
         reservationAdapter = new reservationAdapter(generalMainActivity.this, list_itemArrayList);
         recruitList.setAdapter(reservationAdapter);
 
-//        email = Objects.requireNonNull(mauth.getCurrentUser()).getEmail();
     }
 
     public void Initialize() {
-        Log.d("KOO", general_num);
         weather_test = findViewById(R.id.weather_test);
         trip_data = findViewById(R.id.trip_data_Recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -349,71 +351,6 @@ public class generalMainActivity extends AppCompatActivity {
     //네비게이션
     public void naviItem(){
 
-        final TextView userName = header.findViewById(R.id.userName);
-        final ImageView profile_pic = header.findViewById(R.id.profile_pic);
-        final String[] imagePath = new String[1];
-        // Create a storage reference from our app
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
-        gDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                    if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
-                        userName.setText(generalSnapshot.child("general_name").getValue().toString());
-
-                        imagePath[0] = generalSnapshot.child("general_route").getValue().toString();
-                        Log.d("KOO", imagePath[0]);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-          StorageReference storageRef = storage.getReference().child("general/"+imagePath);                        //photo폴더에 bikewheel.png이미지 가져오기.
-
-        /*StorageReference islandRef = storageRef.child("images/island.jpg");
-
-        final long ONE_MEGABYTE = 1024 * 1024;
-        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                profile_pic.setImageURI(bytes);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });*/
-        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://taxio-b186e.appspot.com/general").child("general/Screenshot_20201120-201214_TAXIO.jpg");
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(getApplicationContext())
-                        .load(uri)
-                        .into(mine);
-            }
-        });
-
-
-
-        /*if(storageRef!=null) {
-            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() { //imgRef 자체가 객체.
-                @Override
-                public void onSuccess(Uri uri) {
-                    Glide.with(getApplicationContext())
-                            .load(uri)
-                            .into(mine);                          //네트워크 이미지는 Glide로 해결한다.
-                }                                                                                   //Glide를 쓰지 않으면 Thread + URL을 써야한다.
-            });
-        }*/
-
-
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -439,6 +376,32 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                 }
                 return true;
+            }
+        });
+    }
+
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final ImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                    if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                        userName.setText(generalSnapshot.child("general_name").getValue().toString());
+
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
