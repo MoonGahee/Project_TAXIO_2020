@@ -224,52 +224,54 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if (list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day - 1] = new String[list_itemArrayList.size()];
+
+                    for (int n = 0; n < list_itemArrayList.size(); n++) {
+                        place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
+                    }
+
+                    day--;
+
+                    if (day == 1) {
+                        previous.setVisibility(View.INVISIBLE);
+                    }
+
+                    if (day < tripdays) {
+                        next.setVisibility(View.VISIBLE);
+                        trip_fin.setVisibility(View.INVISIBLE);
+                    }
+                    addDateActivity();
+                    day1.setText(Integer.toString(day) + "일차");
+
+
+                    k = 1;
+
+                    if (list_itemArrayList.size() > 0) {
+                        list_itemArrayList.clear();
+                        places.clear();
+                    }
+
+                    while (true) {
+                        if (p[day - 1] != 0) {
+                            if ((place_name[day - 1].length - 1) == i) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
+                                break;
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+
+
+                            i++;
+                        } else break;
+                    }
+
+                    if (list_itemArrayList.size() != 0) {
+                        generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                        listView.setAdapter(generalTimelineAdapter);
+                    }
                 }
-
-                for (int n = 0; n < list_itemArrayList.size(); n++) {
-                    place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
+                else {
+                    Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
-
-                day--;
-
-                if (day == 1) {
-                    previous.setVisibility(View.INVISIBLE);
-                }
-
-                if (day < tripdays) {
-                    next.setVisibility(View.VISIBLE);
-                    trip_fin.setVisibility(View.INVISIBLE);
-                }
-                addDateActivity();
-                day1.setText(Integer.toString(day) + "일차");
-
-
-                k = 1;
-
-                if (list_itemArrayList.size() > 0) {
-                    list_itemArrayList.clear();
-                    places.clear();
-                }
-
-                while (true) {
-                    if (p[day - 1] != 0) {
-                        if ((place_name[day - 1].length - 1) == i) {
-                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
-                            break;
-                        } else {
-                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
-                        }
-
-
-                        i++;
-                    } else break;
-                }
-
-                if (list_itemArrayList.size() != 0) {
-                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
-                    listView.setAdapter(generalTimelineAdapter);
-                }
-
             }
         });
 
@@ -281,50 +283,51 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 if (list_itemArrayList.size() != 0) {
                     Log.d("tttest", "idx" + day);
                     place_name[day - 1] = new String[list_itemArrayList.size()];
+
+                    for (int n = 0; n < list_itemArrayList.size(); n++) {
+                        place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
+                    }
+
+                    day++;
+
+                    if (day > 1) {
+                        previous.setVisibility(View.VISIBLE);
+                    }
+
+                    if (day == tripdays) {
+                        next.setVisibility(View.INVISIBLE);
+                        trip_fin.setVisibility(View.VISIBLE);
+                    }
+                    addDateActivity();
+                    day1.setText(Integer.toString(day) + "일차");
+
+                    k = 1;
+
+                    if (list_itemArrayList.size() > 0) {
+                        list_itemArrayList.clear();
+                        places.clear();
+                    }
+
+                    while (true) {
+                        if (p[day - 1] != 0) {
+                            if ((place_name[day - 1].length - 1) == i) {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
+                                break;
+                            } else {
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
+                            }
+
+                            i++;
+                        } else break;
+                    }
+
+                    if (list_itemArrayList.size() != 0) {
+                        generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
+                        listView.setAdapter(generalTimelineAdapter);
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
-
-                for (int n = 0; n < list_itemArrayList.size(); n++) {
-                    place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
-                }
-
-                day++;
-
-                if (day > 1) {
-                    previous.setVisibility(View.VISIBLE);
-                }
-
-                if (day == tripdays) {
-                    next.setVisibility(View.INVISIBLE);
-                    trip_fin.setVisibility(View.VISIBLE);
-                }
-                addDateActivity();
-                day1.setText(Integer.toString(day) + "일차");
-
-                k = 1;
-
-                if (list_itemArrayList.size() > 0) {
-                    list_itemArrayList.clear();
-                    places.clear();
-                }
-
-                while (true) {
-                    if (p[day - 1] != 0) {
-                        if ((place_name[day - 1].length - 1) == i) {
-                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
-                            break;
-                        } else {
-                            list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
-                        }
-
-                        i++;
-                    } else break;
-                }
-
-                if (list_itemArrayList.size() != 0) {
-                    generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
-                    listView.setAdapter(generalTimelineAdapter);
-                }
-
             }
         });
 
