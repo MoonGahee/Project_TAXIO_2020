@@ -134,11 +134,11 @@ public class generalSDriverActivity extends AppCompatActivity {
                 search_result.setVisibility(View.VISIBLE);
                 recyclerView_driver.setVisibility(View.VISIBLE);
                 selectDriver();
+                getData();
             }
         });
         //RecyclerView 사용
         init();
-        getData();
 
     }
 
@@ -158,7 +158,7 @@ public class generalSDriverActivity extends AppCompatActivity {
         for(int i = 0; i < listDriverName.size(); i++){  //DriverData Class 객체에 set
             generalDriverItem data = new generalDriverItem();
             data.setDriverName(listDriverName.get(i));
-            //data.setDriverInfo(listDriverInfo.get(i));
+            data.setDriverInfo("성별 :"+listDriverSex.get(i) + "\n차량 인승: " +listDriverSeat.get(i) + " 인승\n트렁크 사용 :" + listDriverTrunk.get(i) + "\n");
             data.setDirverPrice(listDriverPrice.get(i));
             data.setDriverPhoto(listDriverPhoto.get(i));
 
