@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +32,19 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringJoiner;
 
 // 탑승자 메인 화면 by 주혜
 
@@ -51,7 +59,7 @@ public class generalMainActivity extends AppCompatActivity {
 
     String nowm = monthFormat.format(currentTime);
     String nowd = dayFormat.format(currentTime);
-    public String date = nowm+"월 "+nowd+"일";
+    public String date = nowm + "월 " + nowd + "일";
 
     int icon, wear_icon;
 
@@ -61,7 +69,7 @@ public class generalMainActivity extends AppCompatActivity {
     generalWeatherAdapter generalWeatherAdapter;
     ArrayList<generalWeatherItem> list;
     mainTripAdapter mainTripAdapter;
-    ArrayList<mainTripItem> lists;
+    ArrayList<mainTripItem> mainTripLists = new ArrayList<>();
 
     ForeCastManager mForeCast;
 
@@ -74,7 +82,7 @@ public class generalMainActivity extends AppCompatActivity {
 
     ListView recruitList;
     reservationAdapter reservationAdapter;
-    ArrayList<reservationItem> list_itemArrayList;
+    ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +94,11 @@ public class generalMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_main_activity);
         setToolbar();
+        GetData();
         Initialize();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
@@ -105,12 +114,6 @@ public class generalMainActivity extends AppCompatActivity {
 
         recruitList = findViewById(R.id.recruitList);
 
-        list_itemArrayList = new ArrayList<reservationItem>();
-
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-
         reservationAdapter = new reservationAdapter(generalMainActivity.this, list_itemArrayList);
         recruitList.setAdapter(reservationAdapter);
     }
@@ -125,13 +128,8 @@ public class generalMainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         trip_data.setLayoutManager(layoutManagers);
 
-        lists = new ArrayList<mainTripItem>();
-        lists.add(new mainTripItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        lists.add(new mainTripItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-
-        mainTripAdapter = new mainTripAdapter(this, lists);
+        mainTripAdapter = new mainTripAdapter(this, mainTripLists);
         trip_data.setAdapter(mainTripAdapter);
-
 
         list = new ArrayList<generalWeatherItem>();
         mWeatherInfomation = new ArrayList<>();
@@ -140,13 +138,84 @@ public class generalMainActivity extends AppCompatActivity {
         mForeCast.run();
     }
 
+    public void GetData() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String viewData = "1";
+                int smallestDay = 999;
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                    int versusDay = convertDiffDay(column.child("arrival_date").getValue(String.class));
+                    if (versusDay > 0) {
+                        if (versusDay < smallestDay) {
+                            smallestDay = versusDay;
+                            viewData = column.getKey();
+                        }
+                    }
+                }
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(viewData).child("days").getChildren()) {
+                    DataSnapshot dateSchedule = column.child("Date_Schedule");
+                    DataSnapshot dateCourse = column.child("Date_Course");
+
+                    Date_Schedule dateScheduleItem = new Date_Schedule();
+                    dateScheduleItem.setSchedule_num(viewData);
+                    dateScheduleItem.setGeneral_num(general_num);
+                    dateScheduleItem.setSchedule_date(dateSchedule.child("schedule_date").getValue(String.class));
+                    dateScheduleItem.setStart_time(dateSchedule.child("start_time").getValue(String.class));
+                    dateScheduleItem.setTaxi_time(dateSchedule.child("taxi_time").getValue(String.class));
+                    dateScheduleItem.setBoarding_status(dateSchedule.child("boarding_status").getValue(Boolean.class));
+
+
+                    StringJoiner lists = new StringJoiner("-");
+                    for (DataSnapshot couresPlace : dateCourse.getChildren()) {
+                        lists.add(couresPlace.child("coures_place").getValue(String.class));
+                    }
+                    String list = lists.toString();
+
+                    mainTripItem mtItem = new mainTripItem(dateScheduleItem.getPrintText(), list);
+                    reservationItem rsItem = new reservationItem(dateScheduleItem.getPrintText(), list);
+
+                    list_itemArrayList.add(rsItem);
+                    mainTripLists.add(mtItem);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public int convertDiffDay(String strVersusDate) {
+        Calendar now = Calendar.getInstance();
+        Calendar versusDate = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+
+        try {
+            now.setTime(dateFormat.parse(dateFormat.format(now.getTime())));
+            versusDate.setTime(dateFormat.parse(strVersusDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        float diffDays = -1.0f;
+        if (now.compareTo(versusDate) <= 0) {
+            float diffSec = (versusDate.getTimeInMillis() - now.getTimeInMillis()) * 0.001f;
+            diffDays = diffSec / (24 * 60 * 60);
+        }
+        Log.d("CJW_test", "diffDays : " + diffDays);
+        return (int) diffDays;
+    }
+
     public String PrintValue() {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
-            mData = mData + mWeatherInfomation.get(i).getWeather_Name() +"\n"
-                    +  "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
-                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
-                    +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
+            mData = mData + mWeatherInfomation.get(i).getWeather_Name() + "\n"
+                    + "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
+                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" + "\n"
+                    + "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" + "\n";
 
             if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
                 wear_icon = R.drawable.under0;
@@ -166,25 +235,21 @@ public class generalMainActivity extends AppCompatActivity {
 
     }
 
-    public void DataChangedToHangeul()
-    {
-        for(int i = 0 ; i <mWeatherInfomation.size(); i ++)
-        {
+    public void DataChangedToHangeul() {
+        for (int i = 0; i < mWeatherInfomation.size(); i++) {
             WeatherToHangeul mHangeul = new WeatherToHangeul(mWeatherInfomation.get(i));
-            mWeatherInfomation.set(i,mHangeul.getHangeulWeather());
+            mWeatherInfomation.set(i, mHangeul.getHangeulWeather());
         }
     }
 
-    public void DataToInformation()
-    {
-        for(int i = 0; i < mWeatherData.size(); i++)
-        {
+    public void DataToInformation() {
+        for (int i = 0; i < mWeatherData.size(); i++) {
             mWeatherInfomation.add(new WeatherInfo(
-                    String.valueOf(mWeatherData.get(i).get("weather_Name")),  String.valueOf(mWeatherData.get(i).get("weather_Number")), String.valueOf(mWeatherData.get(i).get("weather_Much")),
-                    String.valueOf(mWeatherData.get(i).get("weather_Type")),  String.valueOf(mWeatherData.get(i).get("wind_Direction")),  String.valueOf(mWeatherData.get(i).get("wind_SortNumber")),
-                    String.valueOf(mWeatherData.get(i).get("wind_SortCode")),  String.valueOf(mWeatherData.get(i).get("wind_Speed")),  String.valueOf(mWeatherData.get(i).get("wind_Name")),
-                    String.valueOf(mWeatherData.get(i).get("temp_Min")),  String.valueOf(mWeatherData.get(i).get("temp_Max")),  String.valueOf(mWeatherData.get(i).get("humidity")),
-                    String.valueOf(mWeatherData.get(i).get("clouds_Value")),  String.valueOf(mWeatherData.get(i).get("clouds_Sort")), String.valueOf(mWeatherData.get(i).get("Clouds_Per")),String.valueOf(mWeatherData.get(i).get("day")),
+                    String.valueOf(mWeatherData.get(i).get("weather_Name")), String.valueOf(mWeatherData.get(i).get("weather_Number")), String.valueOf(mWeatherData.get(i).get("weather_Much")),
+                    String.valueOf(mWeatherData.get(i).get("weather_Type")), String.valueOf(mWeatherData.get(i).get("wind_Direction")), String.valueOf(mWeatherData.get(i).get("wind_SortNumber")),
+                    String.valueOf(mWeatherData.get(i).get("wind_SortCode")), String.valueOf(mWeatherData.get(i).get("wind_Speed")), String.valueOf(mWeatherData.get(i).get("wind_Name")),
+                    String.valueOf(mWeatherData.get(i).get("temp_Min")), String.valueOf(mWeatherData.get(i).get("temp_Max")), String.valueOf(mWeatherData.get(i).get("humidity")),
+                    String.valueOf(mWeatherData.get(i).get("clouds_Value")), String.valueOf(mWeatherData.get(i).get("clouds_Sort")), String.valueOf(mWeatherData.get(i).get("Clouds_Per")), String.valueOf(mWeatherData.get(i).get("day")),
                     String.valueOf(mWeatherData.get(i).get("feel_like_value"))
             ));
 
@@ -196,10 +261,10 @@ public class generalMainActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case THREAD_HANDLER_SUCCESS_INFO :
+                case THREAD_HANDLER_SUCCESS_INFO:
                     mForeCast.getmWeather();
                     mWeatherData = mForeCast.getmWeather();
-                    if(mWeatherData.size() ==0)
+                    if (mWeatherData.size() == 0)
                         list.add(new generalWeatherItem(null, 0, "데이터가 없습니다.", 0));
 
                     DataToInformation(); // 자료 클래스로 저장,
@@ -231,7 +296,7 @@ public class generalMainActivity extends AppCompatActivity {
 
 
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -240,7 +305,7 @@ public class generalMainActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
@@ -250,7 +315,7 @@ public class generalMainActivity extends AppCompatActivity {
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
@@ -262,8 +327,8 @@ public class generalMainActivity extends AppCompatActivity {
     }
 
     //햄버거 버튼 및 툴바
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

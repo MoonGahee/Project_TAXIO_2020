@@ -60,21 +60,16 @@ public class generalMyscheActivity extends AppCompatActivity {
         ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("Moon","generalNum : "+general_num);
+                Log.d("Moon", "generalNum : " + general_num);
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
                     Schedule data = new Schedule();
                     data.setSchedule_num(column.getKey());
-                    //data.setDeparture_date(column.child("departure_date").getValue(String.class));
+                    data.setDeparture_date(column.child("departure_date").getValue(String.class));
                     data.setArrival_date(column.child("arrival_date").getValue(String.class));
                     data.setTimes(column.child("times").getValue(String.class));
                     data.setRegion(column.child("region").getValue(String.class));
                     startDay = data.getDeparture_date();
                     finishDay = data.getArrival_date();
-
-
-
-
-                    Log.d("Moon", "scheduleNum : "+data.getSchedule_num() +" departureDate : "+ data.getDeparture_date() + " arrivalDate : "+ data.getArrival_date());
                 }
             }
 
@@ -88,8 +83,7 @@ public class generalMyscheActivity extends AppCompatActivity {
 
         //Date d = Date.valueOf(startDay);
 //        Date d = Date.valueOf(startDay);
-  //      cal1.setSelectedDate(d);
-
+        //      cal1.setSelectedDate(d);
 
 
         //cal1.setSelectedDate(d);
