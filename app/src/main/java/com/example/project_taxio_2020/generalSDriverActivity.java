@@ -160,7 +160,7 @@ public class generalSDriverActivity extends AppCompatActivity {
             data.setDriverName(listDriverName.get(i));
             data.setDriverInfo("성별 :"+listDriverSex.get(i) + "\n차량 인승: " +listDriverSeat.get(i) + " 인승\n트렁크 사용 :" + listDriverTrunk.get(i) + "\n");
             data.setDirverPrice(listDriverPrice.get(i));
-            data.setDriverPhoto(listDriverPhoto.get(i));
+            //data.setDriverPhoto(listDriverPhoto.get(i));
 
             adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
             adapter.getnum(general_num, schedule_num, date);
