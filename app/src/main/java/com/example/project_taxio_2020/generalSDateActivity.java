@@ -340,31 +340,80 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         });
     }
 
-    //네비게이션
+    //네비게이션 > 화면 이동 일정 삭제
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
-
                 int id = menuItem.getItemId();
-
                 if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
-                    intent.putExtra("general_num", general_num);
-                    startActivity(intent);
-                    finish();
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSDateActivity.this);
+                    builder.setTitle("예약 종료");
+                    builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+                    builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // DB에 데이터 삭제 시작
+                            mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                            // DB에 데이터 삭제 완료
+                            Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                            intent.putExtra("general_num", general_num);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
                 } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    intent.putExtra("general_num", general_num);
-                    startActivity(intent);
-                    finish();
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSDateActivity.this);
+                    builder.setTitle("예약 종료");
+                    builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+                    builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // DB에 데이터 삭제 시작
+                            mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                            // DB에 데이터 삭제 완료
+                            Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                            intent.putExtra("general_num", general_num);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
                 } else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
-                    intent.putExtra("general_num", general_num);
-                    startActivity(intent);
-                    finish();
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSDateActivity.this);
+                    builder.setTitle("예약 종료");
+                    builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+                    builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // DB에 데이터 삭제 시작
+                            mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                            // DB에 데이터 삭제 완료
+                            Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                            intent.putExtra("general_num", general_num);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.show();
                 }
                 return true;
             }

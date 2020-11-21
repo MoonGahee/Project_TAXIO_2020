@@ -69,7 +69,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     HashMap result;
     int count = 0;
     int cnt = 0;
-    final HashMap resultTaxi = new HashMap<>();
+    HashMap resultTaxi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -96,6 +96,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
         tripDays = intent.getIntExtra("tripDays", 0);
         startDay = intent.getStringExtra("startingDay");
         endDay = intent.getStringExtra("endDay");
+
+        result = new HashMap<>();
+        resultTaxi = new HashMap<>();
 
         int j = startDay.indexOf("월");
         tripDate[0] = startDay.substring(6, j);
