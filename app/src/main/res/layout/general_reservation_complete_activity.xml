@@ -200,7 +200,6 @@
             android:layout_marginTop="150dp"
             android:background="@drawable/button_long"
             android:text="메인으로 돌아가기"
-            android:textSize="25sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgV" />
