@@ -59,7 +59,7 @@ public class generalMakeId extends AppCompatActivity {
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
-    String TAG = "EXCEPTION", imagePath, memberSort;
+    String TAG = "EXCEPTION", imagePath, memberSort, imageName;
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
@@ -144,7 +144,7 @@ public class generalMakeId extends AppCompatActivity {
                 final String getGeneral_sex = spGenderM.getSelectedItem().toString();
                 final String getGeneral_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 final String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                final String getGeneral_route = imagePath;
+                final String getGeneral_route = imageName;
                 //부모 전화
                 //이미지 루트 데려오기
                 if (chkNull(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_call)) {
@@ -191,6 +191,8 @@ public class generalMakeId extends AppCompatActivity {
             imagePath = getPath(data.getData());
             File f = new File(imagePath);
             photo.setImageURI(data.getData());
+            imageName = imagePath.substring(imagePath.lastIndexOf("/")+1);
+
         }
     }
 
