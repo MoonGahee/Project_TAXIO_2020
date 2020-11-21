@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {                         //해당 이메일에 확인메일을 보냄
                         Toast.makeText(getApplicationContext(),
-                                "Verification email sent to " + mAuth.getCurrentUser().getEmail(),
+                                mAuth.getCurrentUser().getEmail()+"로 인증메일을 발송했습니다.",
                                 Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
