@@ -163,6 +163,7 @@ public class generalSDriverActivity extends AppCompatActivity {
             data.setDriverPhoto(listDriverPhoto.get(i));
 
             adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
+            adapter.getnum(general_num, schedule_num, date);
         }
 
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
