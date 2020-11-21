@@ -3,7 +3,5 @@
     <string-array name="carpeople">
         <item>4</item>
         <item>6</item>
-        <item>8</item>
-        <item>10</item>
     </string-array>
 </resources>

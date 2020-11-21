@@ -27,6 +27,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="75dp"
         android:text="문가희"
+        android:textColor="#ffffff"
         style="@style/basic"
         android:textStyle="bold"/>
 
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/profile_pic"
         app:layout_constraintLeft_toRightOf="@+id/userName"
+        android:textColor="#ffffff"
         android:text="승객님"
         style="@style/basic"/>
 
