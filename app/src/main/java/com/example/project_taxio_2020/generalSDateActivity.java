@@ -81,6 +81,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_date_activity);
         setToolbar();
+        setHomeBtn();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
@@ -99,17 +100,6 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         cal = findViewById(R.id.cal);
         Initialize();
 
-        //홈버튼
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +140,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     dlg.setMessage("원하는 일정을 선택해주세요");
                     dlg.setNegativeButton("확인", null);
                     dlg.show();
-                } else if(tripYear==nowYear){
+                } else if (tripYear == nowYear) {
                     if (nowmonth > tripMonth) {
                         cal.clearSelections();
                         date = "";
@@ -183,8 +173,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                             selectDate();
                     } else
                         selectDate();
-                }
-                else
+                } else
                     selectDate();
             }
         });//확인 버튼 눌렀을 때 다이얼로그
@@ -207,10 +196,10 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case THREAD_HANDLER_SUCCESS_INFO :
+                case THREAD_HANDLER_SUCCESS_INFO:
                     mForeCast.getmWeather();
                     mWeatherData = mForeCast.getmWeather();
-                    if(mWeatherData.size() ==0)
+                    if (mWeatherData.size() == 0)
                         list.add(new generalDateWeatherItem(null, 0, "데이터가 없습니다."));
 
                     DataToInformation(); // 자료 클래스로 저장,
@@ -233,10 +222,10 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     public String PrintValue() {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
-            mData = mData + mWeatherInfomation.get(i).getWeather_Name() +"\n"
-                    +  "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
-                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" +"\n"
-                    +  "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" +"\n";
+            mData = mData + mWeatherInfomation.get(i).getWeather_Name() + "\n"
+                    + "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
+                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" + "\n"
+                    + "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" + "\n";
 
             if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) >= 25)
                 wear_icon = R.drawable.over25;
@@ -256,25 +245,21 @@ public class generalSDateActivity extends AppCompatActivity {//finish
 
     }
 
-    public void DataChangedToHangeul()
-    {
-        for(int i = 0 ; i <mWeatherInfomation.size(); i ++)
-        {
+    public void DataChangedToHangeul() {
+        for (int i = 0; i < mWeatherInfomation.size(); i++) {
             WeatherToHangeul mHangeul = new WeatherToHangeul(mWeatherInfomation.get(i));
-            mWeatherInfomation.set(i,mHangeul.getHangeulWeather());
+            mWeatherInfomation.set(i, mHangeul.getHangeulWeather());
         }
     }
 
-    public void DataToInformation()
-    {
-        for(int i = 0; i < mWeatherData.size(); i++)
-        {
+    public void DataToInformation() {
+        for (int i = 0; i < mWeatherData.size(); i++) {
             mWeatherInfomation.add(new WeatherInfo(
-                    String.valueOf(mWeatherData.get(i).get("weather_Name")),  String.valueOf(mWeatherData.get(i).get("weather_Number")), String.valueOf(mWeatherData.get(i).get("weather_Much")),
-                    String.valueOf(mWeatherData.get(i).get("weather_Type")),  String.valueOf(mWeatherData.get(i).get("wind_Direction")),  String.valueOf(mWeatherData.get(i).get("wind_SortNumber")),
-                    String.valueOf(mWeatherData.get(i).get("wind_SortCode")),  String.valueOf(mWeatherData.get(i).get("wind_Speed")),  String.valueOf(mWeatherData.get(i).get("wind_Name")),
-                    String.valueOf(mWeatherData.get(i).get("temp_Min")),  String.valueOf(mWeatherData.get(i).get("temp_Max")),  String.valueOf(mWeatherData.get(i).get("humidity")),
-                    String.valueOf(mWeatherData.get(i).get("clouds_Value")),  String.valueOf(mWeatherData.get(i).get("clouds_Sort")), String.valueOf(mWeatherData.get(i).get("Clouds_Per")),String.valueOf(mWeatherData.get(i).get("day")),
+                    String.valueOf(mWeatherData.get(i).get("weather_Name")), String.valueOf(mWeatherData.get(i).get("weather_Number")), String.valueOf(mWeatherData.get(i).get("weather_Much")),
+                    String.valueOf(mWeatherData.get(i).get("weather_Type")), String.valueOf(mWeatherData.get(i).get("wind_Direction")), String.valueOf(mWeatherData.get(i).get("wind_SortNumber")),
+                    String.valueOf(mWeatherData.get(i).get("wind_SortCode")), String.valueOf(mWeatherData.get(i).get("wind_Speed")), String.valueOf(mWeatherData.get(i).get("wind_Name")),
+                    String.valueOf(mWeatherData.get(i).get("temp_Min")), String.valueOf(mWeatherData.get(i).get("temp_Max")), String.valueOf(mWeatherData.get(i).get("humidity")),
+                    String.valueOf(mWeatherData.get(i).get("clouds_Value")), String.valueOf(mWeatherData.get(i).get("clouds_Sort")), String.valueOf(mWeatherData.get(i).get("Clouds_Per")), String.valueOf(mWeatherData.get(i).get("day")),
                     String.valueOf(mWeatherData.get(i).get("feel_like_value"))
             ));
 
@@ -289,7 +274,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 moveActivity();
-                makeSchedule(Integer.toString(tripDays), tripDate[0],tripDate[1]);
+                makeSchedule(Integer.toString(tripDays), tripDate[0], tripDate[1]);
             }
         });
         dlg.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -302,7 +287,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         dlg.show();
     }
 
-    public void makeSchedule(String tripDays, String startingDay, String endDay){
+    public void makeSchedule(String tripDays, String startingDay, String endDay) {
         HashMap result = new HashMap<>();
         result.put("times", tripDays);
         result.put("departure_date", startingDay);
@@ -324,8 +309,39 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         finish();
     }
 
+    public void setHomeBtn() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSDateActivity.this);
+                builder.setTitle("예약 종료");
+                builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // DB에 데이터 삭제 시작
+                        mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                        // DB에 데이터 삭제 완료
+                        Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                        i.putExtra("general_num", general_num);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -334,16 +350,19 @@ public class generalSDateActivity extends AppCompatActivity {//finish
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }

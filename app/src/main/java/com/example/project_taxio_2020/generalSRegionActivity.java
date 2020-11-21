@@ -1,4 +1,5 @@
 package com.example.project_taxio_2020;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +38,7 @@ public class generalSRegionActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView title_text;
     ImageView map;
-    ImageButton btnJeju,btnSeoul, btnBusan, btnGyungju, btnGangwon;
+    ImageButton btnJeju, btnSeoul, btnBusan, btnGyungju, btnGangwon;
     String general_num;
     DatabaseReference mDatabase;
     HashMap resultRegion;
@@ -49,13 +50,14 @@ public class generalSRegionActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         general_num = i.getStringExtra("general_num");
+        Log.d("moon_num", general_num);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_region_activity);
         setToolbar();
-
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        setHomeBtn();
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
@@ -157,19 +159,8 @@ public class generalSRegionActivity extends AppCompatActivity {
                 builder.show();
             }
         });
-
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
     }
+
 
     public void getNumber() {
         ValueEventListener generalListener = new ValueEventListener() {
@@ -200,19 +191,33 @@ public class generalSRegionActivity extends AppCompatActivity {
     }//회원 번호 부여
 
 
-
     // 회원정보를 가지고 다음 액티비티로 이동
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalSDateActivity.class);
         intent.putExtra("general_num", general_num);
-        intent.putExtra("schedule_num",resultRegion.get("schedule_num").toString());
+        intent.putExtra("schedule_num", resultRegion.get("schedule_num").toString());
         startActivity(intent);
         finish();
     }
 
-    //네비게이션
-    //네비게이션
-    public void naviItem(){
+
+    //홈버튼 클릭
+    public void setHomeBtn() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                i.putExtra("general_num", general_num);
+                startActivity(i);
+                finish();
+            }
+        });
+    }
+
+
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -221,16 +226,19 @@ public class generalSRegionActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
@@ -239,8 +247,8 @@ public class generalSRegionActivity extends AppCompatActivity {
         });
     }
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

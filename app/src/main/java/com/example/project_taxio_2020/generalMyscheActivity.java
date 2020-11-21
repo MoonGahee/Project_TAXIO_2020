@@ -52,7 +52,7 @@ public class generalMyscheActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         nDrawer = findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        naviItem();
+        naviItem();
         mDatabase = FirebaseDatabase.getInstance();
         nDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
@@ -61,7 +61,7 @@ public class generalMyscheActivity extends AppCompatActivity {
         //final String[] startDay = new String[1];
         //final String[] finishDay = new String[1];
         myRef = mDatabase.getReference().child("General").child(general_num).child("Schedule").child("1").child("Date_Schedule").child("arrival_date");
-        Log.d("Moon-num",general_num);
+        Log.d("Moon-num", general_num);
         /*ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -85,18 +85,17 @@ public class generalMyscheActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     Schedule content = snapshot.getValue(Schedule.class);
                     String start_day = content.getArrival_date().toString();
-                }
-                else {
-                    Log.d("moon_day","no");
+                } else {
+                    Log.d("moon_day", "no");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("moon_day","fail");
+                Log.d("moon_day", "fail");
             }
         });
 
@@ -151,9 +150,7 @@ public class generalMyscheActivity extends AppCompatActivity {
     ;*/
     //콜백 한 번만 호출이 이뤄지는 경우
 
-
-    //네비게이션
-   /* public void naviItem() {
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -163,24 +160,18 @@ public class generalMyscheActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                } else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
@@ -188,7 +179,6 @@ public class generalMyscheActivity extends AppCompatActivity {
             }
         });
     }
-*/
 
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
