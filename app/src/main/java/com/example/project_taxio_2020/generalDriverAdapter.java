@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringJoiner;
 
 // 기사 선택 리사이클러뷰 개당 by 가희
 
@@ -43,9 +45,10 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     final String distinction = "..........................";
     final String review = "기사님이 너무 친절하셨어요!";
     String general_num, schedule_num, date, driver_num;
-
+    HashMap result = new HashMap<>();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
+
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -175,11 +178,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                                         driver_num = driver.getKey();
                                     }
                                 }
-
-                                HashMap result = new HashMap<>();
-                                result.put("tripDate", date);
-
-                                databaseRef.child(driver_num).child("tripDate").updateChildren(result);
+                                getDate();
                             }
 
                             @Override
@@ -222,9 +221,50 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         dData.add(data);
     }
 
-    void getnum(String general_num, String schedule_num, String date) {
+    void getnum(String general_num, String schedule_num) {
         this.general_num = general_num;
         this.schedule_num = schedule_num;
-        this.date = date;
+    }
+
+    void getTime() {
+    }
+
+    void getDate() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            //int i = Integer.parseInt(databaseRef.child(driver_num).child("Driver_Schedule").getKey()); //if문 설정해야함
+            int i = 1;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
+                    //추가할 수 있도록
+                    DataSnapshot dateSchedule = column.child("Date_Schedule");
+                    DataSnapshot dateCourse = column.child("Date_Course");
+                    Date_Schedule dateScheduleItem = new Date_Schedule();
+                    dateScheduleItem.setGeneral_num(general_num);
+                    dateScheduleItem.setSchedule_date(dateSchedule.child("schedule_date").getValue(String.class));
+                    dateScheduleItem.setStart_time(dateSchedule.child("start_time").getValue(String.class));
+                    dateScheduleItem.setTaxi_time(dateSchedule.child("taxi_time").getValue(String.class));
+                    dateScheduleItem.setBoarding_status(dateSchedule.child("boarding_status").getValue(Boolean.class));
+                    StringJoiner lists = new StringJoiner("-");
+                    String day = dateSchedule.child("schedule_date").getValue(String.class);
+                    for (DataSnapshot couresPlace : dateCourse.getChildren()) {
+                        lists.add(couresPlace.child("coures_place").getValue(String.class));
+                    }
+                    String list = lists.toString();
+
+                    result.put("day", day);
+                    result.put("course", list);
+                    Log.d("Moon-Test", column.toString());
+                    databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(result);
+                    i++;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }
