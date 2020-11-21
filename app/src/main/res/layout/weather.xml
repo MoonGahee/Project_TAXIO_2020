@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/weather_name"
-            style="@style/title2"
+            style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
@@ -40,7 +40,7 @@
         android:id="@+id/weather_wear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/under15" />
 

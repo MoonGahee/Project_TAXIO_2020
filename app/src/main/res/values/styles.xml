@@ -39,7 +39,7 @@
     </style>
 
     <style name="title2">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:layout_marginLeft">10sp</item>
         <item name="android:layout_marginRight">10sp</item>
         <item name="android:layout_marginTop">5sp</item>
@@ -70,7 +70,7 @@
     </style>
 
     <style name="button">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginLeft">10sp</item>
         <item name="android:layout_marginRight">10sp</item>

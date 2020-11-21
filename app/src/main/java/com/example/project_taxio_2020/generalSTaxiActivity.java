@@ -99,9 +99,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
         int j = startDay.indexOf("월");
         tripDate[0] = startDay.substring(6, j);
         tripDate[1] = startDay.substring(j + 2, startDay.length() - 1);
-        j = endDay.indexOf("월");
-        tripDate[2] = endDay.substring(6, j);
-        tripDate[3] = endDay.substring(j + 2, endDay.length() - 1);
+        int k = endDay.indexOf("월");
+        tripDate[2] = endDay.substring(6, k);
+        tripDate[3] = endDay.substring(k + 2, endDay.length() - 1);
 
         ok = findViewById(R.id.ok);
         ListView_taxi = findViewById(R.id.ListView_taxi);

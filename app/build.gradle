@@ -55,5 +55,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0' //gif intro
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0' //gif intro
     compile 'com.prolificinteractive:material-calendarview:1.4.3' //material cal
+    implementation 'com.firebaseui:firebase-ui-storage:6.4.0'
+
 
 }

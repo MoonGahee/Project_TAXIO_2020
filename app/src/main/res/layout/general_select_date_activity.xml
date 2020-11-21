@@ -49,7 +49,7 @@
             style="@style/attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="16dp"
             android:text="한 번 만들어진 일정은 기간 변경이 불가능합니다."
             app:layout_constraintLeft_toLeftOf="parent"
@@ -74,13 +74,14 @@
             android:layout_marginTop="10dp"
             android:text="출발일과 도착일을 선택해주세요"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weather_test" />
+            app:layout_constraintTop_toBottomOf="@+id/weather_test"
+            app:layout_constraintBottom_toTopOf="@+id/calScroll"/>
 
         <ScrollView
             android:layout_marginTop="10dp"
             android:id="@+id/calScroll"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="385dp"
             android:scrollbars="none"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

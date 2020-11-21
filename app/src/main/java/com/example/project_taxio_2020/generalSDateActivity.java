@@ -56,10 +56,17 @@ public class generalSDateActivity extends AppCompatActivity {//finish
     com.applikeysolutions.cosmocalendar.view.CalendarView cal;
     TextView title_text;
     int tripMonth, tripDay, tripYear, tripDays = 0;
-    String date = "";
     DatabaseReference mDatabase;
     String general_num, schedule_num;
     String[] tripDate;
+    String date="";
+    Date currentTime = Calendar.getInstance().getTime();
+    SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+    SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+
+    String nowm = monthFormat.format(currentTime);
+    String nowd = dayFormat.format(currentTime);
+    public String today = nowm+"월 "+nowd+"일";
 
 
     int icon, wear_icon;
@@ -219,7 +226,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
                     DataChangedToHangeul();
                     data = PrintValue();
 
-                    list.add(new generalDateWeatherItem(date, icon, data));
+                    list.add(new generalDateWeatherItem(today, icon, data));
 
                     generalWeatherAdapter = new generalDateWeatherAdapter(generalSDateActivity.this, list);
                     weather_test.setAdapter(generalWeatherAdapter);

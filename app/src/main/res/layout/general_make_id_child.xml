@@ -55,7 +55,7 @@
                 style="@style/basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="28dp"
                 android:text="*표시는 필수입력 항목입니다."
                 android:textColor="#FF0000"
