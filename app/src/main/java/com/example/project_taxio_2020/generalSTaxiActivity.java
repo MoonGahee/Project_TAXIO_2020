@@ -69,7 +69,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
     HashMap result;
     int count = 0;
     int cnt = 0;
-    final HashMap resultTaxi = new HashMap<>();
+    HashMap resultTaxi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -83,6 +83,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        setHomeBtn();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
@@ -95,6 +96,9 @@ public class generalSTaxiActivity extends AppCompatActivity {
         tripDays = intent.getIntExtra("tripDays", 0);
         startDay = intent.getStringExtra("startingDay");
         endDay = intent.getStringExtra("endDay");
+
+        result = new HashMap<>();
+        resultTaxi = new HashMap<>();
 
         int j = startDay.indexOf("월");
         tripDate[0] = startDay.substring(6, j);
@@ -110,17 +114,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
         setList(adapter);
 
         title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +154,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
             }
         } else {
             for (int i = 0; i < tripDays; i++) {
-                tripDay = tripDate[0] + "월 " +  (Integer.parseInt(tripDate[1]) + i) + "일";
+                tripDay = tripDate[0] + "월 " + (Integer.parseInt(tripDate[1]) + i) + "일";
                 adapter.addItem(tripDay);
             }
         }
@@ -257,6 +250,7 @@ public class generalSTaxiActivity extends AppCompatActivity {
                             rentTime = String.valueOf(parent.getItemAtPosition(position)); //대여시간
                             resultTaxi.put("taxi_time", rentTime);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                             rentTime = String.valueOf(parent.getItemAtPosition(0)); //대여시간
@@ -343,8 +337,6 @@ public class generalSTaxiActivity extends AppCompatActivity {
         }
 
 
-
-
         //초기화 경우 고려하여 함수
         public void chkCnt() {
             if (cnt < count) {
@@ -395,6 +387,41 @@ public class generalSTaxiActivity extends AppCompatActivity {
         finish();
     }
 
+    //홈버튼
+    public void setHomeBtn() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSTaxiActivity.this);
+                builder.setTitle("예약 종료");
+                builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n 그래도 괜찮으신가요?");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // DB에 데이터 삭제 시작
+                        mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                        // DB에 데이터 삭제 완료
+                        Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                        i.putExtra("general_num", general_num);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    //뒤로 가기
+
+
     //네비게이션
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
@@ -402,19 +429,20 @@ public class generalSTaxiActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
-
                 int id = menuItem.getItemId();
-
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
@@ -423,6 +451,30 @@ public class generalSTaxiActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalSTaxiActivity.this);
+        builder.setTitle("예약 종료");
+        builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+        builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // DB에 데이터 삭제 시작
+                mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                // DB에 데이터 삭제 완료
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                startActivity(i);
+                finish();
+            }
+        });
+        builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+
+    }
 
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "160638022803-33qkubusu4nt3egk0ve5dsvkcehga2qr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.project_taxio_2020",
+            "certificate_hash": "96dac5f3c4f7bf3c8f76ef8102b7dfa96d032e8c"
+          }
+        },
+        {
           "client_id": "160638022803-1k9gnuq84aoeubbiu54mtiaucdo8nsuk.apps.googleusercontent.com",
           "client_type": 3
         }

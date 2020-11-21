@@ -6,8 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 // 여행 일정 DB
 public class Schedule {
@@ -79,20 +77,27 @@ public class Schedule {
     }
 
     public void setTravel_state() throws ParseException {
-        Date currentTime = Calendar.getInstance().getTime();
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        Date now = currentTime;
-        Date arrivalDate = dateFormat.parse(arrival_date);
-        Date departureDate = dateFormat.parse(departure_date);
-        Log.d("Moon", "departure : " + departureDate.toString() + " now : " + now.toString() + " arrival : " + arrivalDate.toString());
-        if (now.before(departureDate)) {
+
+        Calendar now = Calendar.getInstance();
+        Calendar arrivalDate = Calendar.getInstance();
+        Calendar departureDate = Calendar.getInstance();
+
+        now.setTime(dateFormat.parse(dateFormat.format(now.getTime())));
+        arrivalDate.setTime(dateFormat.parse(arrival_date));
+        departureDate.setTime(dateFormat.parse(departure_date));
+
+        int versusDeparture = now.compareTo(departureDate);
+        int versusArrival = now.compareTo(arrivalDate);
+
+        if (versusDeparture < 0) {
             Log.d("Moon", "여행준비");
-        } else if (now.after(departureDate) && now.before(arrivalDate)) {
+        } else if (versusDeparture > 0 && versusArrival < 0) {
             Log.d("Moon", "여행중");
-        } else if (now.after(arrivalDate)) {
+        } else if (versusArrival == 0) {
+            Log.d("Moon", "여행중");
+        } else if (versusArrival > 0) {
             Log.d("Moon", "여행완료");
         }
-
     }
 }

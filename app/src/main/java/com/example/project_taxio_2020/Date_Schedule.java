@@ -10,10 +10,10 @@ public class Date_Schedule {
     public String taxi_time; //탑승 이용 시간
     public String start_time; //탑승 시작 시간
 
-    public Date_Schedule(){
+    public Date_Schedule() {
     }
 
-    public Date_Schedule(String schedule_num, String general_num, String schedule_date, Boolean boarding_status, String taxi_time, String start_time){
+    public Date_Schedule(String schedule_num, String general_num, String schedule_date, Boolean boarding_status, String taxi_time, String start_time) {
         this.schedule_num = schedule_num;
         this.general_num = general_num;
         this.schedule_date = schedule_date;
@@ -59,7 +59,11 @@ public class Date_Schedule {
     }
 
     public void setTaxi_time(String taxi_time) {
-        this.taxi_time = taxi_time;
+        if (taxi_time == null) {
+            this.taxi_time = "";
+        } else {
+            this.taxi_time = "("+taxi_time+"시간 )";
+        }
     }
 
     public String getStart_time() {
@@ -67,6 +71,15 @@ public class Date_Schedule {
     }
 
     public void setStart_time(String start_time) {
-        this.start_time = start_time;
+        if (start_time == null) {
+            this.start_time = "";
+        } else {
+            this.start_time = start_time;
+        }
+    }
+
+    public String getPrintText()
+    {
+        return schedule_date+" "+start_time+" "+taxi_time;
     }
 }

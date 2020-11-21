@@ -1,6 +1,7 @@
 package com.example.project_taxio_2020;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -119,6 +120,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        setHomeBtn();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
@@ -199,8 +201,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         scroll1 = findViewById(R.id.scroll1);
 
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
         trip_fin = findViewById(R.id.trip_fin);
 
         day1 = findViewById(R.id.day1);
@@ -240,8 +240,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     next.setVisibility(View.VISIBLE);
                     trip_fin.setVisibility(View.INVISIBLE);
                 }
-
+                addDateActivity();
                 day1.setText(Integer.toString(day) + "일차");
+
 
                 k = 1;
 
@@ -252,7 +253,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 while (true) {
                     if (p[day - 1] != 0) {
-                        if ((place_name[day-1].length-1) == i) {
+                        if ((place_name[day - 1].length - 1) == i) {
                             list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                             break;
                         } else {
@@ -268,7 +269,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                     listView.setAdapter(generalTimelineAdapter);
                 }
-                addDateActivity();
+
             }
         });
 
@@ -296,7 +297,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     next.setVisibility(View.INVISIBLE);
                     trip_fin.setVisibility(View.VISIBLE);
                 }
-
+                addDateActivity();
                 day1.setText(Integer.toString(day) + "일차");
 
                 k = 1;
@@ -308,7 +309,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 while (true) {
                     if (p[day - 1] != 0) {
-                        if ((place_name[day-1].length-1) == i) {
+                        if ((place_name[day - 1].length - 1) == i) {
                             list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                             break;
                         } else {
@@ -324,16 +325,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     listView.setAdapter(generalTimelineAdapter);
                 }
 
-                addDateActivity();
-            }
-        });
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
             }
         });
 
@@ -447,7 +438,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     }
 
     public void addDateActivity() {
-
         for (int n = 0; n < list_itemArrayList.size(); n++) {
             String placeName = list_itemArrayList.get(n).getPlace();
             int taxiRide = list_itemArrayList.get(n).getTaxi();
@@ -459,31 +449,44 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             result.put("course_order", number);
             resultDay.put("coures_place", placeName);
             resultDay.put("boarding_status", taxiRide);
-            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(number).updateChildren(resultDay);
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day - 1)).child("Date_Course").child(number).updateChildren(resultDay);
             mDatabase.push();
         }
+    }
 
 
-        /*int cnt = 1;
-        for(int countDate = 0; countDate < tripdays; countDate++){
-            HashMap result = new HashMap<>();
-            result.put("schedule_num", Integer.toString(countDate + 1));
-            mDatabase.push();
-            Log.d("Moon-Test", "며칠" + (countDate + 1));
-            if(cnt < size){
-                HashMap resultDay = new HashMap<>();
-                //resultDay.put("coures_place", list_itemArrayList);
-
-                String a = list_itemArrayList.get(0).getPlace();
-                Log.d("MoonTest", a);
-                resultDay.put("boarding_status", count);
-
+    public void setHomeBtn() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(generalMakeScheActivity.this);
+                builder.setTitle("예약 종료");
+                builder.setMessage("지금 화면을 나가면 일정 정보는 삭제됩니다.\n그래도 괜찮으신가요?");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // DB에 데이터 삭제 시작
+                        mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+                        // DB에 데이터 삭제 완료
+                        Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
             }
-        }*/
+        });
     }
 
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -492,16 +495,19 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }

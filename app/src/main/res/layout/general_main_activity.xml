@@ -21,35 +21,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
-        <ImageView
-            android:id="@+id/bell"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="13dp"
-            android:src="@drawable/bell"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bar" />
-
-        <TextView
-            android:id="@+id/alarm"
-            style="@style/title1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:text="알림"
-            app:layout_constraintLeft_toRightOf="@+id/bell"
-            app:layout_constraintTop_toBottomOf="@+id/bar" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weather_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="#ffffff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bell" />
+            app:layout_constraintTop_toBottomOf="@+id/bar" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -89,6 +69,16 @@
             app:layout_constraintBottom_toTopOf="parent"
             android:id="@+id/mine"/>
 
+        <ImageView
+            android:id="@+id/bell"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/bell"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newTripBtn" />
+
         <TextView
             android:id="@+id/recruitState"
             style="@style/title1"
@@ -96,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:text="나의 요청 현황"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/newTripBtn" />
 
         <TextView
@@ -128,6 +118,9 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
+        android:background="@color/bar"
+        app:itemTextAppearance="@style/title2"
+        app:itemTextColor="#ffffff"
         app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
