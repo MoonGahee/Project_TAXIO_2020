@@ -100,4 +100,7 @@ public class Schedule {
             Log.d("Moon", "여행완료");
         }
     }
+
+
+    public String getPrintDate(){return  arrival_date + " - " + departure_date; }
 }

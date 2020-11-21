@@ -31,7 +31,7 @@ public class driverCheckScheActivity extends AppCompatActivity {
         setContentView(R.layout.driver_chk_sch);
         setToolbar();
 
-        //값을 받아오기
+        //값 받아오기
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
 
@@ -63,7 +63,6 @@ public class driverCheckScheActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), driverAcceptRequestActivity.class);
-                intent.putExtra("driver_num", driver_num);
                 startActivity(intent);
                 finish();
             }
