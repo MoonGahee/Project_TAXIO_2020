@@ -117,7 +117,7 @@ public class introActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot driver : snapshot.getChildren()) {
                     if (driver.child("driver_email").getValue().toString().equals(email)) {
-                        Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         intent.putExtra("driver_num", driver.getKey());
                         startActivity(intent);
                         finish();

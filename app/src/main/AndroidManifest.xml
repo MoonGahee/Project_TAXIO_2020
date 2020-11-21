@@ -101,5 +101,6 @@
         <activity android:name=".generalSetting" />
         <activity android:name=".generalInfo" />
         <activity android:name=".generalCs" />
+        <activity android:name=".generalTripEpliogue"/> <!--후기 목록-->
     </application>
 </manifest>

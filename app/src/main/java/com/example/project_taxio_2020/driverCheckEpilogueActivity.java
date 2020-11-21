@@ -30,6 +30,7 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
     ListView listView;
     generalEpilogueAdapter epilogue_listAdapter;
     ArrayList<generalEpilogueItem> list_itemArrayList;
+    String driver_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +38,10 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         setContentView(R.layout.driver_epilogue);
         setToolbar();
 
+        //값 받아오기
+        Intent i = getIntent();
+        driver_num = i.getStringExtra("driver_num");
+        
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         naviItem();

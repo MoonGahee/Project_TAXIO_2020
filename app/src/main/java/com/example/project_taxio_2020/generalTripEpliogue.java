@@ -18,13 +18,16 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
-// 후기 by 관우 >> ?
-
-public class generalCheckEpilogueActivity extends AppCompatActivity {
+public class generalTripEpliogue extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
@@ -32,31 +35,31 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
     Button edit_epilogue;
     ListView listView;
     generalEpilogueAdapter epilogue_listAdapter;
-    ArrayList<generalEpilogueItem> list_itemArrayList;
     String general_num;
+    reservationAdapter reservationAdapter;
+    ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_check_epilogue_activity);
+        setContentView(R.layout.general_epilogue_trip);
         setToolbar();
 
         //값 받아오기
         Intent i = getIntent();
         general_num = i.getStringExtra("general_num");
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         naviItem();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         edit_epilogue = findViewById(R.id.edit_epilogue);
         listView = findViewById(R.id.epilogues);
 
-        list_itemArrayList = new ArrayList<generalEpilogueItem>();
-
-        epilogue_listAdapter = new generalEpilogueAdapter(generalCheckEpilogueActivity.this, list_itemArrayList);
-        listView.setAdapter(epilogue_listAdapter);
+        reservationAdapter = new reservationAdapter(generalTripEpliogue.this, list_itemArrayList);
+        listView.setAdapter(reservationAdapter);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -64,8 +67,7 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         title_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(generalCheckEpilogueActivity.this, generalMainActivity.class);
-                i.putExtra("general_num", general_num);
+                Intent i = new Intent(generalTripEpliogue.this, generalMainActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -74,16 +76,50 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         edit_epilogue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(generalCheckEpilogueActivity.this, generalTripEpliogue.class);
-                i.putExtra("general_num", general_num);
+                Intent i = new Intent(generalTripEpliogue.this, generalWriteEpilogueActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+        getData();
+    }
+
+    public void getData() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String viewData = "1";
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                    //for (DataSnapshot day : snapshot.child(general_num).child("Schedule").child(viewData).child("days").getChildren()) {
+
+                        DataSnapshot arrival_date = column.child("arrival_date");
+                        DataSnapshot departure_date = column.child("departure_date");
+
+                        Schedule scheduleItem = new Schedule();
+                        scheduleItem.setArrival_date(arrival_date.getValue(String.class));
+                        scheduleItem.setDeparture_date(departure_date.getValue(String.class));
+
+                        //Date_Schedule dateScheduleItem = new Date_Schedule();
+                        //dateScheduleItem.setSchedule_num(viewData);
+                        //dateScheduleItem.setGeneral_num(general_num);
+
+                        reservationItem rsItem = new reservationItem(scheduleItem.getPrintDate(), null);
+                        list_itemArrayList.add(rsItem);
+                    }
+                //}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
 
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -92,19 +128,16 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
-                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
-                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
-                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
@@ -112,9 +145,10 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
             }
         });
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
+        switch (item.getItemId()) {
+            case android.R.id.home: {//이전 화면으로 돌아감
                 finish();
                 return true;
             }
@@ -122,8 +156,8 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,3 +171,4 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 }
+

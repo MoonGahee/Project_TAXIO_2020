@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="7dp"
-            android:text="후기보기"
+            android:text="후기 확인"
             app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
