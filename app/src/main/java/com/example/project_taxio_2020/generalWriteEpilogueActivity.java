@@ -37,6 +37,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView title_text;
     int i;
+    String general_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +52,9 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
 
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference("Epilogue"); //얘한테 줄거야
+        //값 받아오기
+        Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
 
         cancel_btn = findViewById(R.id.cancel_btn);
         registration_btn = findViewById(R.id.registration_btn);
@@ -62,6 +66,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
+                i.putExtra("general_num", general_num);
                 startActivity(i);
                 finish();
             }
@@ -77,6 +82,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                        intent.putExtra("general_num", general_num);
                         startActivity(intent);
                     }
                 });
@@ -110,6 +116,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                         mDatabase.setValue(result);
 
                         Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                        intent.putExtra("general_num", general_num);
                         startActivity(intent);
                     }
                 });
@@ -136,14 +143,17 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
 
                 if(id == R.id.drawer_schTrip){
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_setting) {
+                }else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
