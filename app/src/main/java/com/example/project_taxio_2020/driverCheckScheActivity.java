@@ -23,12 +23,17 @@ public class driverCheckScheActivity extends AppCompatActivity {
     ListView recruitList;
     reservationAdapter reservationAdapter;
     ArrayList<reservationItem> list_itemArrayList;
+    String driver_num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driver_chk_sch);
         setToolbar();
+
+        //값을 받아오기
+        Intent i = getIntent();
+        driver_num = i.getStringExtra("driver_num");
 
         trip_data = findViewById(R.id.trip_data_Recycler);
         recruitList = findViewById(R.id.recruitList);
@@ -58,6 +63,7 @@ public class driverCheckScheActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), driverAcceptRequestActivity.class);
+                intent.putExtra("driver_num", driver_num);
                 startActivity(intent);
                 finish();
             }

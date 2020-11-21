@@ -131,11 +131,12 @@ public class driverMainActivity extends AppCompatActivity {
                     finish();
                 }
                 else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
                 }else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
                 } /*else if (id == R.id.drawer_modify) {

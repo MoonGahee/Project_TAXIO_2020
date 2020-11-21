@@ -180,6 +180,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                                 result.put("tripDate", date);
 
                                 databaseRef.child(driver_num).child("tripDate").updateChildren(result);
+                                databaseRef.push();
                             }
 
                             @Override
@@ -205,7 +206,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("문자 전송");
-                builder.setMessage("아이린 기사님에게 문자를 \n전송하시겠습니까?");
+                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 문자를 \n전송하시겠습니까?");
                 builder.setPositiveButton("예", null);
                 builder.setNegativeButton("아니오", null);
                 builder.show();
