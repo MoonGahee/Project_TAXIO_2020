@@ -51,7 +51,7 @@ public class generalMyscheActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         nDrawer = findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        naviItem();
+        naviItem();
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
         //값 받아오기
         Intent i = getIntent();
@@ -132,9 +132,7 @@ public class generalMyscheActivity extends AppCompatActivity {
     ;*/
     //콜백 한 번만 호출이 이뤄지는 경우
 
-
-    //네비게이션
-   /* public void naviItem() {
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -144,24 +142,18 @@ public class generalMyscheActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
 
                 if (id == R.id.drawer_schTrip) {
-                    Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), generalModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), generalWriteWithdrawalActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                } else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
+                    intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
                 }
@@ -169,7 +161,6 @@ public class generalMyscheActivity extends AppCompatActivity {
             }
         });
     }
-*/
 
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
