@@ -36,6 +36,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     private int prePosition = -1;
     final String distinction = "..........................";
     final String review = "기사님이 너무 친절하셨어요!";
+    String general_num, schedule_num, date;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -157,6 +158,9 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(context, generalReservationCompleteActivity.class);
+                        i.putExtra("general_num", general_num);
+                        i.putExtra("schedule_num", schedule_num);
+                        i.putExtra("tripDate", date);
                         context.startActivity(i);
                     }
                 });
@@ -185,5 +189,11 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
     void addData(generalDriverItem data) { // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
         dData.add(data);
+    }
+
+    void getnum(String general_num, String schedule_num, String date) {
+        this.general_num = general_num;
+        this.schedule_num = schedule_num;
+        this.date = date;
     }
 }

@@ -46,15 +46,15 @@
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
         <TextView
-        android:id="@+id/select"
-        style="@style/title2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="일정 예약이 완료되었습니다.\n\n택시 기사님께 승객님의 요청이 발송됩니다."
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reservation1" />
+            android:id="@+id/select"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="일정 예약이 완료되었습니다.\n\n택시 기사님께 승객님의 요청이 발송됩니다."
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reservation1" />
 
         <ImageView
             android:id="@+id/imgV"
@@ -81,6 +81,18 @@
             />
 
         <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/imgV"
+            app:layout_constraintLeft_toRightOf="@+id/nameC"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            style="@style/basic"
+            android:textStyle="bold"
+            />
+
+        <TextView
             android:id="@+id/dateC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +100,18 @@
             android:text="여행날짜 : "
             android:layout_marginTop="40dp"
             app:layout_constraintLeft_toLeftOf="@+id/imgV"
+            android:layout_marginLeft="30dp"
+            style="@style/basic"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/nameC"
+            app:layout_constraintLeft_toRightOf="@+id/dateC"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="30dp"
             style="@style/basic"
             android:textStyle="bold"
@@ -107,6 +131,18 @@
             />
 
         <TextView
+            android:id="@+id/course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/dateC"
+            app:layout_constraintLeft_toRightOf="@id/courseC"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            style="@style/basic"
+            android:textStyle="bold"
+            />
+
+        <TextView
             android:id="@+id/taxiC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,6 +150,18 @@
             android:text="요청한 기사님 : "
             android:layout_marginTop="40dp"
             app:layout_constraintLeft_toLeftOf="@+id/imgV"
+            android:layout_marginLeft="30dp"
+            style="@style/basic"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/taxi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/courseC"
+            app:layout_constraintLeft_toRightOf="@+id/taxiC"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="30dp"
             style="@style/basic"
             android:textStyle="bold"
@@ -132,17 +180,29 @@
             android:textStyle="bold"
             />
 
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/taxiC"
+            app:layout_constraintLeft_toRightOf="@+id/timeC"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            style="@style/basic"
+            android:textStyle="bold"
+            />
+
         <Button
             android:id="@+id/goMain"
             style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="150dp"
             android:background="@drawable/button_long"
             android:text="메인으로 돌아가기"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeC" />
+            app:layout_constraintTop_toBottomOf="@+id/imgV" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
