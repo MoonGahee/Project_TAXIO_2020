@@ -7,7 +7,7 @@ public class generalDriverItem {
     private String driverName;
     private String driverInfo;
     private String driverPrice;
-    private int driverPhoto;
+    private String driverPhoto;
 
     public String getDriverName() { //기사 이름
         return driverName;
@@ -33,11 +33,11 @@ public class generalDriverItem {
         this.driverPrice = driverPrice;
     }
 
-    public int getDriverPhoto() { //기사 사진
+    public String getDriverPhoto() { //기사 사진
         return driverPhoto;
     }
 
-    public void setDriverPhoto(int driverPhoto) {
+    public void setDriverPhoto(String driverPhoto) {
         this.driverPhoto = driverPhoto;
     }
 
