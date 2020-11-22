@@ -205,6 +205,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
+        app:headerLayout="@layout/driver_header"
+        android:background="@color/bar"
+        app:itemTextAppearance="@style/title2"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/driver_drawer" /> <!--네비게이션 드로어 추가-->
 </androidx.drawerlayout.widget.DrawerLayout>
