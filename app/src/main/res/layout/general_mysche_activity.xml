@@ -13,6 +13,10 @@
     android:orientation="vertical"
     tools:openDrawer="start">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,6 +83,8 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nDrawer"
         android:layout_width="wrap_content"

@@ -380,7 +380,7 @@ public class generalMainActivity extends AppCompatActivity {
                     finish();
                       
                 } else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalTripEpliogue.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
