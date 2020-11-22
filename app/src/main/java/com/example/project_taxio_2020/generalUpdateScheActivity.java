@@ -225,7 +225,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
     public void moveActivity() {
         isCorrect = true;
-        Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
+        Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
         intent.putExtra("general_num", general_num);
         intent.putExtra("schedule_num", schedule_num);  //회원번호
         intent.putExtra("tripDate", date);
