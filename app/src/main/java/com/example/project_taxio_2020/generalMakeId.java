@@ -93,11 +93,12 @@ public class generalMakeId extends AppCompatActivity {
         setAdapter();//Adapter 세팅 일괄처리
         Intent i = getIntent();
         memberSort = i.getStringExtra("sort");
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
+        gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
-        gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
@@ -176,9 +177,17 @@ public class generalMakeId extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getPicture();
+            }
+        });
+
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //로그인 값을 저장함
+
                 Uri file = Uri.fromFile(new File(imagePath));
-                StorageReference ref = storageRef.child("general/" + file.getLastPathSegment());
-                UploadTask uploadTask = ref.putFile(file);
+                StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
+                UploadTask uploadTask =  ref.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -190,15 +199,6 @@ public class generalMakeId extends AppCompatActivity {
                         ;
                     }
                 });
-
-            }
-        });
-
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //로그인 값을 저장함
-
                 final String getGeneral_email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
                 final String getGeneral_password = edtPassword.getText().toString();
                 final String getGeneral_name = edtNameM.getText().toString();

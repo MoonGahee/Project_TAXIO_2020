@@ -75,8 +75,8 @@ public class generalModifyId extends AppCompatActivity {
         header = nDrawer.getHeaderView(0);
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-        naviItem();
-        setHeaderImage();
+        //naviItem();
+        //setHeaderImage();
 
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference(); //얘한테 줄거야
@@ -108,7 +108,6 @@ public class generalModifyId extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
                     if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
-                        refs = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
                         origin_pic = generalSnapshot.child("general_route").getValue().toString();
                         Log.d("KOO", origin_pic);
                     }
@@ -129,6 +128,21 @@ public class generalModifyId extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Uri file = Uri.fromFile(new File(imagePath));
+                StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
+                UploadTask uploadTask =  ref.putFile(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("KOO", "completeFail");
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("KOO", "complete");
+                    }
+                });
+
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
                 String getGeneral_route = imageName;
@@ -143,24 +157,51 @@ public class generalModifyId extends AppCompatActivity {
                     result.put("general_call", getGeneral_call);
                 }
                 if(getGeneral_route!=null){
+                    DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
+                    gDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                                if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                                    storage = FirebaseStorage.getInstance();
+                                    storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                                    if(storageRef.getName().equals("member.png")){
+                                        ;
+                                    }else{
+                                        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Uh-oh, an error occurred!
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     result.put("general_route", getGeneral_route);
                 }
 
 
                 mDatabase.child("General").child(general_num).updateChildren(result);
                 Log.d("KOO TEST", getGeneral_password+getGeneral_call+getGeneral_route);
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
+
             }
         });
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPicture();
-
-
-
             }
         });
     }
