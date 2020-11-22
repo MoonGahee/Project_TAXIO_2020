@@ -24,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 public class driverMakeIdComplete extends AppCompatActivity {
     TextView nameC, emailC, birthC, phoneC;
     DatabaseReference mDatabase;
-    String general_num;
+    String driver_num;
     Button btnCom;
 
     @Override
@@ -39,7 +39,7 @@ public class driverMakeIdComplete extends AppCompatActivity {
         btnCom = findViewById(R.id.btnCom);
 
         Intent i = getIntent();
-        general_num = (String)i.getSerializableExtra("general_num");
+        driver_num = (String)i.getSerializableExtra("driver_num");
 
         completeId();
         btnCom.setOnClickListener(new View.OnClickListener() {
@@ -53,15 +53,15 @@ public class driverMakeIdComplete extends AppCompatActivity {
     }
 
     public void completeId(){
-        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //얘한테 줄거야
-        ValueEventListener generalListener = new ValueEventListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("Driver"); //얘한테 줄거야
+        ValueEventListener DriverListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                General general = snapshot.child(general_num).getValue(General.class); //child로 경로 지정
-                nameC.setText(nameC.getText().toString()+general.getGeneral_name());
-                birthC.setText(birthC.getText().toString()+general.getGeneral_birth());
-                phoneC.setText(phoneC.getText().toString()+general.getGeneral_call());
-                emailC.setText(emailC.getText().toString()+general.getGeneral_email());
+                Driver driver = snapshot.child(driver_num).getValue(Driver.class); //child로 경로 지정
+                nameC.setText(nameC.getText().toString()+driver.getDriver_name());
+                birthC.setText(birthC.getText().toString()+driver.getDriver_birth());
+                phoneC.setText(phoneC.getText().toString()+driver.getDriver_call());
+                emailC.setText(emailC.getText().toString()+driver.getDriver_email());
             }
 
             @Override
@@ -70,7 +70,7 @@ public class driverMakeIdComplete extends AppCompatActivity {
                 //없는 경우
             }
         };
-        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+        mDatabase.addListenerForSingleValueEvent(DriverListener); //콜백 한 번만 호출이 이뤄지는 경우
     }
 
     public void moveActivity() {
