@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class driverWriteWithdrawal extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -31,22 +37,30 @@ public class driverWriteWithdrawal extends AppCompatActivity {
     Button wd_ok;
     Button wd_cancel;
     FirebaseAuth mAuth;
+    View header;
+    String driver_num;
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.general_write_withdrawal_activity);
+        setContentView(R.layout.driver_write_withdrawal);
         setToolbar();
 
+        Intent i = getIntent();
+        driver_num = i.getStringExtra("driver_num");
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        header = nDrawer.getHeaderView(0);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        setHeaderImage();
 
         mAuth = FirebaseAuth.getInstance();
 
         final DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
         wd_ok = findViewById(R.id.wd_ok);
         wd_cancel = findViewById(R.id.wd_cancel);
@@ -62,7 +76,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         deleteId();
                         // DB에 데이터 삭제 시작
-                        mDatabase.child("moon2").removeValue(); //moon2대신에 id를 데려오면 되지용!
+                        mDatabase.child(driver_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
                         // DB에 데이터 삭제 완료
                         Intent intent = new Intent(getApplicationContext(), driverWithdrawalComplete.class);
                         startActivity(intent);
@@ -89,7 +103,9 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
+                        intent.putExtra("driver_num", driver_num);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -103,7 +119,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
         });
     }
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -112,35 +128,54 @@ public class driverWriteWithdrawal extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_chkRes) {
                     Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }
-                else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else if (id == R.id.drawer_myInfo) {
+                } else if (id == R.id.drawer_chkRev) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
-                    startActivity(intent);
-                    finish();
-                } /*else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), driverModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), driverWriteWithdrawal.class);
+                    intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
                 }
-                else if(id==R.id.logout){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                else if(id == R.id.drawer_chkEpi){
+                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
+                    intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }*/
+                }else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                }
                 return true;
+            }
+        });
+    }
+
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    if(driverSnapshot.getKey().equals(driver_num)) {
+                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/"+driverSnapshot.child("driver_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
