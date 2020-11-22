@@ -87,6 +87,7 @@ public class driverMainActivity extends AppCompatActivity {
         cal1 = findViewById(R.id.cal1);
         btnD = findViewById(R.id.btnD);
 
+        init();
         ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -180,7 +181,7 @@ public class driverMainActivity extends AppCompatActivity {
                 });
             }
         });
-        init();
+
     }
 
     public void init() {

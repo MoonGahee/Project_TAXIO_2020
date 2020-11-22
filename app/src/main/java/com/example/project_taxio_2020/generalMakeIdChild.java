@@ -114,58 +114,8 @@ public class generalMakeIdChild extends AppCompatActivity {
                 }
             }
         });
-        btnEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                check=0; eCheck=0;
 
-                final String email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
-                gDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
-                            if(email.equals(driverSnapshot.child("driver_email").getValue().toString())){
-                                edtEmail.setText("");
-                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
-                                eCheck++;
-                            }
-                            else{
-                                check++;
-                                eCheck++;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
-                mDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                            if(email.equals(generalSnapshot.child("general_email").getValue().toString())){
-                                edtEmail.setText("");
-                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
-                                eCheck++;
-                            }
-                            else{
-                                check++;
-                                eCheck++;
-                            }
-
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-                if(eCheck == check){
-                    Toast.makeText(getApplicationContext(), "사용가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,22 +160,16 @@ public class generalMakeIdChild extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
-                                        if(check==eCheck){
-                                            makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getParent_call, getGeneral_call, getGeneral_route);}
-                                        else{
-                                            Toast.makeText(getApplicationContext(),"이메일 중복체크를 해주세요", Toast.LENGTH_SHORT).show();
-                                        }
-
+                                            makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getParent_call, getGeneral_call, getGeneral_route);
                                     } else {
-                                        Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "중복되는 계정입니다.", Toast.LENGTH_SHORT).show();
+                                        edtEmail.setText("");
                                     }
                                 }
                             });
                 } else {
                     Toast.makeText(getApplicationContext(), chkNullNotice, Toast.LENGTH_SHORT).show();
                 }
-
-                Toast.makeText(getApplicationContext(), signInComplete, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -372,9 +316,6 @@ public class generalMakeIdChild extends AppCompatActivity {
         birthM = findViewById(R.id.birthM);
         birthD = findViewById(R.id.birthD);
         spinnerNum = findViewById(R.id.spinnerNum);
-        btnEmail = findViewById(R.id.btnEmail);
-
-        btnEmail = findViewById(R.id.btnEmail);
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
 
