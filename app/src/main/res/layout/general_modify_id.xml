@@ -220,7 +220,7 @@
                     app:layout_constraintHorizontal_bias="0.072"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnImg" />
+                    app:layout_constraintTop_toBottomOf="@+id/btnImg" />
 
 
                 <Button
@@ -240,5 +240,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header"
+        android:background="@color/bar"
+        app:itemTextAppearance="@style/title2"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/drawer" /> <!--네비게이션 드로어 추가-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

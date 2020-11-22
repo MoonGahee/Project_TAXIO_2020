@@ -167,7 +167,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("기사 요청");
-                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 요청하시겠습니까?\n금액은 60,000원입니다.");
+                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 요청하시겠습니까?\n금액은 시간 당 "+dData.get(position).getDirverPrice()+"입니다.");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
