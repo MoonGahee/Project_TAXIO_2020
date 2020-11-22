@@ -1,6 +1,10 @@
 package com.example.project_taxio_2020;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,8 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 public class driverMakeIdComplete extends AppCompatActivity {
     TextView nameC, emailC, birthC, phoneC;
     DatabaseReference mDatabase;
-    String driver_num;
+    String driver_num, namea;
     Button btnCom;
+    NotificationManager manager;
+    NotificationCompat.Builder builder;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +59,7 @@ public class driverMakeIdComplete extends AppCompatActivity {
             }
         });
 
+        showNoti();
 
     }
 
@@ -62,6 +73,7 @@ public class driverMakeIdComplete extends AppCompatActivity {
                 birthC.setText(birthC.getText().toString()+driver.getDriver_birth());
                 phoneC.setText(phoneC.getText().toString()+driver.getDriver_call());
                 emailC.setText(emailC.getText().toString()+driver.getDriver_email());
+                namea = driver.getDriver_name();
             }
 
             @Override
@@ -72,6 +84,30 @@ public class driverMakeIdComplete extends AppCompatActivity {
         };
         mDatabase.addListenerForSingleValueEvent(DriverListener); //콜백 한 번만 호출이 이뤄지는 경우
     }
+
+
+    public void showNoti() {
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel
+                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            // 하위 버전일 경우
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        // 알림창 제목
+        builder.setContentTitle("회원가입 완료");
+        // 알림창 메시지
+        builder.setContentText(namea+"님의 회원가입이 완료되었습니다!");
+        builder.setSmallIcon(R.drawable.bell);
+        Notification notification = builder.build();
+        // 알림창 실행
+        manager.notify(1, notification);
+    }
+
 
     public void moveActivity() {
         FirebaseAuth.getInstance().signOut();

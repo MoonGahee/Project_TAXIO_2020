@@ -266,7 +266,7 @@ public class generalMakeIdChild extends AppCompatActivity {
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), MakeIdComplete.class);
+        Intent intent = new Intent(getApplicationContext(), generalMakeIdChildComplete.class);
         intent.putExtra("general_num", resultNum.get("general_num").toString());
         intent.putExtra("sort", memberSort);
         startActivity(intent);

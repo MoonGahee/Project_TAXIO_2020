@@ -265,10 +265,11 @@ public class driverMakeId extends AppCompatActivity {
 
     public void setDatabase() {
         gDatabase.child(result.get("driver_num").toString()).setValue(result);
+        gDatabase.child(resultNum.get("driver_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(), MakeIdComplete.class);
+        Intent intent = new Intent(getApplicationContext(), driverMakeIdComplete.class);
         intent.putExtra("driver_num", resultNum.get("driver_num").toString());
         intent.putExtra("sort", memberSort);
         startActivity(intent);
