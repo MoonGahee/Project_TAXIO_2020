@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.core.app.NotificationCompat;
 import androidx.loader.content.CursorLoader;
 
@@ -60,6 +61,7 @@ public class generalMakeId extends AppCompatActivity {
     Button btnComplete;
     TextView btnEmail, btnImg;
     ImageView photo;
+    int check=0, eCheck=0;
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
@@ -67,7 +69,7 @@ public class generalMakeId extends AppCompatActivity {
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabase, gDatabase;
     HashMap result, resultNum;
     NotificationManager manager;
     NotificationCompat.Builder builder;
@@ -91,10 +93,11 @@ public class generalMakeId extends AppCompatActivity {
         setAdapter();//Adapter 세팅 일괄처리
         Intent i = getIntent();
         memberSort = i.getStringExtra("sort");
-        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
+        gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
@@ -121,18 +124,58 @@ public class generalMakeId extends AppCompatActivity {
                 }
             }
         });
+        btnEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
+                gDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                            if(email.equals(driverSnapshot.child("driver_email").getValue().toString())){
+                                edtEmail.setText("");
+                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                eCheck++;
+                            }
+                            else{
+                                check++;
+                                eCheck++;
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                            if(email.equals(generalSnapshot.child("general_email").getValue().toString())){
+                                edtEmail.setText("");
+                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                eCheck++;
+                            }
+                            else{
+                                check++;
+                                eCheck++;
+                            }
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPicture();
-
-            }
-        });
-
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //로그인 값을 저장함
                 Uri file = Uri.fromFile(new File(imagePath));
                 StorageReference ref = storageRef.child("general/" + file.getLastPathSegment());
                 UploadTask uploadTask = ref.putFile(file);
@@ -147,6 +190,15 @@ public class generalMakeId extends AppCompatActivity {
                         ;
                     }
                 });
+
+            }
+        });
+
+        btnComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //로그인 값을 저장함
+
                 final String getGeneral_email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
                 final String getGeneral_password = edtPassword.getText().toString();
                 final String getGeneral_name = edtNameM.getText().toString();
@@ -163,8 +215,11 @@ public class generalMakeId extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
-                                        makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call, getGeneral_route);
+                                        if(check==eCheck){
+                                        makeId(getGeneral_email, getGeneral_password, getGeneral_name, getGeneral_sex, getGeneral_birth, getGeneral_call, getGeneral_route);}
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"이메일 중복체크를 해주세요", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
                                         Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();
                                     }
