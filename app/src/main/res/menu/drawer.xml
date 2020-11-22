@@ -10,6 +10,7 @@
 
         <item
             android:id="@+id/drawer_myInfo"
+            android:icon="@drawable/pass"
             android:title="후기 관리" />
 
         <item
