@@ -70,7 +70,7 @@ public class generalMakeId extends AppCompatActivity {
     Matcher m;
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase, gDatabase;
-    HashMap result, resultNum;
+    HashMap result;
     NotificationManager manager;
     NotificationCompat.Builder builder;
     private static String CHANNEL_ID = "channel1";
