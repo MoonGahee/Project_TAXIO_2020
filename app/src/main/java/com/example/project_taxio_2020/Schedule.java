@@ -93,24 +93,30 @@ public class Schedule {
         int versusArrival = now.compareTo(arrivalDate);
 
         if (versusDeparture < 0) {
-            Log.d("Moon", "여행준비");
+            this.travel_state = "여행준비중";
         } else if (versusDeparture > 0 && versusArrival < 0) {
-            Log.d("Moon", "여행중");
+            this.travel_state = "여행중";
         } else if (versusArrival == 0) {
-            Log.d("Moon", "여행중");
+            this.travel_state = "여행중";
         } else if (versusArrival > 0) {
-            Log.d("Moon", "여행완료");
+            this.travel_state = "여행끝";
         }
     }
 
 
-    public String getPrintDate(){return  arrival_date + " - " + departure_date; }
+    public String getPrintDate() {
+        return arrival_date + " - " + departure_date;
+    }
 
     public String getTaxi_driver() {
         return taxi_driver;
     }
 
     public void setTaxi_driver(String taxi_driver) {
-        this.taxi_driver = taxi_driver;
+        if (taxi_driver == null) {
+            this.taxi_driver = "미배정";
+        } else {
+            this.taxi_driver = taxi_driver;
+        }
     }
 }

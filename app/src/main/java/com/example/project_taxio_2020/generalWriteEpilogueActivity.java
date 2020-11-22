@@ -3,6 +3,7 @@ package com.example.project_taxio_2020;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
@@ -43,12 +47,14 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
     Button cancel_btn, registration_btn;
     Toolbar toolbar;
     HashMap result;
-    TextView trip_date, trip_region, driver_name, trip_couse, title_text;
+    TextView trip_date, trip_region, driver_name, title_text;
     String score;
     RatingBar rating;
     String name;
     int i;
     String general_num, driver_num;
+    String generalName;
+    String driverName, schedule, region;
     private FirebaseStorage storage;
     StorageReference storageRef;
     DatabaseReference eDatabase, mDatabase, gDatabase;
@@ -59,8 +65,8 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         setContentView(R.layout.general_write_epilogue_activity);
         setToolbar();
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
@@ -68,18 +74,21 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         storageRef = storage.getReference();
         eDatabase = FirebaseDatabase.getInstance().getReference("Epilogue"); //얘한테 줄거야
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
-        gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         //값 받아오기
         Intent i = getIntent();
-        general_num = i.getStringExtra("general_num");
+        general_num = i.getStringExtra("generalNum");
+        driverName = i.getStringExtra("driverName");
+        schedule = i.getStringExtra("Schedule");
+        region = i.getStringExtra("Region");
 
         cancel_btn = findViewById(R.id.cancel_btn);
         registration_btn = findViewById(R.id.registration_btn);
-        trip_couse = findViewById(R.id.trip_course);
         trip_date = findViewById(R.id.trip_date);
         trip_region = findViewById(R.id.trip_region);
         driver_name = findViewById(R.id.driver_name);
         rating = findViewById(R.id.rating);
+
+        setTextBox(schedule, region, driverName);
 
 
         cancel_btn.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +124,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        setData();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -128,38 +137,24 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
             }
         });
     }
-    public void GetData() {
-        score = String.valueOf(rating.getRating());
+
+    public void setTextBox(String tripDate, String region, String driverName) {
+        trip_date.setText(tripDate);
+        trip_region.setText(region);
+        driver_name.setText(driverName);
+    }
+
+    public void setData() {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String viewData = "1";
-                int smallestDay = 999;
-                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
-                    trip_date.setText(column.child("departure_date").getValue().toString()+" ~ "+column.child("arrival_date").getValue().toString());
-                }
-                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(viewData).child("days").getChildren()) {
-                    DataSnapshot dateSchedule = column.child("Date_Schedule");
-                    DataSnapshot dateCourse = column.child("Date_Course");
+                generalName = snapshot.child(general_num).child("general_name").getValue(String.class);
+                Date now = new Date(System.currentTimeMillis());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
+                String strNow = sdf.format(now);
 
-                    Date_Schedule dateScheduleItem = new Date_Schedule();
-                    dateScheduleItem.setSchedule_num(viewData);
-                    dateScheduleItem.setGeneral_num(general_num);
-                    dateScheduleItem.setSchedule_date(dateSchedule.child("schedule_date").getValue(String.class));
-
-
-                    StringJoiner lists = new StringJoiner("-");
-                    for (DataSnapshot couresPlace : dateCourse.getChildren()) {
-                        lists.add(couresPlace.child("coures_place").getValue(String.class));
-                    }
-                    String list = lists.toString();
-                }
-
-                for(DataSnapshot generalSnapshot : snapshot.getChildren()){
-                    name = generalSnapshot.child("Schedule").child("driver_name").getValue().toString();
-                    driver_name.setText(name);
-                    trip_region.setText(generalSnapshot.child("Schedule").child("region").getValue().toString());
-                }
+                Log.d("CJW_test","기사이름 : "+driverName +", 승객이름 : "+generalName + ", 작성날짜 : "+strNow + ", 별점 : "+rating.getRating());
+                //TODO; 디비에 입력하기
             }
 
             @Override
@@ -167,69 +162,17 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
 
             }
         });
-        gDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot column : snapshot.child("Driver_name").child("Driver_Schedule").child("general_name").getChildren()) {
-                    driver_num = column.child("Driver_num").getValue().toString();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        makeEpi(driver_num, general_num, general_num, score);
     }
-    public void makeEpi(String getdriver_num, String getGeneral_num, String getDriver_route, String getScore) {
-        result = new HashMap<>();
-        result.put("driver_num", getdriver_num);
-        result.put("general_num", getGeneral_num);
-        result.put("driver_route", getDriver_route);
-        result.put("score", getScore);
-
-        getNumber();
-    }
-    public void getNumber() {
-        ValueEventListener generalListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i = 0;
-                for (DataSnapshot column : snapshot.getChildren()) {
-                    if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
-                        break;
-                    } else {
-                        i++;
-                    }
-                }
-                //resultNum = new HashMap<>();
-                result.put("epilogue_id", Integer.toString(i));
-                setDatabase();//데이터베이스 값 입력
-                moveActivity();//액티비티 이동
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //없는 경우
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
-    }//회원 번호 부여
-
-    public void setDatabase() {
-        mDatabase.child(result.get("epilogue_id").toString()).setValue(result);
-    }//데이터베이스 값 입력
 
     public void moveActivity() {
-        Intent intent = new Intent(getApplicationContext(),generalMainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
 
         startActivity(intent);
         finish();
     }//액티비티 이동
 
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -238,7 +181,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
@@ -248,7 +191,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
@@ -259,8 +202,8 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         });
     }
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
