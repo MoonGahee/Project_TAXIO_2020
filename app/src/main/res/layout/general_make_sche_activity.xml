@@ -146,7 +146,7 @@
                 android:background="@drawable/button_short"
                 android:text="일정 편집"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trip1" />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <Button
                 android:id="@+id/trip_fin"
