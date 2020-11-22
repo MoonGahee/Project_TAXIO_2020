@@ -82,7 +82,7 @@ public class driverMainActivity extends AppCompatActivity {
         header = nDrawer.getHeaderView(0);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
-        //setHeaderImage();
+        setHeaderImage();
 
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
