@@ -50,6 +50,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     HashMap resultG;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
+    int i = 0;
 
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
@@ -167,28 +168,12 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("기사 요청");
-                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 요청하시겠습니까?\n금액은 시간 당 "+dData.get(position).getDirverPrice()+"입니다.");
+                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 요청하시겠습니까?\n금액은 시간 당 " + dData.get(position).getDirverPrice() + "입니다.");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        databaseRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot driver : snapshot.getChildren()) {
-                                    if (dData.get(position).getDriverName().equals(driver.child("driver_name").getValue(String.class))) {
-                                        driver_num = driver.getKey();
-                                    }
-                                }
-                                getDate();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
+                        getDate(position);
                         Intent i = new Intent(context, generalReservationCompleteActivity.class);
                         i.putExtra("general_num", general_num);
                         i.putExtra("schedule_num", schedule_num);
@@ -232,35 +217,50 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     void getTime() {
     }
 
-    void getDate() {
-        databaseRef.addValueEventListener(new ValueEventListener() {
+    void getDate(final int position) {
+        ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driver : snapshot.getChildren()) {
+                    if (dData.get(position).getDriverName().equals(driver.child("driver_name").getValue(String.class))) {
+                        driver_num = driver.getKey();
+
+                    }
+                }
+
+                i = 1;
                 Driver drivers = snapshot.child(driver_num).getValue(Driver.class);
                 String driver_name = drivers.getDriver_name();
                 resultG = new HashMap<>();
                 resultG.put("driver_name", driver_name);
+
+                for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                    if(Integer.parseInt(column.getKey()) != i)
+                    { //여기가 이상한 것 같은데
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
-
+                //없는 경우
             }
-        });
+        };
+
+        Log.d("moon", String.valueOf(i));
+        databaseRef.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
 
         final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            //int i = Integer.parseInt(databaseRef.child(driver_num).child("Driver_Schedule").getKey()); //if문 설정해야함
-            int i = 1;
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 General general = snapshot.child(general_num).getValue(General.class);
                 String general_name = general.getGeneral_name();
                 result.put("general_name", general_name);
                 mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
-
-                //int i = databaseRef.child(driver_num).child("Driver_Schedule").orderByKey().limitToLast(1).getRef().;
 
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
 
@@ -281,7 +281,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     result.put("day", day);
                     result.put("course", list);
                     result.put("time", time);
-                    result.put("start_time",start_time);
+                    result.put("start_time", start_time);
                     Log.d("Moon-Test", column.toString());
                     databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(result);
                     i++;
