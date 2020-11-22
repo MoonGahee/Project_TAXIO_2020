@@ -1,8 +1,10 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,10 +29,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.StringJoiner;
 
 
 public class generalMyscheActivity extends AppCompatActivity {
@@ -40,8 +50,7 @@ public class generalMyscheActivity extends AppCompatActivity {
     String general_num;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
-    ArrayList<Schedule> scheduleDataList = new ArrayList<Schedule>();
-    String startDay, finishDay;
+    ArrayList<mainTripItem> scheduleDataList = new ArrayList<mainTripItem>();
     //Schedule day;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
@@ -60,19 +69,40 @@ public class generalMyscheActivity extends AppCompatActivity {
         ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("Moon", "generalNum : " + general_num);
+                final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
-                    Schedule data = new Schedule();
+                    final Schedule data = new Schedule();
                     data.setSchedule_num(column.getKey());
                     data.setDeparture_date(column.child("departure_date").getValue(String.class));
                     data.setArrival_date(column.child("arrival_date").getValue(String.class));
                     data.setTimes(column.child("times").getValue(String.class));
                     data.setRegion(column.child("region").getValue(String.class));
-                    startDay = data.getDeparture_date();
-                    finishDay = data.getArrival_date();
+
+                    cal1.addDecorator(new DayViewDecorator() {
+                        Calendar customDay = Calendar.getInstance();
+                        Calendar arrivalDay = Calendar.getInstance();
+                        Calendar departureDay = Calendar.getInstance();
+
+                        @Override
+                        public boolean shouldDecorate(CalendarDay day) {
+                            try {
+                                customDay.setTime(yearFormat.parse(yearFormat.format(day.getCalendar().getTime())));
+                                departureDay.setTime(yearFormat.parse(data.getDeparture_date()));
+                                arrivalDay.setTime(yearFormat.parse(data.getArrival_date()));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return customDay.compareTo(departureDay) >= 0 && customDay.compareTo(arrivalDay) <= 0;
+                        }
+
+                        @Override
+                        public void decorate(DayViewFacade view) {
+                            view.addSpan(new ForegroundColorSpan(Color.GREEN){});
+                        }
+                    });
+
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -81,15 +111,72 @@ public class generalMyscheActivity extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(scheduleListener);
         // 시작일, 종료일 가져오기
 
-        //Date d = Date.valueOf(startDay);
-//        Date d = Date.valueOf(startDay);
-        //      cal1.setSelectedDate(d);
+        cal1.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                final Calendar selectCal = date.getCalendar();
+                adapter.clearItem();
+                adapter.notifyDataSetChanged();
+
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
+
+                        try {
+                            selectCal.setTime(yearFormat.parse(yearFormat.format(selectCal.getTime())));
+
+                            for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
+                                for (DataSnapshot column2 : column.child("days").getChildren()) {
+                                    DataSnapshot dateSchedule = column2.child("Date_Schedule");
+                                    DataSnapshot dateCourse = column2.child("Date_Course");
+
+                                    String scheduleDate = dateSchedule.child("schedule_date").getValue(String.class);
+                                    Calendar startCal = Calendar.getInstance();
+
+                                    startCal.setTime(yearFormat.parse(scheduleDate));
+
+                                    if (selectCal.compareTo(startCal) == 0) {
+
+                                        Date_Schedule dateScheduleItem = new Date_Schedule();
+                                        dateScheduleItem.setSchedule_num(column.getKey());
+                                        dateScheduleItem.setGeneral_num(general_num);
+                                        dateScheduleItem.setSchedule_date(scheduleDate);
+                                        dateScheduleItem.setStart_time(dateSchedule.child("start_time").getValue(String.class));
+                                        dateScheduleItem.setTaxi_time(dateSchedule.child("taxi_time").getValue(String.class));
+                                        dateScheduleItem.setBoarding_status(dateSchedule.child("boarding_status").getValue(Boolean.class));
+
+                                        StringJoiner lists = new StringJoiner("-");
+                                        for (DataSnapshot couresPlace : dateCourse.getChildren()) {
+                                            lists.add(couresPlace.child("coures_place").getValue(String.class));
+                                        }
+                                        String list = lists.toString();
+
+                                        Date_Schedule item = new Date_Schedule();
+                                        item.setGeneral_num(dateScheduleItem.getPrintText());
+                                        item.setSchedule_date(list);
+                                        adapter.addItem(item);
+                                        adapter.notifyDataSetChanged();
+
+                                        return;
+                                    }
+                                }
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
 
-        //cal1.setSelectedDate(d);
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
 
         init();
-        //getData();
     }
 
 
@@ -101,36 +188,6 @@ public class generalMyscheActivity extends AppCompatActivity {
         tripRecycler.setAdapter(adapter);
         tripRecycler.setHasFixedSize(true);
     }
-
-    /*public void getData() {
-        ValueEventListener dateListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Date_Schedule date_schedule = snapshot.child(general_num).child("Schedule").child("schedule_num").child("days").getValue(Date_Schedule.class);
-                Schedule day = snapshot.child(general_num).child("Schdule").getValue(Schedule.class);
-                int i = 1;
-                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
-                    if (Integer.parseInt(column.getKey()) != day.getTimes().length()) { //여기가 이상한 것 같은데
-                        date_schedule.getSchedule_date();
-                        Log.d("moon",date_schedule.getSchedule_date());
-                    } else {
-                        i++;
-                    }
-                }
-                adapter.addItem(date_schedule);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Moon-Test", "error");
-            }
-        };
-        mDatabase.addListenerForSingleValueEvent(dateListener);
-        adapter.notifyDataSetChanged();
-    }
-
-    ;*/
-    //콜백 한 번만 호출이 이뤄지는 경우
 
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용

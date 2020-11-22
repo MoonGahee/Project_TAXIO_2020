@@ -102,5 +102,6 @@
         <activity android:name=".generalInfo" />
         <activity android:name=".generalCs" />
         <activity android:name=".generalTripEpliogue"/> <!--후기 목록-->
+        <activity android:name=".generalMyScheDetailActivity"/> <!--여행 일정 디테일-->
     </application>
 </manifest>
