@@ -77,7 +77,7 @@
             style="@style/basic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-1dp"
+            android:layout_marginTop="17dp"
             android:clickable="true"
             android:text="Send Message"
             android:textColor="@color/mainText"
