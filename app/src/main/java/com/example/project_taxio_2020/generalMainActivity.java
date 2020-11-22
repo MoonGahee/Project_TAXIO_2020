@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -84,6 +85,7 @@ public class generalMainActivity extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageRef;
 
+    Integer[] images ={R.drawable.one, R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five};
     ImageView mine;
     String nowm = monthFormat.format(currentTime);
     String nowd = dayFormat.format(currentTime);
@@ -99,6 +101,7 @@ public class generalMainActivity extends AppCompatActivity {
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> mainTripLists = new ArrayList<>();
 
+    ViewFlipper viewPic;
     ForeCastManager mForeCast;
 
     String lon = "126.897240"; // 좌표 설정
@@ -109,8 +112,6 @@ public class generalMainActivity extends AppCompatActivity {
     String general_num, name, email;
     View header;
 
-    ListView recruitList;
-    reservationAdapter reservationAdapter;
     ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
 
     FirebaseAuth mauth;
@@ -164,11 +165,24 @@ public class generalMainActivity extends AppCompatActivity {
             }
         });
 
-        recruitList = findViewById(R.id.recruitList);
+        viewPic = findViewById(R.id.viewFlip);
 
-        reservationAdapter = new reservationAdapter(generalMainActivity.this, list_itemArrayList);
-        recruitList.setAdapter(reservationAdapter);
+        for(int image : images) {
+            fllipperImages(image);
+        }
 
+    }
+    public void fllipperImages(int image) {
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(image);
+
+        viewPic.addView(imageView);
+        viewPic.setFlipInterval(2000);
+        viewPic.setAutoStart(true);
+
+        // animation
+        viewPic.setInAnimation(this,android.R.anim.slide_in_left);
+        viewPic.setOutAnimation(this,android.R.anim.slide_out_right);
     }
 
     public void Initialize() {
