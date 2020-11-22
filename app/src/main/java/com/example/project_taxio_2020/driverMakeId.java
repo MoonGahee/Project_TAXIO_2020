@@ -281,8 +281,8 @@ public class driverMakeId extends AppCompatActivity {
                         i++;
                     }
                 }
-                resultNum = new HashMap<>();
-                resultNum.put("driver_num", Integer.toString(i));
+                //resultNum = new HashMap<>();
+                result.put("driver_num", Integer.toString(i));
                 setDatabase();//데이터베이스 값 입력
                 moveActivity();//액티비티 이동
             }
@@ -296,6 +296,7 @@ public class driverMakeId extends AppCompatActivity {
     }//회원 번호 부여
 
     public void setDatabase() {
+        gDatabase.child(result.get("driver_num").toString()).setValue(result);
         gDatabase.child(resultNum.get("driver_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
