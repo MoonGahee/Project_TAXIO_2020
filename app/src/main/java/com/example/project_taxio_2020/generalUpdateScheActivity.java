@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,6 +26,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.akshaykale.swipetimeline.TimelineFragment;
@@ -40,6 +43,7 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -49,6 +53,7 @@ import java.util.HashMap;
 public class generalUpdateScheActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Button finish_btn;
+    private DrawerLayout drawerLayout;
     Toolbar toolbar;
     TextView title_text, day2, date2;
     String jeju[];//장소 저장하는 배열
@@ -84,6 +89,8 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
         schedule_num = (String) i.getSerializableExtra("schedule_num");
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         date = i.getStringExtra("tripDate");
         day = i.getIntExtra("tripDays", 3);
         latLng = i.getParcelableArrayListExtra("tripLatLng");
@@ -120,18 +127,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         generalTimelineAdapter = new generalTimelineAdapter(generalUpdateScheActivity.this, list_itemArrayList);
         listView.setAdapter(generalTimelineAdapter);
-
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
 
         finish_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,10 +224,12 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
     }
 
     public void moveActivity() {
+        isCorrect = true;
         Intent intent = new Intent(getApplicationContext(), generalMakeScheActivity.class);
         intent.putExtra("general_num", general_num);
         intent.putExtra("schedule_num", schedule_num);  //회원번호
         intent.putExtra("tripDate", date);
+        intent.putExtra("tripDays", day);
         startActivity(intent);
         finish();
     }
@@ -281,14 +278,6 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
-        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
-        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
-        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 
     @Override
@@ -347,5 +336,54 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
 
         if (rtn <= 0) return Double.toString(rtn) + " m";
         else return Double.toString(rtn) + "km";
+    }
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+        ImageButton menu = findViewById(R.id.menu);
+        TextView title_text = findViewById(R.id.title_text);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.END);
+            }
+        });
+        setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
+        ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
+        actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로 가기 버튼 활성화
+
+        title_text.setClickable(true); //홈으로 가기 버튼 활성화
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                i.putExtra("general_num", general_num);
+                startActivity(i);
+                finish();
+            }
+        });
+    }
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast  = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
+    }
+    boolean isCorrect = false;
+    @Override
+    protected void onDestroy() {
+        if(!isCorrect)  mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+        // DB에 데이터 삭제 완료
+        super.onDestroy();
     }
 }

@@ -3,9 +3,11 @@ package com.example.project_taxio_2020;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -44,7 +46,6 @@ public class generalAgeCheck extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(getApplicationContext(), MemberSort.class);
                         startActivity(i);
-                        finish();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -63,7 +64,6 @@ public class generalAgeCheck extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), generalClause.class);
                 i.putExtra("sort", memberSort);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -74,19 +74,8 @@ public class generalAgeCheck extends AppCompatActivity {
                 i.putExtra("sort", memberSort);
                 i.putExtra("age", 14);
                 startActivity(i);
-                finish();
             }
         });
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void setToolbar(){
@@ -95,5 +84,21 @@ public class generalAgeCheck extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast  = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
     }
 }
