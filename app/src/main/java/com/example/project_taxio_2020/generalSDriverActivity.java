@@ -72,6 +72,8 @@ public class generalSDriverActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
+        init();
+        driverSet();
 
         tripdate = findViewById(R.id.tripdate);
         tripdate.setText(date);
@@ -115,13 +117,11 @@ public class generalSDriverActivity extends AppCompatActivity {
                 else {
                     search_result.setVisibility(View.VISIBLE);
                     recyclerView_driver.setVisibility(View.VISIBLE);
-                    driverSet();
                     selectDriver();
                 }
             }
         });
         //RecyclerView 사용
-        init();
 
     }
     public void driverSet(){
@@ -158,102 +158,107 @@ public class generalSDriverActivity extends AppCompatActivity {
         recyclerView_driver.setLayoutManager(linearLayoutManager);
 
         adapter = new generalDriverAdapter();
+
+        adapter.getnum(general_num, schedule_num);
+
         recyclerView_driver.setAdapter(adapter);
     }
 
-    public void getData(){ //임시 데이터값 추가
+    public void getData(int position){ //임시 데이터값 추가
 
-        for(int i = 0; i < listDriverName.size(); i++){  //DriverData Class 객체에 set
-            generalDriverItem data = new generalDriverItem();
-            switch(rg1.getCheckedRadioButtonId()){
-                case R.id.noGender:
-                    data.setDriverName(listDriverName.get(i));
-                    selectTrunck();
-                    break;
-                case R.id.manDriver:
-                    data.setDriverName(listDriverName.get(i));
-                    for(int j = 0; j<listDriverName.size();j++){
-                        listDriverSex.get(j).equals("남");
-                        selectTrunck();
-                    }
-                    break;
-                case R.id.womanDriver:
-                    data.setDriverName(listDriverName.get(i));
-                    for(int j = 0; j<listDriverName.size();j++){
-                        listDriverSex.equals("여");
-                        selectTrunck();
-                    }
-                    break;
-            }
+        generalDriverItem data = new generalDriverItem();
 
-            data.setDriverInfo(listDriverInfo.get(i));
-            data.setDirverPrice(listDriverPrice.get(i));
-            //data.setDriverPhoto(listDriverPhoto.get(i));
+        data.setDriverName(listDriverName.get(position));
 
-            adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
-            adapter.getnum(general_num, schedule_num);
-        }
+        data.setDriverInfo(listDriverInfo.get(position));
+        data.setDirverPrice(listDriverPrice.get(position));
+        //data.setDriverPhoto(listDriverPhoto.get(i));
 
+        adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
 
+        Log.d("test", "4");
     }
 
     public void selectDriver(){
         switch(rg1.getCheckedRadioButtonId()){
             case R.id.noGender:
-                selectTrunck();
+                for(int i = 0; i<listDriverName.size();i++){
+                    selectTrunck(i);
+                }
                 break;
             case R.id.manDriver:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSex.get(i).equals("남");
-                    selectTrunck();
+                    if (listDriverSex.get(i).equals("남"))
+                        selectTrunck(i);
                 }
                 break;
             case R.id.womanDriver:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSex.equals("여");
-                    selectTrunck();
+                    if (listDriverSex.get(i).equals("여"))
+                        selectTrunck(i);
                 }
                 break;
         }
-
+        Log.d("test", "1");
     }
-    public void selectTrunck(){
+    public void selectTrunck(int position){
         switch(rg2.getCheckedRadioButtonId()){
             case R.id.allTrunk:
-                selectSeat();
+                for(int i = 0; i<listDriverName.size();i++){
+                    if (listDriverTrunk.get(position).equals("사용 불가능") || listDriverTrunk.get(position).equals("사용 가능")){
+                        selectSeat(position);
+                        break;
+                    }
+                }
                 break;
             case R.id.noTrunk:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverTrunk.get(i).equals("사용 불가능");
-                    selectSeat();
+                    if (listDriverTrunk.get(position).equals("사용 불가능")){
+                        selectSeat(position);
+                        break;
+                    }
                 }
                 break;
             case R.id.yesTrunk:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverTrunk.get(i).equals("사용 가능");
-                    selectSeat();
+                    if (listDriverTrunk.get(position).equals("사용 가능")){
+                        selectSeat(position);
+                        break;
+                    }
                 }
                 break;
         }
+        Log.d("test", "2");
     }
-    public void selectSeat(){
-        switch(rg1.getCheckedRadioButtonId()){
+    public void selectSeat(int position){
+        switch(rg3.getCheckedRadioButtonId()){
             case R.id.under4:
-                getData();
+                for(int i = 0; i<listDriverName.size();i++){
+                    if (listDriverSeat.get(position).equals("4") || listDriverSeat.get(position).equals("6")){
+                        getData(position);
+                        break;
+                    }
+                }
                 break;
             case R.id.under6:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSeat.get(i).equals("4");
-                    getData();
+                    if (listDriverSeat.get(position).equals("4")){
+                        getData(position);
+                        break;
+                    }
                 }
                 break;
             case R.id.over6:
                 for(int i = 0; i<listDriverName.size();i++){
-                    getData();
+                    if (listDriverSeat.get(position).equals("6")){
+                        getData(position);
+                        break;
+                    }
                 }
                 break;
         }
+        Log.d("test", "3");
     }
 
     //네비게이션

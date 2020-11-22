@@ -1,6 +1,10 @@
 package com.example.project_taxio_2020;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -33,6 +38,10 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     TextView time, name, taxi, date, course;
     String tripdate, general_num, schedule_num;
     DatabaseReference mDatabase;
+    NotificationCompat.Builder builder;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
+    NotificationManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         goMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showNoti();
                 Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(intent);
                 finish();
@@ -93,6 +103,29 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
             }
         };
         mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }
+
+
+    public void showNoti() {
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel
+                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            // 하위 버전일 경우
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        // 알림창 제목
+        builder.setContentTitle("예약 완료");
+        // 알림창 메시지
+        builder.setContentText("일정 예약이 완료되었습니다!");
+        builder.setSmallIcon(R.drawable.bell);
+        Notification notification = builder.build();
+        // 알림창 실행
+        manager.notify(1, notification);
     }
 
     //네비게이션

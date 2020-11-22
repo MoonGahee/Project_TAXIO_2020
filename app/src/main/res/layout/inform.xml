@@ -57,6 +57,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gahee" />
 
+        <TextView
+            android:id="@+id/gaheeTxt2"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:text="MANAGER"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gaheeTxt" />
+
         <ImageView
             android:id="@+id/gahee"
             android:layout_width="150dp"
@@ -73,11 +84,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginRight="52dp"
+            android:layout_marginRight="55dp"
             android:text="박관우 : "
             android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gwanwoo" />
+
+        <TextView
+            android:id="@+id/gwanwooTxt2"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="40dp"
+            android:text="FRONTEND"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gwanwooTxt" />
 
         <ImageView
             android:id="@+id/gwanwoo"
@@ -100,6 +123,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/haeun" />
 
+        <TextView
+            android:id="@+id/haeunTxt2"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:text="BACKEND"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/haeunTxt" />
+
         <ImageView
             android:id="@+id/haeun"
             android:layout_width="150dp"
@@ -121,6 +155,18 @@
             android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/juhye" />
+
+        <TextView
+            android:id="@+id/juhyeTxt2"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="36dp"
+            android:text="PUBLISHING"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/juhyeTxt" />
 
         <ImageView
             android:id="@+id/juhye"
