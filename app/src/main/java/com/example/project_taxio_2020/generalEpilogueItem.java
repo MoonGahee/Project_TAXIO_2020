@@ -4,25 +4,21 @@ package com.example.project_taxio_2020;
 
 public class generalEpilogueItem {
 
-    private int image;
+    private String image;
     private String driver;
     private float rating;
-    private String distinction;
-    private String reviews;
 
-    public generalEpilogueItem(int image, String driver, float rating, String distinction, String reviews) {
+    public generalEpilogueItem(String image, String driver, float rating) {
         this.image = image;
         this.driver = driver;
         this.rating = rating;
-        this.distinction = distinction;
-        this.reviews = reviews;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -40,22 +36,6 @@ public class generalEpilogueItem {
 
     public void setRating(float rating) {
         this.rating = rating;
-    }
-
-    public String getDistinction() {
-        return distinction;
-    }
-
-    public void setDistinction(String distinction) {
-        this.distinction = distinction;
-    }
-
-    public String getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(String reviews) {
-        this.reviews = reviews;
     }
 
 }

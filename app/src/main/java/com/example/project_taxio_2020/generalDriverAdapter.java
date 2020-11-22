@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +53,8 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
     int i = 0;
-
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -89,6 +92,10 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             driverName.setText(dataDriver.getDriverName());
             infoDriver.setText(dataDriver.getDriverInfo());
             infoPrice.setText(dataDriver.getDirverPrice());
+            storage = FirebaseStorage.getInstance();
+            String route = "gs://taxio-b186e.appspot.com/driver/"+dataDriver.getDriverPhoto();
+            storageRef = storage.getReferenceFromUrl(route);
+            GlideApp.with(context).load(storageRef).into(driverImg);
             recyclerView_driver_detail.setAdapter(adapter);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -112,7 +119,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                         selectedItems.delete(prePosition); //직전 클릭한 상태 삭제
                         selectedItems.put(position, true); //position에 저장
 
-                        Edata = new generalEpilogueItem(R.drawable.profile, dataDriver.getDriverName(), 4.0f, distinction, review);
+                        Edata = new generalEpilogueItem(dataDriver.getDriverPhoto(), dataDriver.getDriverName(), 4.0f);
                         adapter.addData(Edata);
                         adapter.notifyDataSetChanged();
                     }

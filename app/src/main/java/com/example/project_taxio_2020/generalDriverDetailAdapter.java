@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 // 기사 선택 RecyclerView Detail by 가희
@@ -20,31 +23,32 @@ import java.util.ArrayList;
 public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriverDetailAdapter.ItemViewHolder> {
     private ArrayList<generalEpilogueItem> EData = new ArrayList<>();
     Context context;
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView driverName;
         RatingBar rating;
-        TextView distinction;
-        TextView reviews;
+
 
         ItemViewHolder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             driverName = itemView.findViewById(R.id.driver);
             rating = itemView.findViewById(R.id.rating);
-            distinction = itemView.findViewById(R.id.distinction);
-            reviews = itemView.findViewById(R.id.reivews);
             //인플레이팅
         }
 
         //값을 하나하나 출력해주는 함수
         void onBind(generalEpilogueItem dataE){
-            image.setImageResource(dataE.getImage());
+            storage = FirebaseStorage.getInstance();
+            String route = "gs://taxio-b186e.appspot.com/driver/"+dataE.getImage();
+            storageRef = storage.getReferenceFromUrl(route);
+            GlideApp.with(context).load(storageRef).into(image);
             driverName.setText(dataE.getDriver());
             rating.setRating(dataE.getRating());
-            distinction.setText(dataE.getDistinction());
-            reviews.setText(dataE.getReviews());
+
         }
 
     }

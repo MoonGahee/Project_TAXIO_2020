@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 // by  관우
@@ -21,8 +24,8 @@ public class generalEpilogueAdapter extends BaseAdapter {
     ImageView image_imageView;
     TextView driver_textView;
     RatingBar rating_ratingBar;
-    TextView distinction_textView;
-    TextView reviews_textView;
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     @Override
     public int getCount() {
@@ -46,15 +49,13 @@ public class generalEpilogueAdapter extends BaseAdapter {
         image_imageView = (ImageView)convertView.findViewById(R.id.image);
         driver_textView = (TextView)convertView.findViewById(R.id.driver);
         rating_ratingBar = (RatingBar)convertView.findViewById(R.id.rating);
-        distinction_textView = (TextView)convertView.findViewById(R.id.distinction);
-        reviews_textView = (TextView)convertView.findViewById(R.id.reivews);
 
-
-        image_imageView.setImageResource(list_itemArrayList.get(position).getImage());
+        storage = FirebaseStorage.getInstance();
+        String route = "gs://taxio-b186e.appspot.com/driver/"+list_itemArrayList.get(position).getImage();
+        storageRef = storage.getReferenceFromUrl(route);
+        GlideApp.with(context).load(storageRef).into(image_imageView);
         driver_textView.setText(list_itemArrayList.get(position).getDriver());
         rating_ratingBar.setRating(list_itemArrayList.get(position).getRating());
-        distinction_textView.setText(list_itemArrayList.get(position).getDistinction());
-        reviews_textView.setText(list_itemArrayList.get(position).getReviews());
 
         return convertView;
     }
