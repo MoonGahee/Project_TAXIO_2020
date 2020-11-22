@@ -146,7 +146,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
-                //i.putExtra("general_num", general_num);
+                i.putExtra("general_num", general_num);
                 startActivity(i);
                 finish();
             }

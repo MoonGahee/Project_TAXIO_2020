@@ -3,28 +3,48 @@ package com.example.project_taxio_2020;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class driverAcceptRequestActivity extends AppCompatActivity {
     Button btnAccept, btnGiveup;
-    TextView title_text;
+    TextView title_text, trip_detail;
     Toolbar toolbar;
+    String driver_num;
+    DatabaseReference mDatabase;
+    String date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driver_accept_request);
         setToolbar();
+
+        //값을 받아오기
+        Intent i = getIntent();
+        driver_num = i.getStringExtra("driver_num");
+
+        init();
+
+        trip_detail = findViewById(R.id.tripDetail);
+        trip_detail.setText(date);
 
         btnAccept = findViewById(R.id.btnAccept);
         btnGiveup = findViewById(R.id.btnGiveup);
@@ -118,5 +138,23 @@ public class driverAcceptRequestActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void init() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driver : snapshot.child(driver_num).getChildren()) {
+                    date = driver.child("tripDate").getValue(String.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
