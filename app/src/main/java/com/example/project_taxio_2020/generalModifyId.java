@@ -69,8 +69,8 @@ public class generalModifyId extends AppCompatActivity {
         Intent i = getIntent();
         general_num = i.getStringExtra("general_num");
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         header = nDrawer.getHeaderView(0);
         storage = FirebaseStorage.getInstance();
@@ -107,7 +107,7 @@ public class generalModifyId extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                    if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                    if (generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
                         origin_pic = generalSnapshot.child("general_route").getValue().toString();
                         Log.d("KOO", origin_pic);
                     }
@@ -125,8 +125,8 @@ public class generalModifyId extends AppCompatActivity {
             public void onClick(View v) {
 
                 Uri file = Uri.fromFile(new File(imagePath));
-                StorageReference ref = Ref.child("general/"+file.getLastPathSegment());
-                UploadTask uploadTask =  ref.putFile(file);
+                StorageReference ref = Ref.child("general/" + file.getLastPathSegment());
+                UploadTask uploadTask = ref.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -145,23 +145,23 @@ public class generalModifyId extends AppCompatActivity {
                 //부모 전화
                 // 이미지 루트 데려오기
                 HashMap result = new HashMap<>();
-                if(!(getGeneral_password.equals(""))){
+                if (!(getGeneral_password.equals(""))) {
                     result.put("general_password", getGeneral_password);
                 }
-                if(!(getGeneral_call.equals("010--"))){
+                if (!(getGeneral_call.equals("010--"))) {
                     result.put("general_call", getGeneral_call);
                 }
-                if(getGeneral_route!=null){
+                if (getGeneral_route != null) {
                     DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
                     gDatabase.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                                if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
-                                    storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
-                                    if(storageRef.getName().equals("member.png")){
+                                if (generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                                    storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/" + generalSnapshot.child("general_route").getValue().toString());
+                                    if (storageRef.getName().equals("member.png")) {
                                         ;
-                                    }else{
+                                    } else {
                                         storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
@@ -191,8 +191,8 @@ public class generalModifyId extends AppCompatActivity {
                 intent.putExtra("general_num", general_num);
                 startActivity(intent);
                 finish();
-
             }
+
         });
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,15 +201,17 @@ public class generalModifyId extends AppCompatActivity {
             }
         });
     }
-    public void getPicture(){
+
+    public void getPicture() {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent. setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, GALLERY_CODE);
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_CODE){
+        if (requestCode == GALLERY_CODE) {
             imagePath = getPath(data.getData());
             Log.d("KOO", imagePath);
             File f = new File(imagePath);
@@ -220,7 +222,7 @@ public class generalModifyId extends AppCompatActivity {
         }
     }
 
-    public String getPath(Uri uri){
+    public String getPath(Uri uri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
 
@@ -232,8 +234,8 @@ public class generalModifyId extends AppCompatActivity {
         return cu.getString(index);
     }
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,8 +248,8 @@ public class generalModifyId extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
-    public void naviItem(){
 
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -279,7 +281,8 @@ public class generalModifyId extends AppCompatActivity {
             }
         });
     }
-    public void setHeaderImage(){
+
+    public void setHeaderImage() {
         final TextView userName = header.findViewById(R.id.userName);
         final ImageView profile_pic = header.findViewById(R.id.profile_pic);
 
@@ -288,10 +291,10 @@ public class generalModifyId extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                    if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                    if (generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
                         userName.setText(generalSnapshot.child("general_name").getValue().toString());
                         storage = FirebaseStorage.getInstance();
-                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/" + generalSnapshot.child("general_route").getValue().toString());
                         GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
                     }
                 }

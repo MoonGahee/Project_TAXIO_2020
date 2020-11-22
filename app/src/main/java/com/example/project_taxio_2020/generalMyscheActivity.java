@@ -189,6 +189,12 @@ public class generalMyscheActivity extends AppCompatActivity {
         tripRecycler.setHasFixedSize(true);
     }
 
+
+
+
+
+
+    //네비게이션
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -219,6 +225,7 @@ public class generalMyscheActivity extends AppCompatActivity {
         });
     }
 
+    //툴바
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
