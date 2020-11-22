@@ -50,14 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="한 번 만들어진 일정은 기간 변경이 불가능합니다."
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Name" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weather_test"
-            android:layout_width="wrap_content"
+            android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#ffffff"
@@ -71,14 +71,14 @@
             style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="출발일과 도착일을 선택해주세요"
+            android:layout_marginTop="20dp"
+            android:text="출발일과 도착일을 선택해주세요."
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/weather_test"
             app:layout_constraintBottom_toTopOf="@+id/calScroll"/>
 
         <ScrollView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:id="@+id/calScroll"
             android:layout_width="match_parent"
             android:layout_height="380dp"
@@ -114,6 +114,7 @@
             android:background="@drawable/button_long"
             android:text="확     인"
             android:textSize="25sp"
+            android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />

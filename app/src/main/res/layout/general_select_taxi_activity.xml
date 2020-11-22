@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:text="날짜별 택시 탑승 시간과 코스 방법을\n정확하게 선택해주세요"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="유의 사항\n-  택시의 탑승 시간은 4, 8, 12 중에 선택이 가능합니다.\n-  4, 8시간의 경우 최대 1회의 식사, 12시간의 경우에는\n   최대 2회의 식사 시간이 포함됩니다. \n- 관광택시 종료 시간은 오후 10시 입니다. "
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select" />
@@ -89,6 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/warn" />
 
         <ListView
+            android:layout_marginTop="20dp"
             android:id="@+id/ListView_taxi"
             android:layout_width="wrap_content"
             android:layout_height="340dp"

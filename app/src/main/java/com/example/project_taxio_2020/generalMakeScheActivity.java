@@ -451,6 +451,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         for (int n = 0; n < list_itemArrayList.size(); n++) {
             String placeName = list_itemArrayList.get(n).getPlace();
             int taxiRide = list_itemArrayList.get(n).getTaxi();
+            if (taxiRide != 0){ taxiRide = 1;}
             String number = list_itemArrayList.get(n).getNumber();
             Log.d("Moon", placeName);
             Log.d("Moon", String.valueOf(taxiRide));

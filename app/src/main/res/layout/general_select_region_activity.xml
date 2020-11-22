@@ -58,7 +58,8 @@
                 style="@style/title2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:text="떠나고 싶은 여행지를 선택해 주세요."
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectTrip1" />
@@ -68,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="600dp"
                 android:src="@drawable/map"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/selectTrip2" />
 
