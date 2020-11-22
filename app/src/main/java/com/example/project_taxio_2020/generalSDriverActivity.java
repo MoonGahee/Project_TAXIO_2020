@@ -40,7 +40,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private generalDriverAdapter adapter;
-    String general_num, schedule_num, date, name, trunk, sex, seat, cost;
+    String general_num, schedule_num, date, name, trunk, sex, seat, cost, pic;
     RadioGroup rg1, rg2, rg3;
     RadioButton noGender, manDriver, womanDriver, allTrunk, yesTrunk, noTrunk, under4, under6, over6;
     Button searchBtn;
@@ -53,6 +53,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     List<String> listDriverTrunk = new ArrayList<>();
     List<String> listDriverPrice = new ArrayList<>();
     List<String> listDriverInfo = new ArrayList<>();
+    //List<String> listDriverImg = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,9 +116,11 @@ public class generalSDriverActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"원하는 조건을 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    search_result.setText(listDriverName.size()+"분의 기사님이 기다리고 계십니다.");
                     search_result.setVisibility(View.VISIBLE);
                     recyclerView_driver.setVisibility(View.VISIBLE);
                     selectDriver();
+
                 }
             }
         });
@@ -137,6 +140,8 @@ public class generalSDriverActivity extends AppCompatActivity {
                     seat = driverSnapshot.child("driver_carSeat").getValue(String.class);
                     sex = driverSnapshot.child("driver_sex").getValue(String.class);
                     cost = driverSnapshot.child("driver_cost").getValue(String.class);
+                    //pic = driverSnapshot.child("driver_route").getValue(String.class);
+                    //listDriverImg.add(pic);
                     listDriverName.add(name);
                     listDriverSex.add(sex);
                     listDriverSeat.add(seat);
@@ -172,7 +177,7 @@ public class generalSDriverActivity extends AppCompatActivity {
 
         data.setDriverInfo(listDriverInfo.get(position));
         data.setDirverPrice(listDriverPrice.get(position));
-        //data.setDriverPhoto(listDriverPhoto.get(i));
+       // data.setDriverPhoto(listDriverImg.get(position));
 
         adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음

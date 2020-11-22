@@ -100,7 +100,7 @@ public class driverResumeActivity extends AppCompatActivity {
             data.setDriverName(listDriverName.get(i));
             data.setDriverInfo(listDriverInfo.get(i));
             data.setDirverPrice(listDriverPrice.get(i));
-            data.setDriverPhoto(listDriverPhoto.get(i));
+           // data.setDriverPhoto(listDriverPhoto.get(i));
 
             adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
         }

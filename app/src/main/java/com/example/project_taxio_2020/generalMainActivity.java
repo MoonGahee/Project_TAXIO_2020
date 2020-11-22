@@ -266,9 +266,9 @@ public class generalMainActivity extends AppCompatActivity {
         String mData = "";
         for (int i = 0; i < mWeatherInfomation.size(); i++) {
             mData = mData + mWeatherInfomation.get(i).getWeather_Name() + "\n"
-                    + "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "℃/"
-                    + mWeatherInfomation.get(i).getTemp_Min() + "℃" + "\n"
-                    + "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "℃" + "\n";
+                    + "기온: " + mWeatherInfomation.get(i).getTemp_Max() + "도/"
+                    + mWeatherInfomation.get(i).getTemp_Min() + "도"+ "\n"
+                    + "체감 온도: " + mWeatherInfomation.get(i).getFeel_like_value() + "도" ;
 
             if (Double.parseDouble(mWeatherInfomation.get(i).getFeel_like_value()) <= 0)
                 wear_icon = R.drawable.under0;

@@ -42,8 +42,12 @@ public class mainTripAdapter extends RecyclerView.Adapter<mainTripAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull mainTripAdapter.ViewHolder holder, int position) {
+        if(list.get(position).getDates().equals("")){
+            holder.dates.setText("아직 일정이 없습니다!");
+        }
+        else{
         holder.dates.setText(list.get(position).getDates());
-        holder.lists.setText(list.get(position).getLists());
+        holder.lists.setText(list.get(position).getLists());}
     }
 
     @Override
