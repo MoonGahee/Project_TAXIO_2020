@@ -5,7 +5,7 @@
 
     <!--배경색상을 담당.-->
     <solid
-        android:color="@color/bar"/>
+        android:color="@color/mainText"/>
 
 
 

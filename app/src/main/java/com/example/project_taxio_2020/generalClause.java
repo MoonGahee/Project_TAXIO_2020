@@ -22,7 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 public class generalClause extends AppCompatActivity {
 
     CheckBox all_check, clause1, clause2, clause3;
-    Button previous, next;
+    Button next;
     ScrollView all_scroll, show_clause1, show_clause2, show_clause3;
     int age;
     String memberSort;
@@ -49,7 +49,6 @@ public class generalClause extends AppCompatActivity {
         show_clause2 = findViewById(R.id.show_clause2);
         show_clause3 = findViewById(R.id.show_clause3);
 
-        previous = findViewById(R.id.previous);
         next = findViewById(R.id.next);
 
         all_check.setOnClickListener(new View.OnClickListener() {
@@ -65,29 +64,6 @@ public class generalClause extends AppCompatActivity {
                     clause2.setChecked(false);
                     clause3.setChecked(false);
                 }
-            }
-        });
-
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(generalClause.this);
-                builder.setTitle("확인");
-                builder.setMessage("이전 화면으로 돌아가시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(getApplicationContext(), generalAgeCheck.class);
-                        startActivity(i);
-                    }
-                });
-                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.show();
             }
         });
 

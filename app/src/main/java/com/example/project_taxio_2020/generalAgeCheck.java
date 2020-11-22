@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 public class generalAgeCheck extends AppCompatActivity {
 
-    Button over14, under14, previous;
+    Button over14, under14;
     String memberSort;
 
     @Override
@@ -30,33 +30,9 @@ public class generalAgeCheck extends AppCompatActivity {
 
         over14 = findViewById(R.id.over14);
         under14 = findViewById(R.id.under14);
-        previous = findViewById(R.id.previous);
 
         Intent i = getIntent();
         memberSort = i.getStringExtra("sort");
-
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(generalAgeCheck.this);
-                builder.setTitle("확인");
-                builder.setMessage("이전 화면으로 돌아가시겠습니까?");
-                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(getApplicationContext(), MemberSort.class);
-                        startActivity(i);
-                    }
-                });
-                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ;
-                    }
-                });
-                builder.show();
-            }
-        });
 
         over14.setOnClickListener(new View.OnClickListener() {
             @Override
