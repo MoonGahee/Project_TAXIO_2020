@@ -229,6 +229,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
                     }
 
+                    addDateActivity();
+
                     day--;
 
                     if (day == 1) {
@@ -267,7 +269,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     if (list_itemArrayList.size() != 0) {
                         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                         listView.setAdapter(generalTimelineAdapter);
-                    }addDateActivity();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
@@ -287,6 +289,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     for (int n = 0; n < list_itemArrayList.size(); n++) {
                         place_name[day - 1][n] = list_itemArrayList.get(n).getPlace();
                     }
+
+                    addDateActivity();
 
                     day++;
 
@@ -325,7 +329,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                         listView.setAdapter(generalTimelineAdapter);
                     }
-                    addDateActivity();
                 }
 
                 else{
