@@ -1,5 +1,6 @@
 package com.example.project_taxio_2020;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +34,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -51,9 +55,14 @@ public class driverMainActivity extends AppCompatActivity {
     String driver_num;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
+
+    FirebaseStorage storage;
+    StorageReference storageRef;
     Button btnD;
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> lists;
+    View header;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,8 +76,10 @@ public class driverMainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        header = nDrawer.getHeaderView(0);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        setHeaderImage();
 
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
@@ -194,13 +205,19 @@ public class driverMainActivity extends AppCompatActivity {
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_chkRes) {
+                } else if (id == R.id.drawer_chkRev) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(id == R.id.drawer_chkEpi){
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                }else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();

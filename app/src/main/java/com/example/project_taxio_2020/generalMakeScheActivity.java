@@ -86,8 +86,8 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
     int k = 1;
     int day = 1;
     int tripdays = 3;
-    float width = 200f, height = 200f;
-    float zoom = 15;
+    float width = 1000f, height = 1000f;
+    float zoom = 12;
     GroundOverlay imageOverlay; //이미지 마커 수정용
     ListView listView; //일정 띄우는 뷰
     ScrollView scroll1;
@@ -260,7 +260,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                                 list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                                 break;
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.arrow, 0));
                             }
 
 
@@ -320,7 +320,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                                 list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", 0, 0));
                                 break;
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(place_name[day - 1][i], Integer.toString(i + 1), "", R.drawable.arrow, 0));
                             }
 
                             i++;
@@ -393,7 +393,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     if (position == i) {
                         if ((size - 1) == i) {
                             if (count[day - 1][i] != 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.car));
                                 count[day - 1][i] = 1;
                             } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
@@ -402,26 +402,26 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                             break;
                         } else {
                             if (count[day - 1][i] != 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.arrow, R.drawable.car));
                                 count[day - 1][i] = 1;
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.arrow, 0));
                                 count[day - 1][i] = 0;
                             }
                         }
                     } else {
                         if ((size - 1) == i) {
                             if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, R.drawable.car));
                             } else {
                                 list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], 0, 0));
                             }
                             break;
                         } else {
                             if (count[day - 1][i] == 1) {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, R.drawable.ic_local_taxi_black_24dp));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.arrow, R.drawable.car));
                             } else {
-                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.ic_arrow_downward_black_24dp, 0));
+                                list_itemArrayList.add(new generalTimelineItem(places.get(i), Integer.toString(i + 1), distance[i], R.drawable.arrow, 0));
                             }
                         }
                     }
