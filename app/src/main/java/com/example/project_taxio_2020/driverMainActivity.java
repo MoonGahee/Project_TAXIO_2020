@@ -1,7 +1,10 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,8 +26,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.StringJoiner;
 
 public class driverMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -36,7 +53,12 @@ public class driverMainActivity extends AppCompatActivity {
     ListView recruitList;
     reservationAdapter reservationAdapter;
     ArrayList<reservationItem> list_itemArrayList;
+    Button btnD;
+    DatabaseReference dDatabase;
     String driver_num;
+    MaterialCalendarView cal1;
+    private generalMyScheAdapter adapter;
+
 
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> lists;
@@ -56,53 +78,95 @@ public class driverMainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
 
-        btnResume = findViewById(R.id.btnResume);
-        recruitList = findViewById(R.id.recruitList);
-        trip_data = findViewById(R.id.trip_data_Recycler);
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
-        LinearLayoutManager layoutManagers = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        trip_data.setLayoutManager(layoutManagers);
+        cal1 = findViewById(R.id.cal1);
 
-        lists = new ArrayList<mainTripItem>();
-        lists.add(new mainTripItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        lists.add(new mainTripItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-
-        mainTripAdapter = new mainTripAdapter(this, lists);
-        trip_data.setAdapter(mainTripAdapter);
-
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-
-        title_text.setOnClickListener(new View.OnClickListener() {
+        ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), driverMainActivity.class);
-                startActivity(i);
-                finish();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+                for (DataSnapshot column : snapshot.child(driver_num).child("Drvier_Schedule").getChildren()) {
+                    Drvier_Schedule data = new Drvier_Schedule();
+                    data.setDays(column.child("day").getValue(String.class));
+                    data.setCourse(column.child("course").getValue(String.class));
+                    data.setGeneral_name(column.child("general_num").getValue(String.class));
+                    data.setTime(column.child("time").getValue(String.class));
+                    data.setStart_time(column.child("start_time").getValue(String.class)); //
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        dDatabase.addListenerForSingleValueEvent(scheduleListener);
+
+
+        cal1.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                final Calendar selectCal = date.getCalendar();
+                adapter.clearItem();
+                adapter.notifyDataSetChanged();
+
+                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
+
+                        try {
+                            selectCal.setTime(yearFormat.parse(yearFormat.format(selectCal.getTime())));
+
+                            for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                                    String scheduleDate = column.child("day").getValue(String.class);
+                                    Calendar startCal = Calendar.getInstance();
+
+                                    startCal.setTime(yearFormat.parse(scheduleDate));
+                                    Log.d("Moon",selectCal.toString() + " == "+startCal.toString() + " = "+selectCal.compareTo(startCal) );
+                                    if (selectCal.compareTo(startCal) == 0) {
+                                        Date_Schedule drvier_schedule = new Date_Schedule();
+                                        drvier_schedule.setGeneral_num(column.child("time").getValue(String.class)+" "+column.child("general_name").getValue(String.class)+" 승객님");
+                                        drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
+                                        Log.d("Moon", drvier_schedule.getGeneral_num());
+                                        Log.d("Moon", drvier_schedule.getSchedule_date());
+                                        adapter.addItem(drvier_schedule);
+                                        adapter.notifyDataSetChanged();
+
+                                        return;
+                                    }
+
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
-        list_itemArrayList = new ArrayList<reservationItem>();
-
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-
-        reservationAdapter = new reservationAdapter(driverMainActivity.this, list_itemArrayList);
-        recruitList.setAdapter(reservationAdapter);
-
-        btnResume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), driverResumeActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+        init();
     }
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void init() {
+        RecyclerView tripRecycler = findViewById(R.id.tripRecycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        tripRecycler.setLayoutManager(linearLayoutManager);
+        adapter = new generalMyScheAdapter();
+        tripRecycler.setAdapter(adapter);
+        tripRecycler.setHasFixedSize(true);
+    }
+
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +180,7 @@ public class driverMainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -125,18 +189,17 @@ public class driverMainActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }
-                else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_myInfo) {
+                } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);

@@ -257,13 +257,16 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 General general = snapshot.child(general_num).getValue(General.class);
                 String general_name = general.getGeneral_name();
-                result.put("general_name", general_name);// 기사 DB에 회원이름 넣기 , i 추가하기
+                result.put("general_name", general_name);
                 mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
+
+                //int i = databaseRef.child(driver_num).child("Driver_Schedule").orderByKey().limitToLast(1).getRef().;
+
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
-                    //추가할 수 있도록
+
                     DataSnapshot dateSchedule = column.child("Date_Schedule");
                     DataSnapshot dateCourse = column.child("Date_Course");
-                    //회원의 이름을 가져오기
+
                     String start_time = dateSchedule.child("start_time").getValue(String.class);
                     StringJoiner lists = new StringJoiner("-");
                     String day = dateSchedule.child("schedule_date").getValue(String.class);
@@ -273,7 +276,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     }
 
                     String list = lists.toString();
-                    //기사 이름 넣기
+
 
                     result.put("day", day);
                     result.put("course", list);
