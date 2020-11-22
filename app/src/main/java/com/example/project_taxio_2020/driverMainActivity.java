@@ -64,6 +64,8 @@ public class driverMainActivity extends AppCompatActivity {
     ArrayList<mainTripItem> lists = new ArrayList<>();
     View header;
 
+    Date currentTime;
+    Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,6 +132,8 @@ public class driverMainActivity extends AppCompatActivity {
         };
         dDatabase.addListenerForSingleValueEvent(scheduleListener);
 
+        init();
+
         btnD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +184,8 @@ public class driverMainActivity extends AppCompatActivity {
                 });
             }
         });
-        init();
+
+        setTrip();
     }
 
     public void init() {
@@ -190,22 +195,45 @@ public class driverMainActivity extends AppCompatActivity {
         adapter = new generalMyScheAdapter();
         tripRecycler.setAdapter(adapter);
         tripRecycler.setHasFixedSize(true);
-        final Date currentTime = Calendar.getInstance().getTime();
+        currentTime = Calendar.getInstance().getTime();
         cal1.setSelectedDate(currentTime);
-        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
+
+        try {
+            calendar.setTime(yearFormat.parse(yearFormat.format(currentTime)));
+        }catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("tesst", calendar.toString());
+    }
+
+    void setTrip() {
+        dDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
-                    if(column.child("day").getValue().equals(currentTime)) {
+                SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
+                try {
+                    for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
                         String scheduleDate = column.child("day").getValue(String.class);
-                        Date_Schedule drvier_schedule = new Date_Schedule();
-                        drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
-                        drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
-                        adapter.addItem(drvier_schedule);
-                        adapter.notifyDataSetChanged();
-                        return;
-                    }
+                        Calendar startCal = Calendar.getInstance();
+                        startCal.setTime(yearFormat.parse(scheduleDate));
+                        if(calendar.compareTo(startCal) == 0) {
+                            String Date = column.child("day").getValue(String.class);
+                            Date_Schedule drvier_schedule = new Date_Schedule();
+                            drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
+                            drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
+                            adapter.addItem(drvier_schedule);
+                            adapter.notifyDataSetChanged();
 
+                            Log.d("tesst", scheduleDate);
+                            return;
+                        }
+
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -214,7 +242,6 @@ public class driverMainActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     public void setToolbar() {
