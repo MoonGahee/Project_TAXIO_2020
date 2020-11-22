@@ -166,8 +166,6 @@ public class generalMyscheActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 

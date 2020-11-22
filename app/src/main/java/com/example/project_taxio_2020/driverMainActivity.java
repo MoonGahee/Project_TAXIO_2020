@@ -46,6 +46,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.StringJoiner;
 
 public class driverMainActivity extends AppCompatActivity {
@@ -60,7 +61,7 @@ public class driverMainActivity extends AppCompatActivity {
     StorageReference storageRef;
     Button btnD;
     mainTripAdapter mainTripAdapter;
-    ArrayList<mainTripItem> lists;
+    ArrayList<mainTripItem> lists = new ArrayList<>();
     View header;
 
 
@@ -92,12 +93,33 @@ public class driverMainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
                 for (DataSnapshot column : snapshot.child(driver_num).child("Drvier_Schedule").getChildren()) {
-                    Drvier_Schedule data = new Drvier_Schedule();
+                    final Drvier_Schedule data = new Drvier_Schedule();
                     data.setDays(column.child("day").getValue(String.class));
                     data.setCourse(column.child("course").getValue(String.class));
-                    data.setGeneral_name(column.child("general_num").getValue(String.class));
+                    data.setGeneral_name(column.child("general_name").getValue(String.class));
                     data.setTime(column.child("time").getValue(String.class));
-                    data.setStart_time(column.child("start_time").getValue(String.class)); //
+                    data.setStart_time(column.child("start_time").getValue(String.class));
+                    cal1.addDecorator(new DayViewDecorator() {
+                        Calendar customDay = Calendar.getInstance();
+                        Calendar couseDay = Calendar.getInstance();
+
+                        @Override
+                        public boolean shouldDecorate(CalendarDay day) {
+                            try {
+                                customDay.setTime(yearFormat.parse(yearFormat.format(day.getCalendar().getTime())));
+                                couseDay.setTime(yearFormat.parse(data.getDays()));
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        public void decorate(DayViewFacade view) {
+                            view.addSpan(new ForegroundColorSpan(Color.GREEN){});
+                        }
+                    });
 
                 }
             }
@@ -128,43 +150,31 @@ public class driverMainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
-
                         try {
                             selectCal.setTime(yearFormat.parse(yearFormat.format(selectCal.getTime())));
-
                             for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
                                     String scheduleDate = column.child("day").getValue(String.class);
                                     Calendar startCal = Calendar.getInstance();
-
                                     startCal.setTime(yearFormat.parse(scheduleDate));
-                                    Log.d("Moon",selectCal.toString() + " == "+startCal.toString() + " = "+selectCal.compareTo(startCal) );
                                     if (selectCal.compareTo(startCal) == 0) {
                                         Date_Schedule drvier_schedule = new Date_Schedule();
-                                        drvier_schedule.setGeneral_num(column.child("time").getValue(String.class)+" "+column.child("general_name").getValue(String.class)+" 승객님");
+                                        drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class)+" 승객님 "+column.child("time").getValue(String.class));
                                         drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
-                                        Log.d("Moon", drvier_schedule.getGeneral_num());
-                                        Log.d("Moon", drvier_schedule.getSchedule_date());
                                         adapter.addItem(drvier_schedule);
                                         adapter.notifyDataSetChanged();
-
                                         return;
                                     }
-
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
-
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
             }
         });
-
         init();
     }
 
@@ -175,6 +185,31 @@ public class driverMainActivity extends AppCompatActivity {
         adapter = new generalMyScheAdapter();
         tripRecycler.setAdapter(adapter);
         tripRecycler.setHasFixedSize(true);
+        final Date currentTime = Calendar.getInstance().getTime();
+        cal1.setSelectedDate(currentTime);
+        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                    if(column.child("day").getValue().equals(currentTime)) {
+                        String scheduleDate = column.child("day").getValue(String.class);
+                        Date_Schedule drvier_schedule = new Date_Schedule();
+                        drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
+                        drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
+                        adapter.addItem(drvier_schedule);
+                        adapter.notifyDataSetChanged();
+                        return;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     public void setToolbar() {
