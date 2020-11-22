@@ -62,7 +62,7 @@ public class Date_Schedule {
         if (taxi_time == null) {
             this.taxi_time = "";
         } else {
-            this.taxi_time = "("+taxi_time+"시간 )";
+            this.taxi_time = "("+taxi_time+")";
         }
     }
 

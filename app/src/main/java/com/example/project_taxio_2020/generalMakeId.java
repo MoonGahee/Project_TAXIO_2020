@@ -1,6 +1,9 @@
 package com.example.project_taxio_2020;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.loader.content.CursorLoader;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -65,6 +69,10 @@ public class generalMakeId extends AppCompatActivity {
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase;
     HashMap result, resultNum;
+    NotificationManager manager;
+    NotificationCompat.Builder builder;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
@@ -88,11 +96,12 @@ public class generalMakeId extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);}
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
 
         //비밀번호 입력이 끝난 뒤 패턴에 맞는지 비교하기//다시해야됨
-        if(!(edtPassword.getText().toString().equals(""))&&!(edtPassword.isFocused())){
+        if (!(edtPassword.getText().toString().equals("")) && !(edtPassword.isFocused())) {
             if (!checkPass(edtPassword.getText().toString())) {
                 isCorrectPassword = false;
                 Toast.makeText(getApplicationContext(), passwordNotice, Toast.LENGTH_SHORT).show();
@@ -107,7 +116,7 @@ public class generalMakeId extends AppCompatActivity {
                         isCorrectPassword = true;
                     } else {
                         isCorrectPassword = false;
-                        Toast.makeText(getApplicationContext(),chkPasswordNotice , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), chkPasswordNotice, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -125,8 +134,8 @@ public class generalMakeId extends AppCompatActivity {
             public void onClick(View v) {
                 //로그인 값을 저장함
                 Uri file = Uri.fromFile(new File(imagePath));
-                StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
-                UploadTask uploadTask =  ref.putFile(file);
+                StorageReference ref = storageRef.child("general/" + file.getLastPathSegment());
+                UploadTask uploadTask = ref.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -170,7 +179,7 @@ public class generalMakeId extends AppCompatActivity {
         });
 
         //단계 터치리스너 막아버리기
-        SeekBar seek_signin = (SeekBar)findViewById(R.id.progress);
+        SeekBar seek_signin = (SeekBar) findViewById(R.id.progress);
         seek_signin.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -179,24 +188,25 @@ public class generalMakeId extends AppCompatActivity {
         });
     }
 
-    public void getPicture(){
+    public void getPicture() {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent. setType(MediaStore.Images.Media.CONTENT_TYPE);
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, GALLERY_CODE);
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_CODE){
+        if (requestCode == GALLERY_CODE) {
             imagePath = getPath(data.getData());
             File f = new File(imagePath);
             photo.setImageURI(data.getData());
-            imageName = imagePath.substring(imagePath.lastIndexOf("/")+1);
+            imageName = imagePath.substring(imagePath.lastIndexOf("/") + 1);
 
         }
     }
 
-    public String getPath(Uri uri){
+    public String getPath(Uri uri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         CursorLoader cursorLoader = new CursorLoader(this, uri, proj, null, null, null);
 
@@ -262,12 +272,36 @@ public class generalMakeId extends AppCompatActivity {
     }//데이터베이스 값 입력
 
     public void moveActivity() {
+        showNoti();
         Intent intent = new Intent(getApplicationContext(), MakeIdComplete.class);
         intent.putExtra("general_num", result.get("general_num").toString());
         intent.putExtra("sort", memberSort);
         startActivity(intent);
         finish();
     }//액티비티 이동
+
+    public void showNoti() {
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel
+                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            // 하위 버전일 경우
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        // 알림창 제목
+        builder.setContentTitle("회원가입 완료");
+        // 알림창 메시지
+        builder.setContentText(edtNameM.getText().toString()+"님의 회원가입이 완료되었습니다!");
+        builder.setSmallIcon(R.drawable.bell);
+        Notification notification = builder.build();
+        // 알림창 실행
+        manager.notify(1, notification);
+    }
+
 
     public Boolean checkPass(String password) {
         boolean check = false;

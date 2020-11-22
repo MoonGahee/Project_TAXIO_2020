@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.telephony.AccessNetworkConstants;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringJoiner;
 
 // 기사 선택 리사이클러뷰 개당 by 가희
 
@@ -43,9 +46,11 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     final String distinction = "..........................";
     final String review = "기사님이 너무 친절하셨어요!";
     String general_num, schedule_num, date, driver_num;
-
+    HashMap result = new HashMap<>();
+    HashMap resultG;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
+
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener { //
         TextView driverName;
@@ -175,11 +180,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                                         driver_num = driver.getKey();
                                     }
                                 }
-
-                                HashMap result = new HashMap<>();
-                                result.put("tripDate", date);
-
-                                databaseRef.child(driver_num).child("tripDate").updateChildren(result);
+                                getDate();
                             }
 
                             @Override
@@ -205,8 +206,9 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("문자 전송");
-                builder.setMessage("아이린 기사님에게 문자를 \n전송하시겠습니까?");
+                builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 문자를 \n전송하시겠습니까?"); //기사 이름으로 변경
                 builder.setPositiveButton("예", null);
+                //문자로 이동하는거 만들기
                 builder.setNegativeButton("아니오", null);
                 builder.show();
             }
@@ -222,9 +224,71 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         dData.add(data);
     }
 
-    void getnum(String general_num, String schedule_num, String date) {
+    void getnum(String general_num, String schedule_num) {
         this.general_num = general_num;
         this.schedule_num = schedule_num;
-        this.date = date;
+    }
+
+    void getTime() {
+    }
+
+    void getDate() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Driver drivers = snapshot.child(driver_num).getValue(Driver.class);
+                String driver_name = drivers.getDriver_name();
+                resultG = new HashMap<>();
+                resultG.put("driver_name", driver_name);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+
+            }
+        });
+
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            //int i = Integer.parseInt(databaseRef.child(driver_num).child("Driver_Schedule").getKey()); //if문 설정해야함
+            int i = 1;
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                General general = snapshot.child(general_num).getValue(General.class);
+                String general_name = general.getGeneral_name();
+                result.put("general_name", general_name);// 기사 DB에 회원이름 넣기 , i 추가하기
+                mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
+                    //추가할 수 있도록
+                    DataSnapshot dateSchedule = column.child("Date_Schedule");
+                    DataSnapshot dateCourse = column.child("Date_Course");
+                    //회원의 이름을 가져오기
+                    String start_time = dateSchedule.child("start_time").getValue(String.class);
+                    StringJoiner lists = new StringJoiner("-");
+                    String day = dateSchedule.child("schedule_date").getValue(String.class);
+                    String time = dateSchedule.child("taxi_time").getValue(String.class);
+                    for (DataSnapshot couresPlace : dateCourse.getChildren()) {
+                        lists.add(couresPlace.child("coures_place").getValue(String.class));
+                    }
+
+                    String list = lists.toString();
+                    //기사 이름 넣기
+
+                    result.put("day", day);
+                    result.put("course", list);
+                    result.put("time", time);
+                    result.put("start_time",start_time);
+                    Log.d("Moon-Test", column.toString());
+                    databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(result);
+                    i++;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }

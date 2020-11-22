@@ -162,7 +162,6 @@ public class generalSDriverActivity extends AppCompatActivity {
     }
 
     public void getData(){ //임시 데이터값 추가
-        List<Integer> listDriverPhoto = Arrays.asList(R.drawable.taxi);
 
         for(int i = 0; i < listDriverName.size(); i++){  //DriverData Class 객체에 set
             generalDriverItem data = new generalDriverItem();
@@ -192,7 +191,7 @@ public class generalSDriverActivity extends AppCompatActivity {
             //data.setDriverPhoto(listDriverPhoto.get(i));
 
             adapter.addData(data); //RecyclerRecruitDriver.java의 addData로 값을 전달함
-            adapter.getnum(general_num, schedule_num, date);
+            adapter.getnum(general_num, schedule_num);
         }
 
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
