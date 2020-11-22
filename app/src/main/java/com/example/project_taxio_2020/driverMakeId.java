@@ -145,7 +145,7 @@ public class driverMakeId extends AppCompatActivity {
                 final String getdriver_sex = spGenderM.getSelectedItem().toString();
                 final String getdriver_birth = birthY.getSelectedItem().toString() + "-" + birthM.getSelectedItem().toString() + "-" + birthD.getSelectedItem().toString();
                 final String getdriver_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                final String getdriver_route = imagePath;
+                final String getdriver_route = imageName;
                 final String getdriver_region = spRegion.getSelectedItem().toString();
                 final String getdriver_carNum = edtCarNum.getText().toString();
                 final String getdriver_carSeat = spCarCount.getSelectedItem().toString();
