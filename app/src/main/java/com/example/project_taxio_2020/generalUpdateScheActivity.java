@@ -121,7 +121,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], 0, 0));
             }
             else {
-                list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], R.drawable.ic_arrow_downward_black_24dp, 0));
+                list_itemArrayList.add(new generalTimelineItem(place.get(n), Integer.toString(n + 1), distance[n], R.drawable.arrow, 0));
             }
         }
 
@@ -193,11 +193,11 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                         }
 
                         if (firstPos == i)
-                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.arrow, 0));
                         else if (secondPos == i)
-                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.arrow, 0));
                         else
-                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.ic_arrow_downward_black_24dp, 0));
+                            list_itemArrayList.add(new generalTimelineItem(jeju[i-1], Integer.toString(i), distance[i-1], R.drawable.arrow, 0));
 
                         i++;
                     }
@@ -285,7 +285,7 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
         gMap = googleMap;
         gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng location = new LatLng(33.4996213, 126.5311884);
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
@@ -308,9 +308,9 @@ public class generalUpdateScheActivity extends AppCompatActivity implements OnMa
                 latLng1 = latLng2;
             }
 
-            videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 200f, 200f);
+            videoMark = new GroundOverlayOptions().image(BitmapDescriptorFactory.fromResource(R.drawable.map_icon)).position(lat, 1000f, 1000f);
             gMap.addGroundOverlay(videoMark);
-            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 15));
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat, 12));
         }
     }
 

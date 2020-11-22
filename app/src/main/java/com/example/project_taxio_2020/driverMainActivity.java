@@ -200,7 +200,7 @@ public class driverMainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
