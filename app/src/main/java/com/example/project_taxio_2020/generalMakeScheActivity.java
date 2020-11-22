@@ -346,15 +346,19 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addDateActivity();
-                Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
-                i.putExtra("general_num", general_num);
-                i.putExtra("schedule_num", schedule_num);  //회원번호
-                i.putExtra("tripDate", date);
-                i.putExtra("tripDays", day);
-                i.putExtra("tripLatLng", latLng);
-                i.putExtra("trip", places);
-                startActivity(i);
+                if(list_itemArrayList.size() != 0) {
+                    addDateActivity();
+                    Intent i = new Intent(getApplicationContext(), generalUpdateScheActivity.class);
+                    i.putExtra("general_num", general_num);
+                    i.putExtra("schedule_num", schedule_num);  //회원번호
+                    i.putExtra("tripDate", date);
+                    i.putExtra("tripDays", day);
+                    i.putExtra("tripLatLng", latLng);
+                    i.putExtra("trip", places);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -362,8 +366,12 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         trip_fin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addDateActivity();
-                moveActivity();
+                if (list_itemArrayList.size() != 0) {
+                    addDateActivity();
+                    moveActivity();
+                } else {
+                    Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
