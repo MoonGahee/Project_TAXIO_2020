@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/dateC"
-            android:text="여행 코스 : "
+            android:text="여행지 정보 : "
             android:layout_marginTop="40dp"
             app:layout_constraintLeft_toLeftOf="@+id/imgV"
             android:layout_marginLeft="30dp"
