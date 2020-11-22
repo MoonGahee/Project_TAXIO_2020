@@ -54,7 +54,7 @@ public class generalModifyId extends AppCompatActivity {
     TextView btnImg;
     ImageView photo;
     private FirebaseStorage storage;
-    StorageReference storageRef, refs;
+    StorageReference storageRef, Ref;
     String general_num, imagePath, imageName, origin_pic;
     View header;
 
@@ -74,9 +74,9 @@ public class generalModifyId extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         header = nDrawer.getHeaderView(0);
         storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
-        //naviItem();
-        //setHeaderImage();
+        Ref = storage.getReference();
+        naviItem();
+        setHeaderImage();
 
         final DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference(); //얘한테 줄거야
@@ -120,16 +120,12 @@ public class generalModifyId extends AppCompatActivity {
             }
         });
 
-
-
-
-
         btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Uri file = Uri.fromFile(new File(imagePath));
-                StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
+                StorageReference ref = Ref.child("general/"+file.getLastPathSegment());
                 UploadTask uploadTask =  ref.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -142,7 +138,6 @@ public class generalModifyId extends AppCompatActivity {
                         Log.d("KOO", "complete");
                     }
                 });
-
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
                 String getGeneral_route = imageName;
@@ -163,7 +158,6 @@ public class generalModifyId extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
                                 if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
-                                    storage = FirebaseStorage.getInstance();
                                     storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
                                     if(storageRef.getName().equals("member.png")){
                                         ;
@@ -171,12 +165,13 @@ public class generalModifyId extends AppCompatActivity {
                                         storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-
+                                                Log.d("KOO", "complete!");
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception exception) {
                                                 // Uh-oh, an error occurred!
+                                                Log.d("KOO", "Fail");
                                             }
                                         });
                                     }
@@ -191,10 +186,11 @@ public class generalModifyId extends AppCompatActivity {
                     });
                     result.put("general_route", getGeneral_route);
                 }
-
-
                 mDatabase.child("General").child(general_num).updateChildren(result);
-                Log.d("KOO TEST", getGeneral_password+getGeneral_call+getGeneral_route);
+                Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                intent.putExtra("general_num", general_num);
+                startActivity(intent);
+                finish();
 
             }
         });

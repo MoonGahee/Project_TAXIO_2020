@@ -54,6 +54,7 @@ public class driverMakeId extends AppCompatActivity {
     Button btnComplete;
     TextView btnEmail, btnImg;
     ImageView photo;
+    int check=0, eCheck=0;
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
@@ -61,7 +62,7 @@ public class driverMakeId extends AppCompatActivity {
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabase, gDatabase;
     HashMap result, resultNum;
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
@@ -79,7 +80,8 @@ public class driverMakeId extends AppCompatActivity {
         setToolbar();//Toolbar세팅
         setFindView();//뷰 객체화 findViewbyId 일괄처리
         setAdapter();//Adapter 세팅 일괄처리
-        mDatabase = FirebaseDatabase.getInstance().getReference("Driver"); //driver DB참조
+        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
+        gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
@@ -107,6 +109,58 @@ public class driverMakeId extends AppCompatActivity {
                         isCorrectPassword = false;
                         Toast.makeText(getApplicationContext(),chkPasswordNotice , Toast.LENGTH_SHORT).show();
                     }
+                }
+            }
+        });
+        btnEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                check=0; eCheck=0;
+
+                final String email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
+                gDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                            if(email.equals(driverSnapshot.child("driver_email").getValue().toString())){
+                                edtEmail.setText("");
+                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                eCheck++;
+                            }
+                            else{
+                                check++;
+                                eCheck++;
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                            if(email.equals(generalSnapshot.child("general_email").getValue().toString())){
+                                edtEmail.setText("");
+                                Toast.makeText(getApplicationContext(), "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                eCheck++;
+                            }
+                            else{
+                                check++;
+                                eCheck++;
+                            }
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                if(eCheck == check){
+                    Toast.makeText(getApplicationContext(), "사용가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,7 +210,10 @@ public class driverMakeId extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         //이메일 인증에 성공할 경우 id를 만들어 데이터베이스상에 입력
-                                        makeId(getdriver_email, getdriver_password, getdriver_name, getdriver_sex, getdriver_birth, getdriver_region,  getdriver_call, getdriver_route, getdriver_carNum, getdriver_carSeat, getdriver_trunk, getdriver_cost);
+                                        if(check==eCheck){
+                                            makeId(getdriver_email, getdriver_password, getdriver_name, getdriver_sex, getdriver_birth, getdriver_region,  getdriver_call, getdriver_route, getdriver_carNum, getdriver_carSeat, getdriver_trunk, getdriver_cost);}
+                                        else{
+                                            Toast.makeText(getApplicationContext(),"이메일 중복체크를 해주세요", Toast.LENGTH_SHORT).show();}
 
                                     } else {
                                         Toast.makeText(getApplicationContext(), chkAutoNotice, Toast.LENGTH_SHORT).show();

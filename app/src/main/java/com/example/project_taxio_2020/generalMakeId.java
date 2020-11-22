@@ -128,6 +128,8 @@ public class generalMakeId extends AppCompatActivity {
         btnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                check=0; eCheck=0;
+
                 final String email = edtEmail.getText().toString() + "@" + spEmail.getSelectedItem().toString();
                 gDatabase.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -170,6 +172,9 @@ public class generalMakeId extends AppCompatActivity {
 
                     }
                 });
+                if(eCheck == check){
+                    Toast.makeText(getApplicationContext(), "사용가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
