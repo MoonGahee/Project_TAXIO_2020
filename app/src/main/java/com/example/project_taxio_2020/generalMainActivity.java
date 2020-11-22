@@ -177,7 +177,7 @@ public class generalMainActivity extends AppCompatActivity {
         imageView.setBackgroundResource(image);
 
         viewPic.addView(imageView);
-        viewPic.setFlipInterval(2000);
+        viewPic.setFlipInterval(2500);
         viewPic.setAutoStart(true);
 
         // animation
