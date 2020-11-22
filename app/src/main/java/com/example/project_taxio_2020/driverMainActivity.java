@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -51,8 +54,12 @@ public class driverMainActivity extends AppCompatActivity {
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
 
+    FirebaseStorage storage;
+    StorageReference storageRef;
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> lists;
+    View header;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,10 +73,13 @@ public class driverMainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        header = nDrawer.getHeaderView(0);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+        setHeaderImage();
 
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+
 
         cal1 = findViewById(R.id.cal1);
 
@@ -185,18 +195,46 @@ public class driverMainActivity extends AppCompatActivity {
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_chkRes) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
-                    intent.putExtra("driver_num", driver_num);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_chkRev) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
                 }
+                else if(id == R.id.drawer_chkEpi){
+                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                }else if (id == R.id.drawer_setting) {
+
+                }
                 return true;
+            }
+        });
+    }
+
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    if(driverSnapshot.getKey().equals(driver_num)) {
+                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/"+driverSnapshot.child("driver_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

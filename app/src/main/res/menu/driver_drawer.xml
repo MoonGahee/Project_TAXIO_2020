@@ -7,10 +7,14 @@
         <item
             android:id="@+id/drawer_chkRes"
             android:icon="@drawable/cal"
-            android:title="예약 현황"/>
+            android:title="내 스케줄"/>
 
-        <itm
+        <item
             android:id="@+id/drawer_chkRev"
+            android:icon="@drawable/pass"
+            android:title="예약 현황"/>
+        <item
+            android:id="@+id/drawer_chkEpi"
             android:icon="@drawable/pass"
             android:title="후기 확인"/>
 
