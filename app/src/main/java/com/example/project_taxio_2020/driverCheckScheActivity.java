@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,16 +20,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class driverCheckScheActivity extends AppCompatActivity {
     RecyclerView trip_data;
     TextView title_text;
     Toolbar toolbar;
     ListView recruitList;
+    DatabaseReference dDatabase;
     reservationAdapter reservationAdapter;
-    ArrayList<reservationItem> list_itemArrayList;
+    ArrayList<reservationItem> list_itemArrayList = new ArrayList<reservationItem>();;
     String driver_num;
     DrawerLayout drawerLayout;
     NavigationView nDrawer;
@@ -47,6 +56,10 @@ public class driverCheckScheActivity extends AppCompatActivity {
         naviItem();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+
+        init();
+
         trip_data = findViewById(R.id.trip_data_Recycler);
         recruitList = findViewById(R.id.recruitList);
 
@@ -62,11 +75,7 @@ public class driverCheckScheActivity extends AppCompatActivity {
             }
         });
 
-        list_itemArrayList = new ArrayList<reservationItem>();
         //가상 DB
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 30일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
-        list_itemArrayList.add(new reservationItem("5월 25일 16시(4시간)", "상창농장 - 용담해변(총 2명)"));
 
         reservationAdapter = new reservationAdapter(driverCheckScheActivity.this, list_itemArrayList);
         recruitList.setAdapter(reservationAdapter);
@@ -122,6 +131,25 @@ public class driverCheckScheActivity extends AppCompatActivity {
                     finish();
                 }
                 return true;
+            }
+        });
+    }
+
+    void init() {
+        dDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                        Date_Schedule drvier_schedule = new Date_Schedule();
+                        String recruit = column.child("time").getValue(String.class)+" "+column.child("general_name").getValue(String.class)+" 승객님";
+                        String recruit_place = column.child("course").getValue(String.class);
+                        list_itemArrayList.add(new reservationItem(recruit, recruit_place));
+                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
