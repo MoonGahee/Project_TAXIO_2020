@@ -344,7 +344,7 @@ public class generalMainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), generalSRegionActivity.class);
         intent.putExtra("general_num", general_num);
         startActivity(intent);
-        finish();
+        ;
     }
 
 
@@ -364,16 +364,19 @@ public class generalMainActivity extends AppCompatActivity {
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
+                      
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalCheckEpilogueActivity.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
+                      
                 } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
+                      
                 }
                 return true;
             }
@@ -391,7 +394,6 @@ public class generalMainActivity extends AppCompatActivity {
                 for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
                     if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
                         userName.setText(generalSnapshot.child("general_name").getValue().toString());
-
                         storage = FirebaseStorage.getInstance();
                         storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
                         GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
