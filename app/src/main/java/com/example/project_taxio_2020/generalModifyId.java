@@ -1,8 +1,10 @@
 package com.example.project_taxio_2020;
 
+import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -26,6 +28,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.loader.content.CursorLoader;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +37,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.HashMap;
@@ -46,7 +53,9 @@ public class generalModifyId extends AppCompatActivity {
     Button btnComplete;
     TextView btnImg;
     ImageView photo;
-    String general_num, imagePath;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    String general_num, imagePath, imageName;
 
 
     @Override
@@ -81,6 +90,10 @@ public class generalModifyId extends AppCompatActivity {
         btnImg = findViewById(R.id.btnImg);
         btnComplete = findViewById(R.id.btnComplete);
         photo = findViewById(R.id.photo);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);}
 
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +109,8 @@ public class generalModifyId extends AppCompatActivity {
 
                 String getGeneral_password = edtPassword.getText().toString();
                 String getGeneral_call = spinnerNum.getSelectedItem().toString() + "-" + edtNum1.getText().toString() + "-" + edtNum2.getText().toString();
-                String getGeneral_route = imagePath;
-                //부모 전화
-                // 이미지 루트 데려오기
-                HashMap result = new HashMap<>();
+                final String getGeneral_route = imageName;
+                final HashMap result = new HashMap<>();
                 if(!(getGeneral_password.equals(""))){
                     result.put("general_password", getGeneral_password);
                 }
@@ -107,17 +118,56 @@ public class generalModifyId extends AppCompatActivity {
                     result.put("general_call", getGeneral_call);
                 }
                 if(getGeneral_route!=null){
+                    Uri file = Uri.fromFile(new File(imagePath));
+                    StorageReference ref = storageRef.child("general/"+file.getLastPathSegment());
+                    UploadTask uploadTask =  ref.putFile(file);
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("KOO", "실패");
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("KOO", "성공");
+                        }
+                    });
+                    DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
+                    gDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                                if(generalSnapshot.child("general_num").getValue().toString().equals(general_num)) {
+                                    storage = FirebaseStorage.getInstance();
+                                    storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                                    if(storageRef.getName().equals("member.png")){
+                                        ;
+                                    }else{
+                                        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception exception) {
+                                                // Uh-oh, an error occurred!
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     result.put("general_route", getGeneral_route);
                 }
-
-
                 mDatabase.child("General").child(general_num).updateChildren(result);
                 Log.d("KOO TEST", getGeneral_password+getGeneral_call+getGeneral_route);
-
-               // mDatabase.child(general_num).child("general_password").setValue(getGeneral_password);
-                //mDatabase.child(general_num).child("general_call").setValue(getGeneral_call);
-
-
                 Intent i = new Intent(getApplicationContext(), generalMainActivity.class);
                 startActivity(i);
                 finish();
@@ -136,6 +186,8 @@ public class generalModifyId extends AppCompatActivity {
             imagePath = getPath(data.getData());
             File f = new File(imagePath);
             photo.setImageURI(data.getData());
+            imageName = imagePath.substring(imagePath.lastIndexOf("/")+1);
+
         }
     }
 
@@ -150,6 +202,7 @@ public class generalModifyId extends AppCompatActivity {
 
         return cu.getString(index);
     }
+
 
     /*public void naviItem(){
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
