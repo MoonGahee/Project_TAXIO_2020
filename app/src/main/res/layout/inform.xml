@@ -47,16 +47,90 @@
 
 
         <TextView
-            android:id="@+id/position"
-            style="@style/basic"
+            android:id="@+id/gaheeTxt"
+            style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:text="공지 내용이 없습니다."
+            android:layout_marginLeft="68dp"
+            android:text="문가희 : "
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/wd1" />
+            app:layout_constraintTop_toBottomOf="@id/gahee" />
+
+        <ImageView
+            android:id="@+id/gahee"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/gahee"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wd1" />
+
+        <TextView
+            android:id="@+id/gwanwooTxt"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="52dp"
+            android:text="박관우 : "
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gwanwoo" />
+
+        <ImageView
+            android:id="@+id/gwanwoo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/gwanwoo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wd1" />
+
+        <TextView
+            android:id="@+id/haeunTxt"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="68dp"
+            android:text="구하은 : "
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/haeun" />
+
+        <ImageView
+            android:id="@+id/haeun"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="136dp"
+            android:src="@drawable/haeun"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gaheeTxt" />
+
+        <TextView
+            android:id="@+id/juhyeTxt"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="52dp"
+            android:text="박주혜 : "
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/juhye" />
+
+        <ImageView
+            android:id="@+id/juhye"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/juhye"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gwanwooTxt" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
