@@ -249,20 +249,6 @@
                     app:layout_constraintTop_toBottomOf="@id/email" />
 
                 <TextView
-                    android:id="@+id/btnEmail"
-                    style="@style/button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/button"
-                    android:clickable="true"
-                    android:text="중복 확인"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@id/email"
-                    app:layout_constraintTop_toBottomOf="@+id/birthD" />
-
-                <TextView
                     android:id="@+id/password"
                     style="@style/basic"
                     android:layout_width="wrap_content"
