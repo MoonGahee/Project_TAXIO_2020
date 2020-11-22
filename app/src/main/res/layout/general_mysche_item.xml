@@ -3,10 +3,12 @@
 <!-- Mypage 일정 목록 by 가희 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#E4E4E4"
-    android:padding="10dp">
+    android:layout_width="360dp"
+    android:layout_height="100dp"
+    android:background="@color/back"
+    android:padding="5dp"
+    android:paddingHorizontal="10dp"
+    android:layout_gravity="center_horizontal">
 
     <TextView
         android:id="@+id/tripSchedule"
@@ -24,6 +26,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:text="position"
-        android:textColor="#FF2F2F"
+        android:textColor="@color/ic_launcher_logo_background"
         android:textStyle="bold" />
 </RelativeLayout>

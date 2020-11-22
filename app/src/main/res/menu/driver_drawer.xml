@@ -5,17 +5,12 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/drawer_chkRes"
-            android:icon="@drawable/cal"
-            android:title="내 스케줄"/>
-
-        <item
             android:id="@+id/drawer_chkRev"
-            android:icon="@drawable/pass"
+            android:icon="@drawable/bell"
             android:title="예약 현황"/>
         <item
             android:id="@+id/drawer_chkEpi"
-            android:icon="@drawable/pass"
+            android:icon="@drawable/heart"
             android:title="후기 확인"/>
 
         <item

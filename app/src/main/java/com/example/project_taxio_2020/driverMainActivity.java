@@ -118,7 +118,8 @@ public class driverMainActivity extends AppCompatActivity {
 
                         @Override
                         public void decorate(DayViewFacade view) {
-                            view.addSpan(new ForegroundColorSpan(Color.GREEN){});
+                            view.addSpan(new ForegroundColorSpan(Color.GREEN) {
+                            });
                         }
                     });
 
@@ -156,28 +157,29 @@ public class driverMainActivity extends AppCompatActivity {
                         try {
                             selectCal.setTime(yearFormat.parse(yearFormat.format(selectCal.getTime())));
                             for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
-                                    String scheduleDate = column.child("day").getValue(String.class);
-                                    Calendar startCal = Calendar.getInstance();
-                                    startCal.setTime(yearFormat.parse(scheduleDate));
-                                    if (selectCal.compareTo(startCal) == 0) {
-                                        Date_Schedule drvier_schedule = new Date_Schedule();
-                                        drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class)+" 승객님 "+column.child("time").getValue(String.class));
-                                        drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
-                                        day = column.child("day").getValue(String.class);
-                                        Log.d("Moon", drvier_schedule.getGeneral_num());
-                                        Log.d("Moon", drvier_schedule.getSchedule_date());
-                                        adapter.addItem(drvier_schedule);
-                                        adapter.notifyDataSetChanged();
+                                String scheduleDate = column.child("day").getValue(String.class);
+                                Calendar startCal = Calendar.getInstance();
+                                startCal.setTime(yearFormat.parse(scheduleDate));
+                                if (selectCal.compareTo(startCal) == 0) {
+                                    Date_Schedule drvier_schedule = new Date_Schedule();
+                                    drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
+                                    drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
+                                    day = column.child("day").getValue(String.class);
+                                    Log.d("Moon", drvier_schedule.getGeneral_num());
+                                    Log.d("Moon", drvier_schedule.getSchedule_date());
+                                    adapter.addItem(drvier_schedule);
+                                    adapter.notifyDataSetChanged();
 
-                                        adapter.getnum(driver_num, day);
+                                    adapter.getnum(driver_num, day);
 
-                                        return;
-                                    }
+                                    return;
+                                }
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
@@ -202,7 +204,7 @@ public class driverMainActivity extends AppCompatActivity {
 
         try {
             calendar.setTime(yearFormat.parse(yearFormat.format(currentTime)));
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -219,7 +221,7 @@ public class driverMainActivity extends AppCompatActivity {
                         String scheduleDate = column.child("day").getValue(String.class);
                         Calendar startCal = Calendar.getInstance();
                         startCal.setTime(yearFormat.parse(scheduleDate));
-                        if(calendar.compareTo(startCal) == 0) {
+                        if (calendar.compareTo(startCal) == 0) {
                             String Date = column.child("day").getValue(String.class);
                             Date_Schedule drvier_schedule = new Date_Schedule();
                             drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
@@ -268,23 +270,17 @@ public class driverMainActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_chkRes) {
-                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
-                    intent.putExtra("driver_num", driver_num);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_chkRev) {
+                if (id == R.id.drawer_chkRev) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }
-                else if(id == R.id.drawer_chkEpi){
+                } else if (id == R.id.drawer_chkEpi) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
@@ -295,7 +291,7 @@ public class driverMainActivity extends AppCompatActivity {
         });
     }
 
-    public void setHeaderImage(){
+    public void setHeaderImage() {
         final TextView userName = header.findViewById(R.id.userName);
         final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
 
@@ -304,10 +300,10 @@ public class driverMainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
-                    if(driverSnapshot.getKey().equals(driver_num)) {
+                    if (driverSnapshot.getKey().equals(driver_num)) {
                         userName.setText(driverSnapshot.child("driver_name").getValue().toString());
                         storage = FirebaseStorage.getInstance();
-                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/"+driverSnapshot.child("driver_route").getValue().toString());
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/" + driverSnapshot.child("driver_route").getValue().toString());
                         GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
                     }
                 }
