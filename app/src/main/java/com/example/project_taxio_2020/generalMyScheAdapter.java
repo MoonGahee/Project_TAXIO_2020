@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdapter.ItemViewHolder> {
     //
     private ArrayList<Date_Schedule> tData = new ArrayList<>();
+    String driver_num, day;
 
     class ItemViewHolder extends RecyclerView.ViewHolder { //subView setting
         TextView tripSchedule;
@@ -32,6 +33,8 @@ public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdap
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     Intent intent = new Intent(v.getContext(), generalMyScheDetailActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    intent.putExtra("day", day);
                     //데이터 데려와야하나..?
                     v.getContext().startActivity(intent);
                 }
@@ -68,6 +71,11 @@ public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdap
 
     void clearItem() {
         tData.clear();
+    }
+
+    void getnum(String driver_num, String day) {
+        this.driver_num = driver_num;
+        this.day = day;
     }
 
 }

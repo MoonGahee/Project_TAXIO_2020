@@ -51,7 +51,7 @@ public class driverMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     DatabaseReference dDatabase;
-    String driver_num;
+    String driver_num, day;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
 
@@ -140,10 +140,13 @@ public class driverMainActivity extends AppCompatActivity {
                                         Date_Schedule drvier_schedule = new Date_Schedule();
                                         drvier_schedule.setGeneral_num(column.child("time").getValue(String.class)+" "+column.child("general_name").getValue(String.class)+" 승객님");
                                         drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
+                                        day = column.child("day").getValue(String.class);
                                         Log.d("Moon", drvier_schedule.getGeneral_num());
                                         Log.d("Moon", drvier_schedule.getSchedule_date());
                                         adapter.addItem(drvier_schedule);
                                         adapter.notifyDataSetChanged();
+
+                                        adapter.getnum(driver_num, day);
 
                                         return;
                                     }
@@ -219,6 +222,31 @@ public class driverMainActivity extends AppCompatActivity {
 
                 }
                 return true;
+            }
+        });
+    }
+
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    if(driverSnapshot.getKey().equals(driver_num)) {
+                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/"+driverSnapshot.child("driver_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
