@@ -68,7 +68,7 @@ public class generalMakeId extends AppCompatActivity {
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
-    DatabaseReference mDatabase, gDatabase, aDatabase;
+    DatabaseReference mDatabase, gDatabase;
     HashMap result;
     NotificationManager manager;
     NotificationCompat.Builder builder;
@@ -92,7 +92,6 @@ public class generalMakeId extends AppCompatActivity {
         setAdapter();//Adapter 세팅 일괄처리
         Intent i = getIntent();
         memberSort = i.getStringExtra("sort");
-        aDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mAuth = FirebaseAuth.getInstance();

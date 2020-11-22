@@ -52,9 +52,8 @@ public class driverMakeId extends AppCompatActivity {
     EditText edtNameM, edtPassword, edtCheckPass, edtNum1, edtTime, edtNum2, edtEmail, edtCarNum;
     Spinner spGenderM, birthY, birthM, birthD, spinnerNum, spEmail,spTrunk, spCarCount, spRegion;
     Button btnComplete;
-    TextView btnEmail, btnImg;
+    TextView btnImg;
     ImageView photo;
-    int check=0, eCheck=0;
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
