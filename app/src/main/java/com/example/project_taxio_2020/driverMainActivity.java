@@ -46,19 +46,10 @@ import java.util.StringJoiner;
 public class driverMainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-    Button btnResume;
-    RecyclerView trip_data;
-    TextView title_text;
-    Toolbar toolbar;
-    ListView recruitList;
-    reservationAdapter reservationAdapter;
-    ArrayList<reservationItem> list_itemArrayList;
-    Button btnD;
     DatabaseReference dDatabase;
     String driver_num;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
-
 
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> lists;
@@ -189,36 +180,22 @@ public class driverMainActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_schTrip) {
+                if (id == R.id.drawer_chkRes) {
                     Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_chkRes) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_myInfo) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } /*else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), driverModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), driverWriteWithdrawal.class);
-                    startActivity(intent);
-                    finish();
                 }
-                else if(id==R.id.logout){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }*/
                 return true;
             }
         });

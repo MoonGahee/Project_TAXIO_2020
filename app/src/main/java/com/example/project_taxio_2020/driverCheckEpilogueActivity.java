@@ -41,9 +41,9 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
-        
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        nDrawer = (NavigationView)findViewById(R.id.nDrawer);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         naviItem();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -67,59 +67,8 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         });
     }
 
-    public void naviItem(){
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-
-                int id = menuItem.getItemId();
-
-                if(id == R.id.drawer_schTrip){
-                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else if (id == R.id.drawer_myInfo) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
-                    startActivity(intent);
-                    finish();
-                } /*else if (id == R.id.drawer_modify) {
-                    Intent intent = new Intent(getApplicationContext(), driverModifyId.class);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_out) {
-                    Intent intent = new Intent(getApplicationContext(), driverWriteWithdrawal.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else if(id==R.id.logout){
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }*/
-                return true;
-            }
-        });
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {//toolbar의 back키 눌렀을 시
-        switch (item.getItemId()){
-            case android.R.id.home:{//이전 화면으로 돌아감
-                finish();
-                return true;
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,5 +80,34 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+    }
+
+    public void naviItem() {
+        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
+
+                int id = menuItem.getItemId();
+                if (id == R.id.drawer_chkRes) {
+                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_chkRes) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                } else if (id == R.id.drawer_setting) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                }
+                return true;
+            }
+        });
     }
 }

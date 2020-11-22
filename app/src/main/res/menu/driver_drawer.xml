@@ -3,25 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/drawer_schTrip"
-            android:icon="@drawable/schedule"
-            android:title="내 스케줄" />
 
         <item
             android:id="@+id/drawer_chkRes"
             android:icon="@drawable/cal"
-            android:title="예약 현황" />
+            android:title="예약 현황"/>
 
-        <item
+        <itm
             android:id="@+id/drawer_chkRev"
             android:icon="@drawable/pass"
-            android:title="후기 확인" />
+            android:title="후기 확인"/>
 
         <item
             android:id="@+id/drawer_setting"
             android:icon="@drawable/setting"
-            android:title="설정" />
+            android:title="설정"/>
 
     </group>
 

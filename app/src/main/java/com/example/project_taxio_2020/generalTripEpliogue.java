@@ -2,8 +2,10 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -24,7 +26,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.StringJoiner;
 
 public class generalTripEpliogue extends AppCompatActivity {
@@ -34,9 +38,11 @@ public class generalTripEpliogue extends AppCompatActivity {
     TextView title_text;
     Button edit_epilogue;
     ListView listView;
+    int selectedPosition = -1;
     generalEpilogueAdapter epilogue_listAdapter;
     String general_num;
     reservationAdapter reservationAdapter;
+    ArrayList<Schedule> list_schedule = new ArrayList<>();
     ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
 
 
@@ -76,11 +82,24 @@ public class generalTripEpliogue extends AppCompatActivity {
         edit_epilogue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(generalTripEpliogue.this, generalWriteEpilogueActivity.class);
-                startActivity(i);
-                finish();
+                if (selectedPosition >= 0) {
+                    Intent i = new Intent(generalTripEpliogue.this, generalWriteEpilogueActivity.class);
+                    i.putExtra("generalNum", general_num);
+                    i.putExtra("driverName",  list_itemArrayList.get(selectedPosition).getRecruitplace());
+                    i.putExtra("Schedule", list_itemArrayList.get(selectedPosition).getRecruit());
+                    i.putExtra("Region", list_schedule.get(selectedPosition).getRegion());
+                    startActivity(i);
+                    finish();
+                }
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedPosition = position;
+            }
+        });
+
 
         getData();
     }
@@ -90,25 +109,23 @@ public class generalTripEpliogue extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String viewData = "1";
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").getChildren()) {
-                    //for (DataSnapshot day : snapshot.child(general_num).child("Schedule").child(viewData).child("days").getChildren()) {
+                    Schedule item = new Schedule();
+                    item.setSchedule_num(column.getKey());
+                    item.setDeparture_date(column.child("departure_date").getValue(String.class));
+                    item.setArrival_date(column.child("arrival_date").getValue(String.class));
+                    item.setRegion(column.child("region").getValue(String.class));
+                    item.setTimes(column.child("times").getValue(String.class));
+                    item.setTaxi_driver(column.child("driver_name").getValue(String.class));
 
-                        DataSnapshot arrival_date = column.child("arrival_date");
-                        DataSnapshot departure_date = column.child("departure_date");
-
-                        Schedule scheduleItem = new Schedule();
-                        scheduleItem.setArrival_date(arrival_date.getValue(String.class));
-                        scheduleItem.setDeparture_date(departure_date.getValue(String.class));
-
-                        //Date_Schedule dateScheduleItem = new Date_Schedule();
-                        //dateScheduleItem.setSchedule_num(viewData);
-                        //dateScheduleItem.setGeneral_num(general_num);
-
-                        reservationItem rsItem = new reservationItem(scheduleItem.getPrintDate(), null);
-                        list_itemArrayList.add(rsItem);
+                    if (item.getTravel_state().equals("여행끝")) {
+                        list_schedule.add(item);
+                        reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
+                        list_itemArrayList.add(printItem);
+                        reservationAdapter.notifyDataSetChanged();
                     }
-                //}
+
+                }
             }
 
             @Override
