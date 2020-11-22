@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -41,6 +43,10 @@ public class driverCheckScheActivity extends AppCompatActivity {
     String driver_num;
     DrawerLayout drawerLayout;
     NavigationView nDrawer;
+    View header;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +54,14 @@ public class driverCheckScheActivity extends AppCompatActivity {
         setContentView(R.layout.driver_chk_sch);
         setToolbar();
 
+
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         naviItem();
+        setHeaderImage();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
@@ -141,10 +149,35 @@ public class driverCheckScheActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
                         Date_Schedule drvier_schedule = new Date_Schedule();
-                        String recruit = column.child("time").getValue(String.class)+" "+column.child("general_name").getValue(String.class)+" 승객님";
+                        String recruit = column.child("day").getValue(String.class) +"-" +column.child("general_name").getValue(String.class)+" 승객님"+"     ("+ column.child("time").getValue(String.class)+")";
                         String recruit_place = column.child("course").getValue(String.class);
                         list_itemArrayList.add(new reservationItem(recruit, recruit_place));
                     }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setHeaderImage() {
+        final TextView userName = header.findViewById(R.id.userName);
+        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    if (driverSnapshot.getKey().equals(driver_num)) {
+                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/" + driverSnapshot.child("driver_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
             }
 
             @Override

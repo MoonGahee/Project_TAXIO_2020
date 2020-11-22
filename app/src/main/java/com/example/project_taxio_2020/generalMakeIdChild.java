@@ -302,6 +302,7 @@ public class generalMakeIdChild extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), generalMakeIdChildComplete.class);
         intent.putExtra("general_num", resultNum.get("general_num").toString());
         intent.putExtra("sort", memberSort);
+        showNoti();
         startActivity(intent);
         finish();
     }//액티비티 이동

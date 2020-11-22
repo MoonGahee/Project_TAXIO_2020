@@ -374,19 +374,6 @@
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
-                <TextView
-                    android:id="@+id/btnPPhone"
-                    style="@style/button"
-                    android:layout_width="38dp"
-                    android:layout_height="23dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/button"
-                    android:clickable="true"
-                    android:text="인 증"
-                    android:textSize="17sp"
-                    app:layout_constraintLeft_toRightOf="@id/edtPEmail"
-                    app:layout_constraintTop_toBottomOf="@id/pPhone" />
 
                 <EditText
                     android:id="@+id/edtPEmail"

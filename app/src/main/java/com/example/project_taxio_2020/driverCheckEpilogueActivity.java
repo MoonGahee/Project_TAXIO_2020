@@ -82,6 +82,7 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 
+
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -90,18 +91,19 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
                 drawerLayout.closeDrawers();
 
                 int id = menuItem.getItemId();
-                if (id == R.id.drawer_chkRes) {
-                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
+
+                if (id == R.id.drawer_chkRev) {
+                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                } else if (id == R.id.drawer_chkRes) {
+                } else if (id == R.id.drawer_chkEpi) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
                 } else if (id == R.id.drawer_setting) {
-                    Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();

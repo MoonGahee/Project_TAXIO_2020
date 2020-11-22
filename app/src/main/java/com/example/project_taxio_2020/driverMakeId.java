@@ -191,27 +191,6 @@ public class driverMakeId extends AppCompatActivity {
     }
 
 
-    public void showNoti() {
-        builder = null;
-        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        //버전 오레오 이상일 경우
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            manager.createNotificationChannel
-                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
-            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
-            // 하위 버전일 경우
-        } else {
-            builder = new NotificationCompat.Builder(this);
-        }
-        // 알림창 제목
-        builder.setContentTitle("회원가입 완료");
-        // 알림창 메시지
-        builder.setContentText(edtNameM.getText().toString()+"님의 회원가입이 완료되었습니다!");
-        builder.setSmallIcon(R.drawable.bell);
-        Notification notification = builder.build();
-        // 알림창 실행
-        manager.notify(1, notification);
-    }
 
     public void getPicture(){
 
@@ -297,16 +276,40 @@ public class driverMakeId extends AppCompatActivity {
 
     public void setDatabase() {
         gDatabase.child(result.get("driver_num").toString()).setValue(result);
-        gDatabase.child(resultNum.get("driver_num").toString()).setValue(result);
+        //gDatabase.child(resultNum.get("driver_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), driverMakeIdComplete.class);
-        intent.putExtra("driver_num", resultNum.get("driver_num").toString());
+        intent.putExtra("driver_num", result.get("driver_num").toString());
         intent.putExtra("sort", memberSort);
+        showNoti();
         startActivity(intent);
         finish();
     }//액티비티 이동
+
+
+    public void showNoti() {
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel
+                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            // 하위 버전일 경우
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        // 알림창 제목
+        builder.setContentTitle("회원가입 완료");
+        // 알림창 메시지
+        builder.setContentText(edtNameM.getText().toString()+"님의 회원가입이 완료되었습니다!");
+        builder.setSmallIcon(R.drawable.bell);
+        Notification notification = builder.build();
+        // 알림창 실행
+        manager.notify(1, notification);
+    }
 
     public Boolean checkPass(String password) {
         boolean check = false;

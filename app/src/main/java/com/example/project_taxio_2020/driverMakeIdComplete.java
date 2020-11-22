@@ -44,6 +44,7 @@ public class driverMakeIdComplete extends AppCompatActivity {
         phoneC = findViewById(R.id.phoneC);
         btnCom = findViewById(R.id.btnCom);
 
+
         Intent i = getIntent();
         driver_num = (String)i.getSerializableExtra("driver_num");
 
@@ -67,7 +68,6 @@ public class driverMakeIdComplete extends AppCompatActivity {
                 birthC.setText(birthC.getText().toString()+driver.getDriver_birth());
                 phoneC.setText(phoneC.getText().toString()+driver.getDriver_call());
                 emailC.setText(emailC.getText().toString()+driver.getDriver_email());
-                namea = driver.getDriver_name();
             }
 
             @Override
@@ -78,6 +78,8 @@ public class driverMakeIdComplete extends AppCompatActivity {
         };
         mDatabase.addListenerForSingleValueEvent(DriverListener); //콜백 한 번만 호출이 이뤄지는 경우
     }
+
+
 
     public void moveActivity() {
         FirebaseAuth.getInstance().signOut();

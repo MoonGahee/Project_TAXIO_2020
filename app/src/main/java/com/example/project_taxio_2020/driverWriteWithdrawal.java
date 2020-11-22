@@ -119,6 +119,7 @@ public class driverWriteWithdrawal extends AppCompatActivity {
         });
     }
     //네비게이션
+
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -128,23 +129,17 @@ public class driverWriteWithdrawal extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_chkRes) {
-                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
-                    intent.putExtra("driver_num", driver_num);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_chkRev) {
+                if (id == R.id.drawer_chkRev) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }
-                else if(id == R.id.drawer_chkEpi){
+                } else if (id == R.id.drawer_chkEpi) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);

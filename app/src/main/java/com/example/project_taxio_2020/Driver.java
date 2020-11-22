@@ -43,8 +43,9 @@ public class Driver{
     }
 
     public void setDriver_num(String driver_num) {
-        this.driver_email = driver_num;
+        this.driver_num = driver_num;
     }
+
     public String getDriver_email() {
         return driver_email;
     }

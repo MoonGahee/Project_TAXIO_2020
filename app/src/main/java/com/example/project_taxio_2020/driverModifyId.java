@@ -195,6 +195,7 @@ public class driverModifyId extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 
+
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -204,23 +205,17 @@ public class driverModifyId extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if (id == R.id.drawer_chkRes) {
-                    Intent intent = new Intent(getApplicationContext(), driverMyScheActivity.class);
-                    intent.putExtra("driver_num", driver_num);
-                    startActivity(intent);
-                    finish();
-                } else if (id == R.id.drawer_chkRev) {
+                if (id == R.id.drawer_chkRev) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }
-                else if(id == R.id.drawer_chkEpi){
+                } else if (id == R.id.drawer_chkEpi) {
                     Intent intent = new Intent(getApplicationContext(), driverCheckEpilogueActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
-                }else if (id == R.id.drawer_setting) {
+                } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
@@ -230,6 +225,7 @@ public class driverModifyId extends AppCompatActivity {
             }
         });
     }
+
     public void setHeaderImage(){
         final TextView userName = header.findViewById(R.id.userName);
         final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);

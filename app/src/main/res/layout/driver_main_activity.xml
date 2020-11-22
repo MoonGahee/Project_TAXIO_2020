@@ -69,14 +69,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recruitDriver2" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tripRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cal1" />
-
             <Button
                 android:id="@+id/btnD"
                 style="@style/button"
@@ -86,7 +78,18 @@
                 android:text="운전하러 가기"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tripRecycler" />
+                app:layout_constraintTop_toBottomOf="@+id/cal1" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="20dp"
+                android:id="@+id/tripRecycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnD" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
