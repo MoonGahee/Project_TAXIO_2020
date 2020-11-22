@@ -301,6 +301,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("arrival_date", endDay);
         result.put("days", tripDays); //임의의 테이블 생성
         mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
+        isCorrect = true;
         moveActivity();
     }
 
@@ -427,7 +428,6 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         });
     }
 
-    //햄버거 버튼, 툴바 설정
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
@@ -440,6 +440,30 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+        actionBar.setDisplayHomeAsUpEnabled(false); //뒤로 가기 버튼 활성화
+    }
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast  = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
+    }
+
+    boolean isCorrect = false;
+    @Override
+    protected void onDestroy() {
+        if(!isCorrect)  mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+        // DB에 데이터 삭제 완료
+        super.onDestroy();
     }
 }

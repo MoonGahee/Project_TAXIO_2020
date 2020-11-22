@@ -229,4 +229,20 @@ public class LoginActivity extends AppCompatActivity {
         }
         editor.commit();
     }
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast  = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
+    }
 }

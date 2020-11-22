@@ -128,7 +128,9 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         general_num = (String) intent.getSerializableExtra("general_num");
         schedule_num = (String) intent.getSerializableExtra("schedule_num");
         tripdays = intent.getIntExtra("tripDays", 3); //며칠
-        date = intent.getStringExtra("startDay") + " ~ " + intent.getStringExtra("endDay"); //언제부터 언제까지
+        date = intent.getStringExtra("tripDate");
+        if (date == null)
+            date = intent.getStringExtra("startDay") + " ~ " + intent.getStringExtra("endDay"); //언제부터 언제까지
         //latLng = intent.getParcelableArrayListExtra("tripLatLng");
         //places = intent.getStringArrayListExtra("trip");
 
@@ -329,9 +331,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                         listView.setAdapter(generalTimelineAdapter);
                     }
-                }
-
-                else{
+                } else {
                     Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -355,7 +355,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 i.putExtra("tripLatLng", latLng);
                 i.putExtra("trip", places);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -439,6 +438,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
     //화면 이동
     public void moveActivity() {
+        isCorrect = true;
         Intent intent = new Intent(getApplicationContext(), generalSDriverActivity.class);
         intent.putExtra("general_num", general_num);
         intent.putExtra("schedule_num", schedule_num);  //회원번호
@@ -539,7 +539,35 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+        actionBar.setDisplayHomeAsUpEnabled(false); //뒤로 가기 버튼 활성화
+    }
+
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
+    }
+
+    boolean isCorrect = false;
+
+    @Override
+    protected void onDestroy() {
+        if (!isCorrect)
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
+        // DB에 데이터 삭제 완료
+        super.onDestroy();
     }
 
     @Override

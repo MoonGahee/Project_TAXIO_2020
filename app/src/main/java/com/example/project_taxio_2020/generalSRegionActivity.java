@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +37,6 @@ public class generalSRegionActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     Toolbar toolbar;
-    TextView title_text;
     ImageView map;
     ImageButton btnJeju, btnSeoul, btnBusan, btnGyungju, btnGangwon;
     String general_num;
@@ -50,12 +50,10 @@ public class generalSRegionActivity extends AppCompatActivity {
         //값 받아오기
         Intent i = getIntent();
         general_num = i.getStringExtra("general_num");
-        Log.d("moon_num", general_num);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_select_region_activity);
         setToolbar();
-        setHomeBtn();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -200,23 +198,6 @@ public class generalSRegionActivity extends AppCompatActivity {
         finish();
     }
 
-
-    //홈버튼 클릭
-    public void setHomeBtn() {
-        title_text = findViewById(R.id.title_text);
-        title_text.setClickable(true);
-        title_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
-                i.putExtra("general_num", general_num);
-                startActivity(i);
-                finish();
-            }
-        });
-    }
-
-
     public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
@@ -250,6 +231,7 @@ public class generalSRegionActivity extends AppCompatActivity {
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
+        TextView title_text = findViewById(R.id.title_text);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,6 +241,33 @@ public class generalSRegionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar); //툴바를 현재 액션바로 설정
         ActionBar actionBar = getSupportActionBar(); //현재 액션바를 가져옴
         actionBar.setDisplayShowTitleEnabled(false); //액션바의 타이틀 삭제 ~~~~~~~ 왜 에러냐는거냥!!
-        actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로 가기 버튼 활성화
+
+        title_text.setClickable(true); //홈으로 가기 버튼 활성화
+        title_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), generalMainActivity.class); //삭제 후 홈으로 돌아가기
+                i.putExtra("general_num", general_num);
+                startActivity(i);
+                finish();
+            }
+        });
+    }
+    final long FINISH_INTERVAK_TIME = 2000;
+    long backPressedTime = 0;
+    Toast toast;
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+        toast  = Toast.makeText(getApplicationContext(), "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT);
+
+        if (0 <= intervalTime && FINISH_INTERVAK_TIME >= intervalTime) {
+            toast.cancel();
+            finishAffinity();
+        } else {
+            backPressedTime = tempTime;
+            toast.show();
+        }
     }
 }

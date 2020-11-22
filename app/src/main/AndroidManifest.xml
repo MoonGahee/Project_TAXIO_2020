@@ -64,45 +64,99 @@
         </service>
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".generalMainActivity" /> <!--승객 메인-->
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".generalReservationCompleteActivity" />
-        <activity android:name=".generalCheckEpilogueActivity" />
-        <activity android:name=".generalMakeScheActivity" />
-        <activity android:name=".generalUpdateScheActivity" />
-        <activity android:name=".generalSDateActivity" />
-        <activity android:name=".generalSTaxiActivity" />
-        <activity android:name=".generalSDriverActivity" />
-        <activity android:name=".generalSRegionActivity" />
-        <activity android:name=".generalWriteEpilogueActivity" />
-        <activity android:name=".MakeIdComplete" /><!--회원가입 완료-->
-        <activity android:name=".generalMyscheActivity" />
-        <activity android:name=".generalClause" />
-        <activity android:name=".MemberSort" />
-        <activity android:name=".generalAgeCheck" />
-        <activity android:name=".generalWriteWithdrawalActivity" /> <!--탈퇴 진행-->
-        <activity android:name=".generalWithdrawalCompleteActivity" /> <!--탈퇴 완료-->
-        <activity android:name=".generalMakeIdChild" />
-        <activity android:name=".generalMakeId" />
-        <activity android:name=".driverMakeId" />
-        <activity android:name=".generalModifyId" /> <!--수정-->
-        <activity android:name=".driverAcceptRequestActivity" /><!--기사 요청-->
-        <activity android:name=".driverResumeActivity" /><!--기사 지원-->
-        <activity android:name=".driverMainActivity" /><!--기사 메인-->
-        <activity android:name=".driverMyScheActivity" /><!--기사 일정-->
-        <activity android:name=".driverCheckScheActivity" /><!--기사 예약 현황-->
-        <activity android:name=".driverModifyId" /><!--기사 정보 수정-->
-        <activity android:name=".driverWriteWithdrawal" /><!--기사 탈퇴하기-->
-        <activity android:name=".driverWithdrawalComplete" /><!--기사 탈퇴 완료-->
-        <activity android:name=".driverCheckEpilogueActivity" /><!--기사 후기-->
+
+
+        <!--**********************************************************로그인**********************************************************-->
+        <activity android:name=".LoginActivity" /> <!--로그인-->
+
         <activity android:name=".findId" /><!--아이디 찾기-->
         <activity android:name=".findPw" /><!--패스워드 찾기-->
-        <activity android:name=".generalMakeIdChildComplete" /> <!--아가회원가입 완료-->
-        <activity android:name=".driverMakeIdComplete" /> <!--기사회원가입 완료-->
-        <activity android:name=".generalSetting" />
-        <activity android:name=".generalInfo" />
-        <activity android:name=".generalCs" />
-        <activity android:name=".generalTripEpliogue"/> <!--후기 목록-->
-        <activity android:name=".generalMyScheDetailActivity"/> <!--여행 일정 디테일-->
+
+        <!--************************************회원가입******************************************-->
+        <activity android:name=".MemberSort"
+            android:parentActivityName=".LoginActivity"/><!--승객인지 기사인지 회원가입1-->
+        <activity android:name=".generalAgeCheck"
+            android:parentActivityName=".MemberSort"/> <!--미성년자인지 아닌지 회원가입2 > 승객일 경우에만-->
+        <activity android:name=".generalClause"
+            android:parentActivityName=".generalAgeCheck"/><!--정보제공 동의 회원가입3-->
+
+        <activity android:name=".generalMakeIdChild"
+            android:parentActivityName=".MemberSort" /><!--승객 미성년자 회원가입 정보입력 회원가입4-->
+        <activity android:name=".generalMakeIdChildComplete"
+            android:parentActivityName=".LoginActivity" /> <!--아가회원가입 완료 회원가입5-->
+
+        <activity android:name=".generalMakeId"
+            android:parentActivityName=".MemberSort"/><!--승객 회원가입 정보입력 회원가입4-->
+        <activity android:name=".MakeIdComplete"
+            android:parentActivityName=".LoginActivity" /><!--회원가입 완료 회원가입5-->
+
+        <activity android:name=".driverMakeId"
+            android:parentActivityName=".MemberSort" /><!--기사 회원가입 정보입력 회원가입4-->
+        <activity android:name=".driverMakeIdComplete"
+            android:parentActivityName=".LoginActivity" /> <!--기사회원가입 완료 회원가입5-->
+        <!--************************************회원가입******************************************-->
+        <!--**********************************************************로그인**********************************************************-->
+
+
+        <!--**********************************************************승객**********************************************************-->
+        <!--************************************메인 흐름******************************************-->
+        <activity android:name=".generalMainActivity" /> <!--승객 메인 승객1-->
+        <activity android:name=".generalSRegionActivity"
+            android:parentActivityName=".generalMainActivity" /> <!--승객 지역선택 승객2-->
+        <activity android:name=".generalSDateActivity"
+            android:parentActivityName=".generalSRegionActivity" /> <!--승객 일정선택 승객3-->
+        <activity android:name=".generalSTaxiActivity"
+            android:parentActivityName=".generalSDateActivity" /> <!--승객 택시 대여 선택 승객4-->
+        <activity android:name=".generalMakeScheActivity"
+            android:parentActivityName=".generalSTaxiActivity" /> <!--승객 일정별 방문 지역 선택 승객5-->
+        <activity android:name=".generalUpdateScheActivity"
+            android:parentActivityName=".generalMakeScheActivity" /> <!--승객 일정 편집 승객6-->
+        <activity android:name=".generalSDriverActivity"
+            android:parentActivityName=".generalMainActivity" /> <!--승객 기사 선택 승객7-->
+        <activity android:name=".generalReservationCompleteActivity"
+            android:parentActivityName=".generalMainActivity" /> <!--승객 기사 예약 완료 승객8 > 메인 복귀-->
+        <!--************************************메인 흐름******************************************-->
+        <!--************************************햄버거******************************************-->
+        <activity android:name=".generalMyscheActivity" /> <!--여행일정 메인으로 일정1-->
+        <activity android:name=".generalMyScheDetailActivity"/> <!--여행 일정 디테일 일정2-->
+
+        <activity android:name=".generalCheckEpilogueActivity" /> <!--후기 관리 메인으로 후기1-->
+        <activity android:name=".generalTripEpliogue"/> <!--후기 작성할 기사 선택 목록 후기2-->
+        <activity android:name=".generalWriteEpilogueActivity" /> <!--후기 작성 후기3-->
+
+        <activity android:name=".generalSetting" /><!--설정 메인으로-->
+        <!--************************************햄버거******************************************-->
+        <!--**********************************************************승객**********************************************************-->
+
+
+        <!--**********************************************************기사**********************************************************-->
+        <!--************************************메인 흐름******************************************-->
+        <activity android:name=".driverMainActivity" /><!--기사 메인 기사1-->
+        <activity android:name=".driverResumeActivity" /><!--기사 지원 기사2-->
+        <activity android:name=".driverAcceptRequestActivity" /><!--기사 요청완료 기사3 메인으로-->
+        <!--************************************메인 흐름******************************************-->
+        <!--************************************햄버거******************************************-->
+        <activity android:name=".driverMyScheActivity" /><!--기사 내 스케줄 메인으로-->
+        <activity android:name=".driverCheckScheActivity" /><!--기사 예약 현황 뒤로가기 > 메인으로 // 다른 클릭> 요청내역으로 이동-->
+        <activity android:name=".driverCheckEpilogueActivity" /><!--기사 후기 메인으로-->
+        <!--************************************햄버거******************************************-->
+        <!--**********************************************************기사**********************************************************-->
+
+
+        <!--**********************************************************공통**********************************************************-->
+        <activity android:name=".generalInfo" /> <!--개발자소개(공지사항) 메인으로-->
+        <activity android:name=".generalCs" /> <!--고객센터 메인으로-->
+        <!--************************************정보수정******************************************-->
+        <activity android:name=".generalModifyId" /> <!--승객 정보 수정 메인으로-->
+        <activity android:name=".driverModifyId" /><!--기사 정보 수정 메인으로-->
+        <!--************************************정보수정******************************************-->
+        <!--************************************탈퇴******************************************-->
+        <activity android:name=".generalWriteWithdrawalActivity" /> <!--탈퇴 진행 메인으로-->
+        <activity android:name=".generalWithdrawalCompleteActivity" /> <!--탈퇴 완료 로그인으로-->
+        <activity android:name=".driverWriteWithdrawal" /><!--기사 탈퇴하기 메인으로-->
+        <activity android:name=".driverWithdrawalComplete" /><!--기사 탈퇴 완료 로그인으로-->
+        <!--************************************탈퇴******************************************-->
+        <!--**********************************************************공통**********************************************************-->
+
     </application>
 </manifest>

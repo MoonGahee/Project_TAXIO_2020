@@ -6,20 +6,18 @@ public class Epilogue {
     public String epilogue_id; //후기 일렬번호
     public String driver_num; //기사 id
     public String general_num; //회원 id
-    public String general_route; //회원 사진 경로 >> 사진을 띄워야 하니까?
+    public String  driver_route; //기사 사진 경로 >> 사진을 띄워야 하니까?
     public Float score; // 별점
-    public String memo; //후기 내용
 
     public Epilogue(){
     }
 
-    public Epilogue(String epilogue_id, String driver_num, String general_num, String general_route, Float score, String memo){
+    public Epilogue(String epilogue_id, String driver_num, String general_num, String driver_route, Float score){
         this.epilogue_id = epilogue_id;
         this.driver_num = driver_num;
         this.general_num = general_num;
-        this.general_route = general_route;
+        this.driver_route = driver_route;
         this.score = score;
-        this.memo = memo;
     }
 
     public String getEpilogue_id() {
@@ -46,27 +44,11 @@ public class Epilogue {
         this.general_num = general_num;
     }
 
-    public String getGeneral_route() {
-        return general_route;
-    }
-
-    public void setGeneral_route(String general_route) {
-        this.general_route = general_route;
-    }
-
     public Float getScore() {
         return score;
     }
 
     public void setScore(Float score) {
         this.score = score;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public void setMemo(String memo) {
-        this.memo = memo;
     }
 }
