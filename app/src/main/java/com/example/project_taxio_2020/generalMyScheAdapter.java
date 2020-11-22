@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,10 @@ public class generalMyScheAdapter extends RecyclerView.Adapter<generalMyScheAdap
 
     void addItem(Date_Schedule data) {
         tData.add(data);
+    }
+
+    void clearItem() {
+        tData.clear();
     }
 
 }
