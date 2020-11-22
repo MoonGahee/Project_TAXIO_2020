@@ -1,6 +1,9 @@
 package com.example.project_taxio_2020;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.loader.content.CursorLoader;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -66,6 +70,12 @@ public class generalMakeIdChild extends AppCompatActivity {
     boolean isCorrectPassword = false;
     DatabaseReference mDatabase, gDatabase;
     HashMap result, resultNum;
+
+    NotificationManager manager;
+    NotificationCompat.Builder builder;
+    private static String CHANNEL_ID = "channel1";
+    private static String CHANEL_NAME = "Channel1";
+
 
     String passwordNotice = "비밀번호 패턴을 맞춰주세요.";
     String chkPasswordNotice = "비밀번호가 일치하지 않습니다.";
@@ -189,6 +199,29 @@ public class generalMakeIdChild extends AppCompatActivity {
         intent. setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, GALLERY_CODE);
     }
+
+    public void showNoti() {
+        builder = null;
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //버전 오레오 이상일 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel
+                    (new NotificationChannel(CHANNEL_ID, CHANEL_NAME, NotificationManager.IMPORTANCE_DEFAULT));
+            builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+            // 하위 버전일 경우
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
+        // 알림창 제목
+        builder.setContentTitle("회원가입 완료");
+        // 알림창 메시지
+        builder.setContentText(edtNameM.getText().toString()+"님의 회원가입이 완료되었습니다!");
+        builder.setSmallIcon(R.drawable.bell);
+        Notification notification = builder.build();
+        // 알림창 실행
+        manager.notify(1, notification);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_CODE){
