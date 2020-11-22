@@ -79,7 +79,6 @@ public class driverMakeId extends AppCompatActivity {
         setToolbar();//Toolbar세팅
         setFindView();//뷰 객체화 findViewbyId 일괄처리
         setAdapter();//Adapter 세팅 일괄처리
-        mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
         gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
