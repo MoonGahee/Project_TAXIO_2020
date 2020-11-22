@@ -9,7 +9,8 @@
             android:title="내 스케줄" />
 
         <item
-            android:id="@+id/drawer_myRes"
+            android:id="@+id/drawer_chkRes"
+            android:icon="@drawable/cal"
             android:title="예약 현황" />
 
         <item
@@ -23,5 +24,6 @@
             android:title="설정" />
 
     </group>
+
 
 </menu>
