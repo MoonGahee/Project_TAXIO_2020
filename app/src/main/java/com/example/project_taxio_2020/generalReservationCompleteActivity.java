@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,17 +18,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 // 예약 완료 화면 by 가희
 
 public class generalReservationCompleteActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-
     TextView title_text;
     TextView time, name, taxi, date, course;
-
     String tripdate, general_num, schedule_num;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +59,8 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         date = findViewById(R.id.date);
         taxi = findViewById(R.id.taxi);
         time = findViewById(R.id.time);
-
         date.setText(tripdate);
+        dataActivity();
 
         goMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +72,31 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
         });
     }
 
+    public void dataActivity() {
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                General general = snapshot.child(general_num).getValue(General.class); //child로 경로 지정
+                Schedule schedule = snapshot.child(general_num).child("Schedule").child(schedule_num).getValue(Schedule.class);
+                name.setText(general.getGeneral_name());
+                course.setText(schedule.getRegion()+ "에서 "+(Integer.parseInt(schedule.getTimes())-1)+"박 "+schedule.getTimes()+"일");
+                date.setText(schedule.getPrintDate());
+                taxi.setText(schedule.getTaxi_driver());
+                //time.setText(); 총합시간 만들어주기
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Moon-Test","error");
+                //없는 경우
+            }
+        };
+        mDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }
+
     //네비게이션
-    public void naviItem(){
+    public void naviItem() {
         nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() { //Navigation Drawer 사용
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -77,7 +105,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.drawer_schTrip){
+                if (id == R.id.drawer_schTrip) {
                     Intent intent = new Intent(getApplicationContext(), generalMyscheActivity.class);
                     startActivity(intent);
                     finish();
@@ -96,8 +124,8 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     }
 
 
-    public void setToolbar(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
+    public void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

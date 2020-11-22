@@ -1,18 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 탑승자 메인 by 주혜 -->
+<?xml version="1.0" encoding="utf-8"?><!-- 탑승자 메인 by 주혜 -->
 
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawerLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:openDrawer="start"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
     <ScrollView
         android:id="@+id/scl"
@@ -25,10 +23,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/app_bar_"
+            <include
                 android:id="@+id/bar"
+                layout="@layout/app_bar_"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
+                app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 
             <ImageView
                 android:id="@+id/bell"
@@ -47,24 +46,22 @@
                 android:layout_height="wrap_content"
                 android:text="회원가입"
                 app:layout_constraintLeft_toRightOf="@+id/bell"
-                app:layout_constraintTop_toBottomOf="@+id/bar"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/bar" />
 
             <TextView
                 android:id="@+id/warning"
+                style="@style/basic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="15dp"
-                android:textColor="#FF0000"
-                style="@style/basic"
+                android:layout_marginTop="20dp"
                 android:text="*표시는 필수입력 항목입니다."
+                android:textColor="#FF0000"
                 android:textSize="15sp"
                 app:layout_constraintLeft_toRightOf="@id/makeMember"
-                app:layout_constraintTop_toBottomOf="@id/bar"/>
+                app:layout_constraintTop_toBottomOf="@id/bar" />
 
             <SeekBar
-                android:progressTintMode="add"
                 android:id="@+id/progress"
                 android:layout_width="410dp"
                 android:layout_height="17dp"
@@ -72,6 +69,7 @@
                 android:max="4"
                 android:progress="3"
                 android:progressDrawable="@drawable/seekbar_progress"
+                android:progressTintMode="add"
                 android:thumb="@drawable/seekbar_thumb"
                 android:tickMark="@drawable/seekbar_thumb1"
                 app:layout_constraintHorizontal_bias="0.08"
@@ -158,8 +156,8 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_marginLeft="124dp"
+                    android:layout_marginTop="13dp"
                     android:text="년"
                     android:textSize="17sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
@@ -178,8 +176,8 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="13dp"
                     android:layout_marginLeft="230dp"
+                    android:layout_marginTop="13dp"
                     android:text="월"
                     android:textSize="17sp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
@@ -198,10 +196,10 @@
                     style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="333dp"
                     android:layout_marginTop="13dp"
                     android:text="일"
                     android:textSize="17sp"
-                    android:layout_marginLeft="333dp"
                     app:layout_constraintLeft_toLeftOf="@id/joining"
                     app:layout_constraintTop_toBottomOf="@id/birthMember" />
 
@@ -308,9 +306,6 @@
                     app:layout_constraintTop_toBottomOf="@id/checkPass" />
 
 
-
-
-
                 <TextView
                     android:id="@+id/phone"
                     style="@style/basic"
@@ -349,10 +344,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:ems="4"
+                    android:inputType="number"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toRightOf="@+id/n1"
-                    app:layout_constraintTop_toBottomOf="@+id/phone"
-                    android:inputType="number"/>
+                    app:layout_constraintTop_toBottomOf="@+id/phone" />
 
                 <TextView
                     android:id="@+id/n2"
@@ -372,10 +367,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:ems="4"
+                    android:inputType="number"
                     android:textSize="15sp"
                     app:layout_constraintLeft_toRightOf="@+id/n2"
-                    app:layout_constraintTop_toBottomOf="@+id/phone"
-                    android:inputType="number"/>
+                    app:layout_constraintTop_toBottomOf="@+id/phone" />
 
                 <TextView
                     android:id="@+id/region"
@@ -394,39 +389,39 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     app:layout_constraintLeft_toRightOf="@id/region"
-                    app:layout_constraintTop_toBottomOf="@id/edtNum2"/>
+                    app:layout_constraintTop_toBottomOf="@id/edtNum2" />
 
                 <TextView
                     android:id="@+id/carNum"
+                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/basic"
                     android:layout_marginTop="13dp"
                     android:text="*차량번호 : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spRegion"/>
+                    app:layout_constraintTop_toBottomOf="@+id/spRegion" />
 
                 <EditText
                     android:id="@+id/edtCarNum"
+                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
                     android:ems="7"
-                    style="@style/basic"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/carNum" />
 
                 <TextView
                     android:id="@+id/carCount"
+                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/basic"
-                    android:text="*차량인승 : "
                     android:layout_marginTop="13dp"
+                    android:text="*차량인승 : "
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edtCarNum"/>
+                    app:layout_constraintTop_toBottomOf="@+id/edtCarNum" />
 
                 <Spinner
                     android:id="@+id/spCarCount"
@@ -434,55 +429,55 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     app:layout_constraintLeft_toRightOf="@id/carCount"
-                    app:layout_constraintTop_toBottomOf="@id/edtCarNum"/>
+                    app:layout_constraintTop_toBottomOf="@id/edtCarNum" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="인승"
                     android:fontFamily="@font/cafe24prettynight"
+                    android:text="인승"
                     app:layout_constraintLeft_toRightOf="@id/spCarCount"
                     app:layout_constraintTop_toBottomOf="@id/edtCarNum" />
 
                 <TextView
                     android:id="@+id/trunk"
+                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/basic"
-                    android:textStyle="bold"
                     android:layout_marginTop="13dp"
                     android:text="*트렁크 사용 여부 : "
-                    app:layout_constraintTop_toBottomOf="@+id/spCarCount"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spCarCount" />
 
                 <Spinner
                     android:id="@+id/spTrunk"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintLeft_toRightOf="@+id/trunk"
-                    app:layout_constraintTop_toBottomOf="@id/spCarCount"/>
+                    app:layout_constraintTop_toBottomOf="@id/spCarCount" />
 
                 <TextView
                     android:id="@+id/money"
+                    style="@style/basic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/basic"
-                    android:textStyle="bold"
                     android:layout_marginTop="13dp"
                     android:text="*시간별 금액 정보 : "
-                    app:layout_constraintTop_toBottomOf="@+id/spTrunk"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spTrunk" />
 
                 <TextView
                     android:id="@+id/time"
                     style="@style/basic"
                     android:layout_width="70dp"
                     android:layout_height="20dp"
-                    android:layout_marginTop="13dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="13dp"
                     android:text="시간 당 "
                     app:layout_constraintLeft_toRightOf="@id/money"
                     app:layout_constraintTop_toBottomOf="@+id/spTrunk" />
@@ -534,20 +529,19 @@
                     app:layout_constraintTop_toBottomOf="@id/btnImg" />
 
 
-
                 <Button
                     android:id="@+id/btnComplete"
                     style="@style/button"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/button_long"
                     android:text="입력완료"
-                    android:layout_marginBottom="10dp"
                     android:textSize="22sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0.444"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintRight_toRightOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

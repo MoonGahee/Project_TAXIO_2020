@@ -239,7 +239,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         next.setVisibility(View.VISIBLE);
                         trip_fin.setVisibility(View.INVISIBLE);
                     }
-                    addDateActivity();
+
                     day1.setText(Integer.toString(day) + "일차");
 
 
@@ -267,11 +267,11 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                     if (list_itemArrayList.size() != 0) {
                         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                         listView.setAdapter(generalTimelineAdapter);
-                    }
-                }
-                else {
+                    }addDateActivity();
+                } else {
                     Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -298,7 +298,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         next.setVisibility(View.INVISIBLE);
                         trip_fin.setVisibility(View.VISIBLE);
                     }
-                    addDateActivity();
+
                     day1.setText(Integer.toString(day) + "일차");
 
                     k = 1;
@@ -325,9 +325,13 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                         generalTimelineAdapter = new generalTimelineAdapter(generalMakeScheActivity.this, list_itemArrayList);
                         listView.setAdapter(generalTimelineAdapter);
                     }
-                }else {
+                    addDateActivity();
+                }
+
+                else{
                     Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -452,7 +456,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
             result.put("course_order", number);
             resultDay.put("coures_place", placeName);
             resultDay.put("boarding_status", taxiRide);
-            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day - 1)).child("Date_Course").child(number).updateChildren(resultDay);
+            mDatabase.child(general_num).child("Schedule").child(schedule_num).child("days").child(Integer.toString(day)).child("Date_Course").child(number).updateChildren(resultDay);
             mDatabase.push();
         }
     }

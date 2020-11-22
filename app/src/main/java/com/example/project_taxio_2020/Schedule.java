@@ -15,16 +15,18 @@ public class Schedule {
     public String departure_date = "2000-01-01"; //출발일 >SDate
     public String arrival_date; // 도착일 >SDate
     public String travel_state; // 여행 상태 (여행중, 여행완료, 여행준비)
+    public String taxi_driver;
 
     public Schedule() {
     }
 
-    public Schedule(String schedule_num, String times, String region, String departure_date, String arrival_date) {
+    public Schedule(String schedule_num, String times, String region, String departure_date, String arrival_date, String taxi_driver) {
         this.schedule_num = schedule_num;
         this.times = times;
         this.region = region;
         this.departure_date = departure_date;
         setArrival_date(arrival_date);
+        this.taxi_driver = taxi_driver;
     }
 
     public String getSchedule_num() {
@@ -103,4 +105,12 @@ public class Schedule {
 
 
     public String getPrintDate(){return  arrival_date + " - " + departure_date; }
+
+    public String getTaxi_driver() {
+        return taxi_driver;
+    }
+
+    public void setTaxi_driver(String taxi_driver) {
+        this.taxi_driver = taxi_driver;
+    }
 }
