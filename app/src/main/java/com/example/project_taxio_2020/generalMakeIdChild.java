@@ -114,7 +114,8 @@ public class generalMakeIdChild extends AppCompatActivity {
                 }
             }
         });
-        
+
+
         btnImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
