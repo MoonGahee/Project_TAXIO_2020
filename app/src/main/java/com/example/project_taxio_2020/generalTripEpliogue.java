@@ -119,9 +119,8 @@ public class generalTripEpliogue extends AppCompatActivity {
                     item.setTaxi_driver(column.child("driver_name").getValue(String.class));
 
                     if (item.getTravel_state().equals("여행끝")) {
-                        Log.d("CJW_test", item.getArrival_date() + "~" + item.departure_date + "  driver : " + item.getTaxi_driver());
                         list_schedule.add(item);
-                        reservationItem printItem = new reservationItem(item.getArrival_date() + "~" + item.departure_date, item.getTaxi_driver());
+                        reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
                         list_itemArrayList.add(printItem);
                         reservationAdapter.notifyDataSetChanged();
                     }
