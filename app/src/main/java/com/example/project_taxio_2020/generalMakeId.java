@@ -63,7 +63,7 @@ public class generalMakeId extends AppCompatActivity {
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
-    String TAG = "EXCEPTION", imagePath, memberSort, imageName;
+    String TAG = "EXCEPTION", imagePath, memberSort, imageName="member.png";
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;

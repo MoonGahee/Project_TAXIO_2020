@@ -40,4 +40,6 @@ public class generalDriverItem {
     public void setDriverPhoto(int driverPhoto) {
         this.driverPhoto = driverPhoto;
     }
+
+
 }

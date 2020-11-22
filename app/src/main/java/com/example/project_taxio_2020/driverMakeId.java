@@ -57,7 +57,7 @@ public class driverMakeId extends AppCompatActivity {
     private FirebaseAuth mAuth; //인증
     private FirebaseStorage storage;
     StorageReference storageRef;
-    String TAG = "EXCEPTION", imagePath,  memberSort;
+    String TAG = "EXCEPTION", imagePath,  memberSort, imageName;
     public static final String pattern = "^(?=.*[a-z])(?=.*[0-9]).{8,16}$";
     Matcher m;
     boolean isCorrectPassword = false;
@@ -193,6 +193,7 @@ public class driverMakeId extends AppCompatActivity {
             imagePath = getPath(data.getData());
             File f = new File(imagePath);
             photo.setImageURI(data.getData());
+            imageName = imagePath.substring(imagePath.lastIndexOf("/")+1);
         }
     }
 

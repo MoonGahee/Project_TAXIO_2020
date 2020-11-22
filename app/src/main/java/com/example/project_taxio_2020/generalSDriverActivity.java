@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +52,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     List<String> listDriverSeat = new ArrayList<>();
     List<String> listDriverTrunk = new ArrayList<>();
     List<String> listDriverPrice = new ArrayList<>();
+    List<String> listDriverInfo = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,31 +71,7 @@ public class generalSDriverActivity extends AppCompatActivity {
         nDrawer = (NavigationView)findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("Driver");
 
-        databaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
-                    name = driverSnapshot.child("driver_name").getValue(String.class);
-                    trunk = driverSnapshot.child("driver_trunk").getValue(String.class);
-                    seat = driverSnapshot.child("driver_carSeat").getValue(String.class);
-                    sex = driverSnapshot.child("driver_sex").getValue(String.class);
-                    cost = driverSnapshot.child("driver_cost").getValue(String.class);
-                    listDriverSex.add(sex);
-                    listDriverSeat.add(seat);
-                    listDriverTrunk.add(trunk);
-                    listDriverName.add(name);
-                    listDriverPrice.add(cost);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         tripdate = findViewById(R.id.tripdate);
         tripdate.setText(date);
@@ -131,15 +109,47 @@ public class generalSDriverActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //조회 누르면 밑에 리사이클러뷰가 뜸
-                search_result.setVisibility(View.VISIBLE);
-                recyclerView_driver.setVisibility(View.VISIBLE);
-                selectDriver();
-                getData();
+                if(String.valueOf(rg1.getCheckedRadioButtonId()).equals("")||String.valueOf(rg2.getCheckedRadioButtonId()).equals("")||String.valueOf(rg3.getCheckedRadioButtonId()).equals("")){
+                    Toast.makeText(getApplicationContext(),"원하는 조건을 선택해주세요", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    search_result.setVisibility(View.VISIBLE);
+                    recyclerView_driver.setVisibility(View.VISIBLE);
+                    driverSet();
+                    selectDriver();
+                }
             }
         });
         //RecyclerView 사용
         init();
 
+    }
+    public void driverSet(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseRef = database.getReference("Driver");
+
+        databaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    name = driverSnapshot.child("driver_name").getValue(String.class);
+                    trunk = driverSnapshot.child("driver_trunk").getValue(String.class);
+                    seat = driverSnapshot.child("driver_carSeat").getValue(String.class);
+                    sex = driverSnapshot.child("driver_sex").getValue(String.class);
+                    cost = driverSnapshot.child("driver_cost").getValue(String.class);
+                    listDriverName.add(name);
+                    listDriverSex.add(sex);
+                    listDriverSeat.add(seat);
+                    listDriverTrunk.add(trunk);
+                    listDriverPrice.add("시간당: " + cost + "원");
+                    listDriverInfo.add("성별: " + sex + "\n트렁크: " + trunk + "\n" + seat + "인승");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void init(){ //LayoutManager와 Adapter를 활용하여 (?) RecyclerView에 연결을 해주는 기능
@@ -153,11 +163,30 @@ public class generalSDriverActivity extends AppCompatActivity {
 
     public void getData(){ //임시 데이터값 추가
 
-
         for(int i = 0; i < listDriverName.size(); i++){  //DriverData Class 객체에 set
             generalDriverItem data = new generalDriverItem();
-            data.setDriverName(listDriverName.get(i));
-            data.setDriverInfo("성별 :"+listDriverSex.get(i) + "\n차량 인승: " +listDriverSeat.get(i) + " 인승\n트렁크 사용 :" + listDriverTrunk.get(i) + "\n");
+            switch(rg1.getCheckedRadioButtonId()){
+                case R.id.noGender:
+                    data.setDriverName(listDriverName.get(i));
+                    selectTrunck();
+                    break;
+                case R.id.manDriver:
+                    data.setDriverName(listDriverName.get(i));
+                    for(int j = 0; j<listDriverName.size();j++){
+                        listDriverSex.get(j).equals("남");
+                        selectTrunck();
+                    }
+                    break;
+                case R.id.womanDriver:
+                    data.setDriverName(listDriverName.get(i));
+                    for(int j = 0; j<listDriverName.size();j++){
+                        listDriverSex.equals("여");
+                        selectTrunck();
+                    }
+                    break;
+            }
+
+            data.setDriverInfo(listDriverInfo.get(i));
             data.setDirverPrice(listDriverPrice.get(i));
             //data.setDriverPhoto(listDriverPhoto.get(i));
 
@@ -166,6 +195,7 @@ public class generalSDriverActivity extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged(); //adapter값이 변경되었음
+
     }
 
     public void selectDriver(){
@@ -175,7 +205,7 @@ public class generalSDriverActivity extends AppCompatActivity {
                 break;
             case R.id.manDriver:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSex.equals("남");
+                    listDriverSex.get(i).equals("남");
                     selectTrunck();
                 }
                 break;
@@ -195,13 +225,13 @@ public class generalSDriverActivity extends AppCompatActivity {
                 break;
             case R.id.noTrunk:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverTrunk.equals("사용 불가능");
+                    listDriverTrunk.get(i).equals("사용 불가능");
                     selectSeat();
                 }
                 break;
             case R.id.yesTrunk:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverTrunk.equals("사용 가능");
+                    listDriverTrunk.get(i).equals("사용 가능");
                     selectSeat();
                 }
                 break;
@@ -210,15 +240,17 @@ public class generalSDriverActivity extends AppCompatActivity {
     public void selectSeat(){
         switch(rg1.getCheckedRadioButtonId()){
             case R.id.under4:
+                getData();
                 break;
             case R.id.under6:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSeat.equals("4");
+                    listDriverSeat.get(i).equals("4");
+                    getData();
                 }
                 break;
             case R.id.over6:
                 for(int i = 0; i<listDriverName.size();i++){
-                    listDriverSeat.equals("6");
+                    getData();
                 }
                 break;
         }
