@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class driverMainActivity extends AppCompatActivity {
     String driver_num;
     MaterialCalendarView cal1;
     private generalMyScheAdapter adapter;
-
+    Button btnD;
     mainTripAdapter mainTripAdapter;
     ArrayList<mainTripItem> lists;
 
@@ -72,6 +73,7 @@ public class driverMainActivity extends AppCompatActivity {
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
 
         cal1 = findViewById(R.id.cal1);
+        btnD = findViewById(R.id.btnD);
 
         ValueEventListener scheduleListener = new ValueEventListener() {
             @Override
@@ -95,6 +97,13 @@ public class driverMainActivity extends AppCompatActivity {
         };
         dDatabase.addListenerForSingleValueEvent(scheduleListener);
 
+        btnD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.kr/maps/@33.3710638,126.5672003,11.25z?hl=ko"));
+                startActivity(intent);
+            }
+        });
 
         cal1.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
