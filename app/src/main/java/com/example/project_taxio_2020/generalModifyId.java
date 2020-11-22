@@ -187,6 +187,7 @@ public class generalModifyId extends AppCompatActivity {
                     result.put("general_route", getGeneral_route);
                 }
                 mDatabase.child("General").child(general_num).updateChildren(result);
+                Toast.makeText(getApplicationContext(), "개인정보 수정 완료!.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                 intent.putExtra("general_num", general_num);
                 startActivity(intent);
