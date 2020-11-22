@@ -1,5 +1,6 @@
 package com.example.project_taxio_2020;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -217,7 +218,10 @@ public class driverMainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else if (id == R.id.drawer_setting) {
-
+                    Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
                 }
                 return true;
             }

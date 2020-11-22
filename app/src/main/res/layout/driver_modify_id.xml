@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/app_bar_"
+            <include layout="@layout/app_bar"
                 android:id="@+id/bar"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/> <!--툴바-->
@@ -106,7 +106,7 @@
                     android:ems="10"
                     android:inputType="textPassword"
                     android:textSize="15sp"
-                    app:layout_constraintLeft_toLeftOf="@id/joining"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/checkPass" />
 
                 <TextView
@@ -117,7 +117,7 @@
                     android:layout_marginTop="13dp"
                     android:text="*휴대폰 번호: "
                     android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="@id/parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edtCheckPass" />
 
                 <Spinner
@@ -285,5 +285,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/bar"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/driver_header"
+        app:itemTextAppearance="@style/title2"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/driver_drawer" /> <!--네비게이션 드로어 추가-->
 
 </androidx.drawerlayout.widget.DrawerLayout>

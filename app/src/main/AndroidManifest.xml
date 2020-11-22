@@ -139,6 +139,7 @@
         <activity android:name=".driverMyScheActivity" /><!--기사 내 스케줄 메인으로-->
         <activity android:name=".driverCheckScheActivity" /><!--기사 예약 현황 뒤로가기 > 메인으로 // 다른 클릭> 요청내역으로 이동-->
         <activity android:name=".driverCheckEpilogueActivity" /><!--기사 후기 메인으로-->
+        <activity android:name=".DriverSetting"/><!--기사 설정-->
         <!--************************************햄버거******************************************-->
         <!--**********************************************************기사**********************************************************-->
 
