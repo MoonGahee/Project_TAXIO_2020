@@ -406,7 +406,10 @@ public class generalMainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
-                    if(generalSnapshot.child("general_num").getKey().equals(general_num)) {
+                    Log.d("CJW_test","chk1"+generalSnapshot.child("general_num").getValue(String.class));
+                    Log.d("CJW_test","chk2"+general_num);
+
+                    if(generalSnapshot.child("general_num").getValue(String.class).equals(general_num)) {
                         userName.setText(generalSnapshot.child("general_name").getValue().toString());
                         storage = FirebaseStorage.getInstance();
                         storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());

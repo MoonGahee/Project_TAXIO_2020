@@ -116,7 +116,7 @@ public class generalSDriverActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"원하는 조건을 선택해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    search_result.setText(listDriverName.size()+"분의 기사님이 기다리고 계십니다.");
+                    //search_result.setText(listDriverName.size()+"분의 기사님이 기다리고 계십니다.");
                     search_result.setVisibility(View.VISIBLE);
                     recyclerView_driver.setVisibility(View.VISIBLE);
                     selectDriver();

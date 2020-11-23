@@ -52,14 +52,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:text="일정 예약이 완료되었습니다.\n\n택시 기사님께 승객님의 요청이 발송됩니다."
+            android:text="일정 예약이 완료되었습니다.\n"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reservation1" />
 
         <ImageView
             android:id="@+id/imgV"
             android:layout_width="360dp"
-            android:layout_height="240dp"
+            android:layout_height="200dp"
             android:layout_marginTop="24dp"
             android:background="#ffffff"
             app:layout_constraintHorizontal_bias="0.313"
@@ -161,31 +161,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/courseC"
             app:layout_constraintLeft_toRightOf="@+id/taxiC"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="30dp"
-            style="@style/basic"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/timeC"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/taxiC"
-            android:text="요청 시간 : "
-            android:layout_marginTop="40dp"
-            app:layout_constraintLeft_toLeftOf="@+id/imgV"
-            android:layout_marginLeft="30dp"
-            style="@style/basic"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/taxiC"
-            app:layout_constraintLeft_toRightOf="@+id/timeC"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="30dp"
             style="@style/basic"

@@ -252,7 +252,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="총 1분의 기사님이 기다리고 계십니다."
             android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_btn" />
@@ -260,7 +259,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_driver"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="430dp"
             android:layout_marginBottom="20dp"
             android:background="@color/background"
             android:visibility="invisible"

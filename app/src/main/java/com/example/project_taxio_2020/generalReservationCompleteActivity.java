@@ -37,7 +37,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
     TextView title_text;
     TextView time, name, taxi, date, course;
     String tripdate, general_num, schedule_num;
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabase,dDatabase;
     NotificationCompat.Builder builder;
     private static String CHANNEL_ID = "channel1";
     private static String CHANEL_NAME = "Channel1";
@@ -76,6 +76,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showNoti();
                 Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
+                intent.putExtra("general_num", general_num);
                 startActivity(intent);
                 finish();
             }
@@ -84,6 +85,7 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
 
     public void dataActivity() {
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,7 +94,8 @@ public class generalReservationCompleteActivity extends AppCompatActivity {
                 name.setText(general.getGeneral_name());
                 course.setText(schedule.getRegion()+ "에서 "+(Integer.parseInt(schedule.getTimes())-1)+"박 "+schedule.getTimes()+"일");
                 date.setText(schedule.getPrintDate());
-                taxi.setText(schedule.getTaxi_driver());
+                Log.d("CJW_test",snapshot.child(general_num).child("Schedule").child(schedule_num).child("driver_name").getValue(String.class));
+                taxi.setText(snapshot.child(general_num).child("Schedule").child(schedule_num).child("driver_name").getValue(String.class));
                 //time.setText(); 총합시간 만들어주기
             }
 

@@ -60,6 +60,7 @@ public class driverCheckScheActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
+        header = nDrawer.getHeaderView(0);
         naviItem();
         setHeaderImage();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
