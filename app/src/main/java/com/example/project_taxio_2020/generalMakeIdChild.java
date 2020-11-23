@@ -280,8 +280,8 @@ public class generalMakeIdChild extends AppCompatActivity {
                         i++;
                     }
                 }
-                resultNum = new HashMap<>();
-                resultNum.put("general_num", Integer.toString(i));
+                result = new HashMap<>();
+                result.put("general_num", Integer.toString(i));
                 setDatabase();//데이터베이스 값 입력
                 moveActivity();//액티비티 이동
             }
@@ -295,12 +295,12 @@ public class generalMakeIdChild extends AppCompatActivity {
     }//회원 번호 부여
 
     public void setDatabase() {
-        mDatabase.child(resultNum.get("general_num").toString()).setValue(result);
+        mDatabase.child(result.get("general_num").toString()).setValue(result);
     }//데이터베이스 값 입력
 
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalMakeIdChildComplete.class);
-        intent.putExtra("general_num", resultNum.get("general_num").toString());
+        intent.putExtra("general_num", result.get("general_num").toString());
         intent.putExtra("sort", memberSort);
         showNoti();
         startActivity(intent);
