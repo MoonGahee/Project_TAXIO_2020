@@ -55,7 +55,6 @@ public class driverWriteWithdrawal extends AppCompatActivity {
         header = nDrawer.getHeaderView(0);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
-        setHeaderImage();
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -146,31 +145,6 @@ public class driverWriteWithdrawal extends AppCompatActivity {
                     finish();
                 }
                 return true;
-            }
-        });
-    }
-
-    public void setHeaderImage(){
-        final TextView userName = header.findViewById(R.id.userName);
-        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
-
-        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
-        gDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
-                    if(driverSnapshot.getKey().equals(driver_num)) {
-                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
-                        storage = FirebaseStorage.getInstance();
-                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/"+driverSnapshot.child("driver_route").getValue().toString());
-                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

@@ -31,12 +31,15 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
     Button wd_ok;
     Button wd_cancel;
     FirebaseAuth mAuth;
+    String general_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_write_withdrawal_activity);
         setToolbar();
+        Intent i = getIntent();
+        general_num = (String) i.getSerializableExtra("general_num");
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
@@ -62,7 +65,7 @@ public class generalWriteWithdrawalActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         deleteId();
                         // DB에 데이터 삭제 시작
-                        mDatabase.child("moon2").removeValue(); //moon2대신에 id를 데려오면 되지용!
+                        mDatabase.child(general_num).removeValue(); //moon2대신에 id를 데려오면 되지용!
                         // DB에 데이터 삭제 완료
                         Intent intent = new Intent(getApplicationContext(), generalWithdrawalCompleteActivity.class);
                         startActivity(intent);
