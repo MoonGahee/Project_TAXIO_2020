@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class driverMainActivity extends AppCompatActivity {
@@ -173,15 +174,17 @@ public class driverMainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot column : snapshot.child(driver_num).child("Request").getChildren()) {
-                    String recruit = column.child("day").getValue(String.class) +"-" +column.child("general_name").getValue(String.class)+" 승객님"+"     ("+ column.child("time").getValue(String.class)+")";
-                    String recruit_place = column.child("course").getValue(String.class);
-                    requestList.add(new reservationItem(recruit, recruit_place));
+                    if(column.child("state").getValue().toString().equals("0")) {
+                        String recruit = column.child("day").getValue(String.class) + "-" + column.child("general_name").getValue(String.class) + " 승객님" + "     (" + column.child("time").getValue(String.class) + ")";
+                        String recruit_place = column.child("course").getValue(String.class);
+                        requestList.add(new reservationItem(recruit, recruit_place));
+                    }
                 }
                 for (DataSnapshot column:snapshot.child("Request").getChildren()){
                     if(column.child("state").getValue().toString().equals("2")){
                         String recruit = column.child("day").getValue(String.class) +"-" +column.child("general_name").getValue(String.class)+" 승객님"+"     ("+ column.child("time").getValue(String.class)+")";
                         String recruit_place = column.child("course").getValue(String.class);
-                        requestList.add(new reservationItem(recruit, recruit_place));
+                        helpList.add(new reservationItem(recruit, recruit_place));
                     }
                 }
             }
