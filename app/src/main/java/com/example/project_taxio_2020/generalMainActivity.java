@@ -378,19 +378,19 @@ public class generalMainActivity extends AppCompatActivity {
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                      
+
                 } else if (id == R.id.drawer_myInfo) {
                     Intent intent = new Intent(getApplicationContext(), generalTripEpliogue.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                      
+
                 } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), generalSetting.class);
                     intent.putExtra("general_num", general_num);
                     startActivity(intent);
                     finish();
-                      
+
                 }
                 return true;
             }
