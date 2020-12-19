@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -167,6 +168,7 @@ public class generalSDriverActivity extends AppCompatActivity {
         adapter.getnum(general_num, schedule_num);
 
         recyclerView_driver.setAdapter(adapter);
+        recyclerView_driver.addOnItemTouchListener(onItemTouchListener);
     }
 
     public void getData(int position){ //임시 데이터값 추가
@@ -312,4 +314,22 @@ public class generalSDriverActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); //홈으로 가기 버튼 활성화
     }
 
+    RecyclerView.OnItemTouchListener onItemTouchListener = new RecyclerView.OnItemTouchListener() {
+        @Override
+        public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+            if (MotionEvent.ACTION_DOWN == e.getAction())
+                recyclerView_driver.requestDisallowInterceptTouchEvent(true);
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    };
 }

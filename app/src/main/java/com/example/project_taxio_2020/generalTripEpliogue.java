@@ -65,6 +65,7 @@ public class generalTripEpliogue extends AppCompatActivity {
         listView = findViewById(R.id.epilogues);
 
         reservationAdapter = new reservationAdapter(generalTripEpliogue.this, list_itemArrayList);
+        getData();
         listView.setAdapter(reservationAdapter);
 
         title_text = findViewById(R.id.title_text);
@@ -99,9 +100,6 @@ public class generalTripEpliogue extends AppCompatActivity {
                 selectedPosition = position;
             }
         });
-
-
-        getData();
     }
 
     public void getData() {

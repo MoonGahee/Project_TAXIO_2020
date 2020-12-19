@@ -7,11 +7,13 @@ public class generalEpilogueItem {
     private String image;
     private String driver;
     private float rating;
+    private String review;
 
-    public generalEpilogueItem(String image, String driver, float rating) {
+    public generalEpilogueItem(String image, String driver, float rating, String review) {
         this.image = image;
         this.driver = driver;
         this.rating = rating;
+        this.review = review;
     }
 
     public String getImage() {
@@ -38,4 +40,7 @@ public class generalEpilogueItem {
         this.rating = rating;
     }
 
+    public String getReview() { return review; }
+
+    public void setReview(String review) { this.review = review; }
 }
