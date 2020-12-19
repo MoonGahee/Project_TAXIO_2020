@@ -1,34 +1,28 @@
 package com.example.project_taxio_2020;
 
-import android.app.Activity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,38 +33,39 @@ import com.google.firebase.storage.StorageReference;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.StringJoiner;
 
 public class driverMainActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
-    NavigationView nDrawer;
-    DatabaseReference dDatabase;
-    String driver_num, day;
-    MaterialCalendarView cal1;
-    private generalMyScheAdapter adapter;
 
+    TextView title_text;
+    private DrawerLayout drawerLayout;
+    ListView request, help;
+    NavigationView nDrawer;
     FirebaseStorage storage;
     StorageReference storageRef;
-    Button btnD;
-    mainTripAdapter mainTripAdapter;
-    ArrayList<mainTripItem> lists = new ArrayList<>();
+    String driver_num;
     View header;
+    private generalMyScheAdapter adapter;
 
-    Date currentTime;
-    Calendar calendar = Calendar.getInstance();
+    reservationAdapter requestAdapter, helpAdapter;
+    ArrayList<reservationItem> requestList = new ArrayList<reservationItem>();
+    ArrayList<reservationItem> helpList = new ArrayList<reservationItem>();
+    DatabaseReference dDatabase, mDatabase;
+
+
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.driver_main_activity);
+        setContentView(R.layout.activity_driver_main);
+
         setToolbar();
 
         //값을 받아오기
@@ -83,159 +78,111 @@ public class driverMainActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
         setHeaderImage();
-
-        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
-
-        cal1 = findViewById(R.id.cal1);
-        btnD = findViewById(R.id.btnD);
-
-        ValueEventListener scheduleListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-                for (DataSnapshot column : snapshot.child(driver_num).child("Drvier_Schedule").getChildren()) {
-                    final Drvier_Schedule data = new Drvier_Schedule();
-                    data.setDays(column.child("day").getValue(String.class));
-                    data.setCourse(column.child("course").getValue(String.class));
-                    data.setGeneral_name(column.child("general_name").getValue(String.class));
-                    data.setTime(column.child("time").getValue(String.class));
-                    data.setStart_time(column.child("start_time").getValue(String.class));
-                    cal1.addDecorator(new DayViewDecorator() {
-                        Calendar customDay = Calendar.getInstance();
-                        Calendar couseDay = Calendar.getInstance();
-
-                        @Override
-                        public boolean shouldDecorate(CalendarDay day) {
-                            try {
-                                customDay.setTime(yearFormat.parse(yearFormat.format(day.getCalendar().getTime())));
-                                couseDay.setTime(yearFormat.parse(data.getDays()));
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            return true;
-                        }
-
-                        @Override
-                        public void decorate(DayViewFacade view) {
-                            view.addSpan(new ForegroundColorSpan(Color.GREEN) {
-                            });
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        dDatabase.addListenerForSingleValueEvent(scheduleListener);
-
         init();
+        request = findViewById(R.id.request);
+        help = findViewById(R.id.help);
 
-        btnD.setOnClickListener(new View.OnClickListener() {
+        title_text = findViewById(R.id.title_text);
+        title_text.setClickable(true);
+
+        title_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.co.kr/maps/@33.3710638,126.5672003,11.25z?hl=ko"));
-                startActivity(intent);
+                Intent i = new Intent(getApplicationContext(), driverMainActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 
-        cal1.setOnDateChangedListener(new OnDateSelectedListener() {
+        dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        mDatabase = FirebaseDatabase.getInstance().getReference("General");
+        requestAdapter = new reservationAdapter(driverMainActivity.this, requestList);
+        request.setAdapter(requestAdapter);
+        helpAdapter = new reservationAdapter(driverMainActivity.this, helpList);
+        help.setAdapter(helpAdapter);
+
+        request.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                final Calendar selectCal = date.getCalendar();
-                adapter.clearItem();
-                adapter.notifyDataSetChanged();
-
-                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder dlg = new AlertDialog.Builder(getApplicationContext());
+                dlg.setTitle("요청 관리");
+                dlg.setMessage("요청 상태를 변경하시겠습니까?");
+                dlg.setPositiveButton("수락", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
-                        try {
-                            selectCal.setTime(yearFormat.parse(yearFormat.format(selectCal.getTime())));
-                            for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
-                                String scheduleDate = column.child("day").getValue(String.class);
-                                Calendar startCal = Calendar.getInstance();
-                                startCal.setTime(yearFormat.parse(scheduleDate));
-                                if (selectCal.compareTo(startCal) == 0) {
-                                    Date_Schedule drvier_schedule = new Date_Schedule();
-                                    drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
-                                    drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
-                                    day = column.child("day").getValue(String.class);
-                                    Log.d("Moon", drvier_schedule.getGeneral_num());
-                                    Log.d("Moon", drvier_schedule.getSchedule_date());
-                                    adapter.addItem(drvier_schedule);
-                                    adapter.notifyDataSetChanged();
-
-                                    adapter.getnum(driver_num, day);
-
-                                    return;
+                    public void onClick(DialogInterface dialog, int which) {
+                        Object m = parent.getAdapter().getItem(position);
+                        String textm = String.valueOf(m);
+                        int idx = textm.indexOf("-");
+                        final String date = textm.substring(0, idx);
+                        final String name = textm.substring(idx+1, idx+4);
+                        dDatabase.child(driver_num).child("state").setValue("1");
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot column : snapshot.child(name).child("Schecule").getChildren()){
+                                    String day = column.child("days").child("schedule_date").getValue(String.class);
+                                    if(date.equals(day)){
+                                        mDatabase.child(name).child("Schedule").child("reservation_state").setValue("1");
+                                    }
                                 }
                             }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+                });
+                dlg.setNegativeButton("거절", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Object m = parent.getAdapter().getItem(position);
+                        String textm = String.valueOf(m);
+                        int idx = textm.indexOf("-");
+                        final String date = textm.substring(0, idx);
+                        final String name = textm.substring(idx+1, idx+4);
+                        dDatabase.child(driver_num).child("state").setValue("2");
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot column : snapshot.child(name).child("Schecule").getChildren()){
+                                    String day = column.child("days").child("schedule_date").getValue(String.class);
+                                    if(date.equals(day)){
+                                        mDatabase.child(name).child("Schedule").child("reservation_state").setValue("2");
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
                 });
             }
         });
 
-        setTrip();
+
     }
-
-    public void init() {
-        RecyclerView tripRecycler = findViewById(R.id.tripRecycler);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        tripRecycler.setLayoutManager(linearLayoutManager);
-        adapter = new generalMyScheAdapter();
-        tripRecycler.setAdapter(adapter);
-        tripRecycler.setHasFixedSize(true);
-        currentTime = Calendar.getInstance().getTime();
-        cal1.setSelectedDate(currentTime);
-
-        SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
-
-        try {
-            calendar.setTime(yearFormat.parse(yearFormat.format(currentTime)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Log.d("tesst", calendar.toString());
-    }
-
-    void setTrip() {
+    void init() {
         dDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                SimpleDateFormat yearFormat = new SimpleDateFormat("MM월 dd일");
-                try {
-                    for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
-                        String scheduleDate = column.child("day").getValue(String.class);
-                        Calendar startCal = Calendar.getInstance();
-                        startCal.setTime(yearFormat.parse(scheduleDate));
-                        if (calendar.compareTo(startCal) == 0) {
-                            String Date = column.child("day").getValue(String.class);
-                            Date_Schedule drvier_schedule = new Date_Schedule();
-                            drvier_schedule.setGeneral_num(column.child("general_name").getValue(String.class) + " 승객님 " + column.child("time").getValue(String.class));
-                            drvier_schedule.setSchedule_date(column.child("course").getValue(String.class));
-                            adapter.addItem(drvier_schedule);
-                            adapter.notifyDataSetChanged();
-
-                            Log.d("tesst", scheduleDate);
-                            return;
-                        }
-
+                for (DataSnapshot column : snapshot.child(driver_num).child("Request").getChildren()) {
+                    String recruit = column.child("day").getValue(String.class) +"-" +column.child("general_name").getValue(String.class)+" 승객님"+"     ("+ column.child("time").getValue(String.class)+")";
+                    String recruit_place = column.child("course").getValue(String.class);
+                    requestList.add(new reservationItem(recruit, recruit_place));
+                }
+                for (DataSnapshot column:snapshot.child("Request").getChildren()){
+                    if(column.child("state").getValue().toString().equals("2")){
+                        String recruit = column.child("day").getValue(String.class) +"-" +column.child("general_name").getValue(String.class)+" 승객님"+"     ("+ column.child("time").getValue(String.class)+")";
+                        String recruit_place = column.child("course").getValue(String.class);
+                        requestList.add(new reservationItem(recruit, recruit_place));
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -245,7 +192,6 @@ public class driverMainActivity extends AppCompatActivity {
             }
         });
     }
-
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
@@ -282,6 +228,11 @@ public class driverMainActivity extends AppCompatActivity {
                     finish();
                 } else if (id == R.id.drawer_setting) {
                     Intent intent = new Intent(getApplicationContext(), DriverSetting.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
+                } else if(id==R.id.drawer_sche){
+                    Intent intent = new Intent(getApplicationContext(), driverScheActivity.class);
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();

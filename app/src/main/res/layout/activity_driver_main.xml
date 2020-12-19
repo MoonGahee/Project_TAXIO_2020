@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:openDrawer="start">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <include
+                android:id="@+id/bar"
+                layout="@layout/app_bar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
+
+            <ImageView
+                android:id="@+id/bell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/cal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bar" />
+
+            <TextView
+                android:id="@+id/recruitDriver1"
+                style="@style/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="24dp"
+                android:paddingTop="7dp"
+                android:text="요청 내역"
+                app:layout_constraintLeft_toRightOf="@id/bell"
+                app:layout_constraintTop_toBottomOf="@+id/bar" />
+
+            <ImageView
+                android:id="@+id/main"
+                android:layout_width="360dp"
+                android:layout_height="230dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bell">
+            </ImageView>
+
+
+            <ListView
+                android:id="@+id/request"
+                android:layout_width="340dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/main" />
+
+
+            <ImageView
+                android:id="@+id/bell1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/cal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main" />
+
+            <TextView
+                android:id="@+id/recruitDriver"
+                style="@style/title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="24dp"
+                android:paddingTop="7dp"
+                android:text="모집 내역"
+                app:layout_constraintLeft_toRightOf="@id/bell"
+                app:layout_constraintTop_toBottomOf="@+id/main" />
+
+            <ImageView
+                android:id="@+id/main1"
+                android:layout_width="360dp"
+                android:layout_height="230dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bell1">
+            </ImageView>
+
+
+            <ListView
+                android:id="@+id/help"
+                android:layout_width="340dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/main1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nDrawer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/bar"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/driver_header"
+        app:itemTextAppearance="@style/title2"
+        app:itemTextColor="#ffffff"
+        app:menu="@menu/driver_drawer" /> <!--네비게이션 드로어 추가-->
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -5,6 +5,10 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/drawer_sche"
+            android:icon="@drawable/schedule"
+            android:title="일정 확인"/>
+        <item
             android:id="@+id/drawer_chkRev"
             android:icon="@drawable/bell"
             android:title="예약 현황"/>

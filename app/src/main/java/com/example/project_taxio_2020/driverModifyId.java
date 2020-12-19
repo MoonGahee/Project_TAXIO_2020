@@ -220,6 +220,11 @@ public class driverModifyId extends AppCompatActivity {
                     intent.putExtra("driver_num", driver_num);
                     startActivity(intent);
                     finish();
+                } else if(id==R.id.drawer_sche){
+                    Intent intent = new Intent(getApplicationContext(), driverScheActivity.class);
+                    intent.putExtra("driver_num", driver_num);
+                    startActivity(intent);
+                    finish();
                 }
                 return true;
             }

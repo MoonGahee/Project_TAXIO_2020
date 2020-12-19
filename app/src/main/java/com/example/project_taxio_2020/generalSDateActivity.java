@@ -299,6 +299,7 @@ public class generalSDateActivity extends AppCompatActivity {//finish
         result.put("times", tripDays);
         result.put("departure_date", startingDay);
         result.put("arrival_date", endDay);
+        result.put("state", 0);
         result.put("days", tripDays); //임의의 테이블 생성
         mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(result); //이전 값이 날라가지 않도록 함 (region)
         isCorrect = true;

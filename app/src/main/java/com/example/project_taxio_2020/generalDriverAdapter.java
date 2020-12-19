@@ -231,7 +231,6 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 for (DataSnapshot driver : snapshot.getChildren()) {
                     if (dData.get(position).getDriverName().equals(driver.child("driver_name").getValue(String.class))) {
                         driver_num = driver.getKey();
-
                     }
                 }
 
@@ -289,8 +288,9 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     result.put("course", list);
                     result.put("time", time);
                     result.put("start_time", start_time);
+                    result.put("state", 0);
                     Log.d("Moon-Test", column.toString());
-                    databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(result);
+                    databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
                     i++;
 
                 }

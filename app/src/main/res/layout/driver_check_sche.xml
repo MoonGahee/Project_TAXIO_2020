@@ -44,7 +44,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="24dp"
                 android:paddingTop="7dp"
-                android:text="오늘의 일정"
+                android:text="일정"
                 app:layout_constraintLeft_toRightOf="@id/bell"
                 app:layout_constraintTop_toBottomOf="@+id/bar" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="16dp"
-                android:text="기사님의 오늘의 스케쥴을 확인해주세요."
+                android:text="기사님의 날짜별 스케쥴을 확인해주세요."
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recruitDriver1" />
 
