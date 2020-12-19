@@ -8,16 +8,18 @@ public class Epilogue {
     public String general_num; //회원 id
     public String  driver_route; //기사 사진 경로 >> 사진을 띄워야 하니까?
     public Float score; // 별점
+    public String review;
 
     public Epilogue(){
     }
 
-    public Epilogue(String epilogue_id, String driver_num, String general_num, String driver_route, Float score){
+    public Epilogue(String epilogue_id, String driver_num, String general_num, String driver_route, Float score, String review){
         this.epilogue_id = epilogue_id;
         this.driver_num = driver_num;
         this.general_num = general_num;
         this.driver_route = driver_route;
         this.score = score;
+        this.review = review;
     }
 
     public String getEpilogue_id() {
@@ -51,4 +53,8 @@ public class Epilogue {
     public void setScore(Float score) {
         this.score = score;
     }
+
+    public String getReview() { return review; }
+
+    public void setReview(String review) { this.review = review; }
 }

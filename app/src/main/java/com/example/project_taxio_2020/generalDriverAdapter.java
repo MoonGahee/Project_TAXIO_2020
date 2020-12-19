@@ -9,6 +9,7 @@ import android.telephony.AccessNetworkConstants;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,7 +54,10 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     HashMap resultG, requestDay;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
+    DatabaseReference Edatabase = database.getReference("Epilogue");
+    DataSnapshot snapshot;
     int i = 0;
+
     FirebaseStorage storage;
     StorageReference storageRef;
 
@@ -105,6 +109,8 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             changeVisibility(selectedItems.get(position));
 
             plusBtn.setOnClickListener(this);
+
+
         }
 
         @Override
@@ -120,9 +126,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                         selectedItems.delete(prePosition); //직전 클릭한 상태 삭제
                         selectedItems.put(position, true); //position에 저장
 
-                        Edata = new generalEpilogueItem(dataDriver.getDriverPhoto(), dataDriver.getDriverName(), 4.0f);
-                        adapter.addData(Edata);
-                        adapter.notifyDataSetChanged();
+                        getData(dataDriver.getDriverPhoto(), dataDriver.getDriverName());
                     }
                     //해당 포지션의 변화
                     if (prePosition != -1)
@@ -135,7 +139,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         }
 
         private void changeVisibility(final boolean isExpanded) {
-            int dpValue = 200;
+            int dpValue = 100;
             float d = context.getResources().getDisplayMetrics().density;
             int height = (int) (dpValue * d);
 
@@ -222,7 +226,30 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         this.schedule_num = schedule_num;
     }
 
-    void getTime() {
+    void getData(final String image, final String name) {
+        Edatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot column : snapshot.getChildren()) {
+                    Epilogue item = new Epilogue();
+                    item.setDriver_num(column.child("driver_name").getValue(String.class));
+                    item.setReview(column.child("content").getValue(String.class));
+                    item.setScore(Float.parseFloat(column.child("rating").getValue(String.class)));
+
+                    if (item.getDriver_num().equals(name)) {
+                        Edata = new generalEpilogueItem(image, name, item.getScore(), item.getReview());
+                    }
+
+                    adapter.addData(Edata);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     void getDate(final int position) {

@@ -28,7 +28,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
-        TextView driverName;
+        TextView driverName, review;
         RatingBar rating;
 
 
@@ -37,6 +37,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
             image = itemView.findViewById(R.id.image);
             driverName = itemView.findViewById(R.id.driver);
             rating = itemView.findViewById(R.id.rating);
+            review = itemView.findViewById(R.id.reviews);
             //인플레이팅
         }
 
@@ -48,7 +49,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
             GlideApp.with(context).load(storageRef).into(image);
             driverName.setText(dataE.getDriver());
             rating.setRating(dataE.getRating());
-
+            review.setText(dataE.getReview());
         }
 
     }

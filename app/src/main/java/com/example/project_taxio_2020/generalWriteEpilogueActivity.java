@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -48,9 +49,9 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
     Toolbar toolbar;
     HashMap result;
     TextView trip_date, trip_region, driver_name, title_text;
-    String score;
+    String epilogue;
+    EditText epil;
     RatingBar rating;
-    String name;
     int i;
     String general_num, driver_num;
     String generalName;
@@ -74,6 +75,9 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         storageRef = storage.getReference();
         eDatabase = FirebaseDatabase.getInstance().getReference("Epilogue"); //얘한테 줄거야
         mDatabase = FirebaseDatabase.getInstance().getReference("General"); //General DB참조
+
+        result = new HashMap<>();
+
         //값 받아오기
         Intent i = getIntent();
         general_num = i.getStringExtra("generalNum");
@@ -87,9 +91,9 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         trip_region = findViewById(R.id.trip_region);
         driver_name = findViewById(R.id.driver_name);
         rating = findViewById(R.id.rating);
+        epil = findViewById(R.id.epil);
 
         setTextBox(schedule, region, driverName);
-
 
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +128,9 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        epilogue = epil.getText().toString();
                         setData();
+                        moveActivity();
                     }
                 });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
@@ -153,8 +159,14 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
                 String strNow = sdf.format(now);
 
-                Log.d("CJW_test","기사이름 : "+driverName +", 승객이름 : "+generalName + ", 작성날짜 : "+strNow + ", 별점 : "+rating.getRating());
                 //TODO; 디비에 입력하기
+                result.put("general_num", general_num);
+                result.put("driver_name", driverName);
+                result.put("general_name", generalName);
+                result.put("date", strNow);
+                result.put("content", epilogue);
+                result.put("rating", Float.toString(rating.getRating()));
+                getNumber();
             }
 
             @Override
@@ -164,9 +176,33 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
         });
     }
 
+    public void getNumber() {
+        ValueEventListener generalListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i = 0;
+                for (DataSnapshot column : snapshot.getChildren()) {
+                    if (Integer.parseInt(column.getKey()) != i) {
+                        break;
+                    } else {
+                        i++;
+                    }
+                }
+                //resultNum = new HashMap<>();
+                eDatabase.child(Integer.toString(i)).setValue(result);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //없는 경우
+            }
+        };
+        eDatabase.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
+    }
+
     public void moveActivity() {
         Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
-
+        intent.putExtra("general_num", general_num);
         startActivity(intent);
         finish();
     }//액티비티 이동
