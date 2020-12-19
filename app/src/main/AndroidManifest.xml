@@ -35,11 +35,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".driverMainActivity"></activity>
         <activity android:name=".ChatActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -160,6 +156,7 @@
         <activity android:name=".generalWithdrawalCompleteActivity" /> <!-- 탈퇴 완료 로그인으로 -->
         <activity android:name=".driverWriteWithdrawal" /> <!-- 기사 탈퇴하기 메인으로 -->
         <activity android:name=".driverWithdrawalComplete" />
+        <activity android:name=".driverScheActivity"/>
     </application>
 
 </manifest>

@@ -253,6 +253,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     }
 
     void getDate(final int position) {
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
         ValueEventListener generalListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -268,7 +269,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 resultG = new HashMap<>();
                 resultG.put("driver_name", driver_name);
 
-                for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                for (DataSnapshot column : snapshot.child(driver_num).child("Request").getChildren()) {
                     if(Integer.parseInt(column.getKey()) != i)
                     { //여기가 이상한 것 같은데
                         break;
@@ -276,6 +277,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                         i++;
                     }
                 }
+
             }
 
             @Override
@@ -287,57 +289,54 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
         Log.d("moon", String.valueOf(i));
         databaseRef.addListenerForSingleValueEvent(generalListener); //콜백 한 번만 호출이 이뤄지는 경우
 
-        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("General");
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
                 General general = snapshot.child(general_num).getValue(General.class);
                 String general_name = general.getGeneral_name();
                 result.put("general_name", general_name);
-                mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
 
-                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).getChildren()) {
-                    String date = snapshot.child(general_num).child("Schedule").child(schedule_num).child("departure_date").getValue(String.class) + "-" + snapshot.child(general_num).child("Schedule").child(schedule_num).child("arrival_date").getValue(String.class);
 
-                    for (DataSnapshot column1 : snapshot.child(driver_num).child("Request").getChildren()) {
-                        if (Integer.parseInt(column1.getKey()) != i) {
-                            break;
-                        } else {
-                            i++;
+                Schedule schedule = snapshot.child(general_num).child("Schedule").child(schedule_num).getValue(Schedule.class);
+                String date = schedule.getPrintDate();
+                Log.d("KOO", date);
+                result.put("days", date);
+                result.put("state", "0");
+                result.put("request_num", Integer.toString(i));
+                String request_num=Integer.toString(i);
+                databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
+
+                if(!databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).getKey().equals("")) {
+                    for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
+
+                        requestDay = new HashMap<>();
+
+                        DataSnapshot dateSchedule = column.child("Date_Schedule");
+                        DataSnapshot dateCourse = column.child("Date_Course");
+
+                        String start_time = dateSchedule.child("start_time").getValue(String.class);
+                        StringJoiner lists = new StringJoiner("-");
+
+                        String day = dateSchedule.child("schedule_date").getValue(String.class);
+                        String time = dateSchedule.child("taxi_time").getValue(String.class);
+                        for (DataSnapshot couresPlace : dateCourse.getChildren()) {
+                            lists.add(couresPlace.child("coures_place").getValue(String.class));
                         }
-                        result.put("days", date);
-                        result.put("state", 0);
-                        databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
+
+                        String list = lists.toString();
+
+                        requestDay.put("day", day);
+                        requestDay.put("time", time);
+                        requestDay.put("start_time", start_time);
+                        requestDay.put("course", list);
+
+
+                        Log.d("Moon-Test", column.toString());
+
+                        databaseRef.child(driver_num).child("Request").child(request_num).child("RequestDay").child(Integer.toString(i)).updateChildren(requestDay);
+                        i++;
                     }
-                }
-                i=1;
-                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
-
-                    requestDay = new HashMap<>();
-
-                    DataSnapshot dateSchedule = column.child("Date_Schedule");
-                    DataSnapshot dateCourse = column.child("Date_Course");
-
-                    String start_time = dateSchedule.child("start_time").getValue(String.class);
-                    StringJoiner lists = new StringJoiner("-");
-
-                    String day = dateSchedule.child("schedule_date").getValue(String.class);
-                    String time = dateSchedule.child("taxi_time").getValue(String.class);
-                    for (DataSnapshot couresPlace : dateCourse.getChildren()) {
-                        lists.add(couresPlace.child("coures_place").getValue(String.class));
-                    }
-
-                    String list = lists.toString();
-
-                    requestDay.put("day", day);
-                    requestDay.put("time", time);
-                    requestDay.put("start_time", start_time);
-                    requestDay.put("course", list);
-
-                    Log.d("Moon-Test", column.toString());
-
-                    databaseRef.child(driver_num).child("RequestDay").child(Integer.toString(i)).updateChildren(requestDay);
-                    i++;
                 }
 
             }

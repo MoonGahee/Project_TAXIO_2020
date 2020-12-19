@@ -115,7 +115,7 @@ public class Schedule {
 
 
     public String getPrintDate() {
-        return arrival_date + " - " + departure_date;
+        return departure_date + " - " + arrival_date;
     }
 
     public String getTaxi_driver() {

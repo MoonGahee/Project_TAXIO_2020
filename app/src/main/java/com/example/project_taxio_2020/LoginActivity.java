@@ -1,5 +1,6 @@
 package com.example.project_taxio_2020;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -147,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),
                                 mAuth.getCurrentUser().getEmail()+"로 인증메일을 발송했습니다.",
                                 Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                        Intent i = new Intent(getApplicationContext(), driverMainActivity.class);
                         startActivity(i);
                         finish();
                     } else {                                             //메일 보내기 실패
