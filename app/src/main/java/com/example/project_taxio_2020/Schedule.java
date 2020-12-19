@@ -15,18 +15,20 @@ public class Schedule {
     public String departure_date = "2000-01-01"; //출발일 >SDate
     public String arrival_date; // 도착일 >SDate
     public String travel_state; // 여행 상태 (여행중, 여행완료, 여행준비)
+    public String reservation_state;
     public String taxi_driver;
 
     public Schedule() {
     }
 
-    public Schedule(String schedule_num, String times, String region, String departure_date, String arrival_date, String taxi_driver) {
+    public Schedule(String schedule_num, String times, String region, String departure_date, String arrival_date, String taxi_driver, String reservation_state) {
         this.schedule_num = schedule_num;
         this.times = times;
         this.region = region;
         this.departure_date = departure_date;
         setArrival_date(arrival_date);
         this.taxi_driver = taxi_driver;
+        this.reservation_state = reservation_state;
     }
 
     public String getSchedule_num() {
@@ -101,6 +103,14 @@ public class Schedule {
         } else if (versusArrival > 0) {
             this.travel_state = "여행끝";
         }
+    }
+
+    public String getReservation_state() {
+        return reservation_state;
+    }
+
+    public void setReservation_state(String reservation_state){
+        this.reservation_state = reservation_state;
     }
 
 

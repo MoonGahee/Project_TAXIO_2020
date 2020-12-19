@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView; //ItemViewHolder와 ViewHolder의 차이?
 
@@ -50,7 +51,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     final String review = "기사님이 너무 친절하셨어요!";
     String general_num, schedule_num, date, driver_num;
     HashMap result = new HashMap<>();
-    HashMap resultG;
+    HashMap resultG, requestDay;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
     DatabaseReference Edatabase = database.getReference("Epilogue");
@@ -258,7 +259,6 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 for (DataSnapshot driver : snapshot.getChildren()) {
                     if (dData.get(position).getDriverName().equals(driver.child("driver_name").getValue(String.class))) {
                         driver_num = driver.getKey();
-
                     }
                 }
 
@@ -303,6 +303,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
                     String start_time = dateSchedule.child("start_time").getValue(String.class);
                     StringJoiner lists = new StringJoiner("-");
+                    String date =  snapshot.child(general_num).child("Schedule").child(schedule_num).child("departure_date").getValue(String.class)+"-"+snapshot.child(general_num).child("Schedule").child(schedule_num).child("arrival_date").getValue(String.class)
                     String day = dateSchedule.child("schedule_date").getValue(String.class);
                     String time = dateSchedule.child("taxi_time").getValue(String.class);
                     for (DataSnapshot couresPlace : dateCourse.getChildren()) {
@@ -316,8 +317,9 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     result.put("course", list);
                     result.put("time", time);
                     result.put("start_time", start_time);
+                    result.put("state", 0);
                     Log.d("Moon-Test", column.toString());
-                    databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(result);
+                    databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
                     i++;
 
                 }

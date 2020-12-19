@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="7dp"
-            android:text="예약 완료"
+            android:text="요청 완료"
             app:layout_constraintLeft_toRightOf="@id/bell"
             app:layout_constraintTop_toBottomOf="@+id/bar" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:text="일정 예약이 완료되었습니다.\n"
+            android:text="기사 요청이 완료되었습니다.\n"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reservation1" />
 
