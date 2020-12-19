@@ -2,31 +2,17 @@ package com.example.project_taxio_2020;
 
 public class Request {
 
-        public String course;
         public String days;
         public String general_name;
-        public String start_time;
-        public String time;
         public String state;
 
         public Request() {
         }
 
-        public Request(String course, String days, String general_name, String start_time, String time, String state) {
-            this.course = course;
+        public Request(String days, String general_name, String state) {
             this.days = days;
             this.general_name = general_name;
-            this.start_time = start_time;
-            this.time = time;
             this.state = state;
-        }
-
-        public String getCourse() {
-            return course;
-        }
-
-        public void setCourse(String course) {
-            this.course = course;
         }
 
         public String getDays() {
@@ -45,27 +31,11 @@ public class Request {
             this.general_name = general_name;
         }
 
-        public String getStart_time() {
-            return start_time;
-        }
-
-        public void setStart_time(String start_time) {
-            this.start_time = start_time;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-    public String getState() {
+        public String getState() {
         return state;
     }
 
-    public void setState(String state) {
+        public void setState(String state) {
         this.state = state;
     }
 

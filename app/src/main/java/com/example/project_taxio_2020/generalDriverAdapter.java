@@ -269,14 +269,31 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 result.put("general_name", general_name);
                 mDatabase.child(general_num).child("Schedule").child(schedule_num).updateChildren(resultG);
 
+                for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).getChildren()) {
+                    String date = snapshot.child(general_num).child("Schedule").child(schedule_num).child("departure_date").getValue(String.class) + "-" + snapshot.child(general_num).child("Schedule").child(schedule_num).child("arrival_date").getValue(String.class);
+
+                    for (DataSnapshot column1 : snapshot.child(driver_num).child("Request").getChildren()) {
+                        if (Integer.parseInt(column1.getKey()) != i) {
+                            break;
+                        } else {
+                            i++;
+                        }
+                        result.put("days", date);
+                        result.put("state", 0);
+                        databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
+                    }
+                }
+                i=1;
                 for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
+
+                    requestDay = new HashMap<>();
 
                     DataSnapshot dateSchedule = column.child("Date_Schedule");
                     DataSnapshot dateCourse = column.child("Date_Course");
 
                     String start_time = dateSchedule.child("start_time").getValue(String.class);
                     StringJoiner lists = new StringJoiner("-");
-                    String date =  snapshot.child(general_num).child("Schedule").child(schedule_num).child("departure_date").getValue(String.class)+"-"+snapshot.child(general_num).child("Schedule").child(schedule_num).child("arrival_date").getValue(String.class)
+
                     String day = dateSchedule.child("schedule_date").getValue(String.class);
                     String time = dateSchedule.child("taxi_time").getValue(String.class);
                     for (DataSnapshot couresPlace : dateCourse.getChildren()) {
@@ -285,17 +302,17 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
                     String list = lists.toString();
 
+                    requestDay.put("day", day);
+                    requestDay.put("time", time);
+                    requestDay.put("start_time", start_time);
+                    requestDay.put("course", list);
 
-                    result.put("day", day);
-                    result.put("course", list);
-                    result.put("time", time);
-                    result.put("start_time", start_time);
-                    result.put("state", 0);
                     Log.d("Moon-Test", column.toString());
-                    databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
-                    i++;
 
+                    databaseRef.child(driver_num).child("RequestDay").child(Integer.toString(i)).updateChildren(requestDay);
+                    i++;
                 }
+
             }
 
             @Override
