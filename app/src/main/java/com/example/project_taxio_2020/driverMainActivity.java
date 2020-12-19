@@ -58,6 +58,9 @@ public class driverMainActivity extends AppCompatActivity {
     ArrayList<reservationItem> requestList = new ArrayList<reservationItem>();
     ArrayList<reservationItem> helpList = new ArrayList<reservationItem>();
     DatabaseReference dDatabase, mDatabase;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseRef = database.getReference("Driver");
+    int i = 0;
 
 
 
@@ -116,7 +119,39 @@ public class driverMainActivity extends AppCompatActivity {
                         int idx = textm.indexOf("-");
                         final String date = textm.substring(0, idx);
                         final String name = textm.substring(idx+1, idx+4);
-                        dDatabase.child(driver_num).child("state").setValue("1");
+                        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                HashMap result = new HashMap<>();
+                                int i=1;
+                                for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                                    if(Integer.parseInt(column.getKey()) != i)
+                                    { //여기가 이상한 것 같은데
+                                        break;
+                                    } else {
+                                        i++;
+                                    }
+                                }
+                                for (DataSnapshot request : snapshot.child(driver_num).child("Request").getChildren()){
+                                    if(request.child("day").equals(date)){
+                                        dDatabase.child(driver_num).child("Request").child("state").setValue("1");
+                                        result.put("days", date);
+                                        result.put("general_name", request.child("general_name").getValue(String.class));
+                                        result.put("couse", request.child("couse").getValue(String.class));
+                                        result.put("time", request.child("time").getValue(String.class));
+                                        result.put("start_time", request.child("start_time").getValue(String.class));
+                                        databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
+                                        i++;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
