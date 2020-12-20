@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
@@ -31,30 +32,20 @@ android:background="@color/background">
     app:layout_constraintLeft_toRightOf="@+id/bell"
     app:layout_constraintTop_toBottomOf="@+id/bar" />
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="550dp"
-    app:layout_constraintTop_toBottomOf="@+id/bell"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent">
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_recycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
-
-</ScrollView>
-
-<EditText
-    android:id="@+id/chatEdit"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintRight_toLeftOf="chatBtn"
-    />
+    <EditText
+        android:id="@+id/chatEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+         />
 
 <Button
     android:id="@+id/chatBtn"
@@ -65,8 +56,5 @@ android:background="@color/background">
     style="@style/button"
     android:background="@color/button"
     android:text="전송" />
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

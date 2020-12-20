@@ -204,9 +204,15 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("문자 전송");
                 builder.setMessage(dData.get(position).getDriverName() + " 기사님에게 문자를 \n전송하시겠습니까?"); //기사 이름으로 변경
-                builder.setPositiveButton("예", null);
-                //문자로 이동하는거 만들기
-                builder.setNegativeButton("아니오", null);
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(context, ChatActivity.class);
+                                intent.putExtra("email", dData.get(position).getDriverEmail());
+                                context.startActivity(intent);
+                            }
+                        });
+                        builder.setNegativeButton("아니오", null);
                 builder.show();
             }
         });

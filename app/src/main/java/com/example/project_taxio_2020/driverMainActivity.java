@@ -57,7 +57,7 @@ public class driverMainActivity extends AppCompatActivity {
     NavigationView nDrawer;
     FirebaseStorage storage;
     StorageReference storageRef;
-    String driver_num;
+    String driver_num, uid;
     View header;
     private generalMyScheAdapter adapter;
 
@@ -79,6 +79,8 @@ public class driverMainActivity extends AppCompatActivity {
         //값을 받아오기
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
+        uid = i.getStringExtra("uid");
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
@@ -154,6 +156,15 @@ public class driverMainActivity extends AppCompatActivity {
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
+        ImageButton chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+            }
+        });
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
