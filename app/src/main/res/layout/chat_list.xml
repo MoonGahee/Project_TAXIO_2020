@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="100dp"
+    android:background="@color/back"
+    android:padding="5dp"
+    android:paddingHorizontal="10dp"
+    android:layout_gravity="center_horizontal">
+
+    <ImageView
+        android:id="@+id/chatImg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/haeun"/>
+
+    <TextView
+        android:id="@+id/chat"
+        style="@style/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chatName"
+        android:layout_alignLeft="@id/chatName"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="8dp"
+        android:text="안녕하세요~~" />
+
+    <TextView
+        android:id="@+id/chatName"
+        style="@style/title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="127dp"
+        android:layout_marginTop="5dp"
+        android:text="000님"
+        android:textColor="@color/ic_launcher_logo_background"
+        android:textStyle="bold" />
+</RelativeLayout>
