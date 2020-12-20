@@ -1,28 +1,22 @@
 package com.example.project_taxio_2020;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Comment;
 
@@ -30,114 +24,127 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
-import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-
     private static final String TAG = "ChatActivity";
-    private RecyclerView chat_recycler;
-    private RecyclerView.Adapter myAdapter;
-    private RecyclerView.LayoutManager manager;
-    EditText chatEdit;
-    Button chatBtn;
-    String email, destinationEmail, chatRoomId;
-    FirebaseDatabase db = FirebaseDatabase.getInstance();
-    ArrayList<Chat> chats;
-
+    private RecyclerView recyclerView;
+    MyAdapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    EditText etText;
+    Button btnSend;
+    String stEmail;
+    FirebaseDatabase database;
+    ArrayList<Chat> chatArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        database = FirebaseDatabase.getInstance();
+
+        chatArrayList = new ArrayList<>();
+        stEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        btnSend = (Button)findViewById(R.id.btnSend);
+        etText = (EditText) findViewById(R.id.etText);
+
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        String[] myDataset = {"test1","test2","test3","test4"};
+        mAdapter = new MyAdapter(chatArrayList, stEmail);
+        recyclerView.setAdapter(mAdapter);
 
 
-        Intent i = getIntent();
-        destinationEmail = i.getStringExtra("email");
-        email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        
-        chatBtn = findViewById(R.id.chatBtn);
-        chatEdit = findViewById(R.id.chatEdit);
-        chat_recycler = findViewById(R.id.chat_recycler);
-        chat_recycler.setHasFixedSize(true);
-        manager = new LinearLayoutManager(this);
-        myAdapter = new MyAdapter(chats, email);
-        chat_recycler.setAdapter(myAdapter);
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
 
-        chatBtn.setOnClickListener(new View.OnClickListener() {
+                // A new comment has been added, add it to the displayed list
+                Chat chat = dataSnapshot.getValue(Chat.class);
+                String commentKey = dataSnapshot.getKey();
+                String stEmail = chat.getEmail();
+                String stText = chat.getText();
+                Log.d(TAG, "stEmail: "+stEmail);
+                Log.d(TAG, "stText: "+stText);
+                chatArrayList.add(chat);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+
+
+                // ...
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so remove it.
+                String commentKey = dataSnapshot.getKey();
+
+                // ...
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
+
+                // A comment has changed position, use the key to determine if we are
+                // displaying this comment and if so move it.
+
+
+                // ...
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "postComments:onCancelled", databaseError.toException());
+                Toast.makeText(ChatActivity.this, "Failed to load comments.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        };
+        DatabaseReference ref = database.getReference("message");
+        ref.addChildEventListener(childEventListener);
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Chat chat = new Chat();
-                chat.users.put(email, true);
-                chat.users.put(destinationEmail, true);
-                FirebaseDatabase.getInstance().getReference().child("chatRooms").push().setValue(chat);
 
-                if(chatRoomId ==null){
-                    chatBtn.setEnabled(false);
-                    FirebaseDatabase.getInstance().getReference().child("chatRooms").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            checkChatRoom();
-                        }
-                    });
-                }else{
-                    Chat.Comment comment = new Chat.Comment();
-                    comment.email = email;
-                    comment.text = chatEdit.getText().toString();
-                    FirebaseDatabase.getInstance().getReference().child("chatRooms").child(chatRoomId).child("comments").push().setValue(comment);
-                }
 
+                String stText = etText.getText().toString();
+                Toast.makeText(ChatActivity.this, "MSG : "+stText,Toast.LENGTH_LONG).show();
 
 
                 Calendar c = Calendar.getInstance();
-                SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd hh:mm");
-                String dateTime = date.format(c.getTime());
+                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM--dd hh:mm:ss");
+                String datetime = dateformat.format(c.getTime());
 
+                DatabaseReference myRef = database.getReference("message").child(datetime);
 
+                Hashtable<String, String> numbers
+                        = new Hashtable<String, String>();
+                numbers.put("email", stEmail);
+                numbers.put("text", stText);
+
+                myRef.setValue(numbers);
             }
         });
+
     }
-
-    public void checkChatRoom(){
-        chatBtn.setEnabled(true);
-        FirebaseDatabase.getInstance().getReference().child("chatRooms").orderByChild("users/"+email).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot item : snapshot.getChildren()){
-                    Chat chat = item.getValue(Chat.class);
-                    if(chat.users.containsKey(destinationEmail)){
-                        chatRoomId = item.getKey();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    /*class chatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        List<Chat.Comment> comments;
-
-        public chatAdapter() {
-
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder (@NonNull ViewGroup parent,
-            int viewType){
-                return null;
-            }
-
-            @Override
-            public void onBindViewHolder (@NonNull RecyclerView.ViewHolder holder,int position){
-
-            }
-
-            @Override
-            public int getItemCount () {
-                return 0;
-            }
-
-
-        }
-    }*/
 }
+
