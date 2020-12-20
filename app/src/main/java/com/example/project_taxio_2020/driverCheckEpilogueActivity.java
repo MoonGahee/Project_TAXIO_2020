@@ -34,11 +34,13 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
-    TextView title_text;
+    TextView title_text, average;
     RecyclerView listView;
     generalEpilogueAdapter epilogue_listAdapter = new generalEpilogueAdapter();
     generalEpilogueItem Edata;
     String driver_num;
+    Float num = 0.0f;
+    Float i = 0f;
     DatabaseReference Ddatabase, Edatabase, Gdatabase;
     DataSnapshot snapshot;
 
@@ -85,6 +87,7 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         listView.setAdapter(epilogue_listAdapter);
 
         getDriver();
+        average = findViewById(R.id.average_num);
     }
 
     void getDriver() {
@@ -123,6 +126,8 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
 
                     epilogue_listAdapter.addData(Edata);
                     epilogue_listAdapter.notifyDataSetChanged();
+
+                    average(item.getScore());
                 }
             }
 
@@ -131,6 +136,13 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    void average (Float number) {
+        num += number;
+        i++;
+        Log.d("pkw", Float.toString(num) + " " + Float.toString(i));
+        average.setText(Float.toString(num / i) + "점");
     }
 
     public void setToolbar() {
