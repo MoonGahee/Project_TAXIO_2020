@@ -155,6 +155,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 generalName = snapshot.child(general_num).child("general_name").getValue(String.class);
+                String image = snapshot.child(general_num).child("general_route").getValue(String.class);
                 Date now = new Date(System.currentTimeMillis());
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일");
                 String strNow = sdf.format(now);
@@ -166,6 +167,7 @@ public class generalWriteEpilogueActivity extends AppCompatActivity {
                 result.put("date", strNow);
                 result.put("content", epilogue);
                 result.put("rating", Float.toString(rating.getRating()));
+                result.put("image", image);
                 getNumber();
             }
 

@@ -2,6 +2,7 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +17,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,10 +35,12 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     TextView title_text;
-    ListView listView;
-    generalEpilogueAdapter epilogue_listAdapter;
-    ArrayList<generalEpilogueItem> list_itemArrayList;
+    RecyclerView listView;
+    generalEpilogueAdapter epilogue_listAdapter = new generalEpilogueAdapter();
+    generalEpilogueItem Edata;
     String driver_num;
+    DatabaseReference Ddatabase, Edatabase, Gdatabase;
+    DataSnapshot snapshot;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,17 +52,16 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
 
+        Ddatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        Edatabase = FirebaseDatabase.getInstance().getReference("Epilogue");
+        Gdatabase = FirebaseDatabase.getInstance().getReference("General");
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         naviItem();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        listView = findViewById(R.id.epilogues);
-
-        list_itemArrayList = new ArrayList<generalEpilogueItem>();
-
-        epilogue_listAdapter = new generalEpilogueAdapter(driverCheckEpilogueActivity.this, list_itemArrayList);
-        listView.setAdapter(epilogue_listAdapter);
+        init();
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -63,6 +72,63 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
                 Intent i = new Intent(driverCheckEpilogueActivity.this, generalMainActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+    }
+
+    void init() {
+        listView = findViewById(R.id.recyclerView_drivereEpl);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        listView.setLayoutManager(linearLayoutManager);
+
+        listView.setAdapter(epilogue_listAdapter);
+
+        getDriver();
+    }
+
+    void getDriver() {
+        Ddatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot column : snapshot.getChildren()) {
+                    if(column.getKey().equals(driver_num))
+                        getEpilogue(column.child("driver_name").getValue(String.class));
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    void getEpilogue(final String name) {
+        Edatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot column : snapshot.getChildren()) {
+                    Epilogue item = new Epilogue();
+                    item.setDriver_num(column.child("driver_name").getValue(String.class));
+                    item.setGeneral_num(column.child("general_name").getValue(String.class));
+                    item.setReview(column.child("content").getValue(String.class));
+                    item.setScore(Float.parseFloat(column.child("rating").getValue(String.class)));
+                    item.setImage(column.child("image").getValue(String.class));
+
+                    if(item.getDriver_num().equals(name)) {
+                        Edata = new generalEpilogueItem(item.getImage(), item.getGeneral_num(), item.getScore(), item.getReview());
+                    }
+
+                    epilogue_listAdapter.addData(Edata);
+                    epilogue_listAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

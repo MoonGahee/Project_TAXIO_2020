@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +31,7 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
     NavigationView nDrawer;
     TextView title_text;
     Button edit_epilogue;
-    ListView listView;
+    RecyclerView listView;
     generalEpilogueAdapter epilogue_listAdapter;
     ArrayList<generalEpilogueItem> list_itemArrayList;
     String general_num;
@@ -51,11 +52,10 @@ public class generalCheckEpilogueActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         edit_epilogue = findViewById(R.id.edit_epilogue);
-        listView = findViewById(R.id.epilogues);
+        listView = findViewById(R.id.recyclerView_drivereEpl);
 
         list_itemArrayList = new ArrayList<generalEpilogueItem>();
 
-        epilogue_listAdapter = new generalEpilogueAdapter(generalCheckEpilogueActivity.this, list_itemArrayList);
         listView.setAdapter(epilogue_listAdapter);
 
         title_text = findViewById(R.id.title_text);

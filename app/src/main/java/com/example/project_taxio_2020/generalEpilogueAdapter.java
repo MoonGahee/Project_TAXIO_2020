@@ -1,6 +1,7 @@
 package com.example.project_taxio_2020;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -16,52 +20,61 @@ import java.util.ArrayList;
 
 // by  관우
 
-public class generalEpilogueAdapter extends BaseAdapter {
-
+public class generalEpilogueAdapter extends RecyclerView.Adapter<generalEpilogueAdapter.ItemViewHolder> {
+    private ArrayList<generalEpilogueItem> EData = new ArrayList<>();
     Context context;
-    ArrayList<generalEpilogueItem> list_itemArrayList;
-
-    ImageView image_imageView;
-    TextView driver_textView;
-    RatingBar rating_ratingBar;
     FirebaseStorage storage;
     StorageReference storageRef;
 
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+        ImageView image;
+        TextView driverName, review;
+        RatingBar rating;
+
+
+        ItemViewHolder(View itemView) {
+            super(itemView);
+            image = itemView.findViewById(R.id.image);
+            driverName = itemView.findViewById(R.id.driver);
+            rating = itemView.findViewById(R.id.rating);
+            review = itemView.findViewById(R.id.reviews);
+            //인플레이팅
+        }
+
+        //값을 하나하나 출력해주는 함수
+        void onBind(generalEpilogueItem dataE){
+            Log.d("pkw", "1");
+            storage = FirebaseStorage.getInstance();
+            String route = "gs://taxio-b186e.appspot.com/general/"+dataE.getImage();
+            storageRef = storage.getReferenceFromUrl(route);
+            GlideApp.with(context).load(storageRef).into(image);
+            driverName.setText(dataE.getDriver());
+            rating.setRating(dataE.getRating());
+            review.setText(dataE.getReview());
+            Log.d("pkw", "2");
+        }
+
+    }
+
+    @NonNull
     @Override
-    public int getCount() {
-        return this.list_itemArrayList.size();
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.driver_epilogue_item, parent, false);
+        context = parent.getContext();
+        return new generalEpilogueAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public Object getItem(int position) {
-        return list_itemArrayList.get(position);
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        holder.onBind(EData.get(position));
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return EData.size();
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        convertView = LayoutInflater.from(context).inflate(R.layout.general_epilogue_item, null);
-        image_imageView = (ImageView)convertView.findViewById(R.id.image);
-        driver_textView = (TextView)convertView.findViewById(R.id.driver);
-        rating_ratingBar = (RatingBar)convertView.findViewById(R.id.rating);
-
-        storage = FirebaseStorage.getInstance();
-        String route = "gs://taxio-b186e.appspot.com/driver/"+list_itemArrayList.get(position).getImage();
-        storageRef = storage.getReferenceFromUrl(route);
-        GlideApp.with(context).load(storageRef).into(image_imageView);
-        driver_textView.setText(list_itemArrayList.get(position).getDriver());
-        rating_ratingBar.setRating(list_itemArrayList.get(position).getRating());
-
-        return convertView;
-    }
-
-    public generalEpilogueAdapter (Context context, ArrayList<generalEpilogueItem> list_itemArrayList) {
-        this.context = context;
-        this.list_itemArrayList = list_itemArrayList;
+    void addData(generalEpilogueItem data){ // 1. RecruitDriver에서 호출 > 2. DriverData값을 가져와서 > 3. 이 곳에 DriverData를 추가
+        EData.add(data);
     }
 }
