@@ -238,12 +238,14 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot column : snapshot.getChildren()) {
                     Epilogue item = new Epilogue();
+                    item.setImage(column.child("image").getValue(String.class));
                     item.setDriver_num(column.child("driver_name").getValue(String.class));
+                    item.setGeneral_num(column.child("general_name").getValue(String.class));
                     item.setReview(column.child("content").getValue(String.class));
                     item.setScore(Float.parseFloat(column.child("rating").getValue(String.class)));
 
                     if (item.getDriver_num().equals(name)) {
-                        Edata = new generalEpilogueItem(image, name, item.getScore(), item.getReview());
+                        Edata = new generalEpilogueItem(item.getImage(), item.getGeneral_num(), item.getScore(), item.getReview());
                     }
 
                     adapter.addData(Edata);
