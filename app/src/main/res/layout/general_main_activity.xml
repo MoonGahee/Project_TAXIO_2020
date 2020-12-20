@@ -23,7 +23,7 @@
 
             <include
                 android:id="@+id/bar"
-                layout="@layout/app_bar"
+                layout="@layout/main_app_bar"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" /> <!--툴바-->
 

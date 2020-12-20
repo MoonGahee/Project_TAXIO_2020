@@ -4,10 +4,19 @@ package com.example.project_taxio_2020;
 
 public class generalDriverItem {
 
+    public String driverEmail;
     private String driverName;
     private String driverInfo;
     private String driverPrice;
     private String driverPhoto;
+
+    public String getDriverEmail() {
+        return driverEmail;
+    }
+
+    public void setDriverEmail(String driverEmail) {
+        this.driverEmail = driverEmail;
+    }
 
     public String getDriverName() { //기사 이름
         return driverName;

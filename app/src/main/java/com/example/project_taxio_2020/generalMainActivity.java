@@ -109,7 +109,7 @@ public class generalMainActivity extends AppCompatActivity {
     generalMainActivity mThis;
     ArrayList<ContentValues> mWeatherData;
     ArrayList<WeatherInfo> mWeatherInfomation;
-    String general_num, name, email;
+    String general_num, uid;
     View header;
 
     ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
@@ -121,6 +121,7 @@ public class generalMainActivity extends AppCompatActivity {
         //값을 받아오기
         Intent i = getIntent();
         general_num = i.getStringExtra("general_num");
+        uid = i.getStringExtra("uid");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.general_main_activity);
@@ -429,6 +430,15 @@ public class generalMainActivity extends AppCompatActivity {
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
+        ImageButton chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+            }
+        });
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

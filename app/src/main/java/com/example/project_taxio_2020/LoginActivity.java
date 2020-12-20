@@ -173,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (general.child("general_email").getValue().toString().equals(email)) {
                         Intent intent = new Intent(getApplicationContext(), generalMainActivity.class);
                         intent.putExtra("general_num", general.getKey());
+                        intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         startActivity(intent);
                         savePreference(strGeneral);
                         finish();
@@ -198,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (driver.child("driver_email").getValue().toString().equals(email)) {
                         Intent intent = new Intent(getApplicationContext(), driverMainActivity.class);
                         intent.putExtra("driver_num", driver.getKey());
+                        intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         startActivity(intent);
                         savePreference(strDriver);
                         finish();

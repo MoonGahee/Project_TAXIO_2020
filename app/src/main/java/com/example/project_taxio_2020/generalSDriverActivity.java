@@ -48,6 +48,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     TextView title_text, search_result, tripdate;
     Toolbar toolbar;
     RecyclerView recyclerView_driver;
+    List<String> listDriverEmail = new ArrayList<>();
     List<String> listDriverName = new ArrayList<>();
     List<String> listDriverSex = new ArrayList<>();
     List<String> listDriverSeat = new ArrayList<>();
@@ -142,6 +143,7 @@ public class generalSDriverActivity extends AppCompatActivity {
                     sex = driverSnapshot.child("driver_sex").getValue(String.class);
                     cost = driverSnapshot.child("driver_cost").getValue(String.class);
                     pic = driverSnapshot.child("driver_route").getValue(String.class);
+                    listDriverEmail.add(driverSnapshot.child("driver_email").getValue(String.class)) ;
                     listDriverImg.add(pic);
                     listDriverName.add(name);
                     listDriverSex.add(sex);
