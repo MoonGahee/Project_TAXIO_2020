@@ -256,10 +256,9 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
                     if (item.getDriver_num().equals(name)) {
                         Edata = new generalEpilogueItem(item.getImage(), item.getGeneral_num(), item.getScore(), item.getReview());
+                        adapter.addData(Edata);
+                        adapter.notifyDataSetChanged();
                     }
-
-                    adapter.addData(Edata);
-                    adapter.notifyDataSetChanged();
                 }
             }
 
