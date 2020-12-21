@@ -72,6 +72,7 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(driverCheckEpilogueActivity.this, generalMainActivity.class);
+                i.putExtra("driver_num", driver_num);
                 startActivity(i);
                 finish();
             }

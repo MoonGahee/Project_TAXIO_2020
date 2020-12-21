@@ -44,7 +44,7 @@ public class generalDriverDetailAdapter extends RecyclerView.Adapter<generalDriv
         //값을 하나하나 출력해주는 함수
         void onBind(generalEpilogueItem dataE){
             storage = FirebaseStorage.getInstance();
-            String route = "gs://taxio-b186e.appspot.com/driver/"+dataE.getImage();
+            String route = "gs://taxio-b186e.appspot.com/general/"+dataE.getImage();
             storageRef = storage.getReferenceFromUrl(route);
             GlideApp.with(context).load(storageRef).into(image);
             driverName.setText(dataE.getDriver());

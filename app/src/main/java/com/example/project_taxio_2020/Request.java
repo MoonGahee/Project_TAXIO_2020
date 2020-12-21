@@ -2,20 +2,32 @@ package com.example.project_taxio_2020;
 
 public class Request {
 
-        public String days;
+        public String departure;
+        public String arrival;
         public String general_name;
         public String state;
         public String request_num;
+        public String date;
 
         public Request() {
         }
 
-        public Request(String days, String general_name, String state, String request_num) {
-            this.days = days;
+        public Request(String date, String departure,String arrival, String general_name, String state, String request_num) {
+            this.date = date;
+            this.departure = departure;
+            this.arrival =arrival;
             this.general_name = general_name;
             this.state = state;
             this.request_num = request_num;
         }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getRequest_num() {
         return request_num;
@@ -25,15 +37,24 @@ public class Request {
         this.request_num = request_num;
     }
 
-    public String getDays() {
-            return days;
-        }
 
-        public void setDays(String days) {
-            this.days = days;
-        }
+    public String getDeparture() {
+        return departure;
+    }
 
-        public String getGeneral_name() {
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
+    public String getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(String arrival) {
+        this.arrival = arrival;
+    }
+
+    public String getGeneral_name() {
             return general_name;
         }
 
