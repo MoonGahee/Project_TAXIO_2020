@@ -198,7 +198,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                         //문자 전송
                        String call = dData.get(position).getDriverCall();
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(call, null, "요청이 들어왔습니다.", null, null);
+                        smsManager.sendTextMessage(call, null, "TAXIO에서 택시 투어 요청이 들어왔습니다. 확인해주세요.", null, null);
 
 
                     }
