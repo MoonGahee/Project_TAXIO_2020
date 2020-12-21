@@ -1,6 +1,8 @@
 package com.example.project_taxio_2020;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +45,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
     private generalDriverAdapter adapter;
-    String general_num, schedule_num, date, name, trunk, sex, seat, cost, pic;
+    String general_num, schedule_num, date, name, trunk, sex, seat, cost, pic, call;
     RadioGroup rg1, rg2, rg3;
     RadioButton noGender, manDriver, womanDriver, allTrunk, yesTrunk, noTrunk, under4, under6, over6;
     Button searchBtn;
@@ -64,6 +68,9 @@ public class generalSDriverActivity extends AppCompatActivity {
         setContentView(R.layout.general_select_driver_activity);
 
         setToolbar();
+
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.SEND_SMS}, 1);
+        boolean permissionGranted = ContextCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED;
 
         Intent intent = getIntent();
         general_num = (String) intent.getSerializableExtra("general_num");
@@ -144,6 +151,7 @@ public class generalSDriverActivity extends AppCompatActivity {
                     sex = driverSnapshot.child("driver_sex").getValue(String.class);
                     cost = driverSnapshot.child("driver_cost").getValue(String.class);
                     pic = driverSnapshot.child("driver_route").getValue(String.class);
+                    call = driverSnapshot.child("driver_call").getValue(String.class);
                     listDriverEmail.add(driverSnapshot.child("driver_email").getValue(String.class)) ;
                     listDriverImg.add(pic);
                     listDriverName.add(name);
@@ -152,6 +160,7 @@ public class generalSDriverActivity extends AppCompatActivity {
                     listDriverTrunk.add(trunk);
                     listDriverPrice.add("시간당: " + cost + "원");
                     listDriverInfo.add("성별: " + sex + "\n트렁크: " + trunk + "\n" + seat + "인승");
+                    listDrvierCall.add(call);
                 }
             }
             @Override
