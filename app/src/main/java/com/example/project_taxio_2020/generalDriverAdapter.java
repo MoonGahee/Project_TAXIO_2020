@@ -308,7 +308,11 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
                 Schedule schedule = snapshot.child(general_num).child("Schedule").child(schedule_num).getValue(Schedule.class);
                 String date = schedule.getPrintDate();
+                String departure = schedule.getDeparture_date();
+                String arrival = schedule.getArrival_date();
                 Log.d("KOO", date);
+                result.put("departure", departure);
+                result.put("arrival", arrival);
                 result.put("days", date);
                 result.put("state", "0");
                 result.put("request_num", Integer.toString(i));
