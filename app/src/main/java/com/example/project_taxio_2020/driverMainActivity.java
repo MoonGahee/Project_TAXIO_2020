@@ -20,6 +20,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ public class driverMainActivity extends AppCompatActivity {
 
     TextView title_text;
     private DrawerLayout drawerLayout;
+    ScrollView scroll;
     ListView request, help;
     NavigationView nDrawer;
     FirebaseStorage storage;
@@ -93,6 +96,7 @@ public class driverMainActivity extends AppCompatActivity {
 
         request = findViewById(R.id.request);
         help = findViewById(R.id.help);
+        scroll = findViewById(R.id.scroll);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -109,9 +113,28 @@ public class driverMainActivity extends AppCompatActivity {
         dDatabase = FirebaseDatabase.getInstance().getReference("Driver");
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
         requestAdapter = new RequestAdapter(driverMainActivity.this, requestList);
+        requestList.add(new RequestItem("구하은 (2020년 12월 25일 - 2020년 12월 26일)", "협재해변-닭머르해안길-동문시장"));
         request.setAdapter(requestAdapter);
         helpAdapter = new RequestAdapter(driverMainActivity.this, helpList);
+        helpList.add(new RequestItem("박관우(2020년 12월 25일 - 2020년 12월 26일)", "우도마을-쇠머리오름-후해석벽"));
+        helpList.add(new RequestItem("문가희 (2020년 12월 27일 - 2020년 12월 28일)", "오셜록-용두암-주상절리"));
         help.setAdapter(helpAdapter);
+
+        request.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        help.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scroll.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         init();
 
         request.setOnItemClickListener(new AdapterView.OnItemClickListener() {
