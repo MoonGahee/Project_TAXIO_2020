@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +58,7 @@ public class driverMainActivity extends AppCompatActivity {
     NavigationView nDrawer;
     FirebaseStorage storage;
     StorageReference storageRef;
-    String driver_num;
+    String driver_num, uid;
     View header;
     private generalMyScheAdapter adapter;
 
@@ -67,6 +68,7 @@ public class driverMainActivity extends AppCompatActivity {
     DatabaseReference dDatabase, mDatabase;
     int i = 0;
     ListView dialogList;
+   DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Driver");
 
 
     @Override
@@ -79,6 +81,8 @@ public class driverMainActivity extends AppCompatActivity {
         //값을 받아오기
         Intent i = getIntent();
         driver_num = i.getStringExtra("driver_num");
+        uid = i.getStringExtra("uid");
+
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
@@ -113,8 +117,100 @@ public class driverMainActivity extends AppCompatActivity {
         request.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
-                driverMainDialog dlg = new driverMainDialog(getApplicationContext());
-                dlg.callFunction(driver_num, Integer.toString(position));
+                AlertDialog.Builder builder = new AlertDialog.Builder(driverMainActivity.this);
+                builder.setTitle("요청 승인");
+                builder.setMessage("예약 요청을 승인하시겠습니까?");
+                builder.setPositiveButton("수락",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(),"수락이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        HashMap result = new HashMap<>();
+                                        int i = 1;
+                                        for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
+                                            if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
+                                                break;
+                                            } else {
+                                                i++;
+                                            }
+                                        }
+                                        for (final DataSnapshot request : snapshot.child(driver_num).child("Request").getChildren()) {
+                                            dDatabase.child(driver_num).child("Request").child("state").setValue("1");
+                                            result.put("days", request.child("RequestDay").child("day").getValue(String.class));
+                                            result.put("general_name", request.child("general_name").getValue(String.class));
+                                            result.put("couse", request.child("RequestDay").child("course").getValue(String.class));
+                                            result.put("time", request.child("RequestDay").child("time").getValue(String.class));
+                                            result.put("start_time", request.child("RequestDay").child("start_time").getValue(String.class));
+                                            databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
+                                            i++;
+                                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    for (DataSnapshot column : snapshot.child(request.child("general_name").getValue(String.class)).child("Schecule").getChildren()) {
+                                                        String day = column.child("days").child("schedule_date").getValue(String.class);
+                                                        if (request.child("RequestDay").child("day").getValue(String.class).equals(day)) {
+                                                            mDatabase.child(request.child("general_name").getValue(String.class)).child("Schedule").child("reservation_state").setValue("1");
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+                builder.setNegativeButton("거절",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(),"거절이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                                dDatabase.child(driver_num).child("Request").child(String.valueOf(position)).child("state").setValue("2");
+                                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for (final DataSnapshot request : snapshot.child(driver_num).child("Request").getChildren()) {
+                                            if (request.getKey().equals(String.valueOf(position))) {
+                                                final String name = request.child("general_name").getValue(String.class);
+                                                final String date = request.child("RequestDay").child("day").getValue(String.class);
+                                                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        for (DataSnapshot column : snapshot.child(name).child("Schecule").getChildren()) {
+                                                            String day = column.child("days").child("schedule_date").getValue(String.class);
+                                                            if (date.equals(day)) {
+                                                                mDatabase.child(name).child("Schedule").child("reservation_state").setValue("2");
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+                builder.show();
             }
         });
     }
@@ -124,23 +220,35 @@ public class driverMainActivity extends AppCompatActivity {
         dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String viewData ="1";
+                String viewData = "2";
+                int smallestDay = 999;
+                for (DataSnapshot column : snapshot.child(driver_num).child("Request").getChildren()) {
+                    int versusDay = convertDiffDay(column.child("arrival").getValue(String.class));
+                    if (versusDay > 0) {
+                        if (versusDay < smallestDay) {
+                            smallestDay = versusDay;
+                            viewData = column.getKey();
+                        }
+                    }
+                }
 
                 for (DataSnapshot column : snapshot.child(driver_num).child("Request").child(viewData).getChildren()) {
-                    if (column.child("state").getValue().toString()=="0") {
-                        String recruit = column.child("days").getValue(String.class);
-                        String recruit_place = column.child("general_name").getValue(String.class);
+                    if (snapshot.child(driver_num).child("Request").child(viewData).child("state").getValue(String.class).equals("0")) {
+                        String recruit = snapshot.child(driver_num).child("Request").child(viewData).child("days").getValue(String.class);
+                        String recruit_place = snapshot.child(driver_num).child("Request").child(viewData).child("general_name").getValue(String.class);
                         requestList.add(new RequestItem(recruit, recruit_place));
                     }
                 }
-                for (DataSnapshot column : snapshot.child("Request").getChildren()) {
-                    if (column.child("state").getValue().toString().equals("2")) {
-                        String recruit = column.child("days").getValue(String.class);
-                        String recruit_place = column.child("general_name").getValue(String.class);
+                for (DataSnapshot column1 : snapshot.child("Request").getChildren()) {
+                    if (column1.child("state").getValue().toString().equals("2")) {
+                        String recruit = column1.child("days").getValue(String.class);
+                        String recruit_place = column1.child("general_name").getValue(String.class);
                         helpList.add(new RequestItem(recruit, recruit_place));
                     }
                 }
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -154,6 +262,15 @@ public class driverMainActivity extends AppCompatActivity {
     public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
+        ImageButton chat = findViewById(R.id.chat);
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+            }
+        });
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,6 +316,26 @@ public class driverMainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+    public int convertDiffDay(String strVersusDate) {
+        Calendar now = Calendar.getInstance();
+        Calendar versusDate = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+
+        try {
+            now.setTime(dateFormat.parse(dateFormat.format(now.getTime())));
+            versusDate.setTime(dateFormat.parse(strVersusDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        float diffDays = -1.0f;
+        if (now.compareTo(versusDate) <= 0) {
+            float diffSec = (versusDate.getTimeInMillis() - now.getTimeInMillis()) * 0.001f;
+            diffDays = diffSec / (24 * 60 * 60);
+        }
+        Log.d("CJW_test", "diffDays : " + diffDays);
+        return (int) diffDays;
     }
 
     public void setHeaderImage() {
