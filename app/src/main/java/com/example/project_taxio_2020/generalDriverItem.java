@@ -9,6 +9,7 @@ public class generalDriverItem {
     private String driverInfo;
     private String driverPrice;
     private String driverPhoto;
+    private String driverCall;
 
     public String getDriverEmail() {
         return driverEmail;
@@ -50,5 +51,11 @@ public class generalDriverItem {
         this.driverPhoto = driverPhoto;
     }
 
+    public String getDriverCall() {
+        return driverCall;
+    }
 
+    public void setDriverCall(String driverCall) {
+        this.driverCall = driverCall;
+    }
 }

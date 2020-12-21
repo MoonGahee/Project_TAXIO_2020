@@ -56,6 +56,7 @@ public class generalSDriverActivity extends AppCompatActivity {
     List<String> listDriverPrice = new ArrayList<>();
     List<String> listDriverInfo = new ArrayList<>();
     List<String> listDriverImg = new ArrayList<>();
+    List<String> listDrvierCall = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -173,12 +174,12 @@ public class generalSDriverActivity extends AppCompatActivity {
         recyclerView_driver.addOnItemTouchListener(onItemTouchListener);
     }
 
-    public void getData(int position){ //임시 데이터값 추가
+    public void getData(int position){ //데이터값 추가
 
         generalDriverItem data = new generalDriverItem();
 
         data.setDriverName(listDriverName.get(position));
-
+        data.setDriverCall(listDrvierCall.get(position));
         data.setDriverInfo(listDriverInfo.get(position));
         data.setDirverPrice(listDriverPrice.get(position));
         data.setDriverPhoto(listDriverImg.get(position));

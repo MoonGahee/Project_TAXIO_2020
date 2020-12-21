@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.telephony.AccessNetworkConstants;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -184,13 +185,19 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         getDate(position);
                         Intent i = new Intent(context, generalReservationCompleteActivity.class);
                         i.putExtra("general_num", general_num);
                         i.putExtra("schedule_num", schedule_num);
                         i.putExtra("tripDate", date);
                         context.startActivity(i);
+
+                        //문자 전송
+                       String call = dData.get(position).getDriverCall();
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage(call, null, "요청이 들어왔습니다.", null, null);
+
+
                     }
                 });
                 builder.setNegativeButton("아니오", null);
