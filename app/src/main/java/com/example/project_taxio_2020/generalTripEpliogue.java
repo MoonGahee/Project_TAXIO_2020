@@ -114,7 +114,7 @@ public class generalTripEpliogue extends AppCompatActivity {
                     item.setArrival_date(column.child("arrival_date").getValue(String.class));
                     item.setRegion(column.child("region").getValue(String.class));
                     item.setTimes(column.child("times").getValue(String.class));
-                    item.setTaxi_driver(column.child("driver_name").getValue(String.class));
+                    item.setTaxi_driver(column.child("driver_name").getValue(String.class)+" 기사님");
 
                     list_schedule.add(item);
                     reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());

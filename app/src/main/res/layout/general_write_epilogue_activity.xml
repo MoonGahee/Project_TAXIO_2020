@@ -58,7 +58,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/trip_guide"
             android:layout_width="400dp"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_margin="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -136,9 +136,9 @@
         <EditText
             android:id="@+id/epil"
             android:layout_width="400dp"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:background="@drawable/search_blank"
-            android:maxLength="20"
+            android:maxLength="100"
             android:textColor="#000000"
             app:layout_constraintTop_toBottomOf="@+id/rating"
             app:layout_constraintLeft_toLeftOf="parent"

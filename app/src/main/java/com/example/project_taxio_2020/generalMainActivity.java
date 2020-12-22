@@ -84,6 +84,7 @@ public class generalMainActivity extends AppCompatActivity {
     SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
     FirebaseStorage storage;
     StorageReference storageRef;
+    View header;
 
     Integer[] images ={R.drawable.one, R.drawable.two,R.drawable.three,R.drawable.four,R.drawable.five};
     ImageView mine;
@@ -110,7 +111,7 @@ public class generalMainActivity extends AppCompatActivity {
     ArrayList<ContentValues> mWeatherData;
     ArrayList<WeatherInfo> mWeatherInfomation;
     String general_num, uid;
-    View header;
+
 
     ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
 

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
@@ -52,6 +56,9 @@ public class generalMyscheActivity extends AppCompatActivity {
     private generalMyScheAdapter adapter;
     ArrayList<mainTripItem> scheduleDataList = new ArrayList<mainTripItem>();
     //Schedule day;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    View header;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {//관광택시 이용시간에 따라 시작가능 시간 설정
         super.onCreate(savedInstanceState);
@@ -62,6 +69,9 @@ public class generalMyscheActivity extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
         mDatabase = FirebaseDatabase.getInstance().getReference("General");
+
+        header = nDrawer.getHeaderView(0);
+        setHeaderImage();
         //값 받아오기
         Intent i = getIntent();
         general_num = (String) i.getSerializableExtra("general_num");
@@ -178,6 +188,33 @@ public class generalMyscheActivity extends AppCompatActivity {
     }
 
 
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final ImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                    Log.d("CJW_test","chk1"+generalSnapshot.child("general_num").getValue(String.class));
+                    Log.d("CJW_test","chk2"+general_num);
+
+                    if(generalSnapshot.child("general_num").getValue(String.class).equals(general_num)) {
+                        userName.setText(generalSnapshot.child("general_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void init() {
         RecyclerView tripRecycler = findViewById(R.id.tripRecycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

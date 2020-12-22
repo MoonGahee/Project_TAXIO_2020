@@ -45,10 +45,10 @@ public class generalEpilogueAdapter extends RecyclerView.Adapter<generalEpilogue
         void onBind(generalEpilogueItem dataE){
             Log.d("pkw", "1");
             storage = FirebaseStorage.getInstance();
-            String route = "gs://taxio-b186e.appspot.com/driver/"+dataE.getImage();
+            String route = "gs://taxio-b186e.appspot.com/general/"+dataE.getImage();
             storageRef = storage.getReferenceFromUrl(route);
             GlideApp.with(context).load(storageRef).into(image);
-            driverName.setText(dataE.getDriver());
+            driverName.setText(dataE.getDriver()+" 승객님");
             rating.setRating(dataE.getRating());
             review.setText(dataE.getReview());
             Log.d("pkw", "2");

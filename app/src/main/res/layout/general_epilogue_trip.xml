@@ -39,13 +39,32 @@
 
 
         <TextView
+            android:id="@+id/average_num"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:text="5.0점"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/intro4" />
+
+        <TextView
+            android:id="@+id/average"
+            style="@style/title2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="평균 점수 : "
+            app:layout_constraintRight_toLeftOf="@id/average_num"
+            app:layout_constraintTop_toBottomOf="@+id/intro4" />
+
+        <TextView
             android:id="@+id/guide4"
             style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\n어떤 여행의 후기를 작성하실 건가요?\n"
+            android:text="\n최근 여행의 후기를 작성해주세요!\n"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/intro4" />
+            app:layout_constraintTop_toBottomOf="@id/average" />
 
         <Button
             android:id="@+id/edit_epilogue"
@@ -61,7 +80,8 @@
 
         <ListView
             android:id="@+id/epilogues"
-            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
             android:layout_height="500dp"
             android:listSelector="@color/button"
             app:layout_constraintLeft_toLeftOf="parent"

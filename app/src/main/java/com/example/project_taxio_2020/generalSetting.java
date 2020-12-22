@@ -2,9 +2,11 @@ package com.example.project_taxio_2020;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +19,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class generalSetting extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -28,6 +36,9 @@ public class generalSetting extends AppCompatActivity {
     TextView cs, info;
     TextView title_text;
     Toolbar toolbar;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    View header;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +54,9 @@ public class generalSetting extends AppCompatActivity {
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         naviItem();
+
+        header = nDrawer.getHeaderView(0);
+        setHeaderImage();
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -149,6 +163,33 @@ public class generalSetting extends AppCompatActivity {
         });
     }
 
+    public void setHeaderImage(){
+        final TextView userName = header.findViewById(R.id.userName);
+        final ImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("General");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot generalSnapshot : snapshot.getChildren()) {
+                    Log.d("CJW_test","chk1"+generalSnapshot.child("general_num").getValue(String.class));
+                    Log.d("CJW_test","chk2"+general_num);
+
+                    if(generalSnapshot.child("general_num").getValue(String.class).equals(general_num)) {
+                        userName.setText(generalSnapshot.child("general_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/general/"+generalSnapshot.child("general_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void setToolbar(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.bar); // 툴바를 액티비티의 앱바로 지정 왜 에러?
         ImageButton menu = findViewById(R.id.menu);
