@@ -1,6 +1,5 @@
 package com.example.project_taxio_2020;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -40,17 +37,14 @@ public class generalTripEpliogue extends AppCompatActivity {
     NavigationView nDrawer;
     TextView title_text;
     Button edit_epilogue;
-    RecyclerView listView;
+    ListView listView;
     int selectedPosition = -1;
+    generalEpilogueAdapter epilogue_listAdapter;
     String general_num;
-    TextView average;
     reservationAdapter reservationAdapter;
     ArrayList<Schedule> list_schedule = new ArrayList<>();
-    DatabaseReference Edatabase, Ddatabase;
-    generalEpilogueAdapter epilogue_listAdapter = new generalEpilogueAdapter();
-    generalEpilogueItem Edata;
-    Float num = 0.0f;
-    Float i = 0f;
+    ArrayList<reservationItem> list_itemArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,9 +62,11 @@ public class generalTripEpliogue extends AppCompatActivity {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         edit_epilogue = findViewById(R.id.edit_epilogue);
-        Edatabase = FirebaseDatabase.getInstance().getReference("Epilogue");
-        Ddatabase = FirebaseDatabase.getInstance().getReference("Driver");
-        init();
+        listView = findViewById(R.id.epilogues);
+
+        reservationAdapter = new reservationAdapter(generalTripEpliogue.this, list_itemArrayList);
+        getData();
+        listView.setAdapter(reservationAdapter);
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -87,83 +83,23 @@ public class generalTripEpliogue extends AppCompatActivity {
         edit_epilogue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(generalTripEpliogue.this, generalWriteEpilogueActivity.class);
-                i.putExtra("generalNum", general_num);
-                i.putExtra("driverName", "박관우");
-                i.putExtra("Schedule", "2020년 12월 25일 - 2020년 12월 26일");
-                i.putExtra("Region", "제주");
-                startActivity(i);
-                finish();
-            }
-
-        });
-    }
-
-    void getDriver() {
-        Ddatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot column : snapshot.getChildren()) {
-                    if(column.getKey().equals(general_num))
-                        getEpilogue(column.child("driver_name").getValue(String.class));
-
+                if (selectedPosition >= 0) {
+                    Intent i = new Intent(generalTripEpliogue.this, generalWriteEpilogueActivity.class);
+                    i.putExtra("generalNum", general_num);
+                    i.putExtra("driverName",  list_itemArrayList.get(selectedPosition).getRecruitplace());
+                    i.putExtra("Schedule", list_itemArrayList.get(selectedPosition).getRecruit());
+                    i.putExtra("Region", list_schedule.get(selectedPosition).getRegion());
+                    startActivity(i);
+                    finish();
                 }
             }
-
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedPosition = position;
             }
         });
-    }
-    void getEpilogue(final String name) {
-        Edatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot column : snapshot.getChildren()) {
-                    Epilogue item = new Epilogue();
-                    item.setDriver_num(column.child("driver_name").getValue(String.class));
-                    item.setGeneral_num(column.child("driver_name").getValue(String.class));
-                    item.setReview(column.child("content").getValue(String.class));
-                    item.setScore(Float.parseFloat(column.child("rating").getValue(String.class)));
-                    item.setImage(column.child("image").getValue(String.class));
-
-                    if(item.getDriver_num().equals(name)) {
-                        Edata = new generalEpilogueItem(item.getImage(), item.getGeneral_num(), item.getScore(), item.getReview());
-                    }
-
-                    epilogue_listAdapter.addData(Edata);
-                    epilogue_listAdapter.notifyDataSetChanged();
-
-                    average(item.getScore());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    void average (Float number) {
-        num += number;
-        i++;
-        Log.d("pkw", Float.toString(num) + " " + Float.toString(i));
-        average.setText(Float.toString(num / i) + "점");
-    }
-    void init() {
-        listView = findViewById(R.id.epilogues);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        listView.setLayoutManager(linearLayoutManager);
-
-        listView.setAdapter(epilogue_listAdapter);
-
-        getDriver();
-
-        average = findViewById(R.id.average_num);
     }
 
     public void getData() {
@@ -180,12 +116,10 @@ public class generalTripEpliogue extends AppCompatActivity {
                     item.setTimes(column.child("times").getValue(String.class));
                     item.setTaxi_driver(column.child("driver_name").getValue(String.class));
 
-                    if (item.getTravel_state().equals("0")) {
-                        list_schedule.add(item);
-                        reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
-
-                        reservationAdapter.notifyDataSetChanged();
-                    }
+                    list_schedule.add(item);
+                    reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
+                    list_itemArrayList.add(printItem);
+                    reservationAdapter.notifyDataSetChanged();
 
                 }
             }

@@ -131,10 +131,9 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
 
                     if(item.getDriver_num().equals(name)) {
                         Edata = new generalEpilogueItem(item.getImage(), item.getGeneral_num(), item.getScore(), item.getReview());
+                        epilogue_listAdapter.addData(Edata);
+                        epilogue_listAdapter.notifyDataSetChanged();
                     }
-
-                    epilogue_listAdapter.addData(Edata);
-                    epilogue_listAdapter.notifyDataSetChanged();
 
                     average(item.getScore());
                 }
