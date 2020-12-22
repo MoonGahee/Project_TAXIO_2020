@@ -135,7 +135,6 @@ public class driverMainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        init();
 
         request.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,138 +146,27 @@ public class driverMainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(),"수락이 완료되었습니다.",Toast.LENGTH_SHORT).show();
-                                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        HashMap result = new HashMap<>();
-                                        int i = 1;
-                                        for (DataSnapshot column : snapshot.child(driver_num).child("Driver_Schedule").getChildren()) {
-                                            if (Integer.parseInt(column.getKey()) != i) { //여기가 이상한 것 같은데
-                                                break;
-                                            } else {
-                                                i++;
-                                            }
-                                        }
-                                        for (final DataSnapshot request : snapshot.child(driver_num).child("Request").getChildren()) {
-                                            dDatabase.child(driver_num).child("Request").child("state").setValue("1");
-                                            result.put("days", request.child("RequestDay").child("day").getValue(String.class));
-                                            result.put("general_name", request.child("general_name").getValue(String.class));
-                                            result.put("couse", request.child("RequestDay").child("course").getValue(String.class));
-                                            result.put("time", request.child("RequestDay").child("time").getValue(String.class));
-                                            result.put("start_time", request.child("RequestDay").child("start_time").getValue(String.class));
-                                            databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
-                                            i++;
-                                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    for (DataSnapshot column : snapshot.child(request.child("general_name").getValue(String.class)).child("Schecule").getChildren()) {
-                                                        String day = column.child("days").child("schedule_date").getValue(String.class);
-                                                        if (request.child("RequestDay").child("day").getValue(String.class).equals(day)) {
-                                                            mDatabase.child(request.child("general_name").getValue(String.class)).child("Schedule").child("reservation_state").setValue("1");
-                                                        }
-                                                    }
-                                                }
+                                requestList.remove(position);
+                                requestList.add(new RequestItem("아직 요청된 일정이 없습니다.", " "));
+                                requestAdapter.notifyDataSetChanged();
+                                request.setAdapter(requestAdapter);
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                                }
-                                            });
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
                             }
                         });
                 builder.setNegativeButton("거절",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(),"거절이 완료되었습니다.",Toast.LENGTH_SHORT).show();
-                                dDatabase.child(driver_num).child("Request").child(String.valueOf(position)).child("state").setValue("2");
-                                dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for (final DataSnapshot request : snapshot.child(driver_num).child("Request").getChildren()) {
-                                            if (request.getKey().equals(String.valueOf(position))) {
-                                                final String name = request.child("general_name").getValue(String.class);
-                                                final String date = request.child("RequestDay").child("day").getValue(String.class);
-                                                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        for (DataSnapshot column : snapshot.child(name).child("Schecule").getChildren()) {
-                                                            String day = column.child("days").child("schedule_date").getValue(String.class);
-                                                            if (date.equals(day)) {
-                                                                mDatabase.child(name).child("Schedule").child("reservation_state").setValue("2");
-                                                            }
-                                                        }
-                                                    }
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-                        });
+                        }});
                 builder.show();
             }
         });
     }
 
-    void init() {
-
-        dDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String viewData = "2";
-                int smallestDay = 999;
-                for (DataSnapshot column : snapshot.child(driver_num).child("Request").getChildren()) {
-                    int versusDay = convertDiffDay(column.child("arrival").getValue(String.class));
-                    if (versusDay > 0) {
-                        if (versusDay < smallestDay) {
-                            smallestDay = versusDay;
-                            viewData = column.getKey();
-                        }
-                    }
-                }
-
-                for (DataSnapshot column : snapshot.child(driver_num).child("Request").child(viewData).getChildren()) {
-                    if (snapshot.child(driver_num).child("Request").child(viewData).child("state").getValue(String.class).equals("0")) {
-                        String recruit = snapshot.child(driver_num).child("Request").child(viewData).child("days").getValue(String.class);
-                        String recruit_place = snapshot.child(driver_num).child("Request").child(viewData).child("general_name").getValue(String.class);
-                        requestList.add(new RequestItem(recruit, recruit_place));
-                    }
-                }
-                for (DataSnapshot column1 : snapshot.child("Request").getChildren()) {
-                    if (column1.child("state").getValue().toString().equals("2")) {
-                        String recruit = column1.child("days").getValue(String.class);
-                        String recruit_place = column1.child("general_name").getValue(String.class);
-                        helpList.add(new RequestItem(recruit, recruit_place));
-                    }
-                }
-
-            }
 
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-    }
 
 
 
@@ -289,7 +177,7 @@ public class driverMainActivity extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChatList.class);
                 intent.putExtra("uid", uid);
                 startActivity(intent);
             }

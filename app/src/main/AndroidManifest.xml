@@ -82,6 +82,7 @@
         <activity
             android:name=".generalAgeCheck"
             android:parentActivityName=".MemberSort" /> <!-- 미성년자인지 아닌지 회원가입2 > 승객일 경우에만 -->
+        <activity android:name=".ChatList"/>
         <activity
             android:name=".generalClause"
             android:parentActivityName=".generalAgeCheck" /> <!-- 정보제공 동의 회원가입3 -->

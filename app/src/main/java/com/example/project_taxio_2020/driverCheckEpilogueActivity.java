@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,9 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
     Toolbar toolbar;
     private DrawerLayout drawerLayout;
     NavigationView nDrawer;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    View header;
     TextView title_text, average;
     RecyclerView listView;
     generalEpilogueAdapter epilogue_listAdapter = new generalEpilogueAdapter();
@@ -60,10 +65,13 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         nDrawer = (NavigationView) findViewById(R.id.nDrawer);
-        naviItem();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        header = nDrawer.getHeaderView(0);
+        naviItem();
+        setHeaderImage();
 
         init();
+
 
         title_text = findViewById(R.id.title_text);
         title_text.setClickable(true);
@@ -196,5 +204,29 @@ public class driverCheckEpilogueActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void setHeaderImage() {
+        final TextView userName = header.findViewById(R.id.userName);
+        final de.hdodenhof.circleimageview.CircleImageView profile_pic = header.findViewById(R.id.profile_pic);
+
+        DatabaseReference gDatabase = FirebaseDatabase.getInstance().getReference("Driver");
+        gDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot driverSnapshot : snapshot.getChildren()) {
+                    if (driverSnapshot.getKey().equals(driver_num)) {
+                        userName.setText(driverSnapshot.child("driver_name").getValue().toString());
+                        storage = FirebaseStorage.getInstance();
+                        storageRef = storage.getReferenceFromUrl("gs://taxio-b186e.appspot.com/driver/" + driverSnapshot.child("driver_route").getValue().toString());
+                        GlideApp.with(getApplicationContext()).load(storageRef).into(profile_pic);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -55,7 +55,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
     final String review = "기사님이 너무 친절하셨어요!";
     String general_num, schedule_num, date, driver_num;
     HashMap result = new HashMap<>();
-    HashMap resultG, requestDay;
+    HashMap resultG, requestDay, Driver_Schedule;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseRef = database.getReference("Driver");
     DatabaseReference Edatabase = database.getReference("Epilogue");
@@ -326,6 +326,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                 result.put("days", date);
                 result.put("state", "0");
                 result.put("request_num", Integer.toString(i));
+
                 String request_num=Integer.toString(i);
                 databaseRef.child(driver_num).child("Request").child(Integer.toString(i)).updateChildren(result);
 
@@ -333,6 +334,7 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
                     for (DataSnapshot column : snapshot.child(general_num).child("Schedule").child(schedule_num).child("days").getChildren()) {
 
                         requestDay = new HashMap<>();
+                        Driver_Schedule = new HashMap();
 
                         DataSnapshot dateSchedule = column.child("Date_Schedule");
                         DataSnapshot dateCourse = column.child("Date_Course");
@@ -356,6 +358,8 @@ public class generalDriverAdapter extends RecyclerView.Adapter<generalDriverAdap
 
                         Log.d("Moon-Test", column.toString());
 
+
+                        databaseRef.child(driver_num).child("Driver_Schedule").child(Integer.toString(i)).updateChildren(requestDay);
                         databaseRef.child(driver_num).child("Request").child(request_num).child("RequestDay").child(Integer.toString(i)).updateChildren(requestDay);
                         i++;
                     }

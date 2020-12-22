@@ -23,7 +23,16 @@
         android:layout_alignLeft="@id/chatName"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="8dp"
-        android:text="안녕하세요~~" />
+        android:text="일단 요청보내놓겠습니당" />
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_short"
+        android:layout_alignParentEnd="true"
+        android:text="2"
+        style="@style/basic"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/chatName"
@@ -34,7 +43,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="127dp"
         android:layout_marginTop="5dp"
-        android:text="000님"
+        android:text="구하은 승객님"
         android:textColor="@color/ic_launcher_logo_background"
         android:textStyle="bold" />
 </RelativeLayout>

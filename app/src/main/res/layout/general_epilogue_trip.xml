@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:text="3.5 점"
+            android:text="0 점"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/intro4" />
 
@@ -60,7 +60,7 @@
             style="@style/title2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\n어떤 여행의 후기를 작성하실 건가요?\n"
+            android:text="\n최근 여행의 후기를 작성해주세요!\n"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/average" />
 
@@ -76,11 +76,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guide4" />
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/epilogues"
-            android:layout_width="wrap_content"
-            android:layout_height="500dp"
-            android:listSelector="@color/button"
+
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="550dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/background"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_epilogue" />

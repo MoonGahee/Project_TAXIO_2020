@@ -45,7 +45,7 @@ public class generalEpilogueAdapter extends RecyclerView.Adapter<generalEpilogue
         void onBind(generalEpilogueItem dataE){
             Log.d("pkw", "1");
             storage = FirebaseStorage.getInstance();
-            String route = "gs://taxio-b186e.appspot.com/general/"+dataE.getImage();
+            String route = "gs://taxio-b186e.appspot.com/driver/"+dataE.getImage();
             storageRef = storage.getReferenceFromUrl(route);
             GlideApp.with(context).load(storageRef).into(image);
             driverName.setText(dataE.getDriver());

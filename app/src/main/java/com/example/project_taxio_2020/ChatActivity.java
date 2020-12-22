@@ -127,7 +127,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 String stText = etText.getText().toString();
-                Toast.makeText(ChatActivity.this, "MSG : "+stText,Toast.LENGTH_LONG).show();
+                etText.setText("");
 
 
                 Calendar c = Calendar.getInstance();
