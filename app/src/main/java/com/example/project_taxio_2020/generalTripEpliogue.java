@@ -116,12 +116,10 @@ public class generalTripEpliogue extends AppCompatActivity {
                     item.setTimes(column.child("times").getValue(String.class));
                     item.setTaxi_driver(column.child("driver_name").getValue(String.class));
 
-                    if (item.getTravel_state().equals("여행끝")) {
-                        list_schedule.add(item);
-                        reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
-                        list_itemArrayList.add(printItem);
-                        reservationAdapter.notifyDataSetChanged();
-                    }
+                    list_schedule.add(item);
+                    reservationItem printItem = new reservationItem( item.getDeparture_date() + "~" + item.getArrival_date(), item.getTaxi_driver());
+                    list_itemArrayList.add(printItem);
+                    reservationAdapter.notifyDataSetChanged();
 
                 }
             }
