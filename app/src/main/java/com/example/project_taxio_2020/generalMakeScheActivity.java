@@ -586,7 +586,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
         LatLng location = new LatLng(33.4996213, 126.5311884);
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
         gMap.getUiSettings().setZoomControlsEnabled(true);
-
         gMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
