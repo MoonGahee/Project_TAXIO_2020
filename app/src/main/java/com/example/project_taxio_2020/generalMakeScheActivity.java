@@ -141,7 +141,7 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
 
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autoSearch);
-        Places.initialize(getApplicationContext(), "AIzaSyBqG5eLPu4MXzGZN4BueA0AEDwriSqCtGU");
+        Places.initialize(getApplicationContext(), "AIzaSyChB9mHpg0kaERPW3KI_6GlPM81CTy4pvw");
 
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME));
