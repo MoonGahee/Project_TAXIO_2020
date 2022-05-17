@@ -334,7 +334,6 @@ public class generalMakeScheActivity extends AppCompatActivity implements OnMapR
                 } else {
                     Toast.makeText(getApplicationContext(), "장소를 한 곳 이상 선택해주세요!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
